@@ -3,7 +3,6 @@
 cmake-build*
 log.txt
 *.dump
-lib/*
 
 # Object files
 *.o
@@ -37,4 +36,3 @@ lib/*
 
 # Debug files
 *.dSYM/
-/lib/spdlog/

@@ -12,10 +12,6 @@ Window::Window() {
 
 Window::~Window() {
     log->info("Window closing");
-    if (textureHandle != nullptr) {
-        SDL_DestroyTexture(textureHandle);
-        textureHandle = nullptr;
-    }
     if (rendererHandle != nullptr) {
         SDL_DestroyRenderer(rendererHandle);
         rendererHandle = nullptr;
@@ -56,16 +52,12 @@ bool Window::create(unsigned int width, unsigned int height, const char* title) 
 }
 
 bool Window::update() {
-    //if (SDL_UpdateTexture(textureHandle, NULL, buffer, SCREEN_WIDTH * sizeof(Uint16))) {
-    //    log->error("SDL_UpdateTexture {0}", Utils::checkSDLError());
-    //    return;
-    //}
     if (SDL_RenderClear(rendererHandle) != 0) {
         Utils::showErrorDialog("SDL_RenderClear: " + Utils::checkSDLError(), log, false);
         return false;
     }
     //if (SDL_RenderCopy(rendererHandle, textureHandle, nullptr, nullptr) != 0) {
-    //    log->error("SDL_RenderCopy: {0}", Utils::checkSDLError());
+    //    Utils::showErrorDialog("SDL_RenderCopy: " + Utils::checkSDLError(), log, false);
     //    return false;
     //}
     SDL_RenderPresent(rendererHandle);

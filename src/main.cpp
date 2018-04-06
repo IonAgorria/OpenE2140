@@ -4,6 +4,13 @@
 #include "core/window.h"
 #include "core/utils.h"
 
+/**
+ * Main program entry point
+ *
+ * @param argc number of args
+ * @param argv args array
+ * @return program exit code
+ */
 int main(int argc, char** argv) {
     //Register signal handler
     Utils::setSignalHandler(Utils::handleHaltAndCatchFire);
@@ -26,7 +33,7 @@ int main(int argc, char** argv) {
     } else {
         //Initialize window
         auto window = new Window();
-        if (!window->create(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, GAME_TITLE)) {
+        if (!window->create(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE)) {
             error = true;
         } else {
             //Main loop

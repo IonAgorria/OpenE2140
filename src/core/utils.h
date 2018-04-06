@@ -10,6 +10,9 @@
 
 #define DIALOG_MAX_WIDTH 150
 
+/**
+ * Contains static utilities
+ */
 class Utils {
 private:
     /** Debug flag */

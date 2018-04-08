@@ -29,6 +29,10 @@ set(SOURCE_FILES
         src/core/window.cpp
         src/core/utils.cpp
         src/core/log.cpp
+        src/assets/loader.cpp
+        src/assets/container.cpp
+        src/assets/containerwd.cpp
+        src/assets/asset.cpp
         )
 
 # Load SDL2

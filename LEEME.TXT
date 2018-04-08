@@ -19,6 +19,7 @@ Planificacion temporal:
 - Elementos de terreno como arboles, rocas y agua funcionales
 - Guardar y cargar partidas
 - Una AI basica
+- Carga de audio utilizando los archivos del juego (16000hz 8bits)
 
 Progreso:
 - Mostrar una ventana, gestion de eventos basicos

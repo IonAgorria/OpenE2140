@@ -29,17 +29,14 @@ bool Utils::isDebug() {
 
 std::string Utils::checkSDLError(const log_ptr& log) {
     const char* error = SDL_GetError();
-    if (!error) {
-        return "(null)";
-    } else if (strlen(error) != 0) {
+    if (error && strlen(error) != 0) {
         SDL_ClearError();
         if (log) {
             log->error("SDL Error: {0}", error);
         }
         return std::string(error);
-    } else {
-        return "(none)";
     }
+    return "";
 }
 
 template <typename T>

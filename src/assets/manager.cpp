@@ -1,25 +1,25 @@
 //
 // Created by Ion Agorria on 8/04/18
 //
-#include "loader.h"
+#include "manager.h"
 #include "containerwd.h"
 
-Loader::Loader() {
+Manager::Manager() {
 }
 
-Loader::~Loader() {
+Manager::~Manager() {
 }
 
-bool Loader::addContainer(std::string& path) {
+bool Manager::addContainer(std::string& path) {
     Container* container = new ContainerWD(path);
     containers[path] = container;
     return true;
 }
 
-bool Loader::loadAsset(std::string& path) {
+bool Manager::loadAsset(std::string& path) {
     return false;
 }
 
-void Loader::getAsset(std::string& path) {
+void Manager::getAsset(std::string& path) {
 
 }

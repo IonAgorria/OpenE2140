@@ -11,20 +11,20 @@
 /**
  * Handles the loading of different assets
  */
-class Loader {
+class Manager {
 private:
-    /** Containers in this loader */
+    /** Containers in this manager */
     std::map<std::string, Container*> containers;
 public:
     /**
      * Constructs loader
      */
-    Loader();
+    Manager();
 
     /**
      * Destructs loader and cleans any loaded assets
      */
-    ~Loader();
+    ~Manager();
 
     /**
      * Adds a container which contains assets (folder or mapped file with paths)

@@ -29,11 +29,11 @@ set(SOURCE_FILES
         src/core/window.cpp
         src/core/utils.cpp
         src/core/log.cpp
-        src/assets/loader.cpp
         src/core/file.cpp
+        src/assets/asset.cpp
         src/assets/container.cpp
         src/assets/containerwd.cpp
-        src/assets/asset.cpp
+        src/assets/manager.cpp
         )
 
 # Load SDL2
@@ -44,6 +44,7 @@ set(LINK_LIBRARIES ${LINK_LIBRARIES} ${SDL2_LIBRARIES})
 # Load spdlog
 add_subdirectory(lib/spdlog REQUIRED)
 find_package(Threads)
+
 set(LINK_LIBRARIES ${LINK_LIBRARIES} spdlog ${CMAKE_THREAD_LIBS_INIT})
 
 # Load boost stacktrace

@@ -14,7 +14,8 @@
 
 //Attempt to load boost libs
 #if HAS_BOOST
-    #include "boost/stacktrace.hpp"
+#   include "boost/stacktrace.hpp"
+#   include "boost/filesystem.hpp"
 #endif
 
 //Default static variable values
@@ -56,7 +57,7 @@ bool Utils::saveStackTrace(const char* file) {
     size_t amount = boost::stacktrace::safe_dump_to(file);
     return 0 < amount;
 #else
-    return false;
+    return false; //No implementation
 #endif
 }
 
@@ -86,7 +87,7 @@ bool Utils::getStackTrace(std::list<std::string>& lines) {
     }
     return !lines.empty();
 #else
-    return false;
+    return false; //No implementation
 #endif
 }
 
@@ -326,4 +327,24 @@ const std::string& Utils::getUserPath() {
         }
     }
     return *userPath;
+}
+
+bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths) {
+#if HAS_BOOST
+    using namespace boost::filesystem;
+
+    //Check path
+    if (!exists(dirPath) || !is_directory(dirPath)) {
+        return false;
+    }
+
+    //Iterate and add all content of dir to paths
+    directory_iterator endIter; // default construction yields past-the-end
+    for (directory_iterator dirIter(dirPath); dirIter != endIter; ++dirIter) {
+        dirPaths.push_back(dirIter->path().leaf().string());
+    }
+    return true;
+#else
+    return false; //No implementation
+#endif
 }

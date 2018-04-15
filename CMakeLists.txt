@@ -58,6 +58,7 @@ if(Boost_FOUND)
     set(HAS_BOOST 1)
     # Add boost libraries if found
     include_directories(${Boost_INCLUDE_DIRS})
+    set(LINK_LIBRARIES ${LINK_LIBRARIES} boost_system boost_filesystem)
     # dl is required for dladdr in stacktrace,
     set(LINK_LIBRARIES ${LINK_LIBRARIES} dl)
 endif()

@@ -13,14 +13,14 @@
 
 /** Check if we are in Windows */
 #ifdef _WIN32
-#define IS_WINDOWS 1
+#   define IS_WINDOWS 1
 #endif
 
 /** Dir separator */
 #ifdef IS_WINDOWS
-#define DIR_SEP "\\"
+#    define DIR_SEP "\\"
 #else
-#define DIR_SEP "/"
+#    define DIR_SEP "/"
 #endif
 
 //Game related data
@@ -44,5 +44,9 @@
 #define DEFAULT_RESOLUTION_WIDTH 800
 /** Default resolution height */
 #define DEFAULT_RESOLUTION_HEIGHT 600
+/** Directory name containing assets */
+#define GAME_ASSETS_DIR "assets"
+/** Names of asset containers to load */
+#define GAME_ASSETS_NAMES {"MIX", "PIRO"}
 
 #endif //OPENE2140_CONFIG_H

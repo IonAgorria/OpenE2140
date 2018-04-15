@@ -176,6 +176,15 @@ public:
      * @return path string or empty string
      */
     static const std::string& getUserPath();
+
+    /**
+     * Lists all content of specified path and stores on provided list
+     *
+     * @param dirPath to list
+     * @param dirPaths to store names
+     * @return if success
+     */
+    static bool listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths);
 };
 
 #endif //OPENE2140_UTILS_H

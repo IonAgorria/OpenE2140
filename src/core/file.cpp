@@ -13,12 +13,10 @@ File::~File() {
     }
 }
 
-bool File::open(const std::string& path, const File::FileMode& mode, std::string& error) {
+bool File::open(const std::string& path, const File::FileMode& mode) {
     //Check if this file is open
     if (file) {
-        if (error != nullptr) {
-            error = "File is already open!";
-        }
+        error = "File is already open!";
         return false;
     }
 
@@ -42,9 +40,18 @@ bool File::open(const std::string& path, const File::FileMode& mode, std::string
         return true;
     } else {
         file = nullptr;
-        if (error != nullptr) {
-            error = sdlError;
-        }
+        error = sdlError;
         return false;
     }
+}
+
+long File::getPosition() {
+    long position = SDL_RWtell(file);
+    return position;
+}
+
+std::string& File::getError() {
+    std::string& copy = error;
+    error = "";
+    return copy;
 }

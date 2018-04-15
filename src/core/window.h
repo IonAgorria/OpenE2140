@@ -14,7 +14,7 @@
  */
 class Window {
 private:
-    /** Log for window */
+    /** Log for object */
     log_ptr log;
     /** Window handle used for SDL2 */
     SDL_Window* windowHandle = nullptr;

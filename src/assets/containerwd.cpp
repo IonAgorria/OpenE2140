@@ -3,7 +3,9 @@
 //
 #include "containerwd.h"
 
-ContainerWD::ContainerWD(const std::string& path) {
+ContainerWD::ContainerWD(const std::string& path) : Container(path) {
 }
 
-ContainerWD::~ContainerWD() = default;
+bool ContainerWD::load() {
+    return true;
+}

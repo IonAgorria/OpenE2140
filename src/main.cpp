@@ -1,5 +1,6 @@
 #include "core/config.h"
-#include <SDL.h>
+#include "SDL.h"
+#include "assets/manager.h"
 #include "core/log.h"
 #include "core/window.h"
 #include "core/utils.h"
@@ -36,33 +37,39 @@ int main(int argc, char** argv) {
         if (!window->create(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE)) {
             error = true;
         } else {
-            //Main loop
-            SDL_Event event{};
-            Uint8 quit = 0;
-            while (quit == 0 && !error)
-            {
-                //Handle any events
-                while (SDL_PollEvent(&event) == 1) {
-                    switch (event.type) {
-                        case SDL_QUIT:
-                            quit = 1;
-                        case SDL_MOUSEBUTTONDOWN:
-                        case SDL_MOUSEBUTTONUP:
-                            log->info("Mouse: {0}", event.button.button);
-                            break;
-                        case SDL_KEYDOWN:
-                        case SDL_KEYUP:
-                            log->info("Key: {0}", event.key.keysym.scancode);
-                            break;
-                        default:
-                            continue;
+            //Initialize manager
+            Manager manager;
+            if (!manager.loadContainers()) {
+                error = true;
+            } else {
+                //Main loop
+                SDL_Event event{};
+                Uint8 quit = 0;
+                while (quit == 0 && !error)
+                {
+                    //Handle any events
+                    while (SDL_PollEvent(&event) == 1) {
+                        switch (event.type) {
+                            case SDL_QUIT:
+                                quit = 1;
+                            case SDL_MOUSEBUTTONDOWN:
+                            case SDL_MOUSEBUTTONUP:
+                                log->debug("Mouse: {0}", event.button.button);
+                                break;
+                            case SDL_KEYDOWN:
+                            case SDL_KEYUP:
+                                log->debug("Key: {0}", event.key.keysym.scancode);
+                                break;
+                            default:
+                                continue;
+                        }
                     }
-                }
 
-                //Show the screen
-                if (!window->update()) {
-                    error = true;
-                    continue;
+                    //Show the screen
+                    if (!window->update()) {
+                        error = true;
+                        continue;
+                    }
                 }
             }
         }

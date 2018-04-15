@@ -3,6 +3,7 @@
 cmake-build*
 log.txt
 *.dump
+/assets
 
 # Object files
 *.o

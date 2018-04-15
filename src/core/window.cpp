@@ -11,7 +11,7 @@ Window::Window() {
 }
 
 Window::~Window() {
-    log->info("Window closing");
+    log->debug("Window closing");
     if (rendererHandle != nullptr) {
         SDL_DestroyRenderer(rendererHandle);
         rendererHandle = nullptr;
@@ -24,7 +24,7 @@ Window::~Window() {
 }
 
 bool Window::create(unsigned int width, unsigned int height, const char* title) {
-    log->info("Window get {0}x{1} title '{2}'", width, height, title);
+    log->debug("Window get {0}x{1} title '{2}'", width, height, title);
     //Create window
     windowHandle = SDL_CreateWindow(
             title,

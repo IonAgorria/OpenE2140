@@ -6,6 +6,7 @@
 
 #include <string>
 #include <map>
+#include "core/log.h"
 #include "container.h"
 
 /**
@@ -13,6 +14,8 @@
  */
 class Manager {
 private:
+    /** Log for object */
+    log_ptr log;
     /** Containers in this manager */
     std::map<std::string, Container*> containers;
 public:
@@ -27,27 +30,44 @@ public:
     ~Manager();
 
     /**
-     * Adds a container which contains assets (folder or mapped file with paths)
+     * Disable copy constructor
+     */
+    Manager(const Manager& other) = delete;
+
+    /**
+     * Disable copy operator
+     */
+    void operator=(Manager const &other) = delete;
+
+    /**
+     * Loads a container which contains assets to get the contents (folder or mapped file with paths)
      *
      * @param path of container
-     * @return if success
+     * @return true if success
      */
-    bool addContainer(std::string& path);
+    bool loadContainer(const std::string& path);
+
+    /**
+     * Loads containers required by this game
+     *
+     * @return true if success
+     */
+    bool loadContainers();
 
     /**
      * Loads an provided asset by path by searching in containers
      *
      * @param path to load
-     * @return if success
+     * @return true if success
      */
-    bool loadAsset(std::string& path);
+    bool loadAsset(const std::string& path);
 
     /**
      * Gets the loaded asset
      *
      * @return asset
      */
-    void getAsset(std::string& path);
+    Asset getAsset(const std::string& path);
 };
 
 #endif //OPENE2140_LOADER_H

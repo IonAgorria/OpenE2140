@@ -16,6 +16,11 @@ private:
      * SDL internal file struct pointer
      */
     SDL_RWops* file;
+
+    /**
+     * Last occurred error
+     */
+    std::string error;
 public:
     /**
      * File opening modes
@@ -37,14 +42,51 @@ public:
     ~File();
 
     /**
+     * Disable copy constructor
+     */
+    File(const File& other) = delete;
+
+    /**
+     * Disable copy operator
+     */
+    void operator=(File const &other) = delete;
+
+    /**
+     * @return the last occurred error and clears it
+     */
+    std::string& getError();
+
+    /**
      * Opens the file from the specified path and selected mode of opening
      *
      * @param path of file
      * @param mode for opening
-     * @param error to write if a failure occurs
      * @return true on success
      */
-    bool open(const std::string& path, const File::FileMode& mode, std::string& error);
+    bool open(const std::string& path, const File::FileMode& mode);
+
+    /**
+     * Get's the current file seeking position
+     *
+     * @return position
+     */
+    long getPosition();
+
+    /**
+     * Set's the current file seeking position
+     *
+     * @param position to set
+     * @return position or -1 if error or couldn't seek
+     */
+    void setPosition(long position);
+
+    /**
+     * Moves current file seeking position forward if positive or backwards if negative
+     *
+     * @param position to move
+     * @return position or -1 if error or couldn't seek
+     */
+    void movePosition(long amount);
 };
 
 #endif //OPENE2140_FILE_H

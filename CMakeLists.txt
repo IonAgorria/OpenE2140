@@ -33,6 +33,7 @@ set(SOURCE_FILES
         src/assets/asset.cpp
         src/assets/container.cpp
         src/assets/containerwd.cpp
+        src/assets/containerdir.cpp
         src/assets/manager.cpp
         )
 

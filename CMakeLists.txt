@@ -47,14 +47,15 @@ find_package(Threads)
 
 set(LINK_LIBRARIES ${LINK_LIBRARIES} spdlog ${CMAKE_THREAD_LIBS_INIT})
 
-# Load boost stacktrace
-set(HAS_BOOST_STACKTRACE 0)
+# Load boost libs
+set(HAS_BOOST 0)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.66.0) # Boost stacktrace was introduced in 1.65 but is bugged
 if(Boost_FOUND)
-    set(HAS_BOOST_STACKTRACE 1)
+    message("Boost found!")
+    set(HAS_BOOST 1)
     # Add boost libraries if found
     include_directories(${Boost_INCLUDE_DIRS})
     # dl is required for dladdr in stacktrace,
@@ -63,5 +64,5 @@ endif()
 
 # Create executable, set definitions and link it
 add_executable(opene2140 ${SOURCE_FILES})
-target_compile_definitions(opene2140 PRIVATE HAS_BOOST_STACKTRACE=${HAS_BOOST_STACKTRACE})
+target_compile_definitions(opene2140 PRIVATE HAS_BOOST=${HAS_BOOST})
 target_link_libraries(opene2140 ${LINK_LIBRARIES})

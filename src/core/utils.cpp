@@ -12,8 +12,8 @@
 #include "utils.h"
 #include "config.h"
 
-//Attempt to load boost stacktrace lib
-#if HAS_BOOST_STACKTRACE
+//Attempt to load boost libs
+#if HAS_BOOST
     #include "boost/stacktrace.hpp"
 #endif
 
@@ -50,10 +50,8 @@ std::string Utils::toStringPrecision(const T& value, int n)
     return out.str();
 }
 
-
-
 bool Utils::saveStackTrace(const char* file) {
-#if HAS_BOOST_STACKTRACE
+#if HAS_BOOST
     //Save and return if saved something
     size_t amount = boost::stacktrace::safe_dump_to(file);
     return 0 < amount;
@@ -63,7 +61,7 @@ bool Utils::saveStackTrace(const char* file) {
 }
 
 bool Utils::getStackTrace(std::list<std::string>& lines) {
-#if HAS_BOOST_STACKTRACE
+#if HAS_BOOST
     //Get current
     auto st = boost::stacktrace::stacktrace();
     //Check if failed to load
@@ -277,12 +275,12 @@ void Utils::substrLines(const Iterator& begin, const Iterator& end, std::string:
  * @param size of string
  * @return padded str
  */
-std::string Utils::padRight(const std::string& str, size_t size) {
+std::string Utils::padRight(const std::string& str, std::string::size_type size) {
     if (str.size() < size) {
         return str + std::string(size - str.size(), ' ');
     }
 
-    return str;
+    return std::string(str);
 }
 
 /**
@@ -292,12 +290,12 @@ std::string Utils::padRight(const std::string& str, size_t size) {
  * @param size of string
  * @return padded str
  */
-std::string Utils::padLeft(const std::string& str, size_t size) {
+std::string Utils::padLeft(const std::string& str, std::string::size_type size) {
     if (str.size() < size) {
         return std::string(size - str.size(), ' ') + str;
     }
 
-    return str;
+    return std::string(str);
 }
 
 const std::string& Utils::getInstallPath() {

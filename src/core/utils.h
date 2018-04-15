@@ -41,7 +41,7 @@ public:
      * @param log to write the error or null to ignore
      * @return the produced error or string representing the lack of error
      */
-    static std::basic_string<char> checkSDLError(const log_ptr& log = nullptr);
+    static std::string checkSDLError(const log_ptr& log = nullptr);
 
     /**
      * Converts value with n precision to string using ostream
@@ -150,7 +150,7 @@ public:
      * @param size of string
      * @return padded str
      */
-    static std::string padRight(const std::string& str, size_t size);
+    static std::string padRight(const std::string& str, std::string::size_type size);
 
     /**
      * Does left padding if is smaller than size
@@ -159,7 +159,7 @@ public:
      * @param size of string
      * @return padded str
      */
-    static std::string padLeft(const std::string& str, size_t size);
+    static std::string padLeft(const std::string& str, std::string::size_type size);
 
     /**
      * Program base path where the installation files are stored or empty string if path is not available.

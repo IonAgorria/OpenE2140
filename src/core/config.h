@@ -11,6 +11,18 @@
 /** Macro for expanding begin end */
 #define BEGIN_END(container) (container).begin(), (container).end()
 
+/** Check if we are in Windows */
+#ifdef _WIN32
+#define IS_WINDOWS 1
+#endif
+
+/** Dir separator */
+#ifdef IS_WINDOWS
+#define DIR_SEP "\\"
+#else
+#define DIR_SEP "/"
+#endif
+
 //Game related data
 /** Game name */
 #define GAME_NAME "OpenE2140"

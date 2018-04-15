@@ -6,6 +6,7 @@
 #include <csignal>
 #include <iomanip>
 #include <list>
+#include <SDL_filesystem.h>
 #include "SDL_quit.h"
 #include "SDL_messagebox.h"
 #include "utils.h"
@@ -16,8 +17,10 @@
     #include "boost/stacktrace.hpp"
 #endif
 
-//Default debug state
+//Default static variable values
 bool Utils::debug = false;
+std::string* Utils::installPath = nullptr;
+std::string* Utils::userPath = nullptr;
 
 void Utils::setDebug(bool value) {
     debug = value;
@@ -265,4 +268,64 @@ void Utils::substrLines(const Iterator& begin, const Iterator& end, std::string:
         std::string& line = *i;
         line = line.substr(0, std::min(line.size(), size));
     }
+}
+
+/**
+ * Does right padding if is smaller than size
+ *
+ * @param str to pad
+ * @param size of string
+ * @return padded str
+ */
+std::string Utils::padRight(const std::string& str, size_t size) {
+    if (str.size() < size) {
+        return str + std::string(size - str.size(), ' ');
+    }
+
+    return str;
+}
+
+/**
+ * Does left padding if is smaller than size
+ *
+ * @param str to pad
+ * @param size of string
+ * @return padded str
+ */
+std::string Utils::padLeft(const std::string& str, size_t size) {
+    if (str.size() < size) {
+        return std::string(size - str.size(), ' ') + str;
+    }
+
+    return str;
+}
+
+const std::string& Utils::getInstallPath() {
+    //Only create string when there is no cached one
+    if (installPath == nullptr) {
+        //Create a new static string for storing path
+        installPath = new std::string();
+        char* path = SDL_GetBasePath();
+        if (path) {
+            //Path is valid so store it in cache
+            installPath->assign(path);
+            SDL_free(path);
+        }
+    }
+    return *installPath;
+}
+
+const std::string& Utils::getUserPath() {
+    //Only create string when there is no cached one
+    if (userPath == nullptr) {
+        //Create a new static string for storing path
+        userPath = new std::string();
+        char* path = SDL_GetPrefPath(GAME_NAME, GAME_NAME); //Both org and app are same
+        if (path) {
+            //Path is valid so store it in cache
+            userPath->assign(path);
+            SDL_free(path);
+        }
+    }
+    return *userPath;
 }

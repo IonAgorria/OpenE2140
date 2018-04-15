@@ -17,6 +17,10 @@ class Utils {
 private:
     /** Debug flag */
     static bool debug;
+    /** Cached install path */
+    static std::string* installPath;
+    /** Cached user path */
+    static std::string* userPath;
 
 public:
     /**
@@ -44,7 +48,7 @@ public:
      *
      * @tparam T type of value
      * @param value to write
-     * @param n of precission
+     * @param n of precision
      */
     template<typename T>
     static std::string toStringPrecision(const T& value, int n);
@@ -138,6 +142,40 @@ public:
      */
     template <typename Iterator>
     static void substrLines(const Iterator& begin, const Iterator& end, std::string::size_type size);
+
+    /**
+     * Does right padding if is smaller than size
+     *
+     * @param str to pad
+     * @param size of string
+     * @return padded str
+     */
+    static std::string padRight(const std::string& str, size_t size);
+
+    /**
+     * Does left padding if is smaller than size
+     *
+     * @param str to pad
+     * @param size of string
+     * @return padded str
+     */
+    static std::string padLeft(const std::string& str, size_t size);
+
+    /**
+     * Program base path where the installation files are stored or empty string if path is not available.
+     * Path's are guaranteed to end with dir separator.
+     *
+     * @return path string or empty string
+     */
+    static const std::string& getInstallPath();
+
+    /**
+     * Program user path where the user files are stored or empty string if path is not available.
+     * Path's are guaranteed to end with dir separator.
+     *
+     * @return path string or empty string
+     */
+    static const std::string& getUserPath();
 };
 
 #endif //OPENE2140_UTILS_H

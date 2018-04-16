@@ -28,7 +28,7 @@ public:
     /**
      * Disable copy operator
      */
-    void operator=(Asset const &other) = delete;
+    void operator=(const Asset& other) = delete;
 };
 
 #endif //OPENE2140_ASSET_H

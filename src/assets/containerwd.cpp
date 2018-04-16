@@ -7,5 +7,6 @@ ContainerWD::ContainerWD(const std::string& path) : Container(path) {
 }
 
 bool ContainerWD::load() {
-    return true;
+    //TODO
+    return false;
 }

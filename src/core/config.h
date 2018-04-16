@@ -47,6 +47,6 @@
 /** Directory name containing assets */
 #define GAME_ASSETS_DIR "assets"
 /** Names of asset containers to load */
-#define GAME_ASSETS_NAMES {"MIX", "PIRO"}
+#define GAME_ASSETS_NAMES {"MIX", "LEVEL", "PIRO"}
 
 #endif //OPENE2140_CONFIG_H

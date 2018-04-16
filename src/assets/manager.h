@@ -37,7 +37,7 @@ public:
     /**
      * Disable copy operator
      */
-    void operator=(Manager const &other) = delete;
+    void operator=(const Manager& other) = delete;
 
     /**
      * Loads a container which contains assets to get the contents (folder or mapped file with paths)

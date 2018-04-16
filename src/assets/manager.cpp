@@ -13,6 +13,10 @@ Manager::Manager() {
 }
 
 Manager::~Manager() {
+    //Delete all pointers
+    for(std::pair<std::string, Container*> container : containers) {
+        delete container.second;
+    }
     containers.clear();
 }
 

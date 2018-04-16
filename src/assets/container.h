@@ -11,7 +11,7 @@
  * A container stores different assets that can be accessed with path
  */
 class Container {
-private:
+protected:
     /**
      * Path of this container
      */
@@ -20,7 +20,8 @@ private:
     /**
      * Contains all assets in this container
      */
-    std::map<std::string, Asset> assets{};
+    std::map<std::string, Asset*> assets;
+
 public:
     /**
      * Container constructor
@@ -40,7 +41,7 @@ public:
     /**
      * Disable copy operator
      */
-    void operator=(Container const &other) = delete;
+    void operator=(const Container& other) = delete;
 
     /**
      * Load container contents

@@ -49,7 +49,7 @@ public:
     /**
      * Disable copy operator
      */
-    void operator=(File const &other) = delete;
+    void operator=(const File& other) = delete;
 
     /**
      * @return the last occurred error and clears it

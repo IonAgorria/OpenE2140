@@ -181,7 +181,7 @@ public:
      * Lists all content of specified path and stores on provided list
      *
      * @param dirPath to list
-     * @param dirPaths to store names
+     * @param callback when a name is found
      * @return if success
      */
     static bool listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths);

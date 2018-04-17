@@ -20,12 +20,12 @@ public:
     /**
      * Container destructor
      */
-    ~ContainerWD() override = default;
+    ~ContainerWD() override;
 
     /**
      * Loads WD file
      */
-     bool load() override;
+     bool load(const log_ptr& log) override;
 };
 
 #endif //OPENE2140_CONTAINERWD_H

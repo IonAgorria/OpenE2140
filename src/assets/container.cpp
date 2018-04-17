@@ -11,3 +11,12 @@ Container::Container(const std::string& path) : path() {
 const std::string& Container::getPath() {
     return path;
 }
+
+Container::~Container() {
+    //Delete all stored assets
+    assets.clear();
+}
+
+const Asset& Container::getAsset(const std::string& path) {
+    return *assets[path];
+}

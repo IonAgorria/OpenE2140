@@ -3,12 +3,16 @@
 //
 #include <core/utils.h>
 #include <core/config.h>
+#include <core/file.h>
 #include "containerdir.h"
 
 ContainerDir::ContainerDir(const std::string& path) : Container(path) {
 }
 
-bool ContainerDir::load() {
+ContainerDir::~ContainerDir() {
+}
+
+bool ContainerDir::load(const log_ptr& log) {
     //Set first dir
     std::list<std::string> paths;
     paths.push_back(path);
@@ -28,8 +32,18 @@ bool ContainerDir::load() {
                 paths.push_back(name);
             }
         } else {
+            //Check if failed path is the container base path because means that is invalid or doesn't exist
+            if (current == path) {
+                return false;
+            }
+
             //Is not a directory or is not valid, try to load as file
-            //TODO
+            std::unique_ptr<File> file = std::make_unique<File>();
+            if (file->open(current)) {
+                std::shared_ptr<Asset> asset = std::make_shared<Asset>(std::move(file), 0, 0);
+            } else {
+                log->debug("Error opening file: '{0}' '{1}'", current, file->getError());
+            }
         }
     }
 

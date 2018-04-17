@@ -13,50 +13,50 @@ Manager::Manager() {
 }
 
 Manager::~Manager() {
-    //Delete all pointers
-    for(std::pair<std::string, Container*> container : containers) {
-        delete container.second;
-    }
+    //Delete all stored containers
     containers.clear();
 }
 
-bool Manager::loadContainer(const std::string& path) {
+const std::string Manager::loadContainer(const std::string& path) {
+    std::unique_ptr<Container> container; //Use reset() to workaround base type not accepting derived constructors
+
     //Try first to load as WD
-    Container* container = (Container*) new ContainerWD(path);
-    if (container->load()) {
-        containers[path] = container;
-        return true;
+    container.reset((Container*) new ContainerWD(path));
+    if (container->load(log)) {
+        containers[path] = std::move(container);
+        return "file";
     }
-    delete container;
 
     //Try to load it as dir
-    container = (Container*) new ContainerDir(path);
-    if (container->load()) {
-        containers[path] = container;
-        return true;
+    container.reset((Container*) new ContainerDir(path));
+    if (container->load(log)) {
+        containers[path] = std::move(container);
+        return "directory";
     }
-    delete container;
 
     //We failed
-    return false;
+    return "";
 }
 
 bool Manager::loadContainers() {
     for (std::string name : GAME_ASSETS_NAMES) {
-        if (loadContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP + name)) {
-            log->debug("Loaded: {0}", name);
-        } else {
+        const std::string type = loadContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP + name);
+        if (type.empty()) {
             log->error("Error loading: {0}", name);
             return false;
+        } else {
+            log->debug("Loaded as {1}: {0}", name, type);
         }
     }
     return true;
 }
 
-bool Manager::loadAsset(const std::string& path) {
-    return false;
-}
-
-Asset Manager::getAsset(const std::string& path) {
-    return {};
+const Asset& Manager::getAsset(const std::string& path) {
+    for (auto& container : containers) {
+        const Asset& asset = container.second->getAsset(path);
+        if (asset.valid()) {
+            return asset;
+        }
+    }
+    return Asset();
 }

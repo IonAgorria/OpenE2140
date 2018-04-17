@@ -5,6 +5,7 @@
 #define OPENE2140_CONTAINER_H
 
 #include <map>
+#include "core/log.h"
 #include "asset.h"
 
 /**
@@ -20,7 +21,7 @@ protected:
     /**
      * Contains all assets in this container
      */
-    std::map<std::string, Asset*> assets;
+    std::unordered_map<std::string, std::unique_ptr<Asset>> assets;
 
 public:
     /**
@@ -31,7 +32,7 @@ public:
     /**
      * Container destructor
      */
-    virtual ~Container() = default;
+    virtual ~Container();
 
     /**
      * Disable copy constructor
@@ -45,13 +46,20 @@ public:
 
     /**
      * Load container contents
+     *
+     * @param log to use when loading
      */
-    virtual bool load() = 0;
+    virtual bool load(const log_ptr& log) = 0;
 
     /**
      * @return the path of container
      */
     const std::string& getPath();
+
+    /**
+     * @return asset from container in specified path
+     */
+     const Asset& getAsset(const std::string& path);
 
 };
 

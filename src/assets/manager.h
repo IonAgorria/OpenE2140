@@ -17,7 +17,7 @@ private:
     /** Log for object */
     log_ptr log;
     /** Containers in this manager */
-    std::map<std::string, Container*> containers;
+    std::map<std::string, std::unique_ptr<Container>> containers;
 public:
     /**
      * Constructs loader
@@ -43,9 +43,9 @@ public:
      * Loads a container which contains assets to get the contents (folder or mapped file with paths)
      *
      * @param path of container
-     * @return true if success
+     * @return type of container used or empty if none
      */
-    bool loadContainer(const std::string& path);
+    const std::string loadContainer(const std::string& path);
 
     /**
      * Loads containers required by this game
@@ -67,7 +67,7 @@ public:
      *
      * @return asset
      */
-    Asset getAsset(const std::string& path);
+    const Asset& getAsset(const std::string& path);
 };
 
 #endif //OPENE2140_LOADER_H

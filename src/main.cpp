@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
         error = true;
     } else {
         //Initialize window
-        auto window = new Window();
+        Window* window = new Window();
         if (!window->create(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE)) {
             error = true;
         } else {

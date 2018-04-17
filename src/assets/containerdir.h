@@ -20,12 +20,12 @@ public:
     /**
      * Container destructor
      */
-    ~ContainerDir() override = default;
+    ~ContainerDir() override;
 
     /**
      * Loads dir content
      */
-     bool load() override;
+     bool load(const log_ptr& log) override;
 };
 
 #endif //OPENE2140_CONTAINERDIR_H

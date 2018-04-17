@@ -5,6 +5,10 @@
 #include "file.h"
 #include "utils.h"
 
+File::File() {
+    file = nullptr;
+}
+
 File::~File() {
     //Close open file if any
     if (file) {
@@ -45,13 +49,36 @@ bool File::open(const std::string& path, const File::FileMode& mode) {
     }
 }
 
-long File::getPosition() {
+long File::tell() {
     long position = SDL_RWtell(file);
+    if (position < 0) {
+        error = Utils::checkSDLError();
+    }
     return position;
 }
 
-std::string& File::getError() {
-    std::string& copy = error;
+long File::seek(long offset, bool set) {
+    long position = SDL_RWseek(file, offset, set ? RW_SEEK_SET : RW_SEEK_CUR);
+    if (position < 0) {
+        error = Utils::checkSDLError();
+    }
+    return position;
+}
+
+std::string File::getError() {
+    std::string copy = error;
     error = "";
     return copy;
+}
+
+template <typename T>
+size_t File::read(T& buffer, size_t amount) {
+    size_t read = SDL_RWread(file, buffer, sizeof(T), amount);
+    if (read == 0) {
+        std::string sdlError = Utils::checkSDLError();
+        if (!sdlError.empty()) {
+            error = sdlError;
+        }
+    }
+    return read;
 }

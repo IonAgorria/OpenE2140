@@ -33,7 +33,7 @@ public:
     /**
      * File constructor
      */
-    File() = default;
+    File();
 
     /**
      * File destructor
@@ -54,7 +54,7 @@ public:
     /**
      * @return the last occurred error and clears it
      */
-    std::string& getError();
+    std::string getError();
 
     /**
      * Opens the file from the specified path and selected mode of opening
@@ -63,30 +63,34 @@ public:
      * @param mode for opening
      * @return true on success
      */
-    bool open(const std::string& path, const File::FileMode& mode);
+    bool open(const std::string& path, const File::FileMode& mode = FileMode::Read);
 
     /**
      * Get's the current file seeking position
      *
-     * @return position
+     * @return position or -1 if error or couldn't get position
      */
-    long getPosition();
+    long tell();
 
     /**
-     * Set's the current file seeking position
+     * Seeks the file position
      *
-     * @param position to set
+     * @param offset to seek
+     * @param set to use start instead of current when adding offset
      * @return position or -1 if error or couldn't seek
      */
-    void setPosition(long position);
+    long seek(long offset, bool set = false);
 
     /**
-     * Moves current file seeking position forward if positive or backwards if negative
+     * Reads filee data to provided buffer
      *
-     * @param position to move
-     * @return position or -1 if error or couldn't seek
+     * @tparam T type of object
+     * @param buffer to write
+     * @param amount of objects to write on buffer
+     * @return read amount or 0 if reached end or error occurred
      */
-    void movePosition(long amount);
+    template <typename T>
+    size_t read(T& buffer, size_t amount);
 };
 
 #endif //OPENE2140_FILE_H

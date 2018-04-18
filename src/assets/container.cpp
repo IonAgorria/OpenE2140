@@ -3,13 +3,9 @@
 //
 #include "container.h"
 #include <string>
+#include "core/utils.h"
 
-Container::Container(const std::string& path) : path() {
-    this->path = path;
-}
-
-const std::string& Container::getPath() {
-    return path;
+Container::Container(const std::string& path, const std::string& name) : path(path), name(name) {
 }
 
 Container::~Container() {
@@ -17,6 +13,19 @@ Container::~Container() {
     assets.clear();
 }
 
-const Asset& Container::getAsset(const std::string& path) {
-    return *assets[path];
+const std::string& Container::getPath() {
+    return path;
+}
+
+const std::string& Container::getName() {
+    return name;
+}
+
+void Container::addAsset(const std::string& path, std::shared_ptr<Asset> asset) {
+    assets[Utils::toUpper(path)] = asset;
+}
+
+std::shared_ptr<Asset> Container::getAsset(const std::string& path) {
+    std::shared_ptr<Asset> ptr = assets[path];
+    return ptr;
 }

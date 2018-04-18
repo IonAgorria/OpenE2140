@@ -17,20 +17,20 @@ Manager::~Manager() {
     containers.clear();
 }
 
-const std::string Manager::loadContainer(const std::string& path) {
+const std::string Manager::loadContainer(const std::string& path, const std::string& name) {
     std::unique_ptr<Container> container; //Use reset() to workaround base type not accepting derived constructors
 
     //Try first to load as WD
-    container.reset((Container*) new ContainerWD(path));
+    container.reset((Container*) new ContainerWD(path, name));
     if (container->load(log)) {
-        containers[path] = std::move(container);
+        containers[name] = std::move(container);
         return "file";
     }
 
     //Try to load it as dir
-    container.reset((Container*) new ContainerDir(path));
+    container.reset((Container*) new ContainerDir(path, name));
     if (container->load(log)) {
-        containers[path] = std::move(container);
+        containers[name] = std::move(container);
         return "directory";
     }
 
@@ -40,7 +40,7 @@ const std::string Manager::loadContainer(const std::string& path) {
 
 bool Manager::loadContainers() {
     for (std::string name : GAME_ASSETS_NAMES) {
-        const std::string type = loadContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP + name);
+        const std::string type = loadContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP, name);
         if (type.empty()) {
             log->error("Error loading: {0}", name);
             return false;
@@ -51,12 +51,15 @@ bool Manager::loadContainers() {
     return true;
 }
 
-const Asset& Manager::getAsset(const std::string& path) {
+std::shared_ptr<Asset> Manager::getAsset(const std::string& path) {
+    std::shared_ptr<Asset> asset;
+    asset.get();
     for (auto& container : containers) {
-        const Asset& asset = container.second->getAsset(path);
-        if (asset.valid()) {
-            return asset;
+        std::shared_ptr<Asset> containerAsset = container.second->getAsset(path);
+        if (containerAsset) {
+            asset = containerAsset;
+            break;
         }
     }
-    return Asset();
+    return asset;
 }

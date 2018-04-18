@@ -4,9 +4,5 @@
 #include <boost/shared_ptr.hpp>
 #include "asset.h"
 
-Asset::Asset(std::shared_ptr<File> file, long offset, long size) : file(file) {
-}
-
-bool Asset::valid() const {
-    return file != nullptr;
+Asset::Asset(const std::string& path, std::shared_ptr<File> file, long offset, long size) : path(path), file(file) {
 }

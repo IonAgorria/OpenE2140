@@ -42,6 +42,12 @@ int main(int argc, char** argv) {
             if (!manager.loadContainers()) {
                 error = true;
             } else {
+                //Test
+                auto asset = manager.getAsset("PIRO/GRAPH/SHCKV00.PAL");
+                log->info("{0}", asset ? 1 : 0);
+                asset = manager.getAsset("LEVEL/NEW");
+                log->info("{0}", asset ? 1 : 0);
+
                 //Main loop
                 SDL_Event event{};
                 Uint8 quit = 0;

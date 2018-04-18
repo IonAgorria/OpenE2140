@@ -15,7 +15,7 @@ public:
     /**
      * Container constructor
      */
-    explicit ContainerDir(const std::string& path);
+    explicit ContainerDir(const std::string& path, const std::string& name);
 
     /**
      * Container destructor
@@ -25,7 +25,7 @@ public:
     /**
      * Loads dir content
      */
-     bool load(const log_ptr& log) override;
+     bool load(const log_ptr log) override;
 };
 
 #endif //OPENE2140_CONTAINERDIR_H

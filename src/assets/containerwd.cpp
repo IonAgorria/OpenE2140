@@ -5,16 +5,16 @@
 #include "core/file.h"
 #include "containerwd.h"
 
-ContainerWD::ContainerWD(const std::string& path) : Container(path + ".WD") {
+ContainerWD::ContainerWD(const std::string& path, const std::string& name) : Container(path, name) {
 }
 
 ContainerWD::~ContainerWD() {
 }
 
-bool ContainerWD::load(const log_ptr& log) {
+bool ContainerWD::load(const log_ptr log) {
     //Create file to be common between assets created from this container file
     std::shared_ptr<File> file = std::make_shared<File>();
-    if (!file->open(path)) {
+    if (!file->open(path + name + ".WD")) {
         //log->debug("Error opening file: '{0}' '{1}'", path, file->getError());
         return false;
     }

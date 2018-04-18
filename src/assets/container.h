@@ -12,22 +12,35 @@
  * A container stores different assets that can be accessed with path
  */
 class Container {
-protected:
-    /**
-     * Path of this container
-     */
-    std::string path;
-
+private:
     /**
      * Contains all assets in this container
      */
-    std::unordered_map<std::string, std::unique_ptr<Asset>> assets;
+    std::unordered_map<std::string, std::shared_ptr<Asset>> assets;
 
+protected:
+    /**
+     * Path of containers root
+     */
+    const std::string path;
+
+    /**
+     * Name of this container
+     */
+    const std::string name;
+
+    /**
+     * Adds asset to container in specified path
+     */
+    void addAsset(const std::string& path, std::shared_ptr<Asset> asset);
 public:
     /**
      * Container constructor
+     *
+     * @param path folder for containers
+     * @param name of this container
      */
-    explicit Container(const std::string& path);
+    explicit Container(const std::string& path, const std::string& name);
 
     /**
      * Container destructor
@@ -49,7 +62,7 @@ public:
      *
      * @param log to use when loading
      */
-    virtual bool load(const log_ptr& log) = 0;
+    virtual bool load(const log_ptr log) = 0;
 
     /**
      * @return the path of container
@@ -57,9 +70,14 @@ public:
     const std::string& getPath();
 
     /**
+     * @return the name of container
+     */
+    const std::string& getName();
+
+    /**
      * @return asset from container in specified path
      */
-     const Asset& getAsset(const std::string& path);
+    std::shared_ptr<Asset> getAsset(const std::string& path);
 
 };
 

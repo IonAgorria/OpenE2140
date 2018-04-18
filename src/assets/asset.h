@@ -12,6 +12,11 @@
 class Asset {
 private:
     /**
+     * Path of this assets inside of container
+     */
+    const std::string path;
+
+    /**
      * Pointer for file containing data
      */
     const std::shared_ptr<File> file;
@@ -38,7 +43,7 @@ public:
      * @param offset where asset data start
      * @param size of asset data in file, 0 for unknown/until end
      */
-    Asset(std::shared_ptr<File> file, long offset = 0, long size = 0);
+    Asset(const std::string& path, std::shared_ptr<File> file, long offset = 0, long size = 0);
 
     /**
      * Asset destructor
@@ -54,11 +59,6 @@ public:
      * Disable copy operator
      */
     void operator=(const Asset& other) = delete;
-
-    /**
-     * @return if asset is valid
-     */
-    bool valid() const;
 };
 
 #endif //OPENE2140_ASSET_H

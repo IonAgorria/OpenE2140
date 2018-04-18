@@ -42,10 +42,11 @@ public:
     /**
      * Loads a container which contains assets to get the contents (folder or mapped file with paths)
      *
-     * @param path of container
+     * @param path of containers root
+     * @param name of container
      * @return type of container used or empty if none
      */
-    const std::string loadContainer(const std::string& path);
+    const std::string loadContainer(const std::string& path, const std::string& name);
 
     /**
      * Loads containers required by this game
@@ -67,7 +68,7 @@ public:
      *
      * @return asset
      */
-    const Asset& getAsset(const std::string& path);
+    std::shared_ptr<Asset> getAsset(const std::string& path);
 };
 
 #endif //OPENE2140_LOADER_H

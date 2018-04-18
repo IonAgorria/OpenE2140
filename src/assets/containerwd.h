@@ -15,7 +15,7 @@ public:
     /**
      * Container constructor
      */
-    explicit ContainerWD(const std::string& path);
+    explicit ContainerWD(const std::string& path, const std::string& name);
 
     /**
      * Container destructor
@@ -25,7 +25,7 @@ public:
     /**
      * Loads WD file
      */
-     bool load(const log_ptr& log) override;
+     bool load(const log_ptr log) override;
 };
 
 #endif //OPENE2140_CONTAINERWD_H

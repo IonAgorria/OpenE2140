@@ -23,11 +23,11 @@ Window::~Window() {
     Utils::checkSDLError(log);
 }
 
-bool Window::create(unsigned int width, unsigned int height, const char* title) {
+bool Window::create(unsigned int width, unsigned int height, const std::string& title) {
     log->debug("Window get {0}x{1} title '{2}'", width, height, title);
     //Create window
     windowHandle = SDL_CreateWindow(
-            title,
+            title.c_str(),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             width,

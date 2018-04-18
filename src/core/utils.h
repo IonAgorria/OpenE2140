@@ -41,7 +41,7 @@ public:
      * @param log to write the error or null to ignore
      * @return the produced error or string representing the lack of error
      */
-    static std::string checkSDLError(const log_ptr& log = nullptr);
+    static std::string checkSDLError(const log_ptr log = nullptr);
 
     /**
      * Converts value with n precision to string using ostream
@@ -90,7 +90,7 @@ public:
      *
      * @param error to show
      */
-    static void showErrorDialog(const std::string& error, const log_ptr& log, bool appendStackTrace);
+    static void showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace);
 
     /**
      * Joins each element between iterators to stream using glue

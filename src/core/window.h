@@ -50,7 +50,7 @@ public:
      * @param title of window
      * @return if success
      */
-    bool create(unsigned int width, uint height, const char* title);
+    bool create(unsigned int width, uint height, const std::string& title);
 
     /**
      * Updates window

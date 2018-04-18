@@ -31,7 +31,7 @@ bool Utils::isDebug() {
     return debug;
 }
 
-std::string Utils::checkSDLError(const log_ptr& log) {
+std::string Utils::checkSDLError(const log_ptr log) {
     const char* error = SDL_GetError();
     if (error && strlen(error) != 0) {
         SDL_ClearError();
@@ -175,7 +175,7 @@ void Utils::handleHaltAndCatchFire(int sig) {
     raise(sig);
 }
 
-void Utils::showErrorDialog(const std::string& error, const log_ptr& log, bool appendStackTrace) {
+void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace) {
     //Get lines from error
     std::list<std::string> lines;
     lines.emplace_back("Unexpected error occurred, please inform this to developer :(");

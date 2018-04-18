@@ -269,13 +269,6 @@ void Utils::substrLines(const Iterator& begin, const Iterator& end, std::string:
     }
 }
 
-/**
- * Does right padding if is smaller than size
- *
- * @param str to pad
- * @param size of string
- * @return padded str
- */
 std::string Utils::padRight(const std::string& str, std::string::size_type size) {
     if (str.size() < size) {
         return str + std::string(size - str.size(), ' ');
@@ -284,13 +277,6 @@ std::string Utils::padRight(const std::string& str, std::string::size_type size)
     return std::string(str);
 }
 
-/**
- * Does left padding if is smaller than size
- *
- * @param str to pad
- * @param size of string
- * @return padded str
- */
 std::string Utils::padLeft(const std::string& str, std::string::size_type size) {
     if (str.size() < size) {
         return std::string(size - str.size(), ' ') + str;
@@ -347,4 +333,24 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
 #else
     return false; //No implementation
 #endif
+}
+
+std::string Utils::toUpper(std::string text) {
+    for (int pos = 0; text[pos] != '\0'; ++pos) {
+        if (islower((unsigned char) text[pos])) {
+            text[pos] = toupper((unsigned char) text[pos]);
+        }
+    }
+
+    return text;
+}
+
+std::string Utils::toLower(std::string text) {
+    for (int pos = 0; text[pos] != '\0'; ++pos) {
+        if (isupper((unsigned char) text[pos])) {
+            text[pos] = tolower((unsigned char) text[pos]);
+        }
+    }
+
+    return text;
 }

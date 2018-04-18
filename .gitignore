@@ -2,7 +2,7 @@
 .idea
 cmake-build*
 log.txt
-*.dump
+dump.bin
 /assets
 
 # Object files

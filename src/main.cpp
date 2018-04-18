@@ -33,8 +33,8 @@ int main(int argc, char** argv) {
         error = true;
     } else {
         //Initialize window
-        Window* window = new Window();
-        if (!window->create(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE)) {
+        Window window;
+        if (!window.create(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE)) {
             error = true;
         } else {
             //Initialize manager
@@ -66,22 +66,25 @@ int main(int argc, char** argv) {
                     }
 
                     //Show the screen
-                    if (!window->update()) {
+                    if (!window.update()) {
                         error = true;
                         continue;
                     }
                 }
             }
         }
-
-        //Close window and SDL
-        delete window;
-        SDL_Quit();
-        Utils::checkSDLError(log); //Show any error but don't stop now
     }
 
-    //Close the rest
+    //Close SDL (doesn't matter if SDL was init successfully)
+    SDL_Quit();
+    Utils::checkSDLError(log); //Show any error but don't stop now
+
+    //Close the logs
     Log::closeAll();
+
+    //Restore original sighandler
     Utils::restoreSignalHandler();
+
+    //Return code
     return error ? 1 : 0;
 }

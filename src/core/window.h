@@ -33,6 +33,16 @@ public:
     ~Window();
 
     /**
+     * Disable copy constructor
+     */
+    Window(const Window& other) = delete;
+
+    /**
+     * Disable copy operator
+     */
+    void operator=(const Window& other) = delete;
+
+    /**
      * Creates the window with provided parameters
      *
      * @param width of window

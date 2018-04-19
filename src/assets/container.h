@@ -30,7 +30,14 @@ protected:
     const std::string name;
 
     /**
+     * Number of assets in the container
+     */
+    int assetsCount;
+
+    /**
      * Adds asset to container in specified path
+     *
+     * @return true if added or false if asset exists on same path
      */
     bool addAsset(const std::string& path, std::shared_ptr<Asset> asset);
 public:
@@ -79,6 +86,10 @@ public:
      */
     std::shared_ptr<Asset> getAsset(const std::string& path);
 
+    /**
+     * @return amount of assets in this container
+     */
+     int count();
 };
 
 #endif //OPENE2140_CONTAINER_H

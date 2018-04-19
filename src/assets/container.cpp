@@ -5,7 +5,9 @@
 #include <string>
 #include "core/utils.h"
 
-Container::Container(const std::string& path, const std::string& name) : path(path), name(name) {
+Container::Container(const std::string& path, const std::string& name) :
+        path(path), name(name), assetsCount(0)
+{
 }
 
 Container::~Container() {
@@ -27,9 +29,14 @@ bool Container::addAsset(const std::string& path, std::shared_ptr<Asset> asset) 
         return false;
     }
     assets[pathInternal] = asset;
+    assetsCount++;
     return true;
 }
 
 std::shared_ptr<Asset> Container::getAsset(const std::string& path) {
     return assets[path];
+}
+
+int Container::count() {
+    return assetsCount;
 }

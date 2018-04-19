@@ -19,23 +19,27 @@ Manager::~Manager() {
 
 const std::string Manager::loadContainer(const std::string& path, const std::string& name) {
     std::unique_ptr<Container> container; //Use reset() to workaround base type not accepting derived constructors
-
-    //Try first to load as WD
-    container.reset(static_cast<Container*>(new ContainerWD(path, name)));
-    if (container->load(log)) {
-        containers[name] = std::move(container);
-        return "file";
-    }
+    std::string type = "";
 
     //Try to load it as dir
     container.reset(static_cast<Container*>(new ContainerDir(path, name)));
     if (container->load(log)) {
-        containers[name] = std::move(container);
-        return "directory";
+        type = "directory";
+    } else {
+        //Try to load it as WD
+        container.reset(static_cast<Container*>(new ContainerWD(path, name)));
+        if (container->load(log)) {
+            type = "file";
+        }
     }
 
-    //We failed
-    return "";
+    //If loaded then save it
+    if (!type.empty()) {
+        log->debug("{0} contains {1} assets", name, container->count());
+        containers[name] = std::move(container);
+    }
+
+    return type;
 }
 
 bool Manager::loadContainers() {

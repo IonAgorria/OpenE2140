@@ -24,21 +24,27 @@ private:
     /**
      * Offset where asset data start
      */
-     long offset;
+    long fileOffset;
 
     /**
      * Size of asset data in file, 0 for unknown/until end
      */
-     long size;
+    long fileSize;
 
+    /**
+     * Current asset position reading the file
+     */
+    long position;
 public:
     /**
      * Asset constructor from a file
      *
-     * @param offset where asset data start
-     * @param size of asset data in file, 0 for unknown/until end
+     * @param path where this asset is located
+     * @param file to use when accessing data
+     * @param fileOffset where asset data start in file
+     * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    Asset(const std::string& path, std::shared_ptr<File> file, long offset = 0, long size = 0);
+    Asset(const std::string& path, std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Asset destructor

@@ -203,6 +203,14 @@ public:
      */
     static std::string toLower(const std::string text);
 
+    /**
+     * Converts path to internal format
+     *
+     * @param path to change
+     * @return internal path
+     */
+    static std::string toInternalPath(const std::string path);
+
     static std::unique_ptr<byte[]> createBuffer(const size_t size);
 };
 

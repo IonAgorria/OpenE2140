@@ -18,6 +18,7 @@ Manager::~Manager() {
 }
 
 const std::string Manager::loadContainer(const std::string& path, const std::string& name) {
+    log->debug("Loading '{0}'", name);
     std::unique_ptr<Container> container; //Use reset() to workaround base type not accepting derived constructors
     std::string type = "";
 
@@ -34,8 +35,10 @@ const std::string Manager::loadContainer(const std::string& path, const std::str
     }
 
     //If loaded then save it
-    if (!type.empty()) {
-        log->debug("{0} contains {1} assets", name, container->count());
+    if (type.empty()) {
+        log->error("Error loading: {0}", name);
+    } else {
+        log->debug("Loaded '{0}' with {1} assets as '{2}'", name, container->count(), type);
         containers[name] = std::move(container);
     }
 
@@ -46,10 +49,7 @@ bool Manager::loadContainers() {
     for (std::string name : GAME_ASSETS_NAMES) {
         const std::string type = loadContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP, name);
         if (type.empty()) {
-            log->error("Error loading: {0}", name);
             return false;
-        } else {
-            log->debug("Loaded as {1}: {0}", name, type);
         }
     }
     return true;

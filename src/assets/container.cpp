@@ -6,8 +6,7 @@
 #include "core/utils.h"
 
 Container::Container(const std::string& path, const std::string& name) :
-        path(path), name(name), assetsCount(0)
-{
+        path(path), name(name), assetsCount(0) {
 }
 
 Container::~Container() {
@@ -24,7 +23,7 @@ const std::string& Container::getName() {
 }
 
 bool Container::addAsset(const std::string& path, std::shared_ptr<Asset> asset) {
-    std::string pathInternal = Utils::toUpper(path);
+    std::string pathInternal = Utils::toInternalPath(Utils::toUpper(path));
     if (assets[pathInternal]) {
         return false;
     }

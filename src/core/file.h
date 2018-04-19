@@ -4,11 +4,13 @@
 #ifndef OPENE2140_FILE_H
 #define OPENE2140_FILE_H
 
+#include "config.h"
 #include <string>
-#include <SDL_rwops.h>
+#include <memory>
+#include "SDL_rwops.h"
 
 /**
- * Implements simple file I/O abstraction
+ * Implements simple file I/O abstraction using real files or memory
  */
 class File {
 private:
@@ -21,6 +23,18 @@ private:
      * Last occurred error
      */
     std::string error;
+
+    /**
+     * Memory buffer if file is memory based
+     */
+    std::unique_ptr<uint8_t[]> memory;
+
+    /**
+     * Helper function for file errors, fills error var
+     *
+     * @return if any error occurred on creation
+     */
+    bool checkInternal();
 public:
     /**
      * File opening modes
@@ -36,8 +50,7 @@ public:
     File();
 
     /**
-     * File destructor
-     * Cleans file handles
+     * File destructor, closes file
      */
     ~File();
 
@@ -52,6 +65,11 @@ public:
     void operator=(const File& other) = delete;
 
     /**
+     * Closes the file
+     */
+    void close();
+
+    /**
      * @return the last occurred error and clears it
      */
     std::string getError();
@@ -63,7 +81,15 @@ public:
      * @param mode for opening
      * @return true on success
      */
-    bool open(const std::string& path, const File::FileMode& mode = FileMode::Read);
+    bool fromPath(const std::string& path, const File::FileMode& mode = FileMode::Read);
+
+    /**
+     * Creates virtual file on memory stored data with specified size
+     *
+     * @param size of memory containing file
+     * @return true on success
+     */
+    bool fromMemory(const size_t size);
 
     /**
      * Get's the current file seeking position
@@ -82,15 +108,24 @@ public:
     long seek(long offset, bool set = false);
 
     /**
-     * Reads filee data to provided buffer
+     * Reads file data to provided buffer
      *
      * @tparam T type of object
      * @param buffer to write
      * @param amount of objects to write on buffer
      * @return read amount or 0 if reached end or error occurred
      */
-    template <typename T>
-    size_t read(T& buffer, size_t amount);
+    size_t read(byte buffer[], size_t amount);
+
+    /**
+     * Writes file data from provided buffer
+     *
+     * @tparam T type of object
+     * @param buffer to get data from
+     * @param amount of objects to write on file
+     * @return written amount, different from amount if error occurred
+     */
+    size_t write(byte buffer[], size_t amount);
 };
 
 #endif //OPENE2140_FILE_H

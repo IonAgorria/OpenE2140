@@ -356,3 +356,7 @@ std::string Utils::toLower(const std::string text) {
 
     return text;
 }
+
+std::unique_ptr<byte[]> Utils::createBuffer(const size_t size) {
+    return std::move(std::make_unique<byte[]>(size));
+}

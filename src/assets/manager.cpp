@@ -21,14 +21,14 @@ const std::string Manager::loadContainer(const std::string& path, const std::str
     std::unique_ptr<Container> container; //Use reset() to workaround base type not accepting derived constructors
 
     //Try first to load as WD
-    container.reset((Container*) new ContainerWD(path, name));
+    container.reset(static_cast<Container*>(new ContainerWD(path, name)));
     if (container->load(log)) {
         containers[name] = std::move(container);
         return "file";
     }
 
     //Try to load it as dir
-    container.reset((Container*) new ContainerDir(path, name));
+    container.reset(static_cast<Container*>(new ContainerDir(path, name)));
     if (container->load(log)) {
         containers[name] = std::move(container);
         return "directory";

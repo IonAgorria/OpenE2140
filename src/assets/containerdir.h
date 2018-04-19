@@ -10,7 +10,7 @@
 /**
  * Container implementation for directories
  */
-class ContainerDir : Container {
+class ContainerDir : public Container {
 public:
     /**
      * Container constructor

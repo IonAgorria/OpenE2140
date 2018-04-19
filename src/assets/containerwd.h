@@ -10,7 +10,7 @@
 /**
  * Container implementation for WD format files
  */
-class ContainerWD : Container {
+class ContainerWD : public Container {
 public:
     /**
      * Container constructor

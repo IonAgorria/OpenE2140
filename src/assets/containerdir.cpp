@@ -25,7 +25,7 @@ bool ContainerDir::load(const log_ptr log) {
 
         //List directory or load asset
         std::list<std::string> content;
-        log->debug(current);
+        //log->debug("- {0}", current);
         if (Utils::listDirectory(path + current, content)) {
             for (std::string& name : content) {
                 //Append current path + name of directory content to paths
@@ -40,7 +40,7 @@ bool ContainerDir::load(const log_ptr log) {
 
             //Is not a directory or is not valid, try to load as file
             std::unique_ptr<File> file = std::make_unique<File>();
-            if (file->open(path + current)) {
+            if (file->fromPath(path + current)) {
                 std::shared_ptr<Asset> asset = std::make_shared<Asset>(current, std::move(file), 0, 0);
                 addAsset(current, asset);
             } else {

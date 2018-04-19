@@ -4,6 +4,7 @@
 #ifndef OPENE2140_UTILS_H
 #define OPENE2140_UTILS_H
 
+#include "config.h"
 #include <csignal>
 #include <list>
 #include "log.h"
@@ -201,6 +202,8 @@ public:
      * @return lowercase text
      */
     static std::string toLower(const std::string text);
+
+    static std::unique_ptr<byte[]> createBuffer(const size_t size);
 };
 
 #endif //OPENE2140_UTILS_H

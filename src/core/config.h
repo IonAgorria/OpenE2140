@@ -23,6 +23,10 @@
 #    define DIR_SEP "/"
 #endif
 
+/** Byte type */
+#include <stdint.h>
+using byte = uint8_t;
+
 //Game related data
 /** Game name */
 #define GAME_NAME "OpenE2140"

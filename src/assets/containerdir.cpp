@@ -42,7 +42,9 @@ bool ContainerDir::load(const log_ptr log) {
             std::unique_ptr<File> file = std::make_unique<File>();
             if (file->fromPath(path + current)) {
                 std::shared_ptr<Asset> asset = std::make_shared<Asset>(current, std::move(file), 0, 0);
-                addAsset(current, asset);
+                if (!addAsset(current, asset)) {
+                    log->debug("Asset already exists: '{0}'", current);
+                }
             } else {
                 log->debug("Error opening file: '{0}' '{1}'", current, file->getError());
             }

@@ -32,7 +32,7 @@ protected:
     /**
      * Adds asset to container in specified path
      */
-    void addAsset(const std::string& path, std::shared_ptr<Asset> asset);
+    bool addAsset(const std::string& path, std::shared_ptr<Asset> asset);
 public:
     /**
      * Container constructor

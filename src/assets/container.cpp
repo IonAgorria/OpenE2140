@@ -21,8 +21,13 @@ const std::string& Container::getName() {
     return name;
 }
 
-void Container::addAsset(const std::string& path, std::shared_ptr<Asset> asset) {
-    assets[Utils::toUpper(path)] = asset;
+bool Container::addAsset(const std::string& path, std::shared_ptr<Asset> asset) {
+    std::string pathInternal = Utils::toUpper(path);
+    if (assets[pathInternal]) {
+        return false;
+    }
+    assets[pathInternal] = asset;
+    return true;
 }
 
 std::shared_ptr<Asset> Container::getAsset(const std::string& path) {

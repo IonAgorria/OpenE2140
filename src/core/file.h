@@ -115,7 +115,7 @@ public:
      * @param amount of objects to write on buffer
      * @return read amount or 0 if reached end or error occurred
      */
-    size_t read(byte buffer[], size_t amount);
+    size_t read(void * buffer, size_t amount);
 
     /**
      * Writes file data from provided buffer
@@ -125,7 +125,7 @@ public:
      * @param amount of objects to write on file
      * @return written amount, different from amount if error occurred
      */
-    size_t write(byte buffer[], size_t amount);
+    size_t write(void * buffer, size_t amount);
 };
 
 #endif //OPENE2140_FILE_H

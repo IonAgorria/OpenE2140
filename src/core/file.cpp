@@ -114,7 +114,7 @@ std::string File::getError() {
     return copy;
 }
 
-size_t File::read(byte buffer[], size_t amount) {
+size_t File::read(void* buffer, size_t amount) {
     size_t read = SDL_RWread(file, buffer, 1, amount);
     if (read == 0) {
         std::string sdlError = Utils::checkSDLError();
@@ -125,7 +125,7 @@ size_t File::read(byte buffer[], size_t amount) {
     return read;
 }
 
-size_t File::write(byte buffer[], size_t amount) {
+size_t File::write(void* buffer, size_t amount) {
     size_t written = SDL_RWwrite(file, buffer, 1, amount);
     if (written != amount) {
         std::string sdlError = Utils::checkSDLError();

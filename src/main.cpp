@@ -42,11 +42,10 @@ int main(int argc, char** argv) {
             if (!manager.loadContainers()) {
                 error = true;
             } else {
-                //Test
-                auto asset = manager.getAsset("PIRO/GRAPH/SHCKV00.PAL");
-                log->info("{0}", asset ? 1 : 0);
-                asset = manager.getAsset("LEVEL/NEW");
-                log->info("{0}", asset ? 1 : 0);
+                //Test;
+                log->info("DIR {0}", (bool) manager.getAsset("PIRO/GRAPH/SHCKV00.PAL"));;
+                log->info("WD {0}", (bool) manager.getAsset("MIX/GRAPH/DATAB.MIX"));
+                log->info("MISSING {0}", (bool) manager.getAsset("LEVEL/NEW"));
 
                 //Main loop
                 SDL_Event event;
@@ -56,8 +55,6 @@ int main(int argc, char** argv) {
                     //Handle any events
                     while (SDL_PollEvent(&event) == 1) {
                         switch (event.type) {
-                            case SDL_QUIT:
-                                quit = true;
                             case SDL_MOUSEBUTTONDOWN:
                             case SDL_MOUSEBUTTONUP:
                                 log->debug("Mouse: {0}", event.button.button);
@@ -66,6 +63,8 @@ int main(int argc, char** argv) {
                             case SDL_KEYUP:
                                 log->debug("Key: {0}", event.key.keysym.scancode);
                                 break;
+                            case SDL_QUIT:
+                                quit = true;
                             default:
                                 continue;
                         }

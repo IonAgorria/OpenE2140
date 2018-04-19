@@ -33,11 +33,6 @@ private:
 
 public:
     /**
-     * Constructor for invalid asset
-     */
-     Asset() = default;
-
-    /**
      * Asset constructor from a file
      *
      * @param offset where asset data start

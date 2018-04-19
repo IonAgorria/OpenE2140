@@ -4,7 +4,8 @@
 #ifndef OPENE2140_WINDOW_H
 #define OPENE2140_WINDOW_H
 
-#include <SDL.h>
+#include "SDL_video.h"
+#include "SDL_render.h"
 #include "log.h"
 
 /**

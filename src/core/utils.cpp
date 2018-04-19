@@ -6,7 +6,7 @@
 #include <csignal>
 #include <iomanip>
 #include <list>
-#include <SDL_filesystem.h>
+#include "SDL_filesystem.h"
 #include "SDL_quit.h"
 #include "SDL_messagebox.h"
 #include "utils.h"
@@ -335,20 +335,22 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
 #endif
 }
 
-std::string Utils::toUpper(std::string text) {
+std::string Utils::toUpper(const std::string text) {
+    std::string result(text.size(), '\0');
     for (int pos = 0; text[pos] != '\0'; ++pos) {
         if (islower((unsigned char) text[pos])) {
-            text[pos] = toupper((unsigned char) text[pos]);
+            result[pos] = static_cast<char>(toupper(text[pos]));
         }
     }
 
     return text;
 }
 
-std::string Utils::toLower(std::string text) {
+std::string Utils::toLower(const std::string text) {
+    std::string result(text.size(), '\0');
     for (int pos = 0; text[pos] != '\0'; ++pos) {
         if (isupper((unsigned char) text[pos])) {
-            text[pos] = tolower((unsigned char) text[pos]);
+            result[pos] = static_cast<char>(tolower(text[pos]));
         }
     }
 

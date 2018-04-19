@@ -187,20 +187,20 @@ public:
     static bool listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths);
 
     /**
-     * Sets text uppercase
+     * Converts text uppercase
      *
      * @param text to change
      * @return uppercase text
      */
-    static std::string toUpper(std::string text);
+    static std::string toUpper(const std::string text);
 
     /**
-     * Sets text lowercase
+     * Converts text lowercase
      *
      * @param text to change
      * @return lowercase text
      */
-    static std::string toLower(std::string text);
+    static std::string toLower(const std::string text);
 };
 
 #endif //OPENE2140_UTILS_H

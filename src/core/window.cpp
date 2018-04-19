@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 22/03/18
 //
-#include <SDL_video.h>
 #include "log.h"
 #include "utils.h"
 #include "window.h"

@@ -49,15 +49,15 @@ int main(int argc, char** argv) {
                 log->info("{0}", asset ? 1 : 0);
 
                 //Main loop
-                SDL_Event event{};
-                Uint8 quit = 0;
-                while (quit == 0 && !error)
+                SDL_Event event;
+                bool quit = false;
+                while (!quit && !error)
                 {
                     //Handle any events
                     while (SDL_PollEvent(&event) == 1) {
                         switch (event.type) {
                             case SDL_QUIT:
-                                quit = 1;
+                                quit = true;
                             case SDL_MOUSEBUTTONDOWN:
                             case SDL_MOUSEBUTTONUP:
                                 log->debug("Mouse: {0}", event.button.button);

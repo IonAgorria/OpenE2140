@@ -26,6 +26,5 @@ void Container::addAsset(const std::string& path, std::shared_ptr<Asset> asset) 
 }
 
 std::shared_ptr<Asset> Container::getAsset(const std::string& path) {
-    std::shared_ptr<Asset> ptr = assets[path];
-    return ptr;
+    return assets[path];
 }

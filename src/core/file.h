@@ -30,6 +30,11 @@ private:
     std::unique_ptr<uint8_t[]> memory;
 
     /**
+     * Sets error of this file if SDL has any error
+     */
+    void setAnySDLError();
+
+    /**
      * Helper function for file errors, fills error var
      *
      * @return if any error occurred on creation
@@ -106,6 +111,13 @@ public:
      * @return position or -1 if error or couldn't seek
      */
     long seek(long offset, bool set = false);
+
+    /**
+     * Get's the current file size
+     *
+     * @return file size or -1 if unknown or error occurred
+     */
+    long size();
 
     /**
      * Reads file data to provided buffer

@@ -27,19 +27,27 @@ void File::close() {
     }
 }
 
-bool File::checkInternal() {
-    //Do various checks
+void File::setAnySDLError() {
     std::string sdlError = Utils::checkSDLError();
-    bool good = true;
     if (!sdlError.empty()) {
         error = sdlError;
-        good = false;
-    } else if (!file) {
-        error = "File was not created but no error occurred";
-        good = false;
-    } else if (file->type == SDL_RWOPS_MEMORY && !memory) {
-        error = "File was created but memory buffer is not available";
-        good = false;
+    }
+}
+
+bool File::checkInternal() {
+    //Do various checks
+    bool good = error.empty();
+    if (good) {
+        setAnySDLError();
+        if (!error.empty()) {
+            good = false;
+        } else if (!file) {
+            error = "File was not created but no error occurred";
+            good = false;
+        } else if (file->type == SDL_RWOPS_MEMORY && !memory) {
+            error = "File was created but memory buffer is not available";
+            good = false;
+        }
     }
 
     //Close it if not good
@@ -95,7 +103,7 @@ bool File::fromMemory(const size_t size) {
 long File::tell() {
     long position = SDL_RWtell(file);
     if (position < 0) {
-        error = Utils::checkSDLError();
+        setAnySDLError();
     }
     return position;
 }
@@ -103,10 +111,19 @@ long File::tell() {
 long File::seek(long offset, bool set) {
     long position = SDL_RWseek(file, offset, set ? RW_SEEK_SET : RW_SEEK_CUR);
     if (position < 0) {
-        error = Utils::checkSDLError();
+        setAnySDLError();
     }
     return position;
 }
+
+long File::size() {
+    long size = SDL_RWsize(file);
+    if (size < 0) {
+        setAnySDLError();
+    }
+    return size;
+}
+
 
 std::string File::getError() {
     std::string copy = error;
@@ -117,10 +134,7 @@ std::string File::getError() {
 size_t File::read(void* buffer, size_t amount) {
     size_t read = SDL_RWread(file, buffer, 1, amount);
     if (read == 0) {
-        std::string sdlError = Utils::checkSDLError();
-        if (!sdlError.empty()) {
-            error = sdlError;
-        }
+        setAnySDLError();
     }
     return read;
 }
@@ -128,13 +142,10 @@ size_t File::read(void* buffer, size_t amount) {
 size_t File::write(void* buffer, size_t amount) {
     size_t written = SDL_RWwrite(file, buffer, 1, amount);
     if (written != amount) {
-        std::string sdlError = Utils::checkSDLError();
-        if (sdlError.empty()) {
+        setAnySDLError();
+        if (error.empty()) {
             error = "No error produced but written amount is different than expected";
-        } else {
-            error = sdlError;
         }
     }
     return written;
 }
-

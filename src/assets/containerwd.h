@@ -11,6 +11,19 @@
  * Container implementation for WD format files
  */
 class ContainerWD : public Container {
+private:
+    /**
+     * Each file record struct
+     */
+    typedef struct {
+        unsigned int fileOffset;
+        unsigned int fileSize;
+        unsigned int unused1;
+        unsigned int unused2;
+        unsigned int checkSum;
+        unsigned int nameOffset;
+    } FileRecord;
+
 public:
     /**
      * Container constructor

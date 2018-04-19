@@ -336,25 +336,25 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
 }
 
 std::string Utils::toUpper(const std::string text) {
-    std::string result(text.size(), '\0');
+    std::string result(text);
     for (int pos = 0; text[pos] != '\0'; ++pos) {
         if (islower((unsigned char) text[pos])) {
             result[pos] = static_cast<char>(toupper(text[pos]));
         }
     }
 
-    return text;
+    return result;
 }
 
 std::string Utils::toLower(const std::string text) {
-    std::string result(text.size(), '\0');
+    std::string result(text);
     for (int pos = 0; text[pos] != '\0'; ++pos) {
         if (isupper((unsigned char) text[pos])) {
             result[pos] = static_cast<char>(tolower(text[pos]));
         }
     }
 
-    return text;
+    return result;
 }
 
 std::unique_ptr<byte[]> Utils::createBuffer(const size_t size) {

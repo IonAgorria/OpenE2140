@@ -8,6 +8,7 @@
 
 Manager::Manager() {
     log = Log::get("Assets");
+    assetsCount = 0;
 }
 
 Manager::~Manager() {
@@ -17,7 +18,7 @@ Manager::~Manager() {
 bool Manager::addAsset(std::shared_ptr<Asset> asset) {
     const std::string& path = asset->getPath();
     if (assets[path]) {
-        log->debug("Asset already exists: '{0}'", path);
+        log->warn("Asset already exists: '{0}'", path);
         return false;
     }
     assets[path] = asset;
@@ -41,6 +42,7 @@ bool Manager::loadContainers() {
             return false;
         }
     }
+    log->debug("Loaded {0} assets", assetsCount);
     return true;
 }
 
@@ -63,6 +65,7 @@ bool Manager::loadContainer(const std::string& path, const std::string& name) {
 
     //If loaded then save it
     if (0 <= count) {
+        assetsCount += count;
         log->debug("Loaded '{0}' with {1} assets as '{2}'", name, count, type);
         return true;
     } else {
@@ -181,10 +184,10 @@ int Manager::loadContainerDir(const std::string& path, const std::string& name) 
         std::list<std::string> content;
         //log->debug("- {0}", current);
         if (Utils::listDirectory(path + current, content)) {
-            for (std::string& name : content) {
+            for (std::string& dirName : content) {
                 //Append current path + name of directory content to paths
-                name = current + DIR_SEP + name;
-                paths.push_back(name);
+                dirName = current + DIR_SEP + dirName;
+                paths.push_back(dirName);
             }
         } else {
             //Check if failed path is the container base path because means that is invalid or doesn't exist

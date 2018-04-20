@@ -60,6 +60,11 @@ public:
      * Disable copy operator
      */
     void operator=(const Asset& other) = delete;
+
+    /**
+     * @return this asset path
+     */
+    const std::string& getPath();
 };
 
 #endif //OPENE2140_ASSET_H

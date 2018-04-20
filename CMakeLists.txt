@@ -31,9 +31,6 @@ set(SOURCE_FILES
         src/core/log.cpp
         src/core/file.cpp
         src/assets/asset.cpp
-        src/assets/container.cpp
-        src/assets/containerwd.cpp
-        src/assets/containerdir.cpp
         src/assets/manager.cpp
         )
 

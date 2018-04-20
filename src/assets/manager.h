@@ -7,17 +7,47 @@
 #include <string>
 #include <map>
 #include "core/log.h"
-#include "container.h"
+#include "asset.h"
 
 /**
  * Handles the loading of different assets
  */
 class Manager {
 private:
-    /** Log for object */
+    /**
+     * Log for object
+     */
     log_ptr log;
-    /** Containers in this manager */
-    std::map<std::string, std::unique_ptr<Container>> containers;
+
+    /**
+     * Contains all assets in this container
+     */
+    std::unordered_map<std::string, std::shared_ptr<Asset>> assets;
+
+    /**
+     * Number of assets loaded
+     */
+    int assetsCount;
+
+    /**
+     * Adds asset to container in specified path
+     *
+     * @param asset to add
+     * @return true if added or false if asset exists on same path
+     */
+    bool addAsset(std::shared_ptr<Asset> asset);
+
+    /**
+     * Each WD container file record struct
+     */
+    typedef struct {
+        unsigned int fileOffset;
+        unsigned int fileSize;
+        unsigned int unused1;
+        unsigned int unused2;
+        unsigned int checkSum;
+        unsigned int nameOffset;
+    } FileRecord;
 public:
     /**
      * Constructs loader
@@ -40,13 +70,23 @@ public:
     void operator=(const Manager& other) = delete;
 
     /**
-     * Loads a container which contains assets to get the contents (folder or mapped file with paths)
+     * Gets the loaded asset
      *
-     * @param path of containers root
-     * @param name of container
-     * @return type of container used or empty if none
+     * @return asset
      */
-    const std::string loadContainer(const std::string& path, const std::string& name);
+    std::shared_ptr<Asset> getAsset(const std::string& path);
+
+    /**
+     * @return the count of assets loaded
+     */
+    int getAssetsCount() {
+        return assetsCount;
+    }
+
+    /**
+     * Clears all loaded assets from manager
+     */
+    void clearAssets();
 
     /**
      * Loads containers required by this game
@@ -56,19 +96,31 @@ public:
     bool loadContainers();
 
     /**
-     * Loads an provided asset by path by searching in containers
+     * Loads a container which contains assets to get the contents (folder or mapped file with paths)
      *
-     * @param path to load
-     * @return true if success
+     * @param path of containers root
+     * @param name of container
+     * @return type of container used or empty if none
      */
-    bool loadAsset(const std::string& path);
+    bool loadContainer(const std::string& path, const std::string& name);
 
     /**
-     * Gets the loaded asset
+     * Load assets from WD file container and stores in manager
      *
-     * @return asset
+     * @param path to use as assets root
+     * @param name of container
+     * @return amount of loaded assets or -1 if error occurred
      */
-    std::shared_ptr<Asset> getAsset(const std::string& path);
+    int loadContainerWD(const std::string& path, const std::string& name);
+
+    /**
+     * Load assets from directory container and stores in manager
+     *
+     * @param path to use as assets root
+     * @param name of container
+     * @return amount of loaded assets or -1 if error occurred
+     */
+    int loadContainerDir(const std::string& path, const std::string& name);
 };
 
 #endif //OPENE2140_LOADER_H

@@ -338,7 +338,7 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
 std::string Utils::toUpper(const std::string text) {
     std::string result(text);
     std::string::size_type size = text.size();
-    for (int pos = 0; pos < size; ++pos) {
+    for (unsigned int pos = 0; pos < size; ++pos) {
         if (islower((unsigned char) text[pos])) {
             result[pos] = static_cast<char>(toupper(text[pos]));
         }
@@ -350,7 +350,7 @@ std::string Utils::toUpper(const std::string text) {
 std::string Utils::toLower(const std::string text) {
     std::string result(text);
     std::string::size_type size = text.size();
-    for (int pos = 0; pos < size; ++pos) {
+    for (unsigned int pos = 0; pos < size; ++pos) {
         if (isupper((unsigned char) text[pos])) {
             result[pos] = static_cast<char>(tolower(text[pos]));
         }
@@ -362,7 +362,7 @@ std::string Utils::toLower(const std::string text) {
 std::string Utils::toInternalPath(const std::string path) {
     std::string result(path);
     std::string::size_type size = path.size();
-    for (int pos = 0; pos < size; ++pos) {
+    for (unsigned int pos = 0; pos < size; ++pos) {
         if (path[pos] == '\\') {
             result[pos] = '/';
         }

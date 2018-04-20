@@ -27,10 +27,16 @@ void File::close() {
     }
 }
 
+std::string File::getError() {
+    std::string copy = error;
+    error = "";
+    return copy;
+}
+
 void File::setAnySDLError() {
     std::string sdlError = Utils::checkSDLError();
     if (!sdlError.empty()) {
-        error = sdlError;
+        error = std::move(sdlError);
     }
 }
 
@@ -124,14 +130,8 @@ long File::size() {
     return size;
 }
 
-
-std::string File::getError() {
-    std::string copy = error;
-    error = "";
-    return copy;
-}
-
 size_t File::read(void* buffer, size_t amount) {
+    if (amount == 0) return 0;
     size_t read = SDL_RWread(file, buffer, 1, amount);
     if (read == 0) {
         setAnySDLError();
@@ -140,6 +140,7 @@ size_t File::read(void* buffer, size_t amount) {
 }
 
 size_t File::write(void* buffer, size_t amount) {
+    if (amount == 0) return 0;
     size_t written = SDL_RWwrite(file, buffer, 1, amount);
     if (written != amount) {
         setAnySDLError();

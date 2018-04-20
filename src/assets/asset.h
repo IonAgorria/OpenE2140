@@ -35,6 +35,11 @@ private:
      * Current asset position reading the file
      */
     long position;
+
+    /**
+     * Last occurred error
+     */
+    std::string error;
 public:
     /**
      * Asset constructor from a file
@@ -49,7 +54,7 @@ public:
     /**
      * Asset destructor
      */
-    ~Asset() = default;
+    virtual ~Asset() = default;
 
     /**
      * Disable copy constructor
@@ -65,6 +70,43 @@ public:
      * @return this asset path
      */
     const std::string& getPath();
+
+    /**
+     * @return the last occurred error and clears it
+     */
+    std::string getError();
+
+    /**
+     * Get's the current asset seeking position
+     *
+     * @return position
+     */
+    long tell();
+
+    /**
+     * Seeks the asset position
+     *
+     * @param offset to seek
+     * @param set to use start instead of current when adding offset
+     * @return position or -1 if error or couldn't seek
+     */
+    long seek(long offset, bool set = false);
+
+    /**
+     * Get's the current asset size
+     *
+     * @return file size or -1 if unknown or error occurred
+     */
+    long size();
+
+    /**
+     * Reads file data to provided buffer
+     *
+     * @param buffer to write
+     * @param amount to write on buffer, if 0 does nothing
+     * @return read amount or 0 if reached end or error occurred
+     */
+    size_t read(void* buffer, size_t amount);
 };
 
 #endif //OPENE2140_ASSET_H

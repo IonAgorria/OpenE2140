@@ -122,22 +122,20 @@ public:
     /**
      * Reads file data to provided buffer
      *
-     * @tparam T type of object
      * @param buffer to write
-     * @param amount of objects to write on buffer
+     * @param amount to write on buffer, if 0 does nothing
      * @return read amount or 0 if reached end or error occurred
      */
-    size_t read(void * buffer, size_t amount);
+    size_t read(void* buffer, size_t amount);
 
     /**
      * Writes file data from provided buffer
      *
-     * @tparam T type of object
      * @param buffer to get data from
-     * @param amount of objects to write on file
+     * @param amount to write on file, if 0 does nothing
      * @return written amount, different from amount if error occurred
      */
-    size_t write(void * buffer, size_t amount);
+    size_t write(void* buffer, size_t amount);
 };
 
 #endif //OPENE2140_FILE_H

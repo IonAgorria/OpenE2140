@@ -60,14 +60,9 @@ public:
     ~Manager();
 
     /**
-     * Disable copy constructor
+     * Disable copy/move
      */
-    Manager(const Manager& other) = delete;
-
-    /**
-     * Disable copy operator
-     */
-    void operator=(const Manager& other) = delete;
+    NON_COPYABLE_NOR_MOVABLE(Manager)
 
     /**
      * Gets the loaded asset

@@ -23,6 +23,13 @@
 #    define DIR_SEP "/"
 #endif
 
+/** Removes copy and move operators */
+#define NON_COPYABLE_NOR_MOVABLE(T) \
+      T(T const &) = delete; \
+      void operator=(T const &t) = delete; \
+      T(T &&) = delete; \
+      void operator=(T const &&t) = delete;
+
 /** Byte type */
 #include <stdint.h>
 using byte = uint8_t;

@@ -5,7 +5,7 @@
 #include "boost/shared_ptr.hpp"
 #include "asset.h"
 
-Asset::Asset(const std::string& path, std::shared_ptr<File> file, long fileOffset, long fileSize) :
+Asset::Asset(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
         path(Utils::toInternalPath(Utils::toUpper(path))),
         file(file), fileOffset(fileOffset), fileSize(fileSize),
         position(0) {

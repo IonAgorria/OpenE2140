@@ -49,7 +49,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    Asset(const std::string& path, std::shared_ptr<File> file, long fileOffset, long fileSize);
+    Asset(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Asset destructor
@@ -57,14 +57,9 @@ public:
     virtual ~Asset() = default;
 
     /**
-     * Disable copy constructor
+     * Disable copy/move
      */
-    Asset(const Asset& other) = delete;
-
-    /**
-     * Disable copy operator
-     */
-    void operator=(const Asset& other) = delete;
+    NON_COPYABLE_NOR_MOVABLE(Asset)
 
     /**
      * @return this asset path

@@ -34,14 +34,9 @@ public:
     ~Window();
 
     /**
-     * Disable copy constructor
+     * Disable copy/move
      */
-    Window(const Window& other) = delete;
-
-    /**
-     * Disable copy operator
-     */
-    void operator=(const Window& other) = delete;
+    NON_COPYABLE_NOR_MOVABLE(Window)
 
     /**
      * Creates the window with provided parameters

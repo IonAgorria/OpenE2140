@@ -60,14 +60,9 @@ public:
     ~File();
 
     /**
-     * Disable copy constructor
+     * Disable copy/move
      */
-    File(const File& other) = delete;
-
-    /**
-     * Disable copy operator
-     */
-    void operator=(const File& other) = delete;
+    NON_COPYABLE_NOR_MOVABLE(File)
 
     /**
      * Closes the file

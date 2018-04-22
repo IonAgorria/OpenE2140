@@ -3,7 +3,7 @@
 //
 #include "core/config.h"
 #include "core/utils.h"
-#include "core/log.h"
+#include "core/io/log.h"
 #include "manager.h"
 
 Manager::Manager() {
@@ -107,7 +107,7 @@ int Manager::loadContainerWD(const std::string& path, const std::string& name) {
     }
 
     //Now get the names block
-    std::unique_ptr<byte[]> namesBlock = Utils::createBuffer(static_cast<size_t>(namesBlockSize));
+    std::unique_ptr<byteArray> namesBlock = Utils::createBuffer(static_cast<size_t>(namesBlockSize));
     amount = file->read(namesBlock.get(), namesBlockSize);
     error = file->getError();
     if (amount != namesBlockSize || !error.empty()) {

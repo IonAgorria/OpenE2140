@@ -7,7 +7,7 @@
 #include "config.h"
 #include <csignal>
 #include <list>
-#include "log.h"
+#include "core/io/log.h"
 
 #define DIALOG_MAX_WIDTH 150
 
@@ -19,10 +19,11 @@ private:
     /** Debug flag */
     static bool debug;
     /** Cached install path */
-    static std::string* installPath;
+    static std::unique_ptr<std::string> installPath;
     /** Cached user path */
-    static std::string* userPath;
-
+    static std::unique_ptr<std::string> userPath;
+    /** Cached dump path */
+    static std::unique_ptr<std::string> dumpPath;
 public:
     /**
      * Set debug mode
@@ -204,14 +205,20 @@ public:
     static std::string toLower(const std::string text);
 
     /**
-     * Converts path to internal format
+     * Converts path to internal format for unique identification
      *
      * @param path to change
      * @return internal path
      */
     static std::string toInternalPath(const std::string path);
 
-    static std::unique_ptr<byte[]> createBuffer(const size_t size);
+    /**
+     * Creates a buffer in memory with specified size
+     *
+     * @param size of buffer
+     * @return unique pointer of buffer
+     */
+    static std::unique_ptr<byteArray> createBuffer(const size_t size);
 };
 
 #endif //OPENE2140_UTILS_H

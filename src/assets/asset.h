@@ -4,12 +4,13 @@
 #ifndef OPENE2140_ASSET_H
 #define OPENE2140_ASSET_H
 
-#include "core/file.h"
+#include "core/io/file.h"
+#include "core/errorpossible.h"
 
 /**
  * Base asset containing any data for game
  */
-class Asset {
+class Asset : public ErrorPossible {
 private:
     /**
      * Path of this assets inside of container

@@ -1,9 +1,9 @@
 //
 // Created by Ion Agorria on 12/04/18
 //
-#include "config.h"
+#include "core/config.h"
 #include "file.h"
-#include "utils.h"
+#include "core/utils.h"
 #include "SDL_rwops.h"
 
 File::File() {
@@ -25,12 +25,6 @@ void File::close() {
     if (memory) {
         memory.reset();
     }
-}
-
-std::string File::getError() {
-    std::string copy = error;
-    error = "";
-    return copy;
 }
 
 void File::setAnySDLError() {

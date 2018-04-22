@@ -6,7 +6,7 @@
 
 #include <string>
 #include <map>
-#include "core/log.h"
+#include "core/io/log.h"
 #include "asset.h"
 
 /**

@@ -20,8 +20,9 @@
 
 //Default static variable values
 bool Utils::debug = false;
-std::string* Utils::installPath = nullptr;
-std::string* Utils::userPath = nullptr;
+std::unique_ptr<std::string> Utils::installPath; //Default null pointer
+std::unique_ptr<std::string> Utils::userPath; //Default null pointer
+std::unique_ptr<std::string> Utils::dumpPath; //Default null pointer
 
 void Utils::setDebug(bool value) {
     debug = value;
@@ -112,7 +113,9 @@ void Utils::handleHaltAndCatchFire(int sig) {
     restoreSignalHandler();
 
     //Save stacktrace
-    saveStackTrace(GAME_DUMP_FILE);
+    if (dumpPath) {
+        saveStackTrace(dumpPath.get()->c_str());
+    }
 
     //Get signal name
     std::string sigName;
@@ -287,9 +290,9 @@ std::string Utils::padLeft(const std::string& str, std::string::size_type size) 
 
 const std::string& Utils::getInstallPath() {
     //Only create string when there is no cached one
-    if (installPath == nullptr) {
+    if (!installPath) {
         //Create a new static string for storing path
-        installPath = new std::string();
+        installPath.reset(new std::string());
         char* path = SDL_GetBasePath();
         if (path) {
             //Path is valid so store it in cache
@@ -302,16 +305,21 @@ const std::string& Utils::getInstallPath() {
 
 const std::string& Utils::getUserPath() {
     //Only create string when there is no cached one
-    if (userPath == nullptr) {
+    if (!userPath) {
         //Create a new static string for storing path
-        userPath = new std::string();
-        char* path = SDL_GetPrefPath(GAME_NAME, GAME_NAME); //Both org and app are same
-        if (path) {
+        userPath.reset(new std::string());
+        char* userPathChar = SDL_GetPrefPath(GAME_NAME, GAME_NAME); //Both org and app are same
+        if (userPathChar) {
             //Path is valid so store it in cache
-            userPath->assign(path);
-            SDL_free(path);
+            userPath->assign(userPathChar);
+            SDL_free(userPathChar);
+
+            //Set dump path too
+            dumpPath.reset(new std::string());
+            dumpPath->assign(*userPath + DIR_SEP + GAME_DUMP_FILE);
         }
     }
+
     return *userPath;
 }
 
@@ -343,7 +351,6 @@ std::string Utils::toUpper(const std::string text) {
             result[pos] = static_cast<char>(toupper(text[pos]));
         }
     }
-
     return result;
 }
 
@@ -355,7 +362,6 @@ std::string Utils::toLower(const std::string text) {
             result[pos] = static_cast<char>(tolower(text[pos]));
         }
     }
-
     return result;
 }
 
@@ -367,10 +373,9 @@ std::string Utils::toInternalPath(const std::string path) {
             result[pos] = '/';
         }
     }
-
     return result;
 }
 
-std::unique_ptr<byte[]> Utils::createBuffer(const size_t size) {
-    return std::move(std::make_unique<byte[]>(size));
+std::unique_ptr<byteArray> Utils::createBuffer(const size_t size) {
+    return std::move(std::make_unique<byteArray>(size));
 }

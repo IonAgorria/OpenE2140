@@ -4,15 +4,16 @@
 #ifndef OPENE2140_FILE_H
 #define OPENE2140_FILE_H
 
-#include "config.h"
+#include "core/config.h"
 #include <string>
 #include <memory>
+#include "core/errorpossible.h"
 #include "SDL_rwops.h"
 
 /**
  * Implements simple file I/O abstraction using real files or memory
  */
-class File {
+class File : public ErrorPossible {
 private:
     /**
      * SDL internal file struct pointer
@@ -20,14 +21,9 @@ private:
     SDL_RWops* file;
 
     /**
-     * Last occurred error
-     */
-    std::string error;
-
-    /**
      * Memory buffer if file is memory based
      */
-    std::unique_ptr<uint8_t[]> memory;
+    std::unique_ptr<byteArray> memory;
 
     /**
      * Sets error of this file if SDL has any error
@@ -68,11 +64,6 @@ public:
      * Closes the file
      */
     void close();
-
-    /**
-     * @return the last occurred error and clears it
-     */
-    std::string getError();
 
     /**
      * Opens the file from the specified path and selected mode of opening

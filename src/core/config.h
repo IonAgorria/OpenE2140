@@ -33,6 +33,7 @@
 /** Byte type */
 #include <stdint.h>
 using byte = uint8_t;
+using byteArray = byte[];
 
 //Game related data
 /** Game name */

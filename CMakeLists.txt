@@ -25,13 +25,17 @@ set(LINK_LIBRARIES)
 include_directories("src")
 set(SOURCE_FILES
         src/core/config.h
-        src/main.cpp
-        src/core/window.cpp
+        src/core/main.cpp
         src/core/utils.cpp
-        src/core/log.cpp
-        src/core/file.cpp
+        src/core/errorpossible.cpp
+        src/core/graphics/window.cpp
+        src/core/graphics/image.cpp
+        src/core/graphics/texture.cpp
+        src/core/io/log.cpp
+        src/core/io/file.cpp
         src/assets/asset.cpp
         src/assets/manager.cpp
+        src/assets/assetimage.cpp
         )
 
 # Load SDL2

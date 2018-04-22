@@ -2,8 +2,8 @@
 // Created by Ion Agorria on 22/03/18
 //
 #include "log.h"
-#include "utils.h"
-#include "config.h"
+#include "core/utils.h"
+#include "core/config.h"
 
 std::list<spdlog::sink_ptr> Log::sinks;
 

@@ -4,10 +4,16 @@
 #ifndef OPENE2140_IMAGE_H
 #define OPENE2140_IMAGE_H
 
+
+#include "core/config.h"
 #include "core/errorpossible.h"
 #include "core/math/rectangle.h"
-#include "core/config.h"
-#include "texture.h"
+#include "SDL_render.h"
+
+/**
+ * Texture used for storing image on GPU
+ */
+using texture_ptr = std::shared_ptr<SDL_Texture>;
 
 /**
  * Image instance used for window drawing in abstract way
@@ -17,7 +23,7 @@ private:
     /**
      * Texture containing this image data
      */
-    std::shared_ptr<Texture> texture;
+    texture_ptr texture;
 
     /**
      * Rectangle to know texture source
@@ -27,7 +33,7 @@ public:
     /**
      * Constructor for image
      */
-    Image(std::shared_ptr<Texture> texture, Rectangle& rectangle);
+    Image(texture_ptr texture, Rectangle& rectangle);
 
     /**
      * Image destructor
@@ -47,7 +53,7 @@ public:
     /**
      * @return image window texture
      */
-    operator WindowTexture();
+    operator texture_ptr();
 
     /**
      * @return rectangle of this image inside the texture

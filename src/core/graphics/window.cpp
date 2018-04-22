@@ -19,14 +19,32 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
             SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
     );
     if (!windowHandle) {
-        Utils::showErrorDialog("SDL2 window is null " + Utils::checkSDLError(), log, false);
+        Utils::showErrorDialog("SDL2 window not available\n" + Utils::checkSDLError(), log, false);
         return;
     }
 
     //Create renderer
     rendererHandle = SDL_CreateRenderer(windowHandle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!rendererHandle) {
-        Utils::showErrorDialog("SDL2 renderer is null " + Utils::checkSDLError(), log, false);
+        Utils::showErrorDialog("SDL2 renderer not available\n" + Utils::checkSDLError(), log, false);
+        return;
+    }
+
+    //Fetch renderer info
+    textureMaxSize = Vector2(MINIMUM_TEXTURE_SIZE, MINIMUM_TEXTURE_SIZE); //Assume default as minimum
+    SDL_RendererInfo rendererInfo;
+    std::string rendererName = "Unknown";
+    if (SDL_GetRendererInfo(rendererHandle, &rendererInfo) == 0) {
+        rendererName = rendererInfo.name;
+        textureMaxSize.x = rendererInfo.max_texture_width;
+        textureMaxSize.y = rendererInfo.max_texture_height;
+    }
+    log->debug("Using renderer: {0}", rendererName);
+    log->debug("Maximum texture size: {0}", textureMaxSize.toString());
+
+    //Check the texture size
+    if (textureMaxSize.x < MINIMUM_TEXTURE_SIZE || textureMaxSize.y < MINIMUM_TEXTURE_SIZE) {
+        Utils::showErrorDialog("Texture size is too small: " + textureMaxSize.toString() + "\nRenderer: " + rendererName, log, false);
         return;
     }
 
@@ -52,9 +70,9 @@ Window::operator bool() {
 }
 
 bool Window::draw(Image& image, const Rectangle& rectangle) {
-    WindowTexture texture = image;
-    if (SDL_RenderCopy(rendererHandle, texture, &image.getRectangle(), &rectangle) != 0) {
-        Utils::showErrorDialog("SDL_RenderCopy error when drawing " + Utils::checkSDLError(), log, false);
+    texture_ptr texture = image;
+    if (SDL_RenderCopy(rendererHandle, texture.get(), &image.getRectangle(), &rectangle) != 0) {
+        Utils::showErrorDialog("SDL_RenderCopy error when drawing\n" + Utils::checkSDLError(), log, false);
         return false;
     }
     return true;
@@ -66,19 +84,20 @@ bool Window::update() {
 
     //Clear for next iteration
     if (SDL_RenderClear(rendererHandle) != 0) {
-        Utils::showErrorDialog("SDL_RenderClear " + Utils::checkSDLError(), log, false);
+        Utils::showErrorDialog("SDL_RenderClear error when clearing\n" + Utils::checkSDLError(), log, false);
         return false;
     }
     return true;
 }
 
-std::shared_ptr<Texture> Window::createTexture(const int width, const int height) {
-    std::shared_ptr<Texture> texture;
-    WindowTexture windowTexture = SDL_CreateTexture(rendererHandle, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, width, height);
-    if (!windowTexture) {
-        Utils::showErrorDialog("SDL_CreateTexture texture is not valid " + Utils::checkSDLError(), log, false);
+texture_ptr Window::createTexture(const int width, const int height) {
+    texture_ptr texture;
+    SDL_Texture* textureSDL = SDL_CreateTexture(rendererHandle, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, width, height);
+    if (!textureSDL) {
+        Utils::showErrorDialog("SDL_CreateTexture texture is not valid\n" + Utils::checkSDLError(), log, false);
     } else {
-        texture = std::make_shared<Texture>(windowTexture, width, height);
+        //Set pointer to texture and deleter for texture
+        texture.reset(textureSDL, SDL_DestroyTexture);
     }
     return texture;
 }

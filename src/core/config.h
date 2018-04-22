@@ -60,5 +60,7 @@ using byteArray = byte[];
 #define GAME_ASSETS_DIR "assets"
 /** Names of asset containers to load */
 #define GAME_ASSETS_NAMES {"MIX", "LEVEL", "PIRO"}
+/** Minimum texture size */
+#define MINIMUM_TEXTURE_SIZE 2048
 
 #endif //OPENE2140_CONFIG_H

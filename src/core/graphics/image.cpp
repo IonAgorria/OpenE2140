@@ -5,17 +5,16 @@
 #include "SDL_surface.h"
 #include "core/utils.h"
 #include "image.h"
-#include "window.h"
 
-Image::Image(std::shared_ptr<Texture> texture, Rectangle& rectangle) : texture(texture), rectangle(rectangle) {
+Image::Image(texture_ptr texture, Rectangle& rectangle) : texture(texture), rectangle(rectangle) {
 }
 
 Image::operator bool() {
-    return *texture;
+    return texture != nullptr;
 }
 
-Image::operator WindowTexture() {
-    return *texture;
+Image::operator texture_ptr() {
+    return texture;
 }
 
 Rectangle& Image::getRectangle() {
@@ -48,7 +47,7 @@ bool Image::loadFromRGB565(const log_ptr log, const byte* pixels) {
 }
 
 bool Image::loadFromRGBA8888(const log_ptr log, const byte* pixels) {
-    if (SDL_UpdateTexture(*texture, NULL, pixels, 4) != 0) {
+    if (SDL_UpdateTexture(texture.get(), NULL, pixels, rectangle.w * 4) != 0) {
         log->error("Couldn't update texture {0}", Utils::checkSDLError());
         return false;
     }

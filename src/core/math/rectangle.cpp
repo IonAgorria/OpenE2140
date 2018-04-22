@@ -3,7 +3,18 @@
 //
 #include "rectangle.h"
 
-Rectangle::Rectangle(int x, int y, int width, int height) : x(x), y(y), w(width), h(height) {
+Rectangle::Rectangle(int x, int y, int width, int height) {
+    this->x = x;
+    this->y = y;
+    this->w = width;
+    this->h = height;
+}
+
+Rectangle::Rectangle() {
+    this->x = 0;
+    this->y = 0;
+    this->w = 0;
+    this->h = 0;
 }
 
 bool Rectangle::operator==(const Rectangle& rectangle) {
@@ -65,4 +76,8 @@ bool Rectangle::getIntersectRectangle(const Rectangle& rectangle, Rectangle& res
 
 bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) {
     return SDL_IntersectRectAndLine(this, &start.x, &start.y, &end.x, &end.y);
+}
+
+std::string Rectangle::toString() {
+    return "R(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h) + ")";
 }

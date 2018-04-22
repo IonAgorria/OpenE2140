@@ -8,7 +8,6 @@
 #include "vector2.h"
 
 class Rectangle : public SDL_Rect {
-private:
 public:
     /**
      * Constructs a new rectangle
@@ -19,6 +18,16 @@ public:
      * @param height of rectangle
      */
     Rectangle(int x, int y, int width, int height);
+
+    /**
+     * Constructs a new zero rectangle
+     *
+     * @param x position
+     * @param y position
+     * @param width of rectangle
+     * @param height of rectangle
+     */
+    Rectangle();
 
     /**
      * Compares 2 rectangles if they are equal
@@ -50,6 +59,11 @@ public:
      * @return true if rectangle x and y is 0
      */
     bool zero();
+
+    /**
+     * @return string version of this vector
+     */
+    std::string toString();
 
     /**
      * Checks if a position is inside this rectangle

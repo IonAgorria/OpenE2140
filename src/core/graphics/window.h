@@ -8,7 +8,6 @@
 #include "SDL_render.h"
 #include "core/io/log.h"
 #include "image.h"
-#include "texture.h"
 
 /**
  * Window class, each one contains a handle for a window.
@@ -23,6 +22,8 @@ private:
     SDL_Window* windowHandle = nullptr;
     /** Renderer handle used for SDL2 */
     SDL_Renderer* rendererHandle = nullptr;
+    /** Max texture size */
+    Vector2 textureMaxSize;
 public:
     /**
      * Creates the window with provided parameters
@@ -73,7 +74,7 @@ public:
      * @param pixels content of image
      * @return image
      */
-    std::shared_ptr<Texture> createTexture(const int width, const int height);
+    texture_ptr createTexture(const int width, const int height);
 };
 
 #endif //OPENE2140_WINDOW_H

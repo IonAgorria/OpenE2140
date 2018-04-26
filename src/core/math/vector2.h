@@ -21,6 +21,13 @@ public:
     Vector2(int x, int y);
 
     /**
+     * Constructs a new vector from another
+     *
+     * @param vector2 to copy
+     */
+    Vector2(const Vector2& vector2);
+
+    /**
      * Constructs a zero vector
      *
      * @param x position
@@ -58,6 +65,21 @@ public:
      * @return string version of this vector
      */
     std::string toString();
+
+    /**
+     * Sets vector components
+     *
+     * @param x value
+     * @param y value
+     */
+    void set(int x, int y);
+
+    /**
+     * Sets vector components
+     *
+     * @param vector2 to get values
+     */
+    void set(const Vector2& vector2);
 };
 
 

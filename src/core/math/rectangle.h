@@ -20,12 +20,22 @@ public:
     Rectangle(int x, int y, int width, int height);
 
     /**
-     * Constructs a new zero rectangle
+     * Constructs a new rectangle
      *
-     * @param x position
-     * @param y position
-     * @param width of rectangle
-     * @param height of rectangle
+     * @param position of rectangle
+     * @param size of rectangle
+     */
+    Rectangle(const Vector2& position, const Vector2& size);
+
+    /**
+     * Constructs a new rectangle from another
+     *
+     * @param rectangle to copy
+     */
+    Rectangle(const Rectangle& rectangle);
+
+    /**
+     * Constructs a new zero rectangle
      */
     Rectangle();
 
@@ -64,6 +74,31 @@ public:
      * @return string version of this vector
      */
     std::string toString();
+
+    /**
+     * Sets rectangle components
+     *
+     * @param x value
+     * @param y value
+     * @param width value
+     * @param height value
+     */
+    void set(int x, int y, int width, int height);
+
+    /**
+     * Constructs a new rectangle
+     *
+     * @param position of rectangle
+     * @param size of rectangle
+     */
+    void set(const Vector2& position, const Vector2& size);
+
+    /**
+     * Sets rectangle components
+     *
+     * @param rectangle to get values
+     */
+    void set(const Rectangle& rectangle);
 
     /**
      * Checks if a position is inside this rectangle

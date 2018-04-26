@@ -10,6 +10,20 @@ Rectangle::Rectangle(int x, int y, int width, int height) {
     this->h = height;
 }
 
+Rectangle::Rectangle(const Vector2& position, const Vector2& size) {
+    this->x = position.x;
+    this->y = position.y;
+    this->w = size.x;
+    this->h = size.y;
+}
+
+Rectangle::Rectangle(const Rectangle& rectangle) {
+    this->x = rectangle.x;
+    this->y = rectangle.y;
+    this->w = rectangle.w;
+    this->h = rectangle.h;
+}
+
 Rectangle::Rectangle() {
     this->x = 0;
     this->y = 0;
@@ -41,6 +55,28 @@ bool Rectangle::empty() {
 
 bool Rectangle::zero() {
     return 0 == x && 0 == y;
+}
+
+void Rectangle::set(int x, int y, int width, int height) {
+    this->x = x;
+    this->y = y;
+    this->w = width;
+    this->h = height;
+}
+
+void Rectangle::set(const Vector2& position, const Vector2& size) {
+    this->x = position.x;
+    this->y = position.y;
+    this->w = size.x;
+    this->h = size.y;
+}
+
+void Rectangle::set(const Rectangle& rectangle)
+    {
+    this->x = rectangle.x;
+    this->y = rectangle.y;
+    this->w = rectangle.w;
+    this->h = rectangle.h;
 }
 
 bool Rectangle::isInside(int px, int py) {

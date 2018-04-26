@@ -7,7 +7,8 @@
 
 Window::Window(unsigned int width, unsigned int height, const std::string& title) {
     log = Log::get(__func__);
-    log->debug("Window get {0}x{1} title '{2}'", width, height, title);
+    log->debug("Window created {0}x{1} title '{2}'", width, height, title);
+    windowSize.set(width, height);
 
     //Create window
     windowHandle = SDL_CreateWindow(
@@ -36,15 +37,14 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     std::string rendererName = "Unknown";
     if (SDL_GetRendererInfo(rendererHandle, &rendererInfo) == 0) {
         rendererName = rendererInfo.name;
-        textureMaxSize.x = rendererInfo.max_texture_width;
-        textureMaxSize.y = rendererInfo.max_texture_height;
+        textureMaxSize.set(rendererInfo.max_texture_width, rendererInfo.max_texture_height);
     }
     log->debug("Using renderer: {0}", rendererName);
     log->debug("Maximum texture size: {0}", textureMaxSize.toString());
 
     //Check the texture size
     if (textureMaxSize.x < MINIMUM_TEXTURE_SIZE || textureMaxSize.y < MINIMUM_TEXTURE_SIZE) {
-        Utils::showErrorDialog("Texture size is too small: " + textureMaxSize.toString() + "\nRenderer: " + rendererName, log, false);
+        Utils::showErrorDialog("Maximum texture size is too small: " + textureMaxSize.toString() + "\nRenderer: " + rendererName, log, false);
         return;
     }
 
@@ -67,6 +67,11 @@ Window::~Window() {
 
 Window::operator bool() {
     return windowHandle != nullptr && rendererHandle != nullptr;
+}
+
+void Window::resize(int width, int height) {
+    log->debug("Window new size {0}x{1}", width, height);
+    windowSize.set(width, height);
 }
 
 bool Window::draw(Image& image, const Rectangle& rectangle) {
@@ -100,4 +105,8 @@ texture_ptr Window::createTexture(const int width, const int height) {
         texture.reset(textureSDL, SDL_DestroyTexture);
     }
     return texture;
+}
+
+const Vector2& Window::getSize() {
+    return windowSize;
 }

@@ -24,6 +24,8 @@ private:
     SDL_Renderer* rendererHandle = nullptr;
     /** Max texture size */
     Vector2 textureMaxSize;
+    /** Window size vector */
+    Vector2 windowSize;
 public:
     /**
      * Creates the window with provided parameters
@@ -51,6 +53,14 @@ public:
     operator bool();
 
     /**
+     * Called when window is resized
+     *
+     * @param width of window
+     * @param height of window
+     */
+    void resize(int width, int height);
+
+    /**
      * Adds image to window in specified rectangle
      *
      * @param image to draw
@@ -75,6 +85,11 @@ public:
      * @return image
      */
     texture_ptr createTexture(const int width, const int height);
+
+    /**
+     * @return window current size in pixels
+     */
+    const Vector2& getSize();
 };
 
 #endif //OPENE2140_WINDOW_H

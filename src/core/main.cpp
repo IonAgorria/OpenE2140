@@ -51,8 +51,8 @@ int main(int argc, char** argv) {
                 log->info("DIR {0}", (bool) manager.getAsset("PIRO/GRAPH/SHCKV00.PAL"));;
                 log->info("WD {0}", (bool) manager.getAsset("MIX/GRAPH/DATAB.MIX"));
                 log->info("MISSING {0}", (bool) manager.getAsset("LEVEL/NEW"));
-                Rectangle rectangle(0, 0, 40, 40);
-                Rectangle rectangleDst(50, 50, 1000, 1000);
+                Rectangle rectangle(0, 0, 10, 10);
+                Rectangle rectangleDst(0, 0, 200, 200);
                 Image image(window.createTexture(rectangle.w, rectangle.h), rectangle);
                 auto buffer = Utils::createBuffer(static_cast<const size_t>(rectangle.w * rectangle.h * 4));
                 for (int i = 0; i < rectangle.w * rectangle.h * 4;) {
@@ -73,11 +73,26 @@ int main(int argc, char** argv) {
                         switch (event.type) {
                             case SDL_MOUSEBUTTONDOWN:
                             case SDL_MOUSEBUTTONUP:
-                                log->debug("Mouse: {0}", event.button.button);
+                                log->debug("Mouse button: {0}", event.button.button);
+                                break;
+                            case SDL_MOUSEMOTION:
+                                rectangleDst.x = event.motion.x;
+                                rectangleDst.y = event.motion.y;
+                                log->debug("Mouse motion: {0}x{1}", event.motion.x, event.motion.y);
                                 break;
                             case SDL_KEYDOWN:
                             case SDL_KEYUP:
                                 log->debug("Key: {0}", event.key.keysym.scancode);
+                                break;
+                            case SDL_WINDOWEVENT:
+                                switch (event.window.event) {
+                                    case SDL_WINDOWEVENT_RESIZED:
+                                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                                        window.resize(event.window.data1, event.window.data2);
+                                        break;
+                                    default:
+                                        break;
+                                }
                                 break;
                             case SDL_QUIT:
                                 quit = true;

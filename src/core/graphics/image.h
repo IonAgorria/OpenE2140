@@ -33,7 +33,7 @@ public:
     /**
      * Constructor for image
      */
-    Image(texture_ptr texture, Rectangle& rectangle);
+    Image(texture_ptr texture, const Rectangle& rectangle);
 
     /**
      * Image destructor

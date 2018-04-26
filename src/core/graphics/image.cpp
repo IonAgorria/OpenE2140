@@ -6,7 +6,7 @@
 #include "core/utils.h"
 #include "image.h"
 
-Image::Image(texture_ptr texture, Rectangle& rectangle) : texture(texture), rectangle(rectangle) {
+Image::Image(texture_ptr texture, const Rectangle& rectangle) : texture(texture), rectangle(rectangle) {
 }
 
 Image::operator bool() {

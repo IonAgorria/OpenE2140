@@ -4,7 +4,6 @@
 #ifndef OPENE2140_IMAGE_H
 #define OPENE2140_IMAGE_H
 
-
 #include "core/config.h"
 #include "core/errorpossible.h"
 #include "core/math/rectangle.h"
@@ -74,6 +73,16 @@ public:
      * @return if success
      */
     bool loadFromRGB565(const log_ptr log, const byte* pixels);
+
+    /**
+     * Loads image data to texture using pixels in RGB888 format.
+     * Pixels array must match rectangle of image.
+     *
+     * @param log to use
+     * @param pixels to fill the rectangle
+     * @return if success
+     */
+    bool loadFromRGB888(const log_ptr log, const byte* pixels);
 
     /**
      * Loads image data to texture using pixels in RGB8888 format.

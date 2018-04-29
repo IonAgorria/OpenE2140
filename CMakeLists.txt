@@ -36,7 +36,8 @@ set(SOURCE_FILES
         src/core/io/file.cpp
         src/assets/asset.cpp
         src/assets/manager.cpp
-#        src/assets/assetimage.cpp
+        src/assets/assetimage.cpp
+        src/assets/assetpalette.cpp
         )
 
 # Load SDL2

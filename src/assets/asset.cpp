@@ -25,12 +25,6 @@ const std::string& Asset::getPath() {
     return path;
 }
 
-std::string Asset::getError() {
-    std::string copy = error;
-    error = "";
-    return copy;
-}
-
 long Asset::tell() {
     return position;
 }

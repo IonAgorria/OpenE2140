@@ -68,11 +68,6 @@ public:
     const std::string& getPath();
 
     /**
-     * @return the last occurred error and clears it
-     */
-    std::string getError();
-
-    /**
      * Get's the current asset seeking position
      *
      * @return position

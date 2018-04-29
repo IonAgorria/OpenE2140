@@ -30,7 +30,8 @@ bool Image::loadFromRGB565(const log_ptr log, const byte* pixels) {
         log->error("Error loading image, texture not available");
         return false;
     }
-    //Create buffer for converted pixels
+
+    //Create buffer for converted pixels and do conversion
     std::unique_ptr<byteArray> converted = Utils::createBuffer(
             static_cast<const size_t>(rectangle.w * rectangle.h * 4)
     );
@@ -43,10 +44,18 @@ bool Image::loadFromRGB565(const log_ptr log, const byte* pixels) {
         log->error("Error converting RGB565 {0}", Utils::checkSDLError());
         return false;
     }
+
+    //Load converted data and return result
     return loadFromRGBA8888(std::move(log), converted.get());
 }
 
 bool Image::loadFromRGBA8888(const log_ptr log, const byte* pixels) {
+    if (!texture) {
+        log->error("Error loading image, texture not available");
+        return false;
+    }
+
+    //Load data to texture
     if (SDL_UpdateTexture(texture.get(), NULL, pixels, rectangle.w * 4) != 0) {
         log->error("Couldn't update texture {0}", Utils::checkSDLError());
         return false;

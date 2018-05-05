@@ -3,11 +3,12 @@
 //
 #include "assetimage.h"
 
-AssetImage::AssetImage(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
-        Asset(path, file, fileOffset, fileSize) {
-}
-
-AssetImage::AssetImage(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
                        const std::shared_ptr<AssetPalette> palette) :
         Asset(path, file, fileOffset, fileSize), palette(palette) {
+}
+
+AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
+        AssetImage(path, file, fileOffset, fileSize, nullptr) {
+    palette.get();
 }

@@ -18,16 +18,6 @@ class AssetImage : public Asset {
 
 public:
     /**
-     * Constructor for 16 bit image
-     *
-     * @param path where this asset is located
-     * @param file to use when accessing data
-     * @param fileOffset where asset data start in file
-     * @param fileSize of asset data in file, 0 for unknown/until end
-     */
-    AssetImage(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
-
-    /**
      * Constructor for 8 bit palette indexed image
      *
      * @param path where this asset is located
@@ -36,7 +26,17 @@ public:
      * @param fileSize of asset data in file, 0 for unknown/until end
      * @param palette to use when decoding image data
      */
-    AssetImage(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize, const std::shared_ptr<AssetPalette> palette);
+    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize, const std::shared_ptr<AssetPalette> palette);
+
+    /**
+     * Constructor for 16 bit image
+     *
+     * @param path where this asset is located
+     * @param file to use when accessing data
+     * @param fileOffset where asset data start in file
+     * @param fileSize of asset data in file, 0 for unknown/until end
+     */
+    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 };
 
 #endif //OPENE2140_ASSETIMAGE_H

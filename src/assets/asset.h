@@ -7,6 +7,8 @@
 #include "core/io/file.h"
 #include "core/errorpossible.h"
 
+using asset_path = std::string;
+
 /**
  * Base asset containing any data for game
  */
@@ -15,7 +17,7 @@ private:
     /**
      * Path of this assets inside of container
      */
-    const std::string path;
+    asset_path path;
 
     /**
      * Pointer for file containing data
@@ -36,11 +38,6 @@ private:
      * Current asset position reading the file
      */
     long position;
-
-    /**
-     * Last occurred error
-     */
-    std::string error;
 public:
     /**
      * Asset constructor from a file
@@ -50,7 +47,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    Asset(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    Asset(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Asset destructor
@@ -65,7 +62,7 @@ public:
     /**
      * @return this asset path
      */
-    const std::string& getPath();
+    const asset_path& getPath();
 
     /**
      * Get's the current asset seeking position

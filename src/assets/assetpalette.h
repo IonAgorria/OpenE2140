@@ -31,7 +31,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    AssetPalette(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Gets the color value at index in this palette

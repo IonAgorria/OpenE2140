@@ -3,11 +3,17 @@
 //
 #include "assetpalette.h"
 
-AssetPalette::AssetPalette(const std::string& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
+AssetPalette::AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
         Asset(path, file, fileOffset, fileSize) {
 }
 
 long AssetPalette::getColor(int index, AssetPalette::Color& color) {
+    //Check index
+    if (0 > index || index >= PALETTE_COUNT) {
+        error = "Index out of bounds: " + std::to_string(index);
+        return -1;
+    }
+
     //Lookup the color
     const size_t amount = sizeof(Color);
     long pos = seek(index * amount, true);

@@ -20,9 +20,9 @@ private:
     log_ptr log;
 
     /**
-     * Contains all assets in this container
+     * Contains all assets in this manager
      */
-    std::unordered_map<std::string, std::shared_ptr<Asset>> assets;
+    std::unordered_map<asset_path, std::shared_ptr<Asset>> assets;
 
     /**
      * Number of assets loaded
@@ -30,7 +30,7 @@ private:
     int assetsCount;
 
     /**
-     * Adds asset to container in specified path
+     * Adds asset to manager in specified path
      *
      * @param asset to add
      * @return true if added or false if asset exists on same path
@@ -69,7 +69,7 @@ public:
      *
      * @return asset
      */
-    std::shared_ptr<Asset> getAsset(const std::string& path);
+    std::shared_ptr<Asset> getAsset(const asset_path& path);
 
     /**
      * @return the count of assets loaded

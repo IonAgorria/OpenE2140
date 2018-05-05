@@ -25,7 +25,7 @@ bool Manager::addAsset(std::shared_ptr<Asset> asset) {
     return true;
 }
 
-std::shared_ptr<Asset> Manager::getAsset(const std::string& path) {
+std::shared_ptr<Asset> Manager::getAsset(const asset_path& path) {
     return assets[path];
 }
 

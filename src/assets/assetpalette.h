@@ -40,7 +40,7 @@ public:
      * @param color struct to fill
      * @return 0 or less if error, color position if OK
      */
-    long AssetPalette::getColor(int index, AssetPalette::Color& color);
+    long getColor(int index, AssetPalette::Color& color);
 };
 
 #endif //OPENE2140_ASSETPALETTE_H

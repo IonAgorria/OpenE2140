@@ -29,6 +29,10 @@ std::shared_ptr<Asset> Manager::getAsset(const asset_path& path) {
     return assets[path];
 }
 
+int Manager::getAssetsCount() {
+    return assetsCount;
+}
+
 void Manager::clearAssets() {
     //Delete all stored assets
     assets.clear();

@@ -74,9 +74,7 @@ public:
     /**
      * @return the count of assets loaded
      */
-    int getAssetsCount() {
-        return assetsCount;
-    }
+    int getAssetsCount();
 
     /**
      * Clears all loaded assets from manager

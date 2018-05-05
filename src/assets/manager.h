@@ -38,6 +38,15 @@ private:
     bool addAsset(std::shared_ptr<Asset> asset);
 
     /**
+     * Removes asset from manager in specified path
+     *
+     * @param asset to remove
+     * @return true if removed
+     */
+public:
+    bool removeAsset(const asset_path& path);
+
+    /**
      * Each WD container file record struct
      */
     typedef struct {

@@ -18,10 +18,19 @@ Manager::~Manager() {
 bool Manager::addAsset(std::shared_ptr<Asset> asset) {
     const std::string& path = asset->getPath();
     if (assets[path]) {
-        log->warn("Asset already exists: '{0}'", path);
+        log->warn("Asset already present: '{0}'", path);
         return false;
     }
     assets[path] = asset;
+    return true;
+}
+
+bool Manager::removeAsset(const asset_path& path) {
+    if (assets.erase(path) == 0) {
+        log->warn("Asset is not present: '{0}'", path);
+        return false;
+    }
+
     return true;
 }
 

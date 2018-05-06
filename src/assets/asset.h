@@ -17,7 +17,7 @@ private:
     /**
      * Path of this assets inside of container
      */
-    asset_path path;
+    const asset_path path;
 
     /**
      * Pointer for file containing data
@@ -38,6 +38,7 @@ private:
      * Current asset position reading the file
      */
     long position;
+
 public:
     /**
      * Asset constructor from a file
@@ -45,7 +46,7 @@ public:
      * @param path where this asset is located
      * @param file to use when accessing data
      * @param fileOffset where asset data start in file
-     * @param fileSize of asset data in file, 0 for unknown/until end
+     * @param fileSize of asset data in file, 0<= for unknown/until end
      */
     Asset(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
@@ -62,14 +63,24 @@ public:
     /**
      * @return this asset path
      */
-    const asset_path& getPath();
+    const asset_path& getPath() const;
+
+    /**
+     * @return this asset file
+     */
+    const std::shared_ptr<File> getFile() const;
+
+    /**
+     * @return this asset file offset
+     */
+    long offset() const;
 
     /**
      * Get's the current asset seeking position
      *
      * @return position
      */
-    long tell();
+    long tell() const;
 
     /**
      * Seeks the asset position
@@ -85,7 +96,7 @@ public:
      *
      * @return file size or -1 if unknown or error occurred
      */
-    long size();
+    long size() const;
 
     /**
      * Reads file data to provided buffer

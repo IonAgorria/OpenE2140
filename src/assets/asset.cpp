@@ -21,11 +21,19 @@ Asset::Asset(const asset_path& path, const std::shared_ptr<File> file, long file
     }
 }
 
-const asset_path& Asset::getPath() {
+const asset_path& Asset::getPath() const {
     return path;
 }
 
-long Asset::tell() {
+const std::shared_ptr<File> Asset::getFile() const {
+    return file;
+}
+
+long Asset::offset() const {
+    return fileOffset;
+}
+
+long Asset::tell() const {
     return position;
 }
 
@@ -45,7 +53,7 @@ long Asset::seek(long offset, bool set) {
     }
 }
 
-long Asset::size() {
+long Asset::size() const {
     return fileSize;
 }
 

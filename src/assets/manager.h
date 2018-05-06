@@ -43,8 +43,34 @@ private:
      * @param asset to remove
      * @return true if removed
      */
-public:
     bool removeAsset(const asset_path& path);
+
+    /**
+     * Scans a container which contains assets to get the contents (folder or mapped file with paths)
+     *
+     * @param path of containers root
+     * @param name of container
+     * @return true if succeeded
+     */
+    bool scanContainer(const std::string& path, const std::string& name);
+
+    /**
+     * Scans assets from WD file container and stores in manager
+     *
+     * @param path to use as assets root
+     * @param name of container
+     * @return amount of loaded assets or -1 if error occurred
+     */
+    int scanContainerWD(const std::string& path, const std::string& name);
+
+    /**
+     * Scans assets from directory container and stores in manager
+     *
+     * @param path to use as assets root
+     * @param name of container
+     * @return amount of loaded assets or -1 if error occurred
+     */
+    int scanContainerDir(const std::string& path, const std::string& name);
 
     /**
      * Each WD container file record struct
@@ -91,38 +117,11 @@ public:
     void clearAssets();
 
     /**
-     * Loads containers required by this game
+     * Initializes manager
      *
      * @return true if success
      */
-    bool loadContainers();
-
-    /**
-     * Loads a container which contains assets to get the contents (folder or mapped file with paths)
-     *
-     * @param path of containers root
-     * @param name of container
-     * @return type of container used or empty if none
-     */
-    bool loadContainer(const std::string& path, const std::string& name);
-
-    /**
-     * Load assets from WD file container and stores in manager
-     *
-     * @param path to use as assets root
-     * @param name of container
-     * @return amount of loaded assets or -1 if error occurred
-     */
-    int loadContainerWD(const std::string& path, const std::string& name);
-
-    /**
-     * Load assets from directory container and stores in manager
-     *
-     * @param path to use as assets root
-     * @param name of container
-     * @return amount of loaded assets or -1 if error occurred
-     */
-    int loadContainerDir(const std::string& path, const std::string& name);
+    bool initManager();
 };
 
 #endif //OPENE2140_LOADER_H

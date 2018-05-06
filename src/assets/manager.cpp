@@ -22,6 +22,7 @@ bool Manager::addAsset(std::shared_ptr<Asset> asset) {
         return false;
     }
     assets[path] = asset;
+    assetsCount++;
     return true;
 }
 
@@ -30,7 +31,7 @@ bool Manager::removeAsset(const asset_path& path) {
         log->warn("Asset is not present: '{0}'", path);
         return false;
     }
-
+    assetsCount--;
     return true;
 }
 
@@ -48,38 +49,42 @@ void Manager::clearAssets() {
     assetsCount = 0;
 }
 
-
-bool Manager::loadContainers() {
+bool Manager::initManager() {
+    //Scan assets from containers
     for (std::string name : GAME_ASSETS_NAMES) {
-        if (!loadContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP, name)) {
+        if (!scanContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP, name)) {
             return false;
         }
     }
-    log->debug("Loaded {0} assets", assetsCount);
+
+    //Scan intermediate assets
+    if (!scanIntermediates()) {
+        return false;
+    }
+
+    log->debug("Manager has {0} assets", assetsCount);
     return true;
 }
 
-bool Manager::loadContainer(const std::string& path, const std::string& name) {
+bool Manager::scanContainer(const std::string& path, const std::string& name) {
     log->debug("Loading '{0}'", name);
     std::string type = "";
 
     //Try to load it as dir
-    int count = loadContainerDir(path, name);
+    int count = scanContainerDir(path, name);
     if (0 <= count) {
         type = "Directory";
     } else {
         //Try to load it as WD
-        count = loadContainerWD(path, name);
+        count = scanContainerWD(path, name);
         if (0 <= count) {
             type = "WD file";
         }
     }
 
-
     //If loaded then save it
     if (0 <= count) {
-        assetsCount += count;
-        log->debug("Loaded '{0}' with {1} assets as '{2}'", name, count, type);
+        log->debug("Loaded '{0}' as {1} with {2} assets totalling {3}", name, type, count, assetsCount);
         return true;
     } else {
         log->error("Error loading: {0}", name);
@@ -87,7 +92,7 @@ bool Manager::loadContainer(const std::string& path, const std::string& name) {
     }
 }
 
-int Manager::loadContainerWD(const std::string& path, const std::string& name) {
+int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     //Create file to be common between assets created from this container file
     std::shared_ptr<File> file = std::make_shared<File>();
     if (!file->fromPath(path + name + ".WD")) {
@@ -181,7 +186,7 @@ int Manager::loadContainerWD(const std::string& path, const std::string& name) {
     return count;
 }
 
-int Manager::loadContainerDir(const std::string& path, const std::string& name) {
+int Manager::scanContainerDir(const std::string& path, const std::string& name) {
     //Set first dir
     std::list<std::string> paths;
     paths.push_back(name);

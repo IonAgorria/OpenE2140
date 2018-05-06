@@ -80,9 +80,10 @@ bool Utils::getStackTrace(std::list<std::string>& lines) {
 
         //Pull the stacktrace info
         std::string line = boost::stacktrace::detail::to_string(&st.as_vector()[i], 1);
-        if (!line.empty()) {
+        std::string::size_type size = line.size();
+        if (10 <= size) {
             //Remove the start number and end newline
-            line = line.substr(4, line.size() - 5);
+            line = line.substr(4, size - 5);
             lines.push_back(line);
         }
     }
@@ -323,6 +324,43 @@ const std::string& Utils::getUserPath() {
     return *userPath;
 }
 
+std::string Utils::toUpper(const std::string& text) {
+    std::string result(text);
+    std::string::size_type size = text.size();
+    for (unsigned int pos = 0; pos < size; ++pos) {
+        if (islower((unsigned char) text[pos])) {
+            result[pos] = static_cast<char>(toupper(text[pos]));
+        }
+    }
+    return result;
+}
+
+std::string Utils::toLower(const std::string& text) {
+    std::string result(text);
+    std::string::size_type size = text.size();
+    for (unsigned int pos = 0; pos < size; ++pos) {
+        if (isupper((unsigned char) text[pos])) {
+            result[pos] = static_cast<char>(tolower(text[pos]));
+        }
+    }
+    return result;
+}
+
+std::string Utils::toInternalPath(const std::string& path) {
+    std::string result(path);
+    std::string::size_type size = path.size();
+    for (unsigned int pos = 0; pos < size; ++pos) {
+        if (path[pos] == '\\') {
+            result[pos] = '/';
+        }
+    }
+    return result;
+}
+
+std::unique_ptr<byteArray> Utils::createBuffer(const size_t size) {
+    return std::move(std::make_unique<byteArray>(size));
+}
+
 bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths) {
 #if HAS_BOOST
     using namespace boost::filesystem;
@@ -341,41 +379,4 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
 #else
     return false; //No implementation
 #endif
-}
-
-std::string Utils::toUpper(const std::string text) {
-    std::string result(text);
-    std::string::size_type size = text.size();
-    for (unsigned int pos = 0; pos < size; ++pos) {
-        if (islower((unsigned char) text[pos])) {
-            result[pos] = static_cast<char>(toupper(text[pos]));
-        }
-    }
-    return result;
-}
-
-std::string Utils::toLower(const std::string text) {
-    std::string result(text);
-    std::string::size_type size = text.size();
-    for (unsigned int pos = 0; pos < size; ++pos) {
-        if (isupper((unsigned char) text[pos])) {
-            result[pos] = static_cast<char>(tolower(text[pos]));
-        }
-    }
-    return result;
-}
-
-std::string Utils::toInternalPath(const std::string path) {
-    std::string result(path);
-    std::string::size_type size = path.size();
-    for (unsigned int pos = 0; pos < size; ++pos) {
-        if (path[pos] == '\\') {
-            result[pos] = '/';
-        }
-    }
-    return result;
-}
-
-std::unique_ptr<byteArray> Utils::createBuffer(const size_t size) {
-    return std::move(std::make_unique<byteArray>(size));
 }

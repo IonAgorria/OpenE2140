@@ -180,21 +180,12 @@ public:
     static const std::string& getUserPath();
 
     /**
-     * Lists all content of specified path and stores on provided list
-     *
-     * @param dirPath to list
-     * @param callback when a name is found
-     * @return if success
-     */
-    static bool listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths);
-
-    /**
      * Converts text uppercase
      *
      * @param text to change
      * @return uppercase text
      */
-    static std::string toUpper(const std::string text);
+    static std::string toUpper(const std::string& text);
 
     /**
      * Converts text lowercase
@@ -202,7 +193,7 @@ public:
      * @param text to change
      * @return lowercase text
      */
-    static std::string toLower(const std::string text);
+    static std::string toLower(const std::string& text);
 
     /**
      * Converts path to internal format for unique identification
@@ -210,7 +201,7 @@ public:
      * @param path to change
      * @return internal path
      */
-    static std::string toInternalPath(const std::string path);
+    static std::string toInternalPath(const std::string& path);
 
     /**
      * Creates a buffer in memory with specified size
@@ -219,6 +210,15 @@ public:
      * @return unique pointer of buffer
      */
     static std::unique_ptr<byteArray> createBuffer(const size_t size);
+
+    /**
+     * Lists all content of specified path and stores on provided list
+     *
+     * @param dirPath to list
+     * @param callback when a name is found
+     * @return if success
+     */
+    static bool listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths);
 };
 
 #endif //OPENE2140_UTILS_H

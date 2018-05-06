@@ -73,6 +73,21 @@ private:
     int scanContainerDir(const std::string& path, const std::string& name);
 
     /**
+     * Processes intermediate assets if they can be converted to different assets
+     *
+     * @return true if succeeded
+     */
+    bool processsIntermediates();
+
+    /**
+     * Processes the content of a MIX asset for more assets
+     *
+     * @param path containing MIX asset
+     * @return true if succeeded
+     */
+    bool processsIntermediateMIX(const asset_path& path);
+
+    /**
      * Each WD container file record struct
      */
     typedef struct {
@@ -83,6 +98,7 @@ private:
         unsigned int checkSum;
         unsigned int nameOffset;
     } FileRecord;
+
 public:
     /**
      * Constructs loader

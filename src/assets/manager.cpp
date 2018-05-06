@@ -5,6 +5,9 @@
 #include "core/utils.h"
 #include "core/io/log.h"
 #include "manager.h"
+#include "assetpalette.h"
+#include "assetimage.h"
+#include <forward_list>
 
 Manager::Manager() {
     log = Log::get("Assets");
@@ -58,9 +61,14 @@ bool Manager::initManager() {
     }
 
     //Scan intermediate assets
-    if (!scanIntermediates()) {
+    long oldAssetsCount = assetsCount;
+    if (!processsIntermediates()) {
         return false;
     }
+    log->debug("Processed intermediate assets {0} => {1}", oldAssetsCount, assetsCount);
+
+    //Print loaded assets
+    for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
 
     log->debug("Manager has {0} assets", assetsCount);
     return true;
@@ -227,4 +235,72 @@ int Manager::scanContainerDir(const std::string& path, const std::string& name) 
     }
 
     return count;
+}
+
+bool Manager::processsIntermediates() {
+    //Cached assets
+    std::unordered_map<asset_path, std::shared_ptr<AssetPalette>> palettes;
+    std::forward_list<asset_path> images;
+
+    //Iterate all assets
+    for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
+        //Get the "extension" of asset
+        asset_path assetPath = pair.first;
+        std::string::size_type size = assetPath.size();
+        if (4 > size) {
+            continue;
+        }
+        std::string ext = assetPath.substr(size - 4, 4);
+
+        //Handle special extensions
+        std::shared_ptr<Asset> asset = pair.second;
+        if (ext == ".PAL") {
+            //Create palette asset and store it
+            std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
+                    assetPath, asset->getFile(), asset->offset(), asset->size()
+            );
+            palettes[assetPath] = assetPalette;
+        } else if (ext == ".DAT") {
+            //Store asset path for later
+            images.push_front(assetPath);
+        }
+    }
+
+    //Iterate images - palette map
+    for (asset_path assetPath : images) {
+        //Get the asset
+        std::string::size_type size = assetPath.size();
+        asset_path imagePath = assetPath.substr(0, size - 4);
+        std::shared_ptr<Asset> asset = getAsset(assetPath);
+
+        //Check if there is palette asset under same name
+        asset_path palettePath = imagePath + ".PAL";
+        std::shared_ptr<AssetPalette> assetPalette = palettes[palettePath];
+        if (!assetPalette) {
+            log->warn("{0} doesn't have palette counterpart", assetPath);
+            continue;
+        }
+
+        //Create image asset and store it
+        std::shared_ptr<AssetImage> assetImage = std::make_shared<AssetImage>(
+                imagePath, asset->getFile(), asset->offset(), asset->size(), assetPalette
+        );
+        if (!addAsset(assetImage)) {
+            return false;
+        }
+
+        //Remove the old assets
+        if (!removeAsset(assetPath)) {
+            return false;
+        }
+        if (!removeAsset(palettePath)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Manager::processsIntermediateMIX(const asset_path& path) {
+    return true;
 }

@@ -10,5 +10,4 @@ AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file,
 
 AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
         AssetImage(path, file, fileOffset, fileSize, nullptr) {
-    palette.get();
 }

@@ -61,14 +61,12 @@ bool Manager::initManager() {
     }
 
     //Scan intermediate assets
-    long oldAssetsCount = assetsCount;
     if (!processsIntermediates()) {
         return false;
     }
-    log->debug("Processed intermediate assets {0} => {1}", oldAssetsCount, assetsCount);
 
     //Print loaded assets
-    for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
+    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
 
     log->debug("Manager has {0} assets", assetsCount);
     return true;
@@ -120,7 +118,7 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
 
     //We want to get names block before iterating records so jump to name block size
     long recordsBlockOffset = file->tell();
-    size_t recordSize = sizeof(FileRecord);
+    size_t recordSize = sizeof(WDFileRecord);
     file->seek(recordSize * recordCount);
 
     //Read names block size
@@ -150,7 +148,7 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     file->seek(recordsBlockOffset, true);
     for (unsigned int recordIndex = 0; recordIndex < recordCount; ++recordIndex) {
         //Pass the record to fill it
-        FileRecord record;
+        WDFileRecord record;
         amount = file->read(&record, recordSize);
         error = file->getError();
         if (amount != recordSize || !error.empty()) {
@@ -238,9 +236,14 @@ int Manager::scanContainerDir(const std::string& path, const std::string& name) 
 }
 
 bool Manager::processsIntermediates() {
+    //Counters
+    long addedAssets = 0;
+    long removedAssets = 0;
+
     //Cached assets
-    std::unordered_map<asset_path, std::shared_ptr<AssetPalette>> palettes;
-    std::forward_list<asset_path> images;
+    std::unordered_map<asset_path, std::shared_ptr<AssetPalette>> assetPalettes;
+    std::forward_list<asset_path> image_paths;
+    std::forward_list<asset_path> mix_paths;
 
     //Iterate all assets
     for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
@@ -259,15 +262,37 @@ bool Manager::processsIntermediates() {
             std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
                     assetPath, asset->getFile(), asset->offset(), asset->size()
             );
-            palettes[assetPath] = assetPalette;
+            assetPalettes[assetPath] = assetPalette;
         } else if (ext == ".DAT") {
             //Store asset path for later
-            images.push_front(assetPath);
+            image_paths.push_front(assetPath);
+        } else if (ext == ".MIX") {
+            //Check if it's not a special file
+            bool isMixMax = assetPath.find("MIXMAX") != std::string::npos;
+            if (!isMixMax) {
+                //Store asset path for later
+                mix_paths.push_front(assetPath);
+            }
         }
     }
 
-    //Iterate images - palette map
-    for (asset_path assetPath : images) {
+    //Iterate mix paths
+    for (asset_path assetPath : mix_paths) {
+        int count = processsIntermediateMIX(assetPath);
+        if (count < 0) {
+            continue;
+        }
+        addedAssets += count;
+
+        //Remove the old asset
+        if (!removeAsset(assetPath)) {
+            return false;
+        }
+        removedAssets++;
+    }
+
+    //Iterate images paths
+    for (asset_path assetPath : image_paths) {
         //Get the asset
         std::string::size_type size = assetPath.size();
         asset_path imagePath = assetPath.substr(0, size - 4);
@@ -275,7 +300,7 @@ bool Manager::processsIntermediates() {
 
         //Check if there is palette asset under same name
         asset_path palettePath = imagePath + ".PAL";
-        std::shared_ptr<AssetPalette> assetPalette = palettes[palettePath];
+        std::shared_ptr<AssetPalette> assetPalette = assetPalettes[palettePath];
         if (!assetPalette) {
             log->warn("{0} doesn't have palette counterpart", assetPath);
             continue;
@@ -288,19 +313,104 @@ bool Manager::processsIntermediates() {
         if (!addAsset(assetImage)) {
             return false;
         }
+        addedAssets++;
 
         //Remove the old assets
-        if (!removeAsset(assetPath)) {
+        if (!removeAsset(assetPath) || !removeAsset(palettePath)) {
             return false;
         }
-        if (!removeAsset(palettePath)) {
-            return false;
-        }
+        removedAssets += 2;
     }
 
+    log->debug("Processed intermediate assets: added {0} removed {1}", addedAssets, removedAssets);
     return true;
 }
 
-bool Manager::processsIntermediateMIX(const asset_path& path) {
-    return true;
+int Manager::processsIntermediateMIX(const asset_path& path) {
+    std::shared_ptr<Asset> asset = getAsset(path);
+    asset_path basePath = path.substr(0, path.size() - 4);
+
+    //Verify constant
+    bool match = asset->match("MIX FILE  ");
+    std::string error = asset->getError();
+    if (!match || !error.empty()) {
+        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        return -1;
+    }
+
+    //Pass the header to fill it
+    MIXHeader header;
+    size_t readSize = sizeof(MIXHeader);
+    size_t amount = asset->read(&header, readSize);
+    error = asset->getError();
+    if (amount != readSize || !error.empty()) {
+        log->error("Error reading '{0}' MIX header {1}", path, error);
+        return -1;
+    }
+
+    //Verify constant
+    match = asset->match("ENTRY");
+    error = asset->getError();
+    if (!match || !error.empty()) {
+        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        return -1;
+    }
+
+    //Read the stream positions
+    std::vector<unsigned int> streamPositions;
+    for (unsigned int i = 0; i < header.streamsCount; ++i) {
+        unsigned int streamEntry;
+        amount = asset->read(&streamEntry, sizeof(unsigned int));
+        error = asset->getError();
+        if (amount != sizeof(unsigned int) || !error.empty()) {
+            log->error("Error reading '{0}' MIX stream {1} position {2}", path, i, error);
+            return -1;
+        }
+        streamPositions.push_back(header.streamsOffset + streamEntry);
+    }
+
+    //Verify constant
+    match = asset->match(" PAL ");
+    error = asset->getError();
+    if (!match || !error.empty()) {
+        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        return -1;
+    }
+
+    //Read palettes
+    std::vector<std::shared_ptr<AssetPalette>> palettes;
+    size_t paletteSize = PALETTE_SIZE;
+    for (unsigned int i = 0; i < header.palettesCount; ++i) {
+        //Create palette from MIX, path is not really used but it's nice to have
+        asset_path palettePath = basePath + "/" + std::to_string(i) + ".PAL";
+        std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
+                palettePath, asset->getFile(), asset->tell(), paletteSize
+        );
+        long result = asset->seek(paletteSize);
+        error = asset->getError();
+        if (result < 0 || !error.empty()) {
+            log->error("Error reading '{0}' MIX palette {1} when seeking {2}", path, i, error);
+            return -1;
+        }
+        //log->debug("{0}", assetPalette->toString());
+        palettes.push_back(assetPalette);
+    }
+
+    //Verify constant
+    match = asset->match("DATA ");
+    error = asset->getError();
+    if (!match || !error.empty()) {
+        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        return -1;
+    }
+
+    //Read streams
+    for (unsigned int i = 0; i < streamPositions.size(); ++i) {
+        log->debug("{0} {1} {2}", path, i, streamPositions[i]);
+        //TODO
+    }
+
+    int addedAssets = 0;
+
+    return addedAssets;
 }

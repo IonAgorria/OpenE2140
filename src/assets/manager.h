@@ -83,9 +83,9 @@ private:
      * Processes the content of a MIX asset for more assets
      *
      * @param path containing MIX asset
-     * @return true if succeeded
+     * @return amount of added assets or -1 if error
      */
-    bool processsIntermediateMIX(const asset_path& path);
+    int processsIntermediateMIX(const asset_path& path);
 
     /**
      * Each WD container file record struct
@@ -97,7 +97,19 @@ private:
         unsigned int unused2;
         unsigned int checkSum;
         unsigned int nameOffset;
-    } FileRecord;
+    } WDFileRecord;
+
+    /**
+     * MIX file header struct
+     */
+    typedef struct {
+        unsigned int unused;
+        unsigned int streamsCount;
+        unsigned int streamsOffset;
+        unsigned int palettesCount;
+        unsigned int palettesFirstIndex;
+        unsigned int palettesOffset;
+    } MIXHeader;
 
 public:
     /**

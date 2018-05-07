@@ -106,6 +106,14 @@ public:
      * @return read amount or 0 if reached end or error occurred
      */
     size_t read(void* buffer, size_t amount);
+
+    /**
+     * Checks if next data to read matches the provided string
+     *
+     * @param string to check
+     * @return true if matches
+     */
+     bool match(const std::string& string);
 };
 
 #endif //OPENE2140_ASSET_H

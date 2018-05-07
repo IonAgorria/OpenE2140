@@ -6,6 +6,7 @@
 
 /** Size of each palette in color count */
 #define PALETTE_COUNT 256
+#define PALETTE_SIZE PALETTE_COUNT * sizeof(AssetPalette::Color)
 
 #include "asset.h"
 
@@ -41,6 +42,11 @@ public:
      * @return 0 or less if error, color position if OK
      */
     long getColor(int index, AssetPalette::Color& color);
+
+    /**
+     * @return string version of this asset
+     */
+    std::string toString() override;
 };
 
 #endif //OPENE2140_ASSETPALETTE_H

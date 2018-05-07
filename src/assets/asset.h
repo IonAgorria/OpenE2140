@@ -114,6 +114,16 @@ public:
      * @return true if matches
      */
      bool match(const std::string& string);
+
+    /**
+    * @return string version of this asset
+    */
+    virtual std::string toString();
+
+     /**
+     * @return string content of this asset
+     */
+     virtual std::string toStringContent();
 };
 
 #endif //OPENE2140_ASSET_H

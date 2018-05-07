@@ -105,3 +105,15 @@ bool Asset::match(const std::string& string) {
     }
     return true;
 }
+
+std::string Asset::toString() {
+    return "Asset(" + toStringContent() + ")";
+}
+
+std::string Asset::toStringContent() {
+    return " Path: " + path
+         + " Offset: " + std::to_string(fileOffset)
+         + " Size: " + std::to_string(fileSize)
+         + " Position: " + std::to_string(position)
+        ;
+}

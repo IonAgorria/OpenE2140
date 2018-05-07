@@ -27,3 +27,7 @@ long AssetPalette::getColor(int index, AssetPalette::Color& color) {
     //Return result
     return pos;
 }
+
+std::string AssetPalette::toString() {
+    return "AssetPalette(" + toStringContent() + ")";
+}

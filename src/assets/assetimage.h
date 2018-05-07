@@ -37,6 +37,16 @@ public:
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
     AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+
+    /**
+     * @return string version of this asset
+     */
+    std::string toString() override;
+
+    /**
+    * @return string content of this asset
+    */
+    std::string toStringContent() override;
 };
 
 #endif //OPENE2140_ASSETIMAGE_H

@@ -85,7 +85,7 @@ private:
      * @param path containing MIX asset
      * @return amount of added assets or -1 if error
      */
-    int processsIntermediateMIX(const asset_path& path);
+    int processIntermediateMIX(const asset_path& path);
 
     /**
      * Each WD container file record struct

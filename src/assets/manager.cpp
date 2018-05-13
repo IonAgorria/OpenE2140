@@ -278,8 +278,8 @@ bool Manager::processsIntermediates() {
 
     //Iterate mix paths
     for (asset_path assetPath : mix_paths) {
-        int count = processsIntermediateMIX(assetPath);
         if (count < 0) {
+        int count = processIntermediateMIX(assetPath);
             continue;
         }
         addedAssets += count;
@@ -326,7 +326,7 @@ bool Manager::processsIntermediates() {
     return true;
 }
 
-int Manager::processsIntermediateMIX(const asset_path& path) {
+int Manager::processIntermediateMIX(const asset_path& path) {
     std::shared_ptr<Asset> asset = getAsset(path);
     asset_path basePath = path.substr(0, path.size() - 4);
 

@@ -312,9 +312,20 @@ bool Manager::processsIntermediates() {
             continue;
         }
 
+        //Pass the image size struct to fill it
+        ImageSize imageSizeStruct;
+        size_t readSize = sizeof(imageSizeStruct);
+        size_t amount = asset->read(&imageSizeStruct, readSize);
+        std::string error = asset->getError();
+        if (amount != readSize || !error.empty()) {
+            log->error("{0} image size {1}", assetPath, error);
+            return -1;
+        }
+        Vector2 imageSize(imageSizeStruct.width, imageSizeStruct.height);
+
         //Create image asset and store it
         std::shared_ptr<AssetImage> assetImage = std::make_shared<AssetImage>(
-                imagePath, asset->getFile(), asset->offset(), asset->size(), assetPalette
+                imagePath, asset->getFile(), asset->offset(), asset->size(), imageSize, assetPalette
         );
         if (!addAsset(assetImage)) {
             return false;
@@ -335,6 +346,7 @@ bool Manager::processsIntermediates() {
 int Manager::processIntermediateMIX(const asset_path& path) {
     std::shared_ptr<Asset> asset = getAsset(path);
     asset_path basePath = path.substr(0, path.size() - 4);
+    int addedAssets = 0;
 
     //Verify constant
     bool match = asset->match("MIX FILE  ");
@@ -346,7 +358,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
     //Pass the header to fill it
     MIXHeader header;
-    size_t readSize = sizeof(MIXHeader);
+    size_t readSize = sizeof(header);
     size_t amount = asset->read(&header, readSize);
     error = asset->getError();
     if (amount != readSize || !error.empty()) {
@@ -364,11 +376,12 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
     //Read the stream positions
     std::vector<unsigned int> streamPositions;
+    unsigned int streamEntry;
+    readSize = sizeof(streamEntry);
     for (unsigned int i = 0; i < header.streamsCount; ++i) {
-        unsigned int streamEntry;
-        amount = asset->read(&streamEntry, sizeof(unsigned int));
+        amount = asset->read(&streamEntry, readSize);
         error = asset->getError();
-        if (amount != sizeof(unsigned int) || !error.empty()) {
+        if (amount != readSize || !error.empty()) {
             log->error("Error reading '{0}' MIX stream {1} position {2}", path, i, error);
             return -1;
         }
@@ -402,6 +415,11 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         palettes.push_back(assetPalette);
     }
 
+    //Check if there is stream data as DATA will be absent if no stream is present
+    if (header.streamsCount == 0) {
+        return addedAssets;
+    }
+
     //Verify constant
     match = asset->match("DATA ");
     error = asset->getError();
@@ -412,11 +430,67 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
     //Read streams
     for (unsigned int i = 0; i < streamPositions.size(); ++i) {
-        log->debug("{0} {1} {2}", path, i, streamPositions[i]);
-        //TODO
-    }
+        //Calculate start-end-size of stream
+        unsigned int start = streamPositions[i];
+        unsigned int end;
+        if (i < header.streamsCount) {
+            end = streamPositions[i + 1];
+        } else {
+            end = static_cast<unsigned int>(asset->size());
+        }
+        size_t streamSize = end - start;
 
-    int addedAssets = 0;
+        //Attempt to detect type of stream, first we need to seek 2 unsigned shorts
+        long result = asset->seek(start + sizeof(unsigned short) + sizeof(unsigned short), true);
+        error = asset->getError();
+        if (result < 0 || !error.empty()) {
+            log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+            return -1;
+        }
+
+        //Read 5th byte
+        byte streamType;
+        readSize = sizeof(streamType);
+        amount = asset->read(&streamType, readSize);
+        error = asset->getError();
+        if (amount != readSize || !error.empty()) {
+            log->error("Error reading '{0}' MIX stream {1} type {2}", path, i, error);
+            return -1;
+        }
+
+        //Handle the type
+        std::shared_ptr<File> assetFile = asset->getFile();
+        std::shared_ptr<AssetPalette> imagePalette = nullptr;
+        Vector2 imageSize;
+        switch (streamType) {
+            case 1: //8 bit index palette image
+                //TODO get image size and palette
+                break;
+            case 2: //Raw 16 bits per color image
+                //TODO get image size
+                break;
+            case 9: //Sprite image
+                //TODO decode sprite header to get image size and palette, create complete image buffer to use as asset memory file
+                break;
+            default: //Unknown
+                log->warn("'{0}' MIX stream {1} is unknown type", path, i);
+                break;
+        }
+
+        //Create normal or image asset from stream and add it to manager
+        std::shared_ptr<Asset> assetStream;
+        asset_path streamAssetPath = basePath + "/" + std::to_string(i);
+        if (imageSize.zero()) {
+            assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, start, streamSize);
+        } else {
+            assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, start, streamSize,
+                                                       imageSize, imagePalette);
+        }
+        if (!addAsset(assetStream)) {
+            return false;
+        }
+        addedAssets++;
+    }
 
     return addedAssets;
 }

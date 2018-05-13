@@ -4,6 +4,7 @@
 #ifndef OPENE2140_ASSETIMAGE_H
 #define OPENE2140_ASSETIMAGE_H
 
+#include <core/math/vector2.h>
 #include "assetpalette.h"
 #include "asset.h"
 
@@ -16,6 +17,11 @@ class AssetImage : public Asset {
      */
     const std::shared_ptr<AssetPalette> palette;
 
+    /**
+     * Image size
+     */
+     const Vector2 imageSize;
+
 public:
     /**
      * Constructor for 8 bit palette indexed image
@@ -26,7 +32,8 @@ public:
      * @param fileSize of asset data in file, 0 for unknown/until end
      * @param palette to use when decoding image data
      */
-    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize, const std::shared_ptr<AssetPalette> palette);
+    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+        const Vector2& size, const std::shared_ptr<AssetPalette> palette);
 
     /**
      * Constructor for 16 bit image
@@ -36,7 +43,8 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+       const Vector2& size);
 
     /**
      * @return string version of this asset

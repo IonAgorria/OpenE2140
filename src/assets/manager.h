@@ -111,6 +111,14 @@ private:
         unsigned int palettesOffset;
     } MIXHeader;
 
+    /**
+     * Image size struct
+     */
+    typedef struct {
+        unsigned short width;
+        unsigned short height;
+    } ImageSize;
+
 public:
     /**
      * Constructs loader

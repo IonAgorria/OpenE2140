@@ -19,6 +19,10 @@ Manager::~Manager() {
 }
 
 bool Manager::addAsset(std::shared_ptr<Asset> asset) {
+    if (!asset) {
+        log->warn("Asset to add is null");
+        return false;
+    }
     const std::string& path = asset->getPath();
     if (assets[path]) {
         log->warn("Asset already present: '{0}'", path);
@@ -278,9 +282,11 @@ bool Manager::processsIntermediates() {
 
     //Iterate mix paths
     for (asset_path assetPath : mix_paths) {
-        if (count < 0) {
         int count = processIntermediateMIX(assetPath);
+        if (count == 0) {
             continue;
+        } else if (count < 0) {
+            return false;
         }
         addedAssets += count;
 

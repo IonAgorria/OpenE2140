@@ -96,11 +96,12 @@ bool Asset::match(const std::string& string) {
     std::unique_ptr<byteArray> tmp = Utils::createBuffer(size);
     size_t amount = read(tmp.get(), size);
     if (!error.empty()) {
+        error = string + " " + error;
         return false;
     }
     std::string bufferString = std::string(reinterpret_cast<const char*>(tmp.get()), amount);
     if (string != bufferString) {
-        error = "Mismatch '" + string + "' got '" + bufferString + "'";
+        error = "mismatch '" + string + "' got '" + bufferString + "'";
         return false;
     }
     return true;

@@ -31,29 +31,29 @@ Rectangle::Rectangle() {
     this->h = 0;
 }
 
-bool Rectangle::operator==(const Rectangle& rectangle) {
+bool Rectangle::operator==(const Rectangle& rectangle) const {
     return x == rectangle.x
         && y == rectangle.y
         && w == rectangle.w
         && h == rectangle.h;
 }
 
-bool Rectangle::operator!=(const Rectangle& rectangle) {
+bool Rectangle::operator!=(const Rectangle& rectangle) const {
     return x != rectangle.x
         || y != rectangle.y
         || w != rectangle.w
         || h != rectangle.h;
 }
 
-Rectangle::operator bool() {
+Rectangle::operator bool() const {
     return 0 < w && 0 < h;
 }
 
-bool Rectangle::empty() {
+bool Rectangle::empty() const {
     return 0 >= w || 0 >= h;
 }
 
-bool Rectangle::zero() {
+bool Rectangle::zero() const {
     return 0 == x && 0 == y;
 }
 

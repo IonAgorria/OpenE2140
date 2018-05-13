@@ -45,7 +45,7 @@ public:
      * @param rectangle
      * @return if equal
      */
-    bool operator==(const Rectangle& rectangle);
+    bool operator==(const Rectangle& rectangle) const;
 
     /**
      * Compares 2 rectangles if they are not equal
@@ -53,27 +53,27 @@ public:
      * @param rectangle
      * @return if not equal
      */
-    bool operator!=(const Rectangle& rectangle);
+    bool operator!=(const Rectangle& rectangle) const;
 
     /**
      * @return true if rectangle has area
      */
-    operator bool();
+    operator bool() const;
 
     /**
      * @return true if rectangle has no area
      */
-    bool empty();
+    bool empty() const;
 
     /**
      * @return true if rectangle x and y is 0
      */
-    bool zero();
+    bool zero() const;
 
     /**
      * @return string version of this vector
      */
-    std::string toString();
+    std::string toString() const;
 
     /**
      * Sets rectangle components

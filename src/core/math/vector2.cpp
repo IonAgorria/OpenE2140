@@ -19,25 +19,25 @@ Vector2::Vector2() {
     this->y = 0;
 }
 
-bool Vector2::operator==(const Vector2& vector2) {
+bool Vector2::operator==(const Vector2& vector2) const {
     return x == vector2.x
         && y == vector2.y;
 }
 
-bool Vector2::operator!=(const Vector2& vector2) {
+bool Vector2::operator!=(const Vector2& vector2) const {
     return x != vector2.x
         || y != vector2.y;
 }
 
-Vector2::operator bool() {
+Vector2::operator bool() const {
     return 0 != x && 0 != y;
 }
 
-bool Vector2::zero() {
+bool Vector2::zero() const {
     return 0 == x && 0 == y;
 }
 
-std::string Vector2::toString() {
+std::string Vector2::toString() const {
     return "V(" + std::to_string(x) + ", " + std::to_string(y) + ")";
 }
 

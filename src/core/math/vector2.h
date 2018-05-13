@@ -41,7 +41,7 @@ public:
      * @param vector2
      * @return if equal
      */
-    bool operator==(const Vector2& vector2);
+    bool operator==(const Vector2& vector2) const;
 
     /**
      * Compares 2 vectors if they are not equal
@@ -49,22 +49,22 @@ public:
      * @param vector2
      * @return if not equal
      */
-    bool operator!=(const Vector2& vector2);
+    bool operator!=(const Vector2& vector2) const;
 
     /**
      * @return true if vector is not zero
      */
-    operator bool();
+    operator bool() const;
 
     /**
      * @return true if vector x and y is 0
      */
-    bool zero();
+    bool zero() const;
 
     /**
      * @return string version of this vector
      */
-    std::string toString();
+    std::string toString() const;
 
     /**
      * Sets vector components

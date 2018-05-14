@@ -173,17 +173,19 @@ void Utils::handleHaltAndCatchFire(int sig) {
         errorMessage << "Stack trace:\n";
         join(errorMessage, BEGIN_END(linesStackTrace), "\n");
     }
-    showErrorDialog(errorMessage.str(), nullptr, false);
+    showErrorDialog(errorMessage.str(), nullptr, false, true);
 
     //Agur
     raise(sig);
 }
 
-void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace) {
+void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace, bool informDeveloper) {
     //Get lines from error
     std::list<std::string> lines;
-    lines.emplace_back("Unexpected error occurred, please inform this to developer :(");
-    lines.emplace_back(""); //Empty line
+    if (informDeveloper) {
+        lines.emplace_back("Unexpected error occurred, please inform this to developer :(");
+        lines.emplace_back(""); //Empty line
+    }
     split(lines, error, "\n", false);
 
     //Append stack trace

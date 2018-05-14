@@ -91,8 +91,11 @@ public:
      * Shows error
      *
      * @param error to show
+     * @param log to use to show error along dialog, null ptr to ignore log
+     * @param appendStackTrace to append stack trace at bottom
+     * @param informDeveloper to show inform developer text
      */
-    static void showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace);
+    static void showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace, bool informDeveloper);
 
     /**
      * Joins each element between iterators to stream using glue

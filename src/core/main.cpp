@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     //Initialize SDL2
     bool error = false;
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0) {
-        Utils::showErrorDialog("SDL_Init failed\n" + Utils::checkSDLError(), log, false);
+        Utils::showErrorDialog("SDL_Init failed\n" + Utils::checkSDLError(), log, false, true);
         error = true;
     } else {
         //Initialize window
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
         } else {
             //Initialize manager
             Manager manager;
-            if (!manager.loadContainers()) {
+            if (!manager.initManager()) {
                 error = true;
             } else {
                 //Test;
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
                             case SDL_MOUSEMOTION:
                                 rectangleDst.x = event.motion.x;
                                 rectangleDst.y = event.motion.y;
-                                log->debug("Mouse motion: {0}x{1}", event.motion.x, event.motion.y);
+                                //log->debug("Mouse motion: {0}x{1}", event.motion.x, event.motion.y);
                                 break;
                             case SDL_KEYDOWN:
                             case SDL_KEYUP:

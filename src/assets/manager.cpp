@@ -97,7 +97,11 @@ bool Manager::scanContainer(const std::string& path, const std::string& name) {
         log->debug("Loaded '{0}' as {1} with {2} assets totalling {3}", name, type, count, assetsCount);
         return true;
     } else {
-        log->error("Error loading: {0}", name);
+        Utils::showErrorDialog(
+            "Error loading game data for " + name + " directory or " + name + ".WD file\n"
+            "Check if game files are correctly set and are accesible inside following path: \n'" + path + "'",
+            log, false, false
+        );
         return false;
     }
 }
@@ -106,7 +110,7 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     //Create file to be common between assets created from this container file
     std::shared_ptr<File> file = std::make_shared<File>();
     if (!file->fromPath(path + name + ".WD")) {
-        //log->debug("Error opening file: '{0}' '{1}'", path, file->getError());
+        log->debug("Error opening file: '{0}' '{1}'", name, file->getError());
         return -1;
     }
     long fileSize = file->size();

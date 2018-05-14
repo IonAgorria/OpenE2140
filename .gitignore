@@ -4,6 +4,7 @@ cmake-build*
 log.txt
 dump.bin
 /assets
+/out
 
 # Object files
 *.o

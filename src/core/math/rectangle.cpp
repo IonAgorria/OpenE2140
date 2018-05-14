@@ -57,6 +57,10 @@ bool Rectangle::zero() const {
     return 0 == x && 0 == y;
 }
 
+std::string Rectangle::toString() const {
+    return "R(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h) + ")";
+}
+
 void Rectangle::set(int x, int y, int width, int height) {
     this->x = x;
     this->y = y;
@@ -112,8 +116,4 @@ bool Rectangle::getIntersectRectangle(const Rectangle& rectangle, Rectangle& res
 
 bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) {
     return SDL_IntersectRectAndLine(this, &start.x, &start.y, &end.x, &end.y);
-}
-
-std::string Rectangle::toString() {
-    return "R(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h) + ")";
 }

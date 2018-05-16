@@ -52,6 +52,15 @@ std::string Utils::toStringPrecision(const T& value, int n)
     return out.str();
 }
 
+
+bool Utils::startsWith(const std::string& string, const std::string& start) {
+    size_t stringSize = string.size();
+    size_t startSize = start.size();
+    if (startSize == 0) return true;
+    if (stringSize < startSize) return false;
+    return strncmp(string.c_str(), start.c_str(), startSize) == 0;
+}
+
 bool Utils::saveStackTrace(const char* file) {
 #if HAS_BOOST
     //Save and return if saved something

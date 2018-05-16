@@ -272,8 +272,11 @@ bool Manager::processsIntermediates() {
             );
             assetPalettes[assetPath] = assetPalette;
         } else if (ext == ".DAT") {
-            //Store asset path for later
-            image_paths.push_front(assetPath);
+            //Store asset path for later if they are images
+            bool isImage = !Utils::startsWith(assetPath, "LEVEL/DATA");
+            if (isImage) {
+                image_paths.push_front(assetPath);
+            }
         } else if (ext == ".MIX") {
             //Check if it's not a special file
             bool isMixMax = assetPath.find("MIXMAX") != std::string::npos;

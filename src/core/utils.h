@@ -56,6 +56,15 @@ public:
     static std::string toStringPrecision(const T& value, int n);
 
     /**
+     * Returns if a and b starts in same way
+     *
+     * @param string to check
+     * @param start to compare
+     * @return
+     */
+    static bool startsWith(const std::string& string, const std::string& start);
+
+    /**
      * Saves current stack trace to file
      *
      * @return if save was successful

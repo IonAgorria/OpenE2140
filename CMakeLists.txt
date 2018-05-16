@@ -20,6 +20,11 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
     endif()
 endif()
 
+# Fixes SDL2 trailing space bug
+if(POLICY CMP0004)
+    cmake_policy(SET CMP0004 OLD)
+endif()
+
 # Get sources
 set(LINK_LIBRARIES)
 include_directories("src")

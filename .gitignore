@@ -5,6 +5,7 @@ log.txt
 dump.bin
 /assets
 /out
+/.vagrant
 
 # Object files
 *.o

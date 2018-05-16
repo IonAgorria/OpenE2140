@@ -33,7 +33,6 @@ public:
      * @param width of window
      * @param height of window
      * @param title of window
-     * @return if success
      */
     Window(unsigned int width, unsigned int height, const std::string& title);
 

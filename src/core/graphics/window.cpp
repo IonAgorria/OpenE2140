@@ -17,7 +17,7 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
             SDL_WINDOWPOS_CENTERED,
             width,
             height,
-            SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
+            SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE
     );
     if (!windowHandle) {
         Utils::showErrorDialog("SDL2 window not available\n" + Utils::checkSDLError(), log, false, true);
@@ -26,6 +26,11 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
 
     //Create renderer
     rendererHandle = SDL_CreateRenderer(windowHandle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!windowHandle) {
+        log->warn("SDL2 accelerated rendering not available {0}", Utils::checkSDLError());
+        log->warn("Using software rendering");
+        rendererHandle = SDL_CreateRenderer(windowHandle, -1, SDL_RENDERER_SOFTWARE);
+    }
     if (!rendererHandle) {
         Utils::showErrorDialog("SDL2 renderer not available\n" + Utils::checkSDLError(), log, false, true);
         return;

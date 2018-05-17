@@ -7,7 +7,7 @@ rm -rf out/*
 
 #Link assets dir just in case the executable is run inside
 if [ -d assets ]; then
-    ln -s assets out/assets
+    ln -s ../assets out/assets
 fi
 
 #Generate build files

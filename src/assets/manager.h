@@ -6,6 +6,7 @@
 
 #include <string>
 #include <map>
+#include <core/math/vector2.h>
 #include "core/io/log.h"
 #include "asset.h"
 
@@ -118,6 +119,15 @@ private:
         unsigned short width;
         unsigned short height;
     } ImageSize;
+
+    /**
+     * Reads the image size from assets at current position
+     *
+     * @param asset to read
+     * @param size to write
+     * @return true if success
+     */
+    bool getImageSize(const std::shared_ptr<Asset>& asset, Vector2& size);
 
 public:
     /**

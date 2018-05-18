@@ -11,6 +11,7 @@
 #include "config.h"
 
 //Attempt to load boost libs
+//#define HAS_BOOST 0
 #if HAS_BOOST
 #   include "boost/stacktrace.hpp"
 #   include "boost/filesystem.hpp"
@@ -50,47 +51,6 @@ bool Utils::startsWith(const std::string& string, const std::string& start) {
     return strncmp(string.c_str(), start.c_str(), startSize) == 0;
 }
 
-bool Utils::saveStackTrace(const char* file) {
-#if HAS_BOOST
-    //Save and return if saved something
-    size_t amount = boost::stacktrace::safe_dump_to(file);
-    return 0 < amount;
-#else
-    return false; //No implementation
-#endif
-}
-
-bool Utils::getStackTrace(std::list<std::string>& lines) {
-#if HAS_BOOST
-    //Get current
-    auto st = boost::stacktrace::stacktrace();
-    //Check if failed to load
-    if (st.empty()) {
-        return false;
-    }
-    //Write lines
-    for (unsigned int i = 0; i < st.size(); ++i) {
-        //Just store the name instead of full name as we don't really care our own name
-        if (i == 0) {
-            lines.push_back(std::string("Utils::") + __func__ + " <- last call");
-            continue;
-        }
-
-        //Pull the stacktrace info
-        std::string line = boost::stacktrace::detail::to_string(&st.as_vector()[i], 1);
-        std::string::size_type size = line.size();
-        if (10 <= size) {
-            //Remove the start number and end newline
-            line = line.substr(4, size - 5);
-            lines.push_back(line);
-        }
-    }
-    return !lines.empty();
-#else
-    return false; //No implementation
-#endif
-}
-
 void Utils::setSignalHandler(__sighandler_t signal_handler) {
     signal(SIGSEGV, signal_handler);
     signal(SIGABRT, signal_handler);
@@ -113,7 +73,7 @@ void Utils::handleHaltAndCatchFire(int sig) {
 
     //Save stacktrace
     if (dumpPath) {
-        saveStackTrace(dumpPath.get()->c_str());
+        saveStackTrace(*dumpPath);
     }
 
     //Get signal name
@@ -272,18 +232,16 @@ const std::string& Utils::getUserPath() {
 }
 
 std::string Utils::getParentPath(const std::string& path) {
-    if (!path.empty()) {
-        std::string::size_type size = path.size();
-        bool lastPos = true;
-        unsigned long pos = size - 1;
-        do {
-            if (!lastPos && (path[pos] == '\\' || path[pos] == '/')) {
+    std::string::size_type size = path.size();
+    if (1 < size) {
+        unsigned long pos = size - 2;
+        while (0 < pos) {
+            if (path[pos] == '\\' || path[pos] == '/') {
                 //Got the lastmost separator that is not the last position
                 return std::string(path, 0, pos + 1);
             }
-            lastPos = false;
             pos--;
-        } while (0 < pos);
+        };
     }
     return path;
 }
@@ -325,6 +283,51 @@ std::unique_ptr<byteArray> Utils::createBuffer(const size_t size) {
     return std::move(std::make_unique<byteArray>(size));
 }
 
+bool Utils::saveStackTrace(const std::string& file) {
+#if HAS_BOOST
+    //Save and return if saved something
+    size_t amount = boost::stacktrace::safe_dump_to(file.c_str());
+    return 0 < amount;
+#else
+    //No implementation
+    if (file.empty()) {} //To shut up about unused args
+    return false;
+#endif
+}
+
+bool Utils::getStackTrace(std::list<std::string>& lines) {
+#if HAS_BOOST
+    //Get current
+    auto st = boost::stacktrace::stacktrace();
+    //Check if failed to load
+    if (st.empty()) {
+        return false;
+    }
+    //Write lines
+    for (unsigned int i = 0; i < st.size(); ++i) {
+        //Just store the name instead of full name as we don't really care our own name
+        if (i == 0) {
+            lines.push_back(std::string("Utils::") + __func__ + " <- last call");
+            continue;
+        }
+
+        //Pull the stacktrace info
+        std::string line = boost::stacktrace::detail::to_string(&st.as_vector()[i], 1);
+        std::string::size_type size = line.size();
+        if (10 <= size) {
+            //Remove the start number and end newline
+            line = line.substr(4, size - 5);
+            lines.push_back(line);
+        }
+    }
+    return !lines.empty();
+#else
+    //No implementation
+    if (lines.empty()) {} //To shut up about unused args
+    return false;
+#endif
+}
+
 bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths) {
 #if HAS_BOOST
     using namespace boost::filesystem;
@@ -341,6 +344,8 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
     }
     return true;
 #else
-    return false; //No implementation
+    //No implementation
+    if (dirPath.empty() && dirPaths.empty()) {} //To shut up about unused args
+    return false;
 #endif
 }

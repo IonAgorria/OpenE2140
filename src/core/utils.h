@@ -71,21 +71,6 @@ public:
     static bool startsWith(const std::string& string, const std::string& start);
 
     /**
-     * Saves current stack trace to file
-     *
-     * @return if save was successful
-     */
-    static bool saveStackTrace(const char* file);
-
-    /**
-     * Writes current stack trace to out stream
-     *
-     * @param lines to use
-     * @return if get was successful
-     */
-    static bool getStackTrace(std::list<std::string>& lines);
-
-    /**
      * Set custom signal handlers
      */
     static void setSignalHandler(__sighandler_t signal_handler);
@@ -277,6 +262,21 @@ public:
      * @return unique pointer of buffer
      */
     static std::unique_ptr<byteArray> createBuffer(const size_t size);
+
+    /**
+     * Saves current stack trace to file
+     *
+     * @return if save was successful
+     */
+    static bool saveStackTrace(const std::string& file);
+
+    /**
+     * Writes current stack trace to out stream
+     *
+     * @param lines to use
+     * @return if get was successful
+     */
+    static bool getStackTrace(std::list<std::string>& lines);
 
     /**
      * Lists all content of specified path and stores on provided list

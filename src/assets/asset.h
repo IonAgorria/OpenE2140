@@ -118,12 +118,12 @@ public:
     /**
     * @return string version of this asset
     */
-    virtual std::string toString();
+    virtual std::string toString() const;
 
      /**
      * @return string content of this asset
      */
-     virtual std::string toStringContent();
+     virtual std::string toStringContent() const;
 };
 
 #endif //OPENE2140_ASSET_H

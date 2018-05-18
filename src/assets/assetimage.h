@@ -20,14 +20,14 @@
  */
 class AssetImage : public Asset {
     /**
+     * Image size
+     */
+    const Vector2 imageSize;
+
+    /**
      * Palette to use if need
      */
     const std::shared_ptr<AssetPalette> palette;
-
-    /**
-     * Image size
-     */
-     const Vector2 imageSize;
 
 public:
     /**
@@ -56,12 +56,12 @@ public:
     /**
      * @return string version of this asset
      */
-    std::string toString() override;
+    std::string toString() const override;
 
     /**
     * @return string content of this asset
     */
-    std::string toStringContent() override;
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_ASSETIMAGE_H

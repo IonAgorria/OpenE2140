@@ -13,11 +13,11 @@ AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file,
         AssetImage(path, file, fileOffset, fileSize, size, nullptr) {
 }
 
-std::string AssetImage::toString() {
+std::string AssetImage::toString() const {
     return "AssetImage(" + toStringContent() + ")";
 }
 
-std::string AssetImage::toStringContent() {
+std::string AssetImage::toStringContent() const {
     return Asset::toStringContent()
         + " Palette: " + (palette ? palette->toString() : "null")
     ;

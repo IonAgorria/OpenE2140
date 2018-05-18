@@ -46,7 +46,7 @@ public:
     /**
      * @return string version of this asset
      */
-    std::string toString() override;
+    std::string toString() const override;
 };
 
 #endif //OPENE2140_ASSETPALETTE_H

@@ -100,17 +100,17 @@ bool Asset::match(const std::string& string) {
     }
     std::string bufferString = std::string(reinterpret_cast<const char*>(tmp.get()), amount);
     if (string != bufferString) {
-        error = "mismatch '" + string + "' got '" + bufferString + "'";
+        error = "Mismatch '" + string + "' got '" + bufferString + "'";
         return false;
     }
     return true;
 }
 
-std::string Asset::toString() {
+std::string Asset::toString() const {
     return "Asset(" + toStringContent() + ")";
 }
 
-std::string Asset::toStringContent() {
+std::string Asset::toStringContent() const {
     return " Path: " + path
          + " Offset: " + std::to_string(fileOffset)
          + " Size: " + std::to_string(fileSize)

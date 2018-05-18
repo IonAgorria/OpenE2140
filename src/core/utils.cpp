@@ -2,9 +2,7 @@
 // Created by Ion Agorria on 22/03/18
 //
 #include <cstdio>
-#include <iostream>
 #include <csignal>
-#include <iomanip>
 #include <list>
 #include "SDL_filesystem.h"
 #include "SDL_quit.h"
@@ -43,15 +41,6 @@ std::string Utils::checkSDLError(const log_ptr log) {
     }
     return "";
 }
-
-template <typename T>
-std::string Utils::toStringPrecision(const T& value, int n)
-{
-    std::ostringstream out;
-    out << std::fixed << std::showpoint << std::setprecision(n) << value;
-    return out.str();
-}
-
 
 bool Utils::startsWith(const std::string& string, const std::string& start) {
     size_t stringSize = string.size();
@@ -229,59 +218,6 @@ void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool ap
             text.c_str(),
             NULL // NOLINT
     );
-}
-
-template <typename Stream, typename Iterator, typename Separator>
-Stream& Utils::join(Stream& stream, const Iterator& begin, const Iterator& end, const Separator& glue) {
-    for (Iterator i = begin; i != end; ++i) {
-        if (i != begin) stream << glue;
-        stream << *i;
-    }
-    return stream;
-}
-
-template <typename Iterator, typename Separator>
-std::string& Utils::join(std::string& string, const Iterator& begin, const Iterator& end, const Separator& glue) {
-    for (Iterator i = begin; i != end; ++i) {
-        if (i != begin) string += glue;
-        string += *i;
-    }
-    return string;
-}
-
-template <typename T, typename Separator>
-void Utils::split(T& elements, const std::string& string, const Separator& separator, bool trimEmpty) {
-    std::string::size_type pos, lastPos = 0, length = string.length();
-    using value_type = typename T::value_type;
-    using size_type  = typename T::size_type;
-
-    while(lastPos < length + 1)
-    {
-        //Find separator string
-        pos = string.find(separator, lastPos);
-        if (pos == std::string::npos)
-        {
-            //Nothing found, go to end
-            pos = length;
-        }
-
-        //Add element
-        if (pos != lastPos || !trimEmpty) {
-            elements.push_back(value_type(string.data() + lastPos, (size_type) pos - lastPos));
-        }
-
-        //Next
-        lastPos = pos + 1;
-    }
-}
-
-template <typename Iterator>
-void Utils::substrLines(const Iterator& begin, const Iterator& end, std::string::size_type size) {
-    for (Iterator i = begin; i != end; ++i) {
-        //This pulls the line from iterator, makes substr and sets back the content as it's a reference
-        std::string& line = *i;
-        line = line.substr(0, std::min(line.size(), size));
-    }
 }
 
 std::string Utils::padRight(const std::string& str, std::string::size_type size) {

@@ -108,6 +108,25 @@ public:
     size_t read(void* buffer, size_t amount);
 
     /**
+     * Reads file data to provided object
+     *
+     * @param element to write
+     * @return true if all bytes were read or false if error or partial read occurred
+     */
+    template<typename T>
+    bool readAll(T& element) {
+        size_t size = sizeof(T);
+        size_t amount = read(&element, size);
+        if (!error.empty()) {
+            return false;
+        } else if (amount != size) {
+            error = "Read " + std::to_string(amount) + " of expected " + std::to_string(size);
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Checks if next data to read matches the provided string
      *
      * @param string to check

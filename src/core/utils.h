@@ -5,6 +5,8 @@
 #define OPENE2140_UTILS_H
 
 #include "config.h"
+#include <iomanip>
+#include <iostream>
 #include <csignal>
 #include <list>
 #include "core/io/log.h"
@@ -53,7 +55,11 @@ public:
      * @param n of precision
      */
     template<typename T>
-    static std::string toStringPrecision(const T& value, int n);
+    static std::string toStringPrecision(const T& value, int n) {
+        std::ostringstream out;
+        out << std::fixed << std::showpoint << std::setprecision(n) << value;
+        return out.str();
+    }
 
     /**
      * Returns if a and b starts in same way
@@ -117,7 +123,13 @@ public:
      * Source: https://stackoverflow.com/questions/1430757/c-vector-to-string
      */
     template <typename Stream, typename Iterator, typename Separator>
-    static Stream& join(Stream& stream, const Iterator& begin, const Iterator& end, const Separator& glue);
+    static Stream& join(Stream& stream, const Iterator& begin, const Iterator& end, const Separator& glue) {
+        for (Iterator i = begin; i != end; ++i) {
+            if (i != begin) stream << glue;
+            stream << *i;
+        }
+        return stream;
+    }
 
     /**
      * Joins each element between iterators and adds to element using glue
@@ -130,7 +142,13 @@ public:
      * @param glue for each element
      */
     template <typename Iterator, typename Separator>
-    static std::string& join(std::string& string, const Iterator& begin, const Iterator& end, const Separator& glue);
+    static std::string& join(std::string& string, const Iterator& begin, const Iterator& end, const Separator& glue) {
+        for (Iterator i = begin; i != end; ++i) {
+            if (i != begin) string += glue;
+            string += *i;
+        }
+        return string;
+    }
 
     /**
      * Splits string with separator and stores on elements
@@ -144,7 +162,30 @@ public:
      * Source: https://stackoverflow.com/questions/236129/the-most-elegant-way-to-iterate-the-words-of-a-string
      */
     template <typename T, typename Separator>
-    static void split(T& elements, const std::string& string, const Separator& separator, bool trimEmpty);
+    static void split(T& elements, const std::string& string, const Separator& separator, bool trimEmpty) {
+        std::string::size_type pos, lastPos = 0, length = string.length();
+        using value_type = typename T::value_type;
+        using size_type  = typename T::size_type;
+
+        while(lastPos < length + 1)
+        {
+            //Find separator string
+            pos = string.find(separator, lastPos);
+            if (pos == std::string::npos)
+            {
+                //Nothing found, go to end
+                pos = length;
+            }
+
+            //Add element
+            if (pos != lastPos || !trimEmpty) {
+                elements.push_back(value_type(string.data() + lastPos, (size_type) pos - lastPos));
+            }
+
+            //Next
+            lastPos = pos + 1;
+        }
+    }
 
     /**
      * Makes a substr to all elements in iterator
@@ -155,7 +196,13 @@ public:
      * @param size of each element
      */
     template <typename Iterator>
-    static void substrLines(const Iterator& begin, const Iterator& end, std::string::size_type size);
+    static void substrLines(const Iterator& begin, const Iterator& end, std::string::size_type size) {
+        for (Iterator i = begin; i != end; ++i) {
+            //This pulls the line from iterator, makes substr and sets back the content as it's a reference
+            std::string& line = *i;
+            line = line.substr(0, std::min(line.size(), size));
+        }
+    }
 
     /**
      * Does right padding if is smaller than size

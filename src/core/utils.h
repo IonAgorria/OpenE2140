@@ -239,6 +239,14 @@ public:
     static const std::string& getUserPath();
 
     /**
+     * Gets the parent path of provided path
+     *
+     * @param path to get parent path from
+     * @return parent path or original path if no parent was found
+     */
+    static std::string getParentPath(const std::string& path);
+
+    /**
      * Converts text uppercase
      *
      * @param text to change

@@ -271,6 +271,23 @@ const std::string& Utils::getUserPath() {
     return *userPath;
 }
 
+std::string Utils::getParentPath(const std::string& path) {
+    if (!path.empty()) {
+        std::string::size_type size = path.size();
+        bool lastPos = true;
+        unsigned long pos = size - 1;
+        do {
+            if (!lastPos && (path[pos] == '\\' || path[pos] == '/')) {
+                //Got the lastmost separator that is not the last position
+                return std::string(path, 0, pos + 1);
+            }
+            lastPos = false;
+            pos--;
+        } while (0 < pos);
+    }
+    return path;
+}
+
 std::string Utils::toUpper(const std::string& text) {
     std::string result(text);
     std::string::size_type size = text.size();

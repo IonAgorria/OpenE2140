@@ -58,8 +58,29 @@ void Manager::clearAssets() {
 
 bool Manager::initManager() {
     //Scan assets from containers
-    for (std::string name : GAME_ASSETS_NAMES) {
-        if (!scanContainer(Utils::getInstallPath() + GAME_ASSETS_DIR + DIR_SEP, name)) {
+    std::string assetDir = std::string(GAME_ASSETS_DIR) + DIR_SEP;
+    std::list<std::string> assetDirPaths = {
+            assetDir,                                                 //Current directory
+            Utils::getInstallPath() + assetDir,                       //Installation directory
+            Utils::getParentPath(Utils::getInstallPath()) + assetDir, //Parent of installation directory
+    };
+    for (std::string name : GAME_ASSET_CONTAINER_NAMES) {
+        log->debug("Loading '{0}'", name);
+        bool found = false;
+        for (std::string path : assetDirPaths) {
+            if (scanContainer(path, name)) {
+                found = true;
+                break;
+            }
+        }
+
+        //Nothing was found
+        if (!found) {
+            Utils::showErrorDialog(
+                    "Error loading game data for " + name + " directory or " + name + ".WD file\n",
+                    //"Check if game files are correctly set and are accesible inside following paths: \n'" + path + "'",
+                    log, false, false
+            );
             return false;
         }
     }
@@ -77,7 +98,6 @@ bool Manager::initManager() {
 }
 
 bool Manager::scanContainer(const std::string& path, const std::string& name) {
-    log->debug("Loading '{0}'", name);
     std::string type = "";
 
     //Try to load it as dir
@@ -97,11 +117,6 @@ bool Manager::scanContainer(const std::string& path, const std::string& name) {
         log->debug("Loaded '{0}' as {1} with {2} assets totalling {3}", name, type, count, assetsCount);
         return true;
     } else {
-        Utils::showErrorDialog(
-            "Error loading game data for " + name + " directory or " + name + ".WD file\n"
-            "Check if game files are correctly set and are accesible inside following path: \n'" + path + "'",
-            log, false, false
-        );
         return false;
     }
 }
@@ -110,7 +125,7 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     //Create file to be common between assets created from this container file
     std::shared_ptr<File> file = std::make_shared<File>();
     if (!file->fromPath(path + name + ".WD")) {
-        log->debug("Error opening file: '{0}' '{1}'", name, file->getError());
+        log->debug("Error opening file: '{0}.WD' '{1}'", name, file->getError());
         return -1;
     }
     long fileSize = file->size();
@@ -320,11 +335,14 @@ bool Manager::processsIntermediates() {
         }
 
         //Pass the image size struct to fill it
-        size_t readSize = sizeof(ImageSize);
+        size_t readSize = sizeof(ImageSize16);
         Vector2 imageSize;
-        if (!getImageSize(asset, imageSize)) {
+        ImageSize16 imageSizeStruct;
+        if (!asset->readAll(imageSizeStruct)) {
+            log->error("Error reading '{0}' image size {1}", assetPath, asset->getError());
             return false;
         }
+        imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
         //Create image asset with the palette indexes data and store it
         std::shared_ptr<AssetImage> assetImage = std::make_shared<AssetImage>(
@@ -469,20 +487,23 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                 return -1;
             }
 
-            //Handle the type
-            unsigned long assetOffset = start;
+            //Used to create asset
             std::shared_ptr<File> assetFile = asset->getFile();
             std::shared_ptr<AssetPalette> imagePalette = nullptr;
             Vector2 imageSize;
             bool isImageStream = false;
+            //Handle the type
             switch (streamType) {
-                case TYPE_IMAGE_8_INDEXED:
+                case TYPE_IMAGE_8_INDEXED: {
                     isImageStream = true;
                     //Get image size
-                    if (!getImageSize(asset, imageSize)) {
+                    ImageSize16 imageSizeStruct;
+                    if (!asset->readAll(imageSizeStruct)) {
+                        log->error("Error reading '{0}' MIX stream {1} image size {2}", path, i, asset->getError());
                         return -1;
                     }
-                    assetOffset += 4;
+                    start += sizeof(imageSizeStruct);
+                    imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
                     //Skip stream type byte
                     result = asset->seek(1);
@@ -491,7 +512,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
                         return -1;
                     }
-                    assetOffset += 1;
+                    start += 1;
 
                     //Get palette index
                     byte paletteIndex;
@@ -502,36 +523,87 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         log->error("Error reading '{0}' MIX stream {1} palette index {2}", path, i, error);
                         return -1;
                     }
-                    assetOffset += 1;
+                    start += 1;
 
                     //Get palette for this image
                     if (paletteIndex < header.palettesFirstIndex) {
                         log->error("Error reading '{0}' MIX stream {1} palette index {2} is lower than first index {3}",
-                                    path, i, paletteIndex, header.palettesFirstIndex);
+                                   path, i, paletteIndex, header.palettesFirstIndex);
                         return -1;
                     }
                     imagePalette = palettes.at(paletteIndex - header.palettesFirstIndex);
                     break;
-                case TYPE_IMAGE_16_RAW:
+                }
+                case TYPE_IMAGE_16_RAW: {
                     isImageStream = true;
 
                     //Get image size
-                    if (!getImageSize(asset, imageSize)) {
+                    ImageSize16 imageSizeStruct;
+                    if (!asset->readAll(imageSizeStruct)) {
+                        log->error("Error reading '{0}' MIX stream {1} image size {2}", path, i, asset->getError());
                         return -1;
                     }
-                    assetOffset += 4;
+                    start += sizeof(imageSizeStruct);
+                    imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
                     //Skip stream type byte and unknown byte
-                    assetOffset += 2;
+                    start += 2;
+
                     break;
-                case TYPE_IMAGE_SEGMENTED:
+                }
+                case TYPE_IMAGE_SEGMENTED: {
                     isImageStream = true;
 
-                    //TODO decode sprite header to get image size and palette, create complete image buffer to use as asset memory file
+                    //Skip 4 unknown bytes and stream type byte
+                    result = asset->seek(5);
+                    error = asset->getError();
+                    if (result < 0 || !error.empty()) {
+                        log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+                        return -1;
+                    }
+                    start += 5;
+
+                    //Get palette index
+                    byte paletteIndex;
+                    readSize = sizeof(paletteIndex);
+                    amount = asset->read(&paletteIndex, readSize);
+                    error = asset->getError();
+                    if (amount != readSize || !error.empty()) {
+                        log->error("Error reading '{0}' MIX stream {1} palette index {2}", path, i, error);
+                        return -1;
+                    }
+                    start += 1;
+
+                    //Get palette for this image
+                    if (paletteIndex < header.palettesFirstIndex) {
+                        log->error("Error reading '{0}' MIX stream {1} palette index {2} is lower than first index {3}",
+                                   path, i, paletteIndex, header.palettesFirstIndex);
+                        return -1;
+                    }
+                    imagePalette = palettes.at(paletteIndex - header.palettesFirstIndex);
+
+                    //Get segmented image header
+                    SegmentedImageHeader segmentedImageHeader;
+                    if (!asset->readAll(segmentedImageHeader)) {
+                        log->error("Error reading '{0}' MIX stream {1} segmented image header {2}", path, i, asset->getError());
+                        return -1;
+                    }
+                    start += sizeof(segmentedImageHeader);
+                    imageSize.set(segmentedImageHeader.width, segmentedImageHeader.height);
+
+                    //Create buffer to store image 8 bit palette indexes
+                    std::shared_ptr<File> file = std::make_shared<File>();
+                    if (!file->fromMemory(segmentedImageHeader.width * segmentedImageHeader.height)) {
+                        log->error("Error reading '{0}' MIX stream {1} image buffer {2}", path, i, file->getError());
+                        return -1;
+                    }
+
                     break;
-                default: //Unknown
+                }
+                default: { //Unknown
                     log->warn("'{0}' MIX stream {1} is unknown type", path, i);
                     break;
+                }
             }
 
             //Create normal or image asset from stream and add it to manager
@@ -539,13 +611,13 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             asset_path streamAssetPath = basePath + "/" + std::to_string(i);
             if (isImageStream) {
                 log->debug("{0} {1}", path, imageSize.toString());
-                assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, assetOffset, streamSize,
+                assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, start, streamSize,
                                                            imageSize, imagePalette);
             } else {
-                assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, assetOffset, streamSize);
+                assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, start, streamSize);
             }
             if (!addAsset(assetStream)) {
-                return false;
+                return -1;
             }
             addedAssets++;
         }
@@ -553,17 +625,3 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
     return addedAssets;
 }
-
-bool Manager::getImageSize(const std::shared_ptr<Asset>& asset, Vector2& size) {
-    ImageSize imageSizeStruct;
-    size_t readSize = sizeof(imageSizeStruct);
-    size_t amount = asset->read(&imageSizeStruct, readSize);
-    std::string error = asset->getError();
-    if (amount != readSize || !error.empty()) {
-        log->error("{0} image size {1}", asset->getPath(), error);
-        return false;
-    }
-    size.set(imageSizeStruct.width, imageSizeStruct.height);
-    return true;
-}
-

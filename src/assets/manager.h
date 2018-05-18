@@ -113,21 +113,23 @@ private:
     } MIXHeader;
 
     /**
-     * Image size struct
+     * Image size struct with shorts
      */
     typedef struct {
         unsigned short width;
         unsigned short height;
-    } ImageSize;
+    } ImageSize16;
 
     /**
-     * Reads the image size from assets at current position
-     *
-     * @param asset to read
-     * @param size to write
-     * @return true if success
+     * Image size struct with ints
      */
-    bool getImageSize(const std::shared_ptr<Asset>& asset, Vector2& size);
+    typedef struct {
+        unsigned int width;
+        unsigned int height;
+        unsigned int dataBlockSize;
+        unsigned int scanLinesCount;
+        unsigned int segmentBlockSize;
+    } SegmentedImageHeader;
 
 public:
     /**

@@ -10,12 +10,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     #Host only network for sharing
     config.vm.network "private_network", ip: "192.168.222.222"
 
-    #Shared folder using NFS v4
+    #Shared folder
     config.vm.synced_folder ".", "/home/vagrant/Desktop/shared",
-        id: "core",
-        :nfs => true,
-#        :nfs_version => 4,
-        :mount_options => ['nolock,noatime']
+        SharedFoldersEnableSymlinksCreate: false
+#        id: "core", :nfs => true, :nfs_version => 4, :mount_options => ['nolock,noatime']
 
     config.vm.provider :virtualbox do |vb|
         host = RbConfig::CONFIG['host_os']

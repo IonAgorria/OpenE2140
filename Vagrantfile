@@ -16,12 +16,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #        id: "core", :nfs => true, :nfs_version => 4, :mount_options => ['nolock,noatime']
 
     config.vm.provider :virtualbox do |vb|
-        host = RbConfig::CONFIG['host_os']
         #Open virtualbox GUI
         vb.gui = true
         #Virtualbox CPU/Memory config
-        vb.customize ["modifyvm", :id, "--memory", 1024]
-        vb.customize ["modifyvm", :id, "--cpus", 2]
+        vb.customize ["modifyvm", :id, "--memory", 1536]
+        vb.customize ["modifyvm", :id, "--cpus", 1]
     end
 
     #Provision script for setup
@@ -30,6 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get update
         echo "- Install xubuntu desktop enviroment -"
         apt-get install -y xubuntu-desktop
+        echo "- Install NTP -"
+        apt-get install -y ntp
         echo "- Install virtualbox guest addons -"
         apt-get install -y virtualbox-guest-dkms-hwe virtualbox-guest-utils-hwe
         echo "- Install compiling programs -"

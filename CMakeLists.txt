@@ -63,7 +63,6 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.66.0) # Boost stacktrace was introduced in 1.65 but is bugged
 if(Boost_FOUND)
-    message("Boost found!")
     set(HAS_BOOST 1)
     # Add boost libraries if found
     include_directories(${Boost_INCLUDE_DIRS})

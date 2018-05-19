@@ -167,6 +167,16 @@ public:
     std::shared_ptr<Asset> getAsset(const asset_path& path);
 
     /**
+     * Gets the loaded asset with specified cast
+     *
+     * @return asset
+     */
+    template <typename T>
+    std::shared_ptr<T> getAsset(const asset_path& path) {
+        return std::dynamic_pointer_cast<T>(assets[path]);
+    }
+
+    /**
      * @return the count of assets loaded
      */
     int getAssetsCount();

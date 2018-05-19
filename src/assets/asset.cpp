@@ -95,6 +95,17 @@ size_t Asset::read(void* buffer, size_t amount) {
     return read;
 }
 
+bool Asset::readAll(void* buffer, size_t size) {
+    size_t amount = read(buffer, size);
+    if (!error.empty()) {
+        return false;
+    } else if (amount != size) {
+        error = "Read " + std::to_string(amount) + " of expected " + std::to_string(size);
+        return false;
+    }
+    return true;
+}
+
 bool Asset::match(const std::string& string) {
     size_t size = string.size();
     std::unique_ptr<byteArray> tmp = Utils::createBuffer(size);

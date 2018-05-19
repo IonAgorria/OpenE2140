@@ -112,6 +112,10 @@ texture_ptr Window::createTexture(const int width, const int height) {
     return texture;
 }
 
+texture_ptr Window::createTexture(const Vector2& size) {
+    return createTexture(size.x, size.y);
+}
+
 const Vector2& Window::getSize() {
     return windowSize;
 }

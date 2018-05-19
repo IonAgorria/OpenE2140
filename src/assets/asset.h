@@ -108,6 +108,15 @@ public:
     size_t read(void* buffer, size_t amount);
 
     /**
+     * Reads file data to provided buffer
+     *
+     * @param buffer to write
+     * @param size to read
+     * @return true if all bytes were read or false if error or partial read occurred
+     */
+    bool readAll(void* buffer, size_t size);
+
+    /**
      * Reads file data to provided object
      *
      * @param element to write

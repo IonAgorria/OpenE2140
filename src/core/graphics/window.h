@@ -86,6 +86,16 @@ public:
     texture_ptr createTexture(const int width, const int height);
 
     /**
+     * Creates a texture for drawing in the window
+     *
+     * @param width size of image
+     * @param height size of image
+     * @param pixels content of image
+     * @return image
+     */
+    texture_ptr createTexture(const Vector2& size);
+
+    /**
      * @return window current size in pixels
      */
     const Vector2& getSize();

@@ -386,6 +386,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         log->error("Error reading '{0}' MIX header {1}", path, error);
         return -1;
     }
+    //log->debug("{0} Streams: {1} Palettes: {2}", path, mixHeader.streamsCount, mixHeader.palettesCount);
 
     //Verify constant
     match = asset->match("ENTRY");

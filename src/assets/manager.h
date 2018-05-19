@@ -121,7 +121,7 @@ private:
     } ImageSize16;
 
     /**
-     * Image size struct with ints
+     * Segmented image header
      */
     typedef struct {
         unsigned int width;
@@ -129,7 +129,19 @@ private:
         unsigned int dataBlockSize;
         unsigned int scanLinesCount;
         unsigned int segmentBlockSize;
+        unsigned int unknown6;
+        unsigned int unknown7;
+        unsigned int unknown8;
+        unsigned int unknown9;
     } SegmentedImageHeader;
+
+    /**
+     * Segmented image segment
+     */
+    typedef struct {
+        byte padding;
+        byte width;
+    } SegmentedImageSegment;
 
 public:
     /**

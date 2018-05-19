@@ -1,5 +1,4 @@
 Planificacion temporal:
-- Carga de sprites utilizando los archivos del juego
 - Sistema de mapa con tiles
 - Crear la base para entidades del juego
 - Unidades moviles
@@ -23,3 +22,4 @@ Planificacion temporal:
 
 Progreso:
 - Mostrar una ventana, gestion de eventos basicos
+- Carga de sprites utilizando los archivos del juego

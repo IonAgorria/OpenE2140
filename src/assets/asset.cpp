@@ -37,19 +37,24 @@ long Asset::tell() const {
 }
 
 long Asset::seek(long offset, bool set) {
+    //Get new position
     long newPosition;
     if (set) {
         newPosition = offset;
     } else {
         newPosition = position + offset;
     }
-    if (0 <= newPosition && newPosition < fileSize) {
-        position = newPosition;
-        return position;
-    } else {
-        error = "Position got out of bounds " + std::to_string(newPosition);
-        return -1;
+
+    //Keep in bounds
+    if (0 > newPosition) {
+        newPosition = 0;
+    } else if (0 < fileSize && newPosition >= fileSize) {
+        newPosition = fileSize;
     }
+
+    //Set position
+    position = newPosition;
+    return position;
 }
 
 long Asset::size() const {

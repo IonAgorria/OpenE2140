@@ -96,16 +96,6 @@ public:
     bool loadFromRGB565(const byte* pixels, const byte* alpha);
 
     /**
-     * Loads image data to texture using pixels in RGB888 format.
-     * Pixels array must match rectangle of image.
-     *
-     * @param pixels to fill the rectangle
-     * @param alpha data for each pixel
-     * @return if success
-     */
-    bool loadFromRGB888(const byte* pixels, const byte* alpha);
-
-    /**
      * Loads image data to texture using pixels in RGB8888 format.
      * Pixels array must match rectangle of image.
      *

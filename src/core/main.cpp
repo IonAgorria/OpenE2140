@@ -68,7 +68,6 @@ int main(int argc, char** argv) {
                             case SDL_MOUSEMOTION: {
                                 rectangle.x = event.motion.x;
                                 rectangle.y = event.motion.y;
-                                log->debug(rectangle.toString());
                                 //log->debug("Mouse motion: {0}x{1}", event.motion.x, event.motion.y);
                                 break;
                             }
@@ -95,15 +94,18 @@ int main(int argc, char** argv) {
                                     default:
                                         break;
                                 }
-                                std::shared_ptr<AssetImage> assetImage = manager.getAsset<AssetImage>("MIX/SPRT1/" + std::to_string(index));
+                                std::shared_ptr<AssetImage> assetImage = manager.getAsset<AssetImage>("MIX/SPRU0/" + std::to_string(index));
                                 image.reset();
                                 if (assetImage) {
                                     Vector2 imageSize = assetImage->getImageSize();
                                     std::unique_ptr<Image> newImage = std::make_unique<Image>(window.createTexture(imageSize), imageSize);
                                     if (newImage) {
-                                        assetImage->writeImage(*newImage);
+                                        if (!assetImage->writeImage(*newImage)) {
+                                            log->error("{0}", assetImage->getError());
+                                        }
                                         image = std::move(newImage);
-                                        rectangle.setSize(imageSize);
+                                        rectangle.w = imageSize.x * 5;
+                                        rectangle.h = imageSize.y * 5;
                                     }
                                 }
                                 log->debug("Loaded index {0} image {1}", index, assetImage ? assetImage->toString() : "none");

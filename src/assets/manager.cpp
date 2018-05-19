@@ -386,7 +386,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         log->error("Error reading '{0}' MIX header {1}", path, error);
         return -1;
     }
-    //log->debug("{0} Streams: {1} Palettes: {2}", path, mixHeader.streamsCount, mixHeader.palettesCount);
+    log->debug("{0} Streams: {1} Palettes: {2} Index: {3}", path, mixHeader.streamsCount, mixHeader.palettesCount, mixHeader.palettesFirstIndex);
 
     //Verify constant
     match = asset->match("ENTRY");
@@ -415,6 +415,10 @@ int Manager::processIntermediateMIX(const asset_path& path) {
     error = asset->getError();
     if (!match || !error.empty()) {
         log->error("Error reading '{0}' MIX constant {1}", path, error);
+        return -1;
+    }
+    if (asset->tell() != mixHeader.palettesOffset) {
+        log->error("Error reading '{0}' MIX palette offset {1} mismatch {2}", path, asset->tell() != mixHeader.palettesOffset);
         return -1;
     }
 
@@ -489,6 +493,8 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             }
 
             //Used to create asset
+            unsigned int assetStart = streamStart;
+            size_t assetSize = streamSize;
             std::shared_ptr<File> assetFile = asset->getFile();
             std::shared_ptr<AssetPalette> imagePalette = nullptr;
             Vector2 imageSize;
@@ -503,7 +509,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         log->error("Error reading '{0}' MIX stream {1} image size {2}", path, i, asset->getError());
                         return -1;
                     }
-                    streamStart += sizeof(imageSizeStruct);
+                    assetStart += sizeof(imageSizeStruct);
                     imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
                     //Skip stream type byte
@@ -513,18 +519,15 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
                         return -1;
                     }
-                    streamStart += 1;
+                    assetStart += 1;
 
                     //Get palette index
                     byte paletteIndex;
-                    readSize = sizeof(paletteIndex);
-                    amount = asset->read(&paletteIndex, readSize);
-                    error = asset->getError();
-                    if (amount != readSize || !error.empty()) {
+                    if (!asset->readAll(paletteIndex)) {
                         log->error("Error reading '{0}' MIX stream {1} palette index {2}", path, i, error);
                         return -1;
                     }
-                    streamStart += 1;
+                    assetStart += 1;
 
                     //Get palette for this image
                     if (paletteIndex < mixHeader.palettesFirstIndex) {
@@ -533,6 +536,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         return -1;
                     }
                     imagePalette = palettes.at(paletteIndex - mixHeader.palettesFirstIndex);
+                    assetSize = streamEnd - assetStart;
                     break;
                 }
                 case TYPE_IMAGE_16_RAW: {
@@ -544,12 +548,12 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         log->error("Error reading '{0}' MIX stream {1} image size {2}", path, i, asset->getError());
                         return -1;
                     }
-                    streamStart += sizeof(imageSizeStruct);
+                    assetStart += sizeof(imageSizeStruct);
                     imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
                     //Skip stream type byte and unknown byte
-                    streamStart += 2;
-
+                    assetStart += 2;
+                    assetSize = streamEnd - assetStart;
                     break;
                 }
                 case TYPE_IMAGE_SEGMENTED: {
@@ -642,17 +646,20 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
                     //Create memory file to store image 8 bit palette indexes and set it as asset file, also reset streamStart
                     assetFile = std::make_shared<File>();
-                    if (!assetFile->fromMemory(segmentedImageHeader.width * segmentedImageHeader.height)) {
+                    unsigned int imagePixelCount = segmentedImageHeader.width * segmentedImageHeader.height;
+                    assetSize = imagePixelCount * 2;
+                    if (!assetFile->fromMemory(assetSize)) {
                         log->error("Error reading '{0}' MIX stream {1} image buffer {2}", path, i, assetFile->getError());
                         return -1;
                     }
-                    streamStart = 0;
+                    assetStart = 0;
 
-                    //Create buffer to store current segment data
-                    std::unique_ptr<byteArray> segmentBuffer = Utils::createBuffer(segmentedImageHeader.width);
+                    //Create buffer to store alpha channel data
+                    std::unique_ptr<byteArray> alphaBuffer = Utils::createBuffer(imagePixelCount);
 
                     //Decode the data, ignore the last entry
                     byte zero = 0;
+                    unsigned int imagePosition = 0;
                     for (unsigned int scanLineIndex = 0; scanLineIndex < segmentedImageHeader.scanLinesCount - 1; scanLineIndex++) {
                         //Go to data position
                         result = asset->seek(dataBlockOffset + dataOffsets.at(scanLineIndex), true);
@@ -685,7 +692,12 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                                     log->error("Error reading '{0}' MIX stream {1} when writing left padding {2}", path, i, error);
                                     return -1;
                                 }
+                                alphaBuffer[imagePosition] = 0;
+                                imagePosition++;
                             }
+
+                            //Create buffer to store current segment data
+                            std::unique_ptr<byteArray> segmentBuffer = Utils::createBuffer(segment.width);
 
                             //Read segment data to buffer
                             amount = asset->read(segmentBuffer.get(), segment.width);
@@ -702,6 +714,12 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                                 log->error("Error reading '{0}' MIX stream {1} segment buffer writing {2}", path, i, error);
                                 return -1;
                             }
+
+                            //Write alpha
+                            for (int k = 0; k < segment.width; ++k) {
+                                alphaBuffer[imagePosition] = 0xFF;
+                                imagePosition++;
+                            }
                         }
 
                         //Fill right padding
@@ -712,12 +730,26 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                                 log->error("Error reading '{0}' MIX stream {1} when writing right padding {2}", path, i, error);
                                 return -1;
                             }
+                            alphaBuffer[imagePosition] = 0;
+                            imagePosition++;
                         }
+                    }
+
+                    //Append alpha buffer
+                    amount = assetFile->write(alphaBuffer.get(), imagePixelCount);
+                    error = assetFile->getError();
+                    if (amount != imagePixelCount || !error.empty()) {
+                        log->error("Error reading '{0}' MIX stream {1} alpha buffer writing {2}", path, i, error);
+                        return -1;
                     }
 
                     //Check if all was written
                     if (assetFile->tell() != assetFile->size()) {
                         log->error("Error reading '{0}' MIX stream {1} not all data was written {2} vs {3}", path, i, assetFile->tell(), assetFile->size());
+                        return -1;
+                    }
+                    if (imagePosition != imagePixelCount) {
+                        log->error("Error reading '{0}' MIX stream {1} not all position was written {2} vs {3}", path, i, imagePosition, imagePixelCount);
                         return -1;
                     }
 
@@ -733,10 +765,10 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             std::shared_ptr<Asset> assetStream;
             asset_path streamAssetPath = basePath + "/" + std::to_string(i);
             if (isImageStream) {
-                assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, streamStart, streamSize,
+                assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, assetStart, assetSize,
                                                            imageSize, imagePalette);
             } else {
-                assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, streamStart, streamSize);
+                assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, assetStart, assetSize);
             }
             if (addAsset(assetStream)) {
                 addedAssets++;

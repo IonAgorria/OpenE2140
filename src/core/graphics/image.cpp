@@ -62,32 +62,6 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     return loadFromRGBA8888(converted.get());
 }
 
-bool Image::loadFromRGB888(const byte* pixels, const byte* alpha) {
-    if (!check()) return false;
-
-    //Create buffer for converted pixels and do conversion
-    std::unique_ptr<byteArray> converted = Utils::createBuffer(
-            static_cast<const size_t>(rectangle.w * rectangle.h * 4)
-    );
-    int result = SDL_ConvertPixels(
-            rectangle.w, rectangle.h,
-            SDL_PIXELFORMAT_RGB888, pixels, rectangle.w * 3,
-            SDL_PIXELFORMAT_RGBA8888, converted.get(), rectangle.w * 4
-    );
-    if (result < 0) {
-        error = "Error converting RGB888 " + Utils::checkSDLError();
-        return false;
-    }
-
-    //Update the alpha
-    if (!loadAlpha(converted.get(), alpha)) {
-        return false;
-    }
-
-    //Load converted data and return result
-    return loadFromRGBA8888(converted.get());
-}
-
 bool Image::loadAlpha(byte* pixels, const byte* alpha) {
     size_t size = static_cast<const size_t>(rectangle.w * rectangle.h);
     for (size_t i = 0; i < size; i++) {

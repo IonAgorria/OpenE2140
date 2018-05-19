@@ -39,9 +39,9 @@ public:
      *
      * @param index to look
      * @param color struct to fill
-     * @return 0 or less if error, color position if OK
+     * @return true if OK
      */
-    long getColor(int index, AssetPalette::Color& color);
+    bool getColor(int index, AssetPalette::Color& color);
 
     /**
      * @return string version of this asset

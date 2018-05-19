@@ -28,6 +28,22 @@ private:
      * Rectangle to know texture source
      */
      Rectangle rectangle;
+
+    /**
+     * Checks if image is correct
+     *
+     * @return true if OK
+     */
+    bool check();
+
+    /**
+     * Loads alpha data into pixels array
+     *
+     * @param pixels to update
+     * @param alpha to set
+     * @return true if OK
+     */
+    bool loadAlpha(byte* pixels, const byte* alpha);
 public:
     /**
      * Constructor for image
@@ -74,18 +90,20 @@ public:
      * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle
+     * @param alpha data for each pixel
      * @return if success
      */
-    bool loadFromRGB565(const byte* pixels);
+    bool loadFromRGB565(const byte* pixels, const byte* alpha);
 
     /**
      * Loads image data to texture using pixels in RGB888 format.
      * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle
+     * @param alpha data for each pixel
      * @return if success
      */
-    bool loadFromRGB888(const byte* pixels);
+    bool loadFromRGB888(const byte* pixels, const byte* alpha);
 
     /**
      * Loads image data to texture using pixels in RGB8888 format.

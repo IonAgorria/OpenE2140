@@ -1,3 +1,4 @@
+#include <assets/assetimage.h>
 #include "core/config.h"
 #include "core/utils.h"
 #include "core/io/log.h"
@@ -47,22 +48,10 @@ int main(int argc, char** argv) {
             if (!manager.initManager()) {
                 error = true;
             } else {
-                //Test;
-                log->info("DIR {0}", (bool) manager.getAsset("PIRO/GRAPH/SHCKV00.PAL"));;
-                log->info("WD {0}", (bool) manager.getAsset("MIX/GRAPH/DATAB.MIX"));
-                log->info("MISSING {0}", (bool) manager.getAsset("LEVEL/NEW"));
-                Rectangle rectangle(0, 0, 10, 10);
-                Rectangle rectangleDst(0, 0, 200, 200);
-                Image image(window.createTexture(rectangle.w, rectangle.h), rectangle);
-                auto buffer = Utils::createBuffer(static_cast<const size_t>(rectangle.w * rectangle.h * 4));
-                for (int i = 0; i < rectangle.w * rectangle.h * 4;) {
-                    buffer[i++] = 0xFF;
-                    buffer[i++] = byte (((i % 3) == 0) ? 0xFF : 0x00);
-                    buffer[i++] = byte (((i % 3) == 0) ? 0xFF : 0x00);
-                    buffer[i++] = byte (((i % 3) == 0) ? 0xFF : 0x00);
-                }
-                image.loadFromRGBA8888(log, buffer.get());
-
+                //TODO for testing, remove
+                int index = 0;
+                std::unique_ptr<Image> image;
+                Rectangle rectangle;
                 //Main loop
                 SDL_Event event;
                 bool quit = false;
@@ -72,19 +61,55 @@ int main(int argc, char** argv) {
                     while (SDL_PollEvent(&event) == 1) {
                         switch (event.type) {
                             case SDL_MOUSEBUTTONDOWN:
-                            case SDL_MOUSEBUTTONUP:
+                            case SDL_MOUSEBUTTONUP: {
                                 log->debug("Mouse button: {0}", event.button.button);
                                 break;
-                            case SDL_MOUSEMOTION:
-                                rectangleDst.x = event.motion.x;
-                                rectangleDst.y = event.motion.y;
+                            }
+                            case SDL_MOUSEMOTION: {
+                                rectangle.x = event.motion.x;
+                                rectangle.y = event.motion.y;
+                                log->debug(rectangle.toString());
                                 //log->debug("Mouse motion: {0}x{1}", event.motion.x, event.motion.y);
                                 break;
-                            case SDL_KEYDOWN:
-                            case SDL_KEYUP:
-                                log->debug("Key: {0}", event.key.keysym.scancode);
+                            }
+                            case SDL_KEYDOWN: {
                                 break;
-                            case SDL_WINDOWEVENT:
+                            }
+                            case SDL_KEYUP: {
+                                int scancode = event.key.keysym.scancode;
+                                log->debug("Key: {0}", scancode);
+                                //TODO for testing, remove
+                                switch (scancode) {
+                                    case SDL_SCANCODE_LEFT:
+                                        index -= 1;
+                                        break;
+                                    case SDL_SCANCODE_RIGHT:
+                                        index += 1;
+                                        break;
+                                    case SDL_SCANCODE_UP:
+                                        index += 50;
+                                        break;
+                                    case SDL_SCANCODE_DOWN:
+                                        index -= 50;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                std::shared_ptr<AssetImage> assetImage = manager.getAsset<AssetImage>("MIX/SPRT1/" + std::to_string(index));
+                                image.reset();
+                                if (assetImage) {
+                                    Vector2 imageSize = assetImage->getImageSize();
+                                    std::unique_ptr<Image> newImage = std::make_unique<Image>(window.createTexture(imageSize), imageSize);
+                                    if (newImage) {
+                                        assetImage->writeImage(*newImage);
+                                        image = std::move(newImage);
+                                        rectangle.setSize(imageSize);
+                                    }
+                                }
+                                log->debug("Loaded index {0} image {1}", index, assetImage ? assetImage->toString() : "none");
+                                break;
+                            }
+                            case SDL_WINDOWEVENT: {
                                 switch (event.window.event) {
                                     case SDL_WINDOWEVENT_RESIZED:
                                     case SDL_WINDOWEVENT_SIZE_CHANGED:
@@ -94,15 +119,26 @@ int main(int argc, char** argv) {
                                         break;
                                 }
                                 break;
-                            case SDL_QUIT:
+                            }
+                            case SDL_QUIT: {
                                 quit = true;
-                            default:
                                 continue;
+                            }
+                            default: {
+                                continue;
+                            }
+                        }
+                    }
+
+                    //TODO for testing, remove
+                    if (image) {
+                        if (!window.draw(*image, rectangle)) {
+                            error = true;
+                            break;
                         }
                     }
 
                     //Show the screen
-                    window.draw(image, rectangleDst);
                     if (!window.update()) {
                         error = true;
                         continue;

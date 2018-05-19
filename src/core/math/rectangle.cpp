@@ -68,6 +68,14 @@ void Rectangle::set(int x, int y, int width, int height) {
     this->h = height;
 }
 
+void Rectangle::set(const Rectangle& rectangle)
+{
+    this->x = rectangle.x;
+    this->y = rectangle.y;
+    this->w = rectangle.w;
+    this->h = rectangle.h;
+}
+
 void Rectangle::set(const Vector2& position, const Vector2& size) {
     this->x = position.x;
     this->y = position.y;
@@ -75,12 +83,14 @@ void Rectangle::set(const Vector2& position, const Vector2& size) {
     this->h = size.y;
 }
 
-void Rectangle::set(const Rectangle& rectangle)
-    {
-    this->x = rectangle.x;
-    this->y = rectangle.y;
-    this->w = rectangle.w;
-    this->h = rectangle.h;
+void Rectangle::setPosition(const Vector2& position) {
+    this->x = position.x;
+    this->y = position.y;
+}
+
+void Rectangle::setSize(const Vector2& size) {
+    this->w = size.x;
+    this->h = size.y;
 }
 
 bool Rectangle::isInside(int px, int py) {

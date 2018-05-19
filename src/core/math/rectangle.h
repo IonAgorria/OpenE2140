@@ -86,7 +86,14 @@ public:
     void set(int x, int y, int width, int height);
 
     /**
-     * Constructs a new rectangle
+     * Sets rectangle components
+     *
+     * @param rectangle to get values
+     */
+    void set(const Rectangle& rectangle);
+
+    /**
+     * Sets rectangle components
      *
      * @param position of rectangle
      * @param size of rectangle
@@ -94,11 +101,18 @@ public:
     void set(const Vector2& position, const Vector2& size);
 
     /**
-     * Sets rectangle components
+     * Sets rectangle position
      *
-     * @param rectangle to get values
+     * @param position of rectangle
      */
-    void set(const Rectangle& rectangle);
+    void setPosition(const Vector2& position);
+
+    /**
+     * Sets rectangle size
+     *
+     * @param size of rectangle
+     */
+    void setSize(const Vector2& size);
 
     /**
      * Checks if a position is inside this rectangle

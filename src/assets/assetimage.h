@@ -4,7 +4,8 @@
 #ifndef OPENE2140_ASSETIMAGE_H
 #define OPENE2140_ASSETIMAGE_H
 
-#include <core/math/vector2.h>
+#include "core/math/vector2.h"
+#include "core/graphics/window.h"
 #include "assetpalette.h"
 #include "asset.h"
 
@@ -52,6 +53,19 @@ public:
      */
     AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
        const Vector2& size);
+
+    /**
+     * @return image size
+     */
+    const Vector2& getImageSize() const;
+
+    /**
+     * Writes this asset image content to provided image
+     *
+     * @param image to write
+     * @return true if success
+     */
+    bool writeImage(Image& image);
 
     /**
      * @return string version of this asset

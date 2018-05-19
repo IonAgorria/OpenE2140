@@ -17,7 +17,7 @@ using texture_ptr = std::shared_ptr<SDL_Texture>;
 /**
  * Image instance used for window drawing in abstract way
  */
-class Image {
+class Image: public ErrorPossible {
 private:
     /**
      * Texture containing this image data
@@ -33,6 +33,11 @@ public:
      * Constructor for image
      */
     Image(texture_ptr texture, const Rectangle& rectangle);
+
+    /**
+     * Constructor for image
+     */
+    Image(texture_ptr texture, const Vector2& size);
 
     /**
      * Image destructor
@@ -68,31 +73,28 @@ public:
      * Loads image data to texture using pixels in RGB565 format.
      * Pixels array must match rectangle of image.
      *
-     * @param log to use
      * @param pixels to fill the rectangle
      * @return if success
      */
-    bool loadFromRGB565(const log_ptr log, const byte* pixels);
+    bool loadFromRGB565(const byte* pixels);
 
     /**
      * Loads image data to texture using pixels in RGB888 format.
      * Pixels array must match rectangle of image.
      *
-     * @param log to use
      * @param pixels to fill the rectangle
      * @return if success
      */
-    bool loadFromRGB888(const log_ptr log, const byte* pixels);
+    bool loadFromRGB888(const byte* pixels);
 
     /**
      * Loads image data to texture using pixels in RGB8888 format.
      * Pixels array must match rectangle of image.
      *
-     * @param log to use
      * @param pixels to fill the rectangle
      * @return if success
      */
-    bool loadFromRGBA8888(const log_ptr log, const byte* pixels);
+    bool loadFromRGBA8888(const byte* pixels);
 };
 
 #endif //OPENE2140_IMAGE_H

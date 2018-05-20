@@ -94,8 +94,13 @@ int main(int argc, char** argv) {
                                     default:
                                         break;
                                 }
-                                std::shared_ptr<AssetImage> assetImage = manager.getAsset<AssetImage>("MIX/SPRU0/" + std::to_string(index));
                                 image.reset();
+                                std::shared_ptr<AssetImage> assetImage;
+                                if (index < 0) {
+                                    assetImage = manager.getAsset<AssetImage>("MIX/SPRT3/" + std::to_string(-1 * index - 1));
+                                } else {
+                                    assetImage = manager.getAsset<AssetImage>("MIX/SPRU0/" + std::to_string(index));
+                                }
                                 if (assetImage) {
                                     Vector2 imageSize = assetImage->getImageSize();
                                     std::unique_ptr<Image> newImage = std::make_unique<Image>(window.createTexture(imageSize), imageSize);

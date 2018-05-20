@@ -429,7 +429,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         //Create palette from MIX, path is not really used but it's nice to have
         asset_path palettePath = basePath + "/" + std::to_string(i) + ".PAL";
         std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
-                palettePath, asset->getFile(), asset->tell(), paletteSize
+                palettePath, asset->getFile(), asset->offset() + asset->tell(), paletteSize
         );
 
         //Jump to next palette

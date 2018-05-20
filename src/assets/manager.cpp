@@ -537,6 +537,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     }
                     imagePalette = palettes.at(paletteIndex - mixHeader.palettesFirstIndex);
                     assetSize = streamEnd - assetStart;
+                    assetStart += asset->offset();
                     break;
                 }
                 case TYPE_IMAGE_16_RAW: {
@@ -554,6 +555,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     //Skip stream type byte and unknown byte
                     assetStart += 2;
                     assetSize = streamEnd - assetStart;
+                    assetStart += asset->offset();
                     break;
                 }
                 case TYPE_IMAGE_SEGMENTED: {

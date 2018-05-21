@@ -26,6 +26,10 @@ private:
     static std::unique_ptr<std::string> userPath;
     /** Cached dump path */
     static std::unique_ptr<std::string> dumpPath;
+    /** Original terminate handler */
+    static std::terminate_handler originalTerminateHandler;
+    /*** Last exception info */
+    static std::string lastException;
 public:
     /**
      * Set debug mode
@@ -73,12 +77,17 @@ public:
     /**
      * Set custom signal handlers
      */
-    static void setSignalHandler(__sighandler_t signal_handler);
+    static void setSignalHandler(__sighandler_t signalHandler, std::terminate_handler terminateHandler);
 
     /**
      * Set default signal handlers
      */
     static void restoreSignalHandler();
+
+    /**
+     * Called when program must terminate
+     */
+    static void handleTerminate();
 
     /**
      * Called when signal occurs

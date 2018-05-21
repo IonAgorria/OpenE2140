@@ -15,8 +15,8 @@
  * @return program exit code
  */
 int main(int argc, char** argv) {
-    //Register signal handler
-    Utils::setSignalHandler(Utils::handleHaltAndCatchFire);
+    //Register signal and terminate handler
+    Utils::setSignalHandler(Utils::handleHaltAndCatchFire, Utils::handleTerminate);
 
     //Cache the paths
     Utils::getInstallPath();

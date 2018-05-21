@@ -22,6 +22,8 @@ bool Utils::debug = false;
 std::unique_ptr<std::string> Utils::installPath; //Default null pointer
 std::unique_ptr<std::string> Utils::userPath; //Default null pointer
 std::unique_ptr<std::string> Utils::dumpPath; //Default null pointer
+std::terminate_handler Utils::originalTerminateHandler = nullptr;
+std::string Utils::lastException;
 
 void Utils::setDebug(bool value) {
     debug = value;
@@ -51,16 +53,67 @@ bool Utils::startsWith(const std::string& string, const std::string& start) {
     return strncmp(string.c_str(), start.c_str(), startSize) == 0;
 }
 
-void Utils::setSignalHandler(__sighandler_t signal_handler) {
-    signal(SIGSEGV, signal_handler);
-    signal(SIGABRT, signal_handler);
-    signal(SIGBUS, signal_handler);
-    signal(SIGFPE, signal_handler);
-    signal(SIGILL, signal_handler);
+void Utils::setSignalHandler(__sighandler_t signalHandler, std::terminate_handler terminateHandler) {
+    signal(SIGSEGV, signalHandler);
+    signal(SIGABRT, signalHandler);
+    signal(SIGBUS, signalHandler);
+    signal(SIGFPE, signalHandler);
+    signal(SIGILL, signalHandler);
+    std::terminate_handler oldHandler = std::set_terminate(terminateHandler);
+    //Set the first one as original
+    if (!originalTerminateHandler) {
+        originalTerminateHandler = oldHandler;
+    }
 }
 
 void Utils::restoreSignalHandler() {
-    setSignalHandler(SIG_DFL);
+    setSignalHandler(SIG_DFL, originalTerminateHandler);
+}
+
+void Utils::handleTerminate() {
+    //Save stacktrace
+    if (dumpPath) {
+        saveStackTrace(*dumpPath);
+    }
+
+
+    //Get exception
+    std::exception_ptr e = std::current_exception();
+    if (e) {
+        try {
+            std::rethrow_exception(e);
+        } catch (std::domain_error& e) { // Inherits logic_error
+            lastException = "Domain error " + std::string(e.what());
+        } catch (std::invalid_argument& e) { // Inherits logic_error
+            lastException = "Invalid argument " + std::string(e.what());
+        } catch (std::length_error& e) { // Inherits logic_error
+            lastException = "Length error " + std::string(e.what());
+        } catch (std::out_of_range& e) { // Inherits logic_error
+            lastException = "Out of range " + std::string(e.what());
+        } catch (std::range_error& e) { // Inherits runtime_error
+            lastException = "Range error " + std::string(e.what());
+        } catch (std::overflow_error& e) { // Inherits runtime_error
+            lastException = "Overflow error " + std::string(e.what());
+        } catch (std::underflow_error& e) { // Inherits runtime_error
+            lastException = "Underflow error " + std::string(e.what());
+        } catch (std::logic_error& e) { // Inherits exception
+            lastException = "Logic error " + std::string(e.what());
+        } catch (std::runtime_error& e) { // Inherits exception
+            lastException = "Runtime error " + std::string(e.what());
+        } catch (std::bad_exception& e) { // Inherits exception
+            lastException = "Bad exception " + std::string(e.what());
+        } catch (std::exception& e) {
+            lastException = "Base exception " + std::string(e.what());
+        } catch (...) {
+            lastException = "Unknown exception";
+        }
+    }
+
+    //Pass to original handler or abort
+    if (originalTerminateHandler) {
+        originalTerminateHandler();
+    }
+    abort();
 }
 
 void Utils::handleHaltAndCatchFire(int sig) {
@@ -80,22 +133,22 @@ void Utils::handleHaltAndCatchFire(int sig) {
     std::string sigName;
     switch (sig) {
         case SIGSEGV:
-            sigName = "Signal: Segmentation violation";
+            sigName = "Segmentation violation";
             break;
         case SIGABRT:
-            sigName = "Signal: Abort";
+            sigName = "Abort";
             break;
         case SIGBUS:
-            sigName = "Signal: Bus";
+            sigName = "Bus";
             break;
         case SIGFPE:
-            sigName = "Signal: Floating-point exception";
+            sigName = "Floating-point exception";
             break;
         case SIGILL:
-            sigName = "Signal: Illegal instruction";
+            sigName = "Illegal instruction";
             break;
         default:
-            sigName = "Signal: Unknown " + std::to_string(sig);
+            sigName = "Unknown " + std::to_string(sig);
             break;
     }
 
@@ -108,29 +161,42 @@ void Utils::handleHaltAndCatchFire(int sig) {
             for (std::string& line : linesStackTrace) {
                 log->critical(line);
             }
-            log->critical(sigName);
-        } catch (std::exception& e) {
-            std::cout << "Error printing with log! " << e.what() << "\n";
+            log->critical("Signal: " + sigName);
+            if (!lastException.empty()) {
+                log->critical("Exception: " + lastException);
+            }
+        } catch (...) {
+            std::cout << "Error printing with log!\n";
             std::cout << "Stack Trace:\n";
             for (std::string& line : linesStackTrace) {
                 std::cout << line << "\n";
             }
-            std::cout << sigName << "\n";
+            std::cout << "Signal: " << sigName << "\n";
+            if (!lastException.empty()) {
+                std::cout << "Exception: " << lastException << "\n";
+            }
         }
     } else {
         std::cout << "Error getting stack trace!\n";
-        std::cout << sigName << "\n";
+        std::cout << "Signal: " << sigName << "\n";
+        if (!lastException.empty()) {
+            std::cout << "Exception: " << lastException << "\n";
+        }
     }
 
     //Show dialog
     std::ostringstream errorMessage;
-    errorMessage << sigName << "\n\n";
+    errorMessage << "Signal:\n" << sigName << "\n\n";
+    if (!lastException.empty()) {
+        errorMessage << "Exception:\n" << lastException << "\n\n";
+    }
     if (linesStackTrace.empty()) {
         errorMessage << "Empty stack trace!\n";
     } else {
         errorMessage << "Stack trace:\n";
         join(errorMessage, BEGIN_END(linesStackTrace), "\n");
     }
+    errorMessage << "\n";
     showErrorDialog(errorMessage.str(), nullptr, false, true);
 
     //Agur
@@ -307,7 +373,7 @@ bool Utils::getStackTrace(std::list<std::string>& lines) {
     for (unsigned int i = 0; i < st.size(); ++i) {
         //Just store the name instead of full name as we don't really care our own name
         if (i == 0) {
-            lines.push_back(std::string("Utils::") + __func__ + " <- last call");
+            lines.push_front(std::string("Utils::") + __func__ + " <- last call");
             continue;
         }
 
@@ -317,7 +383,7 @@ bool Utils::getStackTrace(std::list<std::string>& lines) {
         if (10 <= size) {
             //Remove the start number and end newline
             line = line.substr(4, size - 5);
-            lines.push_back(line);
+            lines.push_front(line);
         }
     }
     return !lines.empty();

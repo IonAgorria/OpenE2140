@@ -1,14 +1,24 @@
 //
 // Created by Ion Agorria on 22/03/18
 //
+#include <SDL_events.h>
 #include "core/io/log.h"
 #include "core/utils.h"
 #include "window.h"
+#include "gui/eventhandler.h"
 
-Window::Window(unsigned int width, unsigned int height, const std::string& title) {
-    log = Log::get(__func__);
+Window::Window(EventHandler& eventHandler) : eventHandler(eventHandler) {
+    log = Log::get("Window");
+    closing = false;
+}
+
+bool Window::init(unsigned int width, unsigned int height, const std::string& title) {
+    if (windowHandle) {
+        Utils::showErrorDialog("Window already created\n" + Utils::checkSDLError(), log, false, true);
+        return false;
+    }
+
     log->debug("Window created {0}x{1} title '{2}'", width, height, title);
-    windowSize.set(width, height);
 
     //Create window
     windowHandle = SDL_CreateWindow(
@@ -21,7 +31,7 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     );
     if (!windowHandle) {
         Utils::showErrorDialog("SDL2 window not available\n" + Utils::checkSDLError(), log, false, true);
-        return;
+        return false;
     }
 
     //Create renderer
@@ -33,7 +43,7 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     }
     if (!rendererHandle) {
         Utils::showErrorDialog("SDL2 renderer not available\n" + Utils::checkSDLError(), log, false, true);
-        return;
+        return false;
     }
 
     //Fetch renderer info
@@ -50,11 +60,15 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     //Check the texture size
     if (textureMaxSize.x < MINIMUM_TEXTURE_SIZE || textureMaxSize.y < MINIMUM_TEXTURE_SIZE) {
         Utils::showErrorDialog("Maximum texture size is too small: " + textureMaxSize.toString() + "\nRenderer: " + rendererName, log, false, false);
-        return;
+        return false;
     }
+
+    //Send the initial resize event
+    eventHandler.windowResize(width, height);
 
     //Show window
     SDL_ShowWindow(windowHandle);
+    return true;
 }
 
 Window::~Window() {
@@ -72,11 +86,6 @@ Window::~Window() {
 
 Window::operator bool() {
     return windowHandle != nullptr && rendererHandle != nullptr;
-}
-
-void Window::resize(int width, int height) {
-    log->debug("Window new size {0}x{1}", width, height);
-    windowSize.set(width, height);
 }
 
 bool Window::draw(Image& image, const Rectangle& rectangle) {
@@ -97,6 +106,52 @@ bool Window::update() {
         Utils::showErrorDialog("SDL_RenderClear error when clearing\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
+
+    //Handle any events
+    SDL_Event event;
+    while (SDL_PollEvent(&event) == 1) {
+        switch (event.type) {
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP: {
+                eventHandler.mouseClick(
+                        event.button.x, event.button.y,
+                        event.button.button,
+                        event.button.state == SDL_PRESSED
+                );
+                break;
+            }
+            case SDL_MOUSEMOTION: {
+                eventHandler.mouseMove(event.motion.x, event.motion.y);
+                break;
+            }
+            case SDL_KEYDOWN:
+            case SDL_KEYUP: {
+                SDL_Keycode sym = event.key.keysym.sym;
+                std::string name(SDL_GetKeyName(sym));
+                eventHandler.keyChange(sym, name, event.key.state == SDL_PRESSED);
+                break;
+            }
+            case SDL_WINDOWEVENT: {
+                switch (event.window.event) {
+                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                        eventHandler.windowResize(event.window.data1, event.window.data2);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
+            case SDL_QUIT: {
+                closing = true;
+                continue;
+            }
+            default: {
+                continue;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -116,6 +171,6 @@ texture_ptr Window::createTexture(const Vector2& size) {
     return createTexture(size.x, size.y);
 }
 
-const Vector2& Window::getSize() {
-    return windowSize;
+bool Window::isClosing() {
+    return closing;
 }

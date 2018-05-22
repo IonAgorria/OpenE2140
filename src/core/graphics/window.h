@@ -8,6 +8,7 @@
 #include "SDL_render.h"
 #include "core/io/log.h"
 #include "image.h"
+#include "gui/eventhandler.h"
 
 /**
  * Window class, each one contains a handle for a window.
@@ -24,17 +25,15 @@ private:
     SDL_Renderer* rendererHandle = nullptr;
     /** Max texture size */
     Vector2 textureMaxSize;
-    /** Window size vector */
-    Vector2 windowSize;
+    /** Window close state */
+    bool closing;
+    /** Event handler to receive window events */
+    EventHandler& eventHandler;
 public:
     /**
-     * Creates the window with provided parameters
-     *
-     * @param width of window
-     * @param height of window
-     * @param title of window
+     * Window constructor
      */
-    Window(unsigned int width, unsigned int height, const std::string& title);
+    Window(EventHandler& eventHandler);
 
     /**
      * Destroys any created window
@@ -52,12 +51,13 @@ public:
     operator bool();
 
     /**
-     * Called when window is resized
+     * Creates the window with provided parameters
      *
      * @param width of window
      * @param height of window
+     * @param title of window
      */
-    void resize(int width, int height);
+    bool init(unsigned int width, unsigned int height, const std::string& title);
 
     /**
      * Adds image to window in specified rectangle
@@ -96,9 +96,9 @@ public:
     texture_ptr createTexture(const Vector2& size);
 
     /**
-     * @return window current size in pixels
+     * @return if window must close
      */
-    const Vector2& getSize();
+     bool isClosing();
 };
 
 #endif //OPENE2140_WINDOW_H

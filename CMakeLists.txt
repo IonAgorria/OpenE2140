@@ -43,6 +43,7 @@ set(SOURCE_FILES
         src/assets/manager.cpp
         src/assets/assetimage.cpp
         src/assets/assetpalette.cpp
+        src/gui/eventhandler.cpp
         )
 
 # Load SDL2

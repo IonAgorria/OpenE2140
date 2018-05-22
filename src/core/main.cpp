@@ -1,11 +1,171 @@
-#include <assets/assetimage.h>
+#include "assets/assetimage.h"
 #include "core/config.h"
 #include "core/utils.h"
 #include "core/io/log.h"
 #include "core/graphics/window.h"
-#include "core/math/rectangle.h"
 #include "assets/manager.h"
 #include "SDL.h"
+#include "SDL_keycode.h"
+
+/**
+ * Temporary event handler for asset viewing thing
+ */
+class ViewerEventHandler : public EventHandler {
+    /** Viewing asset index */
+    int index = 0;
+    /** Viewing asset scale */
+    int scale = 2;
+
+public:
+    /** Generated image of asset */
+    std::unique_ptr<Image> image;
+    /** Rectangle for drawing */
+    Rectangle rectangle;
+    /** Manager for asset fetching */
+    std::shared_ptr<Manager> manager;
+    /** Window for texture */
+    std::shared_ptr<Window> window;
+
+    void init(std::shared_ptr<Manager>& manager, std::shared_ptr<Window>& window) {
+        this->manager = manager;
+        this->window = window;
+        loadImage();
+    }
+
+    void reset() {
+        manager.reset();
+        window.reset();
+        image.reset();
+    }
+
+    void mouseMove(int x, int y) override {
+        rectangle.setCenter(x, y);
+    }
+
+    void mouseClick(int x, int y, int button, bool press) override {
+        if (!press) {
+            switch (button) {
+                case 1: //Left
+                    if (1 < scale) {
+                        scale--;
+                    }
+                    break;
+                case 2: //Middle
+                    scale = 1;
+                    break;
+                case 3: //Right
+                    if (scale < 10) {
+                        scale++;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        rectangle.setCenter(x, y);
+        loadImage();
+    }
+
+    void keyChange(int code, std::string name, bool press) override {
+        if (!press) {
+            switch (code) {
+                case SDLK_LEFT:
+                    index -= 1;
+                    break;
+                case SDLK_RIGHT:
+                    index += 1;
+                    break;
+                case SDLK_UP:
+                    index += 50;
+                    break;
+                case SDLK_DOWN:
+                    index -= 50;
+                    break;
+                default:
+                    break;
+            }
+            log->debug("Key name: " + name);
+            loadImage();
+        }
+    }
+
+    void loadImage() {
+        image.reset();
+        std::shared_ptr<AssetImage> assetImage;
+        if (index < 0) {
+            assetImage = manager->getAsset<AssetImage>("MIX/SPRT3/" + std::to_string(-1 * index - 1));
+        } else {
+            assetImage = manager->getAsset<AssetImage>("MIX/SPRU0/" + std::to_string(index));
+        }
+        if (assetImage) {
+            Vector2 imageSize = assetImage->getImageSize();
+            std::unique_ptr<Image> newImage = std::make_unique<Image>(window->createTexture(imageSize), imageSize);
+            if (newImage) {
+                if (!assetImage->writeImage(*newImage)) {
+                    log->error("{0}", assetImage->getError());
+                }
+                image = std::move(newImage);
+
+                //Adjust rectangle
+                Vector2 center;
+                rectangle.getCenter(center);
+                rectangle.w = imageSize.x * scale;
+                rectangle.h = imageSize.y * scale;
+                rectangle.setCenter(center);
+            }
+        }
+        log->debug("Loaded index {0} image {1}", index, assetImage ? assetImage->toString() : "none");
+    }
+};
+
+/**
+ * Runs the interesting stuff
+ *
+ * @return if error occurred
+ */
+bool run() {
+    //Initialize event handler
+    ViewerEventHandler viewer;
+
+    //Initialize window
+    std::shared_ptr<Window> window = std::make_shared<Window>(viewer);
+    if (!window->init(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE)) {
+        return true;
+    }
+
+    //Initialize asset manager
+    std::shared_ptr<Manager> manager = std::make_shared<Manager>();
+    if (!manager->init()) {
+        return true;
+    }
+
+    //Configure viewer
+    viewer.init(manager, window);
+
+    //Main loop
+    bool error = false;
+    while (!window->isClosing()) {
+        //Show viewer image
+        if (viewer.image) {
+            Image& image = *viewer.image;
+            if (image && !window->draw(image, viewer.rectangle)) {
+                error = true;
+                break;
+            }
+        }
+
+        //Update window
+        if (!window->update()) {
+            error = true;
+            break;
+        }
+    }
+
+    //Clean up
+    viewer.reset();
+
+    return error;
+}
 
 /**
  * Main program entry point
@@ -32,127 +192,13 @@ int main(int argc, char** argv) {
     //Initialize log
     log_ptr log = Log::get(MAIN_LOG);
 
-    //Initialize SDL2
-    bool error = false;
+    //Initialize SDL2 and run if success
+    bool error;
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0) {
-        Utils::showErrorDialog("SDL_Init failed\n" + Utils::checkSDLError(), log, false, true);
         error = true;
+        Utils::showErrorDialog("SDL_Init failed\n" + Utils::checkSDLError(), log, false, true);
     } else {
-        //Initialize window
-        Window window(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE);
-        if (!window) {
-            error = true;
-        } else {
-            //Initialize manager
-            Manager manager;
-            if (!manager.initManager()) {
-                error = true;
-            } else {
-                //TODO for testing, remove
-                int index = 0;
-                std::unique_ptr<Image> image;
-                Rectangle rectangle;
-                //Main loop
-                SDL_Event event;
-                bool quit = false;
-                while (!quit && !error)
-                {
-                    //Handle any events
-                    while (SDL_PollEvent(&event) == 1) {
-                        switch (event.type) {
-                            case SDL_MOUSEBUTTONDOWN:
-                            case SDL_MOUSEBUTTONUP: {
-                                log->debug("Mouse button: {0}", event.button.button);
-                                break;
-                            }
-                            case SDL_MOUSEMOTION: {
-                                rectangle.x = event.motion.x;
-                                rectangle.y = event.motion.y;
-                                //log->debug("Mouse motion: {0}x{1}", event.motion.x, event.motion.y);
-                                break;
-                            }
-                            case SDL_KEYDOWN: {
-                                break;
-                            }
-                            case SDL_KEYUP: {
-                                int scancode = event.key.keysym.scancode;
-                                log->debug("Key: {0}", scancode);
-                                //TODO for testing, remove
-                                switch (scancode) {
-                                    case SDL_SCANCODE_LEFT:
-                                        index -= 1;
-                                        break;
-                                    case SDL_SCANCODE_RIGHT:
-                                        index += 1;
-                                        break;
-                                    case SDL_SCANCODE_UP:
-                                        index += 50;
-                                        break;
-                                    case SDL_SCANCODE_DOWN:
-                                        index -= 50;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                image.reset();
-                                std::shared_ptr<AssetImage> assetImage;
-                                if (index < 0) {
-                                    assetImage = manager.getAsset<AssetImage>("MIX/SPRT3/" + std::to_string(-1 * index - 1));
-                                } else {
-                                    assetImage = manager.getAsset<AssetImage>("MIX/SPRU0/" + std::to_string(index));
-                                }
-                                if (assetImage) {
-                                    Vector2 imageSize = assetImage->getImageSize();
-                                    std::unique_ptr<Image> newImage = std::make_unique<Image>(window.createTexture(imageSize), imageSize);
-                                    if (newImage) {
-                                        if (!assetImage->writeImage(*newImage)) {
-                                            log->error("{0}", assetImage->getError());
-                                        }
-                                        image = std::move(newImage);
-                                        rectangle.w = imageSize.x * 5;
-                                        rectangle.h = imageSize.y * 5;
-                                    }
-                                }
-                                log->debug("Loaded index {0} image {1}", index, assetImage ? assetImage->toString() : "none");
-                                break;
-                            }
-                            case SDL_WINDOWEVENT: {
-                                switch (event.window.event) {
-                                    case SDL_WINDOWEVENT_RESIZED:
-                                    case SDL_WINDOWEVENT_SIZE_CHANGED:
-                                        window.resize(event.window.data1, event.window.data2);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                break;
-                            }
-                            case SDL_QUIT: {
-                                quit = true;
-                                continue;
-                            }
-                            default: {
-                                continue;
-                            }
-                        }
-                    }
-
-                    //TODO for testing, remove
-                    if (image) {
-                        if (!window.draw(*image, rectangle)) {
-                            error = true;
-                            break;
-                        }
-                    }
-
-                    //Show the screen
-                    if (!window.update()) {
-                        error = true;
-                        continue;
-                    }
-                }
-            }
-        }
+        error = run();
     }
 
     //Close SDL (doesn't matter if SDL was init successfully)

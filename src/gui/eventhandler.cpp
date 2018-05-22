@@ -1,0 +1,24 @@
+//
+// Created by Ion Agorria on 20/05/18
+//
+#include "eventhandler.h"
+
+EventHandler::EventHandler() {
+    log = Log::get("EventHandler");
+}
+
+void EventHandler::windowResize(int width, int height) {
+    log->debug("Window size {0}x{1}", width, height);
+}
+
+void EventHandler::mouseClick(int x, int y, int button, bool press) {
+    log->debug("Mouse button: {0} at {1}x{2} {3}", button, x, y, press ? "press" : "release");
+}
+
+void EventHandler::mouseMove(int x, int y) {
+    log->debug("Mouse motion: {0}x{1}", x, y);
+}
+
+void EventHandler::keyChange(int code, std::string name, bool press) {
+    log->debug("Key change: {0} '{1}' {2}", code, name, press ? "press" : "release");
+}

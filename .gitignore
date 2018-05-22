@@ -4,7 +4,7 @@ cmake-build*
 log.txt
 dump.bin
 /assets
-/out
+/build
 /.vagrant
 
 # Object files

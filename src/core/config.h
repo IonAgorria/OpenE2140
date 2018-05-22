@@ -49,7 +49,7 @@ using byteArray = byte[];
 /** Game version major digit */
 #define GAME_VERSION_MAJOR 0
 /** Game version minor digit */
-#define GAME_VERSION_MINOR 1
+#define GAME_VERSION_MINOR 2
 /** Game version string */
 #define GAME_VERSION STR(GAME_VERSION_MAJOR) "." STR(GAME_VERSION_MINOR)
 /** File to dump when crashing */

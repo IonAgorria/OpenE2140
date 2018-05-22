@@ -115,6 +115,28 @@ public:
     void setSize(const Vector2& size);
 
     /**
+     * Sets rectangle center
+     *
+     * @param x value
+     * @param y value
+     */
+    void setCenter(int x, int y);
+
+    /**
+     * Sets rectangle center
+     *
+     * @param center of rectangle
+     */
+    void setCenter(const Vector2& center);
+
+    /**
+     * Sets rectangle center on the vector
+     *
+     * @param vector to change
+     */
+    void getCenter(Vector2& vector) const;
+
+    /**
      * Checks if a position is inside this rectangle
      *
      * @param x position

@@ -93,6 +93,21 @@ void Rectangle::setSize(const Vector2& size) {
     this->h = size.y;
 }
 
+void Rectangle::setCenter(int x, int y) {
+    this->x = x - w / 2;
+    this->y = y - h / 2;
+}
+
+void Rectangle::setCenter(const Vector2& center) {
+    this->x = center.x - w / 2;
+    this->y = center.y - h / 2;
+}
+
+void Rectangle::getCenter(Vector2& vector) const {
+    vector.x = x + w / 2;
+    vector.y = y + h / 2;
+}
+
 bool Rectangle::isInside(int px, int py) {
     return x <= px && px <= x + w
         && y <= py && py <= y + h;

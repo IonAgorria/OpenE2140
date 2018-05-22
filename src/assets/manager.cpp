@@ -56,7 +56,7 @@ void Manager::clearAssets() {
     assetsCount = 0;
 }
 
-bool Manager::initManager() {
+bool Manager::init() {
     //Scan assets from containers
     std::string assetDir = std::string(GAME_ASSETS_DIR) + DIR_SEP;
     std::list<std::string> assetDirPaths = {
@@ -386,7 +386,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         log->error("Error reading '{0}' MIX header {1}", path, error);
         return -1;
     }
-    log->debug("{0} Streams: {1} Palettes: {2} Index: {3}", path, mixHeader.streamsCount, mixHeader.palettesCount, mixHeader.palettesFirstIndex);
+    //log->debug("{0} Streams: {1} Palettes: {2} Index: {3}", path, mixHeader.streamsCount, mixHeader.palettesCount, mixHeader.palettesFirstIndex);
 
     //Verify constant
     match = asset->match("ENTRY");
@@ -759,6 +759,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                 }
                 default: { //Unknown
                     log->warn("'{0}' MIX stream {1} is unknown type", path, i);
+                    assetStart += asset->offset();
                     break;
                 }
             }

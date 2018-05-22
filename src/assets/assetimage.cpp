@@ -63,7 +63,6 @@ bool AssetImage::writeImage(Image& image) {
 
             //Store color values in buffer
             int bufferI = i * 4;
-            buffer[bufferI] = 0;           //A
             buffer[bufferI + 1] = color.B; //B
             buffer[bufferI + 2] = color.G; //G
             buffer[bufferI + 3] = color.R; //R

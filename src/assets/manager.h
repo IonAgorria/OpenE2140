@@ -191,7 +191,7 @@ public:
      *
      * @return true if success
      */
-    bool initManager();
+    bool init();
 };
 
 #endif //OPENE2140_LOADER_H

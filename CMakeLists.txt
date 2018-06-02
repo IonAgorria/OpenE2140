@@ -33,6 +33,7 @@ set(SOURCE_FILES
         src/core/main.cpp
         src/core/errorpossible.cpp
         src/core/utils.cpp
+        src/core/luavm.cpp
         src/core/graphics/window.cpp
         src/core/graphics/image.cpp
         src/core/math/rectangle.cpp
@@ -54,8 +55,12 @@ set(LINK_LIBRARIES ${LINK_LIBRARIES} ${SDL2_LIBRARIES})
 # Load spdlog
 add_subdirectory(lib/spdlog REQUIRED)
 find_package(Threads)
-
 set(LINK_LIBRARIES ${LINK_LIBRARIES} spdlog ${CMAKE_THREAD_LIBS_INIT})
+
+# Load Lua
+find_package(Lua REQUIRED)
+include_directories(${LUA_INCLUDE_DIR})
+set(LINK_LIBRARIES ${LINK_LIBRARIES} ${LUA_LIBRARIES})
 
 # Load boost libs
 set(HAS_BOOST 0)

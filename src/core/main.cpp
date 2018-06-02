@@ -6,6 +6,7 @@
 #include "assets/manager.h"
 #include "SDL.h"
 #include "SDL_keycode.h"
+#include "luavm.h"
 
 /**
  * Temporary event handler for asset viewing thing
@@ -124,6 +125,8 @@ public:
  * @return if error occurred
  */
 bool run() {
+    auto lua = LuaVM::create();
+
     //Initialize event handler
     ViewerEventHandler viewer;
 

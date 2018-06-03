@@ -44,25 +44,23 @@ std::shared_ptr<LuaVM> LuaVM::create() {
     return vm;
 }
 
-std::shared_ptr<LuaVM> LuaVM::getStateVM(lua_State* L) {
-    return stateVMs[L];
-}
-
 int LuaVM::luaPrint(lua_State *L) {
-    int n = lua_gettop(L);
-
     //Iterate each element
+    int n = lua_gettop(L);
     std::string line = "";
     for (int i=1; i<=n; i++)
     {
+        //Add tab if is not first element
         if (1 < i) {
             line += "\t";
         }
-        if (lua_isstring(L,i)) {
+
+        //Print the correct type
+        if (lua_isstring(L, i)) {
             line += lua_tostring(L, i);
-        } else if (lua_isnil(L,i)) {
+        } else if (lua_isnil(L, i)) {
             line += "nil";
-        } else if (lua_isboolean(L,i)) {
+        } else if (lua_isboolean(L, i)) {
             line += lua_toboolean(L, i) ? "true" : "false";
         } else {
             unsigned long pointer = reinterpret_cast<unsigned long>(lua_topointer(L, i));
@@ -70,7 +68,8 @@ int LuaVM::luaPrint(lua_State *L) {
         }
     }
 
-    std::shared_ptr<LuaVM> vm = getStateVM(L);
+    //Print
+    std::shared_ptr<LuaVM> vm = stateVMs[L];
     vm->log->info(line);
     return 0;
 }

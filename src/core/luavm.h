@@ -31,15 +31,6 @@ protected:
     static std::unordered_map<lua_State*, std::shared_ptr<LuaVM>> stateVMs;
 
     /**
-     * Returns VM instance where this state belongs to, this is used as a workaround because you can't register
-     * instance methods as callable lua functions
-     *
-     * @param L lua state
-     * @return lua VM
-     */
-    static std::shared_ptr<LuaVM> getStateVM(lua_State *L);
-
-    /**
      * Prints to log
      *
      * @param L lua state calling this function

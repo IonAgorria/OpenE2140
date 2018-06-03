@@ -57,11 +57,26 @@ public:
      * @tparam T type of value
      * @param value to write
      * @param n of precision
+     * @return string
      */
     template<typename T>
     static std::string toStringPrecision(const T& value, int n) {
         std::ostringstream out;
         out << std::fixed << std::showpoint << std::setprecision(n) << value;
+        return out.str();
+    }
+
+    /**
+     * Converts value to hex string
+     *
+     * @tparam T type of value
+     * @param value to write
+     * @return string
+     */
+    template<typename T>
+    static std::string toStringHex(const T& value) {
+        std::ostringstream out;
+        out << std::hex << value;
         return out.str();
     }
 

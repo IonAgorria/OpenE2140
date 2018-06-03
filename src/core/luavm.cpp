@@ -3,6 +3,7 @@
 //
 
 #include "luavm.h"
+#include "utils.h"
 
 std::unordered_map<lua_State*, std::shared_ptr<LuaVM>> LuaVM::stateVMs;
 
@@ -64,9 +65,8 @@ int LuaVM::luaPrint(lua_State *L) {
         } else if (lua_isboolean(L,i)) {
             line += lua_toboolean(L, i) ? "true" : "false";
         } else {
-            const void* a = lua_topointer(L, i);
-            unsigned long b = (unsigned long) a;
-            line += std::string(luaL_typename(L, i)) + ": " + std::to_string(b);
+            unsigned long pointer = reinterpret_cast<unsigned long>(lua_topointer(L, i));
+            line += std::string(luaL_typename(L, i)) + ": 0x" + Utils::toStringHex(pointer);
         }
     }
 

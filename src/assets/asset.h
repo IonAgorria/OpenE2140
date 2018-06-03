@@ -15,7 +15,7 @@ using asset_path = std::string;
 class Asset : public ErrorPossible {
 private:
     /**
-     * Path of this assets inside of container
+     * Path of this assets inside manager
      */
     const asset_path path;
 
@@ -141,17 +141,17 @@ public:
      * @param string to check
      * @return true if matches
      */
-     bool match(const std::string& string);
+    bool match(const std::string& string);
 
     /**
-    * @return string version of this asset
-    */
+     * @return string version of this asset
+     */
     virtual std::string toString() const;
 
-     /**
+    /**
      * @return string content of this asset
      */
-     virtual std::string toStringContent() const;
+    virtual std::string toStringContent() const;
 };
 
 #endif //OPENE2140_ASSET_H

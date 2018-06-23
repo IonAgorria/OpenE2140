@@ -19,7 +19,7 @@ const Vector2& AssetImage::getImageSize() const {
     return imageSize;
 }
 
-bool AssetImage::writeImage(Image& image) {
+bool AssetImage::writeImage(Image& image, MapPalette& overridePalette) {
     bool result = 0;
     size_t imagePixelsCount = static_cast<size_t>(imageSize.x * imageSize.y);
 
@@ -51,21 +51,24 @@ bool AssetImage::writeImage(Image& image) {
                 return false;
             }
 
-            //Get color from palette
-            AssetPalette::Color color;
-            if (!palette->getColor(colorIndex, color)) {
-                error = palette->getError();
-                if (error.empty()) {
-                    error = "Error reading palette color";
+            //Get color from override palette first
+            Palette::ColorRGB color;
+            if (!overridePalette.getColor(colorIndex, color)) {
+                //Nothing found, try on main palette
+                if (!palette->getColor(colorIndex, color)) {
+                    error = palette->getError();
+                    if (error.empty()) {
+                        error = "Error reading palette color";
+                    }
+                    return false;
                 }
-                return false;
             }
 
             //Store color values in buffer
             int bufferI = i * 4;
-            buffer[bufferI + 1] = color.B; //B
-            buffer[bufferI + 2] = color.G; //G
-            buffer[bufferI + 3] = color.R; //R
+            buffer[bufferI + 1] = color.b; //B
+            buffer[bufferI + 2] = color.g; //G
+            buffer[bufferI + 3] = color.r; //R
         }
 
         //Set each alpha value

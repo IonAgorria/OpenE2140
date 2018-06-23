@@ -22,19 +22,25 @@ private:
     /**
      * Texture containing this image data
      */
-    texture_ptr texture;
+    const texture_ptr texture;
+
+    /**
+     * Pixel format data used in the target texture
+     */
+    unsigned int textureFormat;
 
     /**
      * Rectangle to know texture source
      */
-     Rectangle rectangle;
+    Rectangle rectangle;
 
     /**
      * Checks if image is correct
      *
+     * @param format required for texture
      * @return true if OK
      */
-    bool check();
+    bool check(unsigned int format);
 
     /**
      * Loads alpha data into pixels array
@@ -44,6 +50,16 @@ private:
      * @return true if OK
      */
     bool loadAlpha(byte* pixels, const byte* alpha);
+
+    /**
+     * Loads image data to texture.
+     * Pixels array must match rectangle of image.
+     *
+     * @param pixels to fill the rectangle allocated to this image into texture
+     * @param bytes bytes per pixel
+     * @return if success
+     */
+    bool loadTexture(const byte* pixels, int bytes);
 public:
     /**
      * Constructor for image
@@ -96,7 +112,7 @@ public:
     bool loadFromRGB565(const byte* pixels, const byte* alpha);
 
     /**
-     * Loads image data to texture using pixels in RGB8888 format.
+     * Loads image data to texture using pixels in RGBA8888 format.
      * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle

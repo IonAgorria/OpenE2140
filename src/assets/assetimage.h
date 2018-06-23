@@ -62,10 +62,11 @@ public:
     /**
      * Writes this asset image content to provided image
      *
-     * @param image to write
+     * @param image target to write
+     * @param overridePalette to set alternate colors for palette indexes
      * @return true if success
      */
-    bool writeImage(Image& image);
+    bool writeImage(Image& image, MapPalette& overridePalette);
 
     /**
      * @return string version of this asset

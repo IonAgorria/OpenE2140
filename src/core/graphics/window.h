@@ -78,9 +78,8 @@ public:
     /**
      * Creates a texture for drawing in the window
      *
-     * @param width size of image
-     * @param height size of image
-     * @param pixels content of image
+     * @param width size of texture
+     * @param height size of texture
      * @return image
      */
     texture_ptr createTexture(const int width, const int height);
@@ -88,9 +87,8 @@ public:
     /**
      * Creates a texture for drawing in the window
      *
-     * @param width size of image
-     * @param height size of image
-     * @param pixels content of image
+     * @param width size of texture
+     * @param height size of texture
      * @return image
      */
     texture_ptr createTexture(const Vector2& size);

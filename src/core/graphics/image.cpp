@@ -6,10 +6,17 @@
 #include "core/utils.h"
 #include "image.h"
 
-Image::Image(texture_ptr texture, const Rectangle& rectangle) : texture(texture), rectangle(rectangle) {
+Image::Image(texture_ptr texture, const Rectangle& rectangle) :
+        texture(texture),
+        rectangle(rectangle)
+{
+    //Get the format from texture
+    if (texture && SDL_QueryTexture(texture.get(), &textureFormat, NULL, NULL, NULL) != 0) {
+        error = "Error querying texture " + Utils::checkSDLError();
+    }
 }
 
-Image::Image(texture_ptr texture, const Vector2& size) : texture(texture), rectangle(Rectangle(Vector2(), size)) {
+Image::Image(texture_ptr texture, const Vector2& size) : Image(texture, Rectangle(Vector2(), size)) {
 }
 
 Image::operator bool() {
@@ -28,16 +35,39 @@ const Rectangle& Image::getRectangle() const {
     return rectangle;
 }
 
-bool Image::check() {
+bool Image::check(unsigned int format) {
+    if (!error.empty()) {
+        return false;
+    }
     if (!texture) {
         error = "Error loading image, texture not available";
+        return false;
+    }
+    if (textureFormat != format) {
+        error = "Error loading image, texture format " + std::to_string(textureFormat) + " doesn't match " + std::to_string(format);
+        return false;
+    }
+    return true;
+}
+
+bool Image::loadAlpha(byte* pixels, const byte* alpha) {
+    size_t size = static_cast<const size_t>(rectangle.w * rectangle.h);
+    for (size_t i = 0; i < size; i++) {
+        pixels[i * 4] = alpha == nullptr ? (byte) 0xFF : alpha[i];
+    }
+    return true;
+}
+
+bool Image::loadTexture(const byte* pixels, int bytes) {
+    if (SDL_UpdateTexture(texture.get(), &rectangle, pixels, rectangle.w * bytes) != 0) {
+        error = "Couldn't update texture " + Utils::checkSDLError();
         return false;
     }
     return true;
 }
 
 bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
-    if (!check()) return false;
+    if (!check(SDL_PIXELFORMAT_RGBA8888)) return false;
 
     //Create buffer for converted pixels and do conversion
     std::unique_ptr<byteArray> converted = Utils::createBuffer(
@@ -59,24 +89,12 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     }
 
     //Load converted data and return result
-    return loadFromRGBA8888(converted.get());
-}
-
-bool Image::loadAlpha(byte* pixels, const byte* alpha) {
-    size_t size = static_cast<const size_t>(rectangle.w * rectangle.h);
-    for (size_t i = 0; i < size; i++) {
-        pixels[i * 4] = alpha == nullptr ? (byte) 0xFF : alpha[i];
-    }
-    return true;
+    return loadTexture(converted.get(), 4);
 }
 
 bool Image::loadFromRGBA8888(const byte* pixels) {
-    if (!check()) return false;
+    if (!check(SDL_PIXELFORMAT_RGBA8888)) return false;
 
     //Load data to texture
-    if (SDL_UpdateTexture(texture.get(), NULL, pixels, rectangle.w * 4) != 0) {
-        error = "Couldn't update texture " + Utils::checkSDLError();
-        return false;
-    }
-    return true;
+    return loadTexture(pixels, 4);
 }

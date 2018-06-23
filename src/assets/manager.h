@@ -91,39 +91,39 @@ private:
     /**
      * Each WD container file record struct
      */
-    typedef struct {
+    struct WDFileRecord {
         unsigned int fileOffset;
         unsigned int fileSize;
         unsigned int unused1;
         unsigned int unused2;
         unsigned int checkSum;
         unsigned int nameOffset;
-    } WDFileRecord;
+    };
 
     /**
      * MIX file header struct
      */
-    typedef struct {
+    struct MIXHeader {
         unsigned int unused;
         unsigned int streamsCount;
         unsigned int streamsOffset;
         unsigned int palettesCount;
         unsigned int palettesFirstIndex;
         unsigned int palettesOffset;
-    } MIXHeader;
+    };
 
     /**
      * Image size struct with shorts
      */
-    typedef struct {
+    struct ImageSize16 {
         unsigned short width;
         unsigned short height;
-    } ImageSize16;
+    };
 
     /**
      * Segmented image header
      */
-    typedef struct {
+    struct SegmentedImageHeader {
         unsigned int width;
         unsigned int height;
         unsigned int dataBlockSize;
@@ -133,15 +133,15 @@ private:
         unsigned int unknown7;
         unsigned int unknown8;
         unsigned int unknown9;
-    } SegmentedImageHeader;
+    };
 
     /**
      * Segmented image segment
      */
-    typedef struct {
+    struct SegmentedImageSegment {
         byte padding;
         byte width;
-    } SegmentedImageSegment;
+    };
 
 public:
     /**

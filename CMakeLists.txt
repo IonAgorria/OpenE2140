@@ -35,6 +35,7 @@ set(SOURCE_FILES
         src/core/utils.cpp
         src/core/luavm.cpp
         src/core/graphics/window.cpp
+        src/core/graphics/palette.cpp
         src/core/graphics/image.cpp
         src/core/math/rectangle.cpp
         src/core/math/vector2.cpp

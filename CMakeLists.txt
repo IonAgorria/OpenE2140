@@ -34,19 +34,21 @@ set(SOURCE_FILES
         src/core/errorpossible.cpp
         src/core/utils.cpp
         src/core/luavm.cpp
-        src/core/graphics/window.cpp
-        src/core/graphics/palette.cpp
-        src/core/graphics/image.cpp
-        src/core/math/rectangle.cpp
-        src/core/math/vector2.cpp
-        src/core/io/log.cpp
-        src/core/io/file.cpp
+        src/graphics/window.cpp
+        src/graphics/palette.cpp
+        src/graphics/image.cpp
+        src/math/rectangle.cpp
+        src/math/vector2.cpp
+        src/io/log.cpp
+        src/io/file.cpp
         src/assets/asset.cpp
         src/assets/manager.cpp
         src/assets/assetimage.cpp
         src/assets/assetpalette.cpp
         src/gui/eventhandler.cpp
-        )
+        src/core/game.cpp
+        src/simulation/simulation.cpp
+        src/graphics/renderer.cpp src/graphics/renderer.h)
 
 # Load SDL2
 find_package(SDL2 REQUIRED)

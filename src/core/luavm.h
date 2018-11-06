@@ -5,7 +5,7 @@
 #define OPENE2140_LUAVM_H
 
 #include "core/config.h"
-#include "core/io/log.h"
+#include "io/log.h"
 #include "lua.hpp"
 
 class LuaVM {

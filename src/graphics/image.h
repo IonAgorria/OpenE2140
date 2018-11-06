@@ -4,9 +4,10 @@
 #ifndef OPENE2140_IMAGE_H
 #define OPENE2140_IMAGE_H
 
+#include <memory>
 #include "core/config.h"
 #include "core/errorpossible.h"
-#include "core/math/rectangle.h"
+#include "math/rectangle.h"
 #include "SDL_render.h"
 
 /**

@@ -3,7 +3,7 @@
 //
 #include "eventhandler.h"
 
-EventHandler::EventHandler() {
+EventHandler::EventHandler(Game& game): game(game) {
     log = Log::get("EventHandler");
 }
 

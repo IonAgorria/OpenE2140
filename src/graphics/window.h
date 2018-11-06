@@ -6,9 +6,50 @@
 
 #include "SDL_video.h"
 #include "SDL_render.h"
-#include "core/io/log.h"
+#include "io/log.h"
 #include "image.h"
-#include "gui/eventhandler.h"
+
+/**
+ * Window listener
+ */
+class WindowListener {
+public:
+    /**
+     * Called when window is resized
+     *
+     * @param width of window
+     * @param height of window
+     */
+    virtual void windowResize(int width, int height) = 0;
+
+    /**
+     * Called when mouse click occurs
+     *
+     * @param x position
+     * @param y position
+     * @param button pressed
+     * @param press or release
+     */
+    virtual void mouseClick(int x, int y, int button, bool press) = 0;
+
+    /**
+     * Called when mouse movement occurs
+     *
+     * @param x position
+     * @param y position
+     */
+    virtual void mouseMove(int x, int y) = 0;
+
+    /**
+     * Called when key change occurs
+     *
+     * @param code of key
+     * @param name of key
+     * @param press or release
+     */
+    virtual void keyChange(int code, std::string name, bool press) = 0;
+};
+
 
 /**
  * Window class, each one contains a handle for a window.
@@ -21,19 +62,19 @@ private:
     log_ptr log;
     /** Window handle used for SDL2 */
     SDL_Window* windowHandle = nullptr;
-    /** Renderer handle used for SDL2 */
-    SDL_Renderer* rendererHandle = nullptr;
+    /** Context used for SDL2 */
+    SDL_GLContext context = nullptr;
     /** Max texture size */
     Vector2 textureMaxSize;
     /** Window close state */
     bool closing;
     /** Event handler to receive window events */
-    EventHandler& eventHandler;
+    WindowListener& listener;
 public:
     /**
      * Window constructor
      */
-    Window(EventHandler& eventHandler);
+    Window(WindowListener& listener);
 
     /**
      * Destroys any created window

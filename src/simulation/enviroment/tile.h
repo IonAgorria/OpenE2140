@@ -34,7 +34,7 @@ public:
     /**
      * Type of damage on this tile (weapons, fire, reactor crate...)
      */
-     //TODOx
+     //TODO
 
     /**
      * Tile constructor

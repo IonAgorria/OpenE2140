@@ -5,9 +5,9 @@
 #define OPENE2140_ENTITY_H
 
 #include "core/config.h"
-#include "core/math/rectangle.h"
+#include "math/rectangle.h"
 #include "assets/manager.h"
-#include "core/graphics/image.h"
+#include "graphics/image.h"
 
 /**
  * Base entity in game

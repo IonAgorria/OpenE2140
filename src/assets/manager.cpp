@@ -3,7 +3,7 @@
 //
 #include "core/config.h"
 #include "core/utils.h"
-#include "core/io/log.h"
+#include "io/log.h"
 #include "manager.h"
 #include "assetpalette.h"
 #include "assetimage.h"
@@ -15,6 +15,7 @@ Manager::Manager() {
 }
 
 Manager::~Manager() {
+    log->debug("Closing");
     clearAssets();
 }
 
@@ -57,6 +58,7 @@ void Manager::clearAssets() {
 }
 
 bool Manager::init() {
+    log->debug("Creating");
     //Scan assets from containers
     std::string assetDir = std::string(GAME_ASSETS_DIR) + DIR_SEP;
     std::list<std::string> assetDirPaths = {
@@ -76,7 +78,7 @@ bool Manager::init() {
 
         //Nothing was found
         if (!found) {
-            std::string error = "Error loading game data for " + name + " directory or " + name + ".WD file\n" +
+            std::string error = "Error loading game data for " + name + " directory or " + name + ".WD file\n";
             error += "Check if game files are correctly set and are accesible inside following paths: \n";
             for (std::string path : assetDirPaths) {
                 error += path + "\n";

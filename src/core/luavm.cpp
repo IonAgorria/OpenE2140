@@ -9,6 +9,7 @@ std::unordered_map<lua_State*, std::shared_ptr<LuaVM>> LuaVM::stateVMs;
 
 LuaVM::LuaVM() {
     log = Log::get("Lua");
+    log->debug("Creating");
     state = luaL_newstate();
 }
 
@@ -17,6 +18,7 @@ LuaVM::~LuaVM() {
         stateVMs[state] = nullptr;
         lua_close(state);
         state = nullptr;
+        log->debug("Closing");
     }
 }
 
@@ -39,7 +41,7 @@ std::shared_ptr<LuaVM> LuaVM::create() {
     lua_register(state, "print", &luaPrint);
 
     //Run
-    luaL_dostring(state, "print(\"test\", 1, 2, print, {})");
+    //luaL_dostring(state, "print(\"test\", 1, 2, print, {})");
 
     return vm;
 }

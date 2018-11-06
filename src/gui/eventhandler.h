@@ -1,27 +1,33 @@
 //
 // Created by Ion Agorria on 20/05/18
 //
-#ifndef OPENE2140_INTERFACE_H
-#define OPENE2140_INTERFACE_H
+#ifndef OPENE2140_EVENTHANDLER_H
+#define OPENE2140_EVENTHANDLER_H
 
-#include "core/config.h"
-#include "core/io/log.h"
+#include <core/config.h>
+#include <io/log.h>
+#include <graphics/window.h>
 
 /**
  * Event handler to listen window events
  */
-class EventHandler {
-protected:
+class Game;
+class EventHandler: public WindowListener {
     /** Log for object */
     log_ptr log;
-public:
-    /**
-     * Window constructor
-     */
-    EventHandler();
 
     /**
-     * Destroys any created window
+     * Listener to send actions
+     */
+    Game& game;
+public:
+    /**
+     * Event handler constructor
+     */
+    EventHandler(Game& game);
+
+    /**
+     * Destroys event handler
      */
     virtual ~EventHandler() = default;
 
@@ -67,4 +73,4 @@ public:
 };
 
 
-#endif //OPENE2140_INTERFACE_H
+#endif //OPENE2140_EVENTHANDLER_H

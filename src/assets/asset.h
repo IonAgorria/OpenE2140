@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSET_H
 #define OPENE2140_ASSET_H
 
-#include "core/io/file.h"
+#include "io/file.h"
 #include "core/errorpossible.h"
 
 using asset_path = std::string;

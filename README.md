@@ -7,6 +7,7 @@ The project is still under heavy development and not much happens yet.
 ## Libraries
 This project includes these libraries as git submodules or bundled:
 - spdlog (git submodule) - Adds log file and console handling and formatting
+- stb (git submodule) - Contains various libs
 
 This project requires to have the following libraries installed:
 - LibSDL 2.0 - Handles graphics, input and basic filesystem

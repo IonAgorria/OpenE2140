@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSETPALETTE_H
 #define OPENE2140_ASSETPALETTE_H
 
-#include "core/graphics/palette.h"
+#include "graphics/palette.h"
 #include "asset.h"
 
 /** Palette color count */
@@ -17,10 +17,10 @@
 #define PALETTE_UNIT_MOVEMENT1 0xF1
 #define PALETTE_UNIT_MOVEMENT2 0xF2
 #define PALETTE_UNIT_MOVEMENT3 0xF3
-//Unit weapon flame
-#define PALETTE_UNIT_FLAME0 0xF4
-#define PALETTE_UNIT_FLAME1 0xF5
-#define PALETTE_UNIT_FLAME2 0xF6
+//Unit weapon fire
+#define PALETTE_UNIT_FIRE0 0xF4
+#define PALETTE_UNIT_FIRE1 0xF5
+#define PALETTE_UNIT_FIRE2 0xF6
 //Unit light
 #define PALETTE_UNIT_LIGHT0 0xF7
 //Unit player coloring

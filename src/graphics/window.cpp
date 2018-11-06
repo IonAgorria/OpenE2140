@@ -2,23 +2,25 @@
 // Created by Ion Agorria on 22/03/18
 //
 #include <SDL_events.h>
-#include "core/io/log.h"
+#include "io/log.h"
 #include "core/utils.h"
 #include "window.h"
-#include "gui/eventhandler.h"
+#include "GL"
 
-Window::Window(EventHandler& eventHandler) : eventHandler(eventHandler) {
+Window::Window(WindowListener& listener): listener(listener) {
     log = Log::get("Window");
     closing = false;
 }
 
 bool Window::init(unsigned int width, unsigned int height, const std::string& title) {
+    log->debug("Creating window {0}x{1} title '{2}'", width, height, title);
     if (windowHandle) {
         Utils::showErrorDialog("Window already created\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
 
-    log->debug("Window created {0}x{1} title '{2}'", width, height, title);
+    //Set some attributes
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     //Create window
     windowHandle = SDL_CreateWindow(
@@ -27,25 +29,21 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
             SDL_WINDOWPOS_CENTERED,
             width,
             height,
-            SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE
+            SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
     );
     if (!windowHandle) {
         Utils::showErrorDialog("SDL2 window not available\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
 
-    //Create renderer
-    rendererHandle = SDL_CreateRenderer(windowHandle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!windowHandle) {
-        log->warn("SDL2 accelerated rendering not available {0}", Utils::checkSDLError());
-        log->warn("Using software rendering");
-        rendererHandle = SDL_CreateRenderer(windowHandle, -1, SDL_RENDERER_SOFTWARE);
-    }
-    if (!rendererHandle) {
-        Utils::showErrorDialog("SDL2 renderer not available\n" + Utils::checkSDLError(), log, false, true);
+    //Create OpenGL context
+    context = SDL_GL_CreateContext(windowHandle);
+    if (!context) {
+        Utils::showErrorDialog("OpenGL context not available\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
 
+    /* TODO
     //Fetch renderer info
     textureMaxSize = Vector2(MINIMUM_TEXTURE_SIZE, MINIMUM_TEXTURE_SIZE); //Assume default as minimum
     SDL_RendererInfo rendererInfo;
@@ -62,9 +60,10 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
         Utils::showErrorDialog("Maximum texture size is too small: " + textureMaxSize.toString() + "\nRenderer: " + rendererName, log, false, false);
         return false;
     }
+    */
 
     //Send the initial resize event
-    eventHandler.windowResize(width, height);
+    listener.windowResize(width, height);
 
     //Show window
     SDL_ShowWindow(windowHandle);
@@ -72,10 +71,10 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
 }
 
 Window::~Window() {
-    log->debug("Window closing");
-    if (rendererHandle != nullptr) {
-        SDL_DestroyRenderer(rendererHandle);
-        rendererHandle = nullptr;
+    log->debug("Closing");
+    if (context != nullptr) {
+        SDL_GL_DeleteContext(context);
+        context = nullptr;
     }
     if (windowHandle != nullptr) {
         SDL_DestroyWindow(windowHandle);
@@ -85,27 +84,22 @@ Window::~Window() {
 }
 
 Window::operator bool() {
-    return windowHandle != nullptr && rendererHandle != nullptr;
+    return windowHandle != nullptr && context != nullptr;
 }
 
 bool Window::draw(Image& image, const Rectangle& rectangle) {
-    texture_ptr texture = image;
-    if (SDL_RenderCopy(rendererHandle, texture.get(), &image.getRectangle(), &rectangle) != 0) {
-        Utils::showErrorDialog("SDL_RenderCopy error when drawing\n" + Utils::checkSDLError(), log, false, true);
-        return false;
-    }
+    //TODO texture_ptr texture = image;
+    //if (SDL_RenderCopy(rendererHandle, texture.get(), &image.getRectangle(), &rectangle) != 0) {
+    //    Utils::showErrorDialog("SDL_RenderCopy error when drawing\n" + Utils::checkSDLError(), log, false, true);
+    //    return false;
+    //}
     return true;
 }
 
 bool Window::update() {
     //Show the current rendered
-    SDL_RenderPresent(rendererHandle);
 
     //Clear for next iteration
-    if (SDL_RenderClear(rendererHandle) != 0) {
-        Utils::showErrorDialog("SDL_RenderClear error when clearing\n" + Utils::checkSDLError(), log, false, true);
-        return false;
-    }
 
     //Handle any events
     SDL_Event event;
@@ -113,7 +107,7 @@ bool Window::update() {
         switch (event.type) {
             case SDL_MOUSEBUTTONDOWN:
             case SDL_MOUSEBUTTONUP: {
-                eventHandler.mouseClick(
+                listener.mouseClick(
                         event.button.x, event.button.y,
                         event.button.button,
                         event.button.state == SDL_PRESSED
@@ -121,21 +115,21 @@ bool Window::update() {
                 break;
             }
             case SDL_MOUSEMOTION: {
-                eventHandler.mouseMove(event.motion.x, event.motion.y);
+                listener.mouseMove(event.motion.x, event.motion.y);
                 break;
             }
             case SDL_KEYDOWN:
             case SDL_KEYUP: {
                 SDL_Keycode sym = event.key.keysym.sym;
                 std::string name(SDL_GetKeyName(sym));
-                eventHandler.keyChange(sym, name, event.key.state == SDL_PRESSED);
+                listener.keyChange(sym, name, event.key.state == SDL_PRESSED);
                 break;
             }
             case SDL_WINDOWEVENT: {
                 switch (event.window.event) {
                     case SDL_WINDOWEVENT_RESIZED:
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
-                        eventHandler.windowResize(event.window.data1, event.window.data2);
+                        listener.windowResize(event.window.data1, event.window.data2);
                         break;
                     default:
                         break;
@@ -157,6 +151,7 @@ bool Window::update() {
 
 texture_ptr Window::createTexture(const int width, const int height) {
     texture_ptr texture;
+    /*
     SDL_Texture* textureSDL = SDL_CreateTexture(rendererHandle, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, width, height);
     if (!textureSDL) {
         Utils::showErrorDialog("SDL_CreateTexture texture is not valid\n" + Utils::checkSDLError(), log, false, true);
@@ -164,6 +159,7 @@ texture_ptr Window::createTexture(const int width, const int height) {
         //Set pointer to texture and deleter for texture
         texture.reset(textureSDL, SDL_DestroyTexture);
     }
+     */
     return texture;
 }
 

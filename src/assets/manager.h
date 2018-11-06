@@ -1,13 +1,13 @@
 //
 // Created by Ion Agorria on 8/04/18
 //
-#ifndef OPENE2140_LOADER_H
-#define OPENE2140_LOADER_H
+#ifndef OPENE2140_ASSETMANAGER_H
+#define OPENE2140_ASSETMANAGER_H
 
 #include <string>
 #include <map>
-#include <core/math/vector2.h>
-#include "core/io/log.h"
+#include "math/vector2.h"
+#include "io/log.h"
 #include "asset.h"
 
 /**
@@ -194,4 +194,4 @@ public:
     bool init();
 };
 
-#endif //OPENE2140_LOADER_H
+#endif //OPENE2140_ASSETMANAGER_H

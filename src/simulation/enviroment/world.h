@@ -6,7 +6,7 @@
 
 #include "core/config.h"
 #include <vector>
-#include "core/graphics/window.h"
+#include "graphics/window.h"
 #include "assets/asset.h"
 #include "tile.h"
 

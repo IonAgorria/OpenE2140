@@ -55,6 +55,16 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 set(LINK_LIBRARIES ${LINK_LIBRARIES} ${SDL2_LIBRARIES})
 
+# Load GLEW
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
+set(LINK_LIBRARIES ${LINK_LIBRARIES} ${GLEW_LIBRARIES})
+
+# Load OpenGL
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIR})
+set(LINK_LIBRARIES ${LINK_LIBRARIES} ${OPENGL_gl_LIBRARY})
+
 # Load spdlog
 add_subdirectory(lib/spdlog REQUIRED)
 find_package(Threads)

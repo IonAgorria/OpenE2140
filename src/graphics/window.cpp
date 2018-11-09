@@ -1,11 +1,11 @@
 //
 // Created by Ion Agorria on 22/03/18
 //
+#include <GL/glew.h>
 #include <SDL_events.h>
 #include "io/log.h"
 #include "core/utils.h"
 #include "window.h"
-#include "GL"
 
 Window::Window(WindowListener& listener): listener(listener) {
     log = Log::get("Window");
@@ -18,9 +18,6 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
         Utils::showErrorDialog("Window already created\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
-
-    //Set some attributes
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     //Create window
     windowHandle = SDL_CreateWindow(
@@ -36,12 +33,31 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
         return false;
     }
 
+    //Set some attributes
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+
     //Create OpenGL context
     context = SDL_GL_CreateContext(windowHandle);
     if (!context) {
         Utils::showErrorDialog("OpenGL context not available\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    //Print some strings related to GL
+    log->debug("GL_VERSION: {0}", glGetString(GL_VERSION));
+    log->debug("GL_VENDOR: {0}", glGetString(GL_VENDOR));
+    log->debug("GL_RENDERER: {0}", glGetString(GL_RENDERER));
+    log->debug("GL_SHADING_LANGUAGE_VERSION: {0}", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    int value = 0;
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &value);
+    log->debug("GL_CONTEXT_MAJOR_VERSION: {0}", value);
+    SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &value);
+    log->debug("GL_CONTEXT_MINOR_VERSION: {0}", value);
 
     /* TODO
     //Fetch renderer info
@@ -61,6 +77,9 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
         return false;
     }
     */
+
+    //Set parameters
+    glClearColor(0.5, 0.5, 0.5, 1.0);
 
     //Send the initial resize event
     listener.windowResize(width, height);
@@ -97,9 +116,11 @@ bool Window::draw(Image& image, const Rectangle& rectangle) {
 }
 
 bool Window::update() {
-    //Show the current rendered
-
     //Clear for next iteration
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    //Show the current rendered
+    SDL_GL_SwapWindow(windowHandle);
 
     //Handle any events
     SDL_Event event;

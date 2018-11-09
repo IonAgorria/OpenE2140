@@ -19,7 +19,7 @@ const Vector2& AssetImage::getImageSize() const {
     return imageSize;
 }
 
-bool AssetImage::writeImage(Image& image, MapPalette& overridePalette) {
+bool AssetImage::writeImage(Image& image) {
     bool result = 0;
     size_t imagePixelsCount = static_cast<size_t>(imageSize.x * imageSize.y);
 
@@ -43,7 +43,7 @@ bool AssetImage::writeImage(Image& image, MapPalette& overridePalette) {
         //Convert each palette color index into RGB
         for (unsigned int i = 0; i < imagePixelsCount; i++) {
             //Get color index
-            byte colorIndex;
+            byte colorIndex = 0;
             if (!readAll(colorIndex)) {
                 if (error.empty()) {
                     error = "Error reading color index";
@@ -51,17 +51,14 @@ bool AssetImage::writeImage(Image& image, MapPalette& overridePalette) {
                 return false;
             }
 
-            //Get color from override palette first
+            //Get color from palette
             Palette::ColorRGB color;
-            if (!overridePalette.getColor(colorIndex, color)) {
-                //Nothing found, try on main palette
-                if (!palette->getColor(colorIndex, color)) {
-                    error = palette->getError();
-                    if (error.empty()) {
-                        error = "Error reading palette color";
-                    }
-                    return false;
+            if (!palette->getColor(colorIndex, color)) {
+                error = palette->getError();
+                if (error.empty()) {
+                    error = "Error reading palette color";
                 }
+                return false;
             }
 
             //Store color values in buffer
@@ -73,7 +70,7 @@ bool AssetImage::writeImage(Image& image, MapPalette& overridePalette) {
 
         //Set each alpha value
         for (unsigned int i = 0; i < imagePixelsCount; i++) {
-            byte alpha;
+            byte alpha = 0;
             if (!readAll(alpha)) {
                 if (error.empty()) {
                     error = "Error reading alpha";

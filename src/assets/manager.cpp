@@ -524,7 +524,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     assetStart += 1;
 
                     //Get palette index
-                    byte paletteIndex;
+                    byte paletteIndex = 0;
                     if (!asset->readAll(paletteIndex)) {
                         log->error("Error reading '{0}' MIX stream {1} palette index {2}", path, i, error);
                         return -1;

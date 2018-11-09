@@ -16,15 +16,12 @@
 /** Sprite image with scanlines and segments */
 #define TYPE_IMAGE_SEGMENTED 9
 
-/** Variant image without any palette change */
-#define VARIANT_NORMAL 0
-/** Variant image without any palette change */
-#define VARIANT_NORMAL 0
-
 /**
  * Asset for image data
  */
 class AssetImage : public Asset {
+private:
+public:
     /**
      * Image size
      */
@@ -34,11 +31,6 @@ class AssetImage : public Asset {
      * Palette to use if need
      */
     const std::shared_ptr<AssetPalette> palette;
-
-    /**
-     * Variants images of this asset
-     */
-
 
 public:
     /**
@@ -70,22 +62,12 @@ public:
     const Vector2& getImageSize() const;
 
     /**
-     * Sets the image as
-     *
-     * @param image target to write
-     * @param overridePalette to set alternate colors for palette indexes
-     * @return true if success
-     */
-    bool setImage(Image& image, MapPalette& overridePalette);
-
-    /**
      * Writes this asset image content to provided image
      *
      * @param image target to write
-     * @param overridePalette to set alternate colors for palette indexes
      * @return true if success
      */
-    bool writeImage(Image& image, MapPalette& overridePalette);
+    bool writeImage(Image& image);
 
     /**
      * @return string version of this asset

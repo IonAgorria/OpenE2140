@@ -5,30 +5,36 @@
 #define OPENE2140_IMAGE_H
 
 #include <memory>
+#include <SDL_opengl.h>
 #include "core/config.h"
 #include "core/errorpossible.h"
 #include "math/rectangle.h"
-#include "SDL_render.h"
-
-/**
- * Texture used for storing image on GPU
- */
-using texture_ptr = std::shared_ptr<SDL_Texture>;
+#include "palette.h"
 
 /**
  * Image instance used for window drawing in abstract way
  */
-class Image: public ErrorPossible {
+class Image: public IErrorPossible {
 private:
     /**
-     * Texture containing this image data
+     * Texture reference containing this image data
      */
-    const texture_ptr texture;
+    GLuint texture = 0;
 
     /**
-     * Pixel format data used in the target texture
+     * Pointer to the image which the texture belongs
      */
-    unsigned int textureFormat;
+    std::shared_ptr<Image> owner;
+
+    /**
+     * Color palette for this image if any
+     */
+    std::shared_ptr<Palette> paletteColors;
+
+    /**
+     * Extra palette for this image if any
+     */
+    std::shared_ptr<Palette> paletteExtra;
 
     /**
      * Rectangle to know texture source
@@ -38,22 +44,12 @@ private:
     /**
      * Checks if image is correct
      *
-     * @param format required for texture
      * @return true if OK
      */
-    bool check(unsigned int format);
+    bool check();
 
     /**
-     * Loads alpha data into pixels array
-     *
-     * @param pixels to update
-     * @param alpha to set
-     * @return true if OK
-     */
-    bool loadAlpha(byte* pixels, const byte* alpha);
-
-    /**
-     * Loads image data to texture.
+     * Loads image data to texture in this image.
      * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle allocated to this image into texture
@@ -63,19 +59,19 @@ private:
     bool loadTexture(const byte* pixels, int bytes);
 public:
     /**
-     * Constructor for image
+     * Constructor for a image containing the entire texture
      */
-    Image(texture_ptr texture, const Rectangle& rectangle);
+    Image(const Vector2& size);
 
     /**
-     * Constructor for image
+     * Constructor for image using a subset of an texture
      */
-    Image(texture_ptr texture, const Vector2& size);
+    Image(std::shared_ptr<Image> owner, const Rectangle& rectangle);
 
     /**
      * Image destructor
      */
-    ~Image() = default;
+    ~Image();
 
     /**
      * Disable copy/move
@@ -83,14 +79,9 @@ public:
     NON_COPYABLE_NOR_MOVABLE(Image)
 
     /**
-     * @return if image was created
+     * @return if image is valid
      */
     operator bool();
-
-    /**
-     * @return image window texture
-     */
-    operator texture_ptr();
 
     /**
      * @return rectangle of this image inside the texture
@@ -101,6 +92,11 @@ public:
      * @return rectangle of this image inside the texture
      */
     const Rectangle& getRectangle() const;
+
+    /**
+     * Binds the texture for use
+     */
+    bool bindTexture();
 
     /**
      * Loads image data to texture using pixels in RGB565 format.

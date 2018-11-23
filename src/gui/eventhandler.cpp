@@ -3,8 +3,15 @@
 //
 #include "eventhandler.h"
 
-EventHandler::EventHandler(Game& game): game(game) {
+EventHandler::EventHandler(std::shared_ptr<Game> game): game(game) {
     log = Log::get("EventHandler");
+}
+
+EventHandler::~EventHandler() {
+    log->debug("Closing");
+    if (game) {
+        game.reset();
+    }
 }
 
 void EventHandler::windowResize(int width, int height) {
@@ -16,7 +23,7 @@ void EventHandler::mouseClick(int x, int y, int button, bool press) {
 }
 
 void EventHandler::mouseMove(int x, int y) {
-    log->debug("Mouse motion: {0}x{1}", x, y);
+    //log->debug("Mouse motion: {0}x{1}", x, y);
 }
 
 void EventHandler::keyChange(int code, std::string name, bool press) {

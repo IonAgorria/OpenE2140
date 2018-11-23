@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <csignal>
 #include <list>
+#include "SDL_opengl.h"
 #include "SDL_filesystem.h"
 #include "SDL_quit.h"
 #include "SDL_messagebox.h"
@@ -41,6 +42,20 @@ std::string Utils::checkSDLError(const log_ptr log) {
             log->error("SDL Error: {0}", error);
         }
         return std::string(error);
+    }
+    return "";
+}
+
+std::string Utils::checkGLError(const log_ptr log) {
+    GLenum result = glGetError();
+    if (result != GL_NO_ERROR) {
+        const char* error = reinterpret_cast<const char*>(glGetString(result));
+        if (error && strlen(error) != 0) {
+            if (log) {
+                log->error("SDL Error: {0}", error);
+            }
+            return std::string(error);
+        }
     }
     return "";
 }

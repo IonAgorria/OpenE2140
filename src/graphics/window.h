@@ -12,7 +12,13 @@
 /**
  * Window listener
  */
-class WindowListener {
+class IWindowListener {
+protected:
+    /**
+     * IWindowListener destructor
+     */
+    ~IWindowListener() = default;
+
 public:
     /**
      * Called when window is resized
@@ -50,7 +56,6 @@ public:
     virtual void keyChange(int code, std::string name, bool press) = 0;
 };
 
-
 /**
  * Window class, each one contains a handle for a window.
  *
@@ -65,16 +70,14 @@ private:
     /** Context used for SDL2 */
     SDL_GLContext context = nullptr;
     /** Max texture size */
-    Vector2 textureMaxSize;
+    int textureMaxSize;
     /** Window close state */
     bool closing;
-    /** Event handler to receive window events */
-    WindowListener& listener;
 public:
     /**
      * Window constructor
      */
-    Window(WindowListener& listener);
+    Window();
 
     /**
      * Destroys any created window
@@ -98,46 +101,24 @@ public:
      * @param height of window
      * @param title of window
      */
-    bool init(unsigned int width, unsigned int height, const std::string& title);
+    bool init(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener);
 
     /**
-     * Adds image to window in specified rectangle
-     *
-     * @param image to draw
-     * @param rectangle to locate the image
-     * @return if success
+     * Polls input and events
      */
-    bool draw(Image& image, const Rectangle& rectangle);
+    void poll(IWindowListener& listener);
 
     /**
-     * Updates window and draws everything to screen
+     * Updates window content
      *
      * @return if success
      */
-    bool update();
-
-    /**
-     * Creates a texture for drawing in the window
-     *
-     * @param width size of texture
-     * @param height size of texture
-     * @return image
-     */
-    texture_ptr createTexture(const int width, const int height);
-
-    /**
-     * Creates a texture for drawing in the window
-     *
-     * @param width size of texture
-     * @param height size of texture
-     * @return image
-     */
-    texture_ptr createTexture(const Vector2& size);
+    void swap();
 
     /**
      * @return if window must close
      */
-     bool isClosing();
+    bool isClosing();
 };
 
 #endif //OPENE2140_WINDOW_H

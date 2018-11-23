@@ -9,13 +9,18 @@
 /**
  * Classes that can produce an error
  */
-class ErrorPossible {
+class IErrorPossible {
 protected:
     /**
      * Last occurred error
      */
     std::string error;
 public:
+    /**
+     * IPalette destructor
+     */
+    virtual ~IErrorPossible() = default;
+
     /**
      * @return the last occurred error and clears it
      */

@@ -48,7 +48,7 @@ set(SOURCE_FILES
         src/gui/eventhandler.cpp
         src/core/game.cpp
         src/simulation/simulation.cpp
-        src/graphics/renderer.cpp src/graphics/renderer.h)
+        src/graphics/renderer.cpp src/graphics/renderer.h src/graphics/color.h src/graphics/ipalette.h)
 
 # Load SDL2
 find_package(SDL2 REQUIRED)

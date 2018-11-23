@@ -426,7 +426,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
     //Read palettes
     std::vector<std::shared_ptr<AssetPalette>> palettes;
-    size_t paletteSize = PALETTE_RGB_SIZE;
+    size_t paletteSize = ASSET_PALETTE_COUNT * sizeof(ColorRGB);
     for (unsigned int i = 0; i < mixHeader.palettesCount; ++i) {
         //Create palette from MIX, path is not really used but it's nice to have
         asset_path palettePath = basePath + "/" + std::to_string(i) + ".PAL";

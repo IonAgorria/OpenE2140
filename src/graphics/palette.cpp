@@ -1,40 +1,80 @@
 //
 // Created by Ion Agorria on 29/04/18
 //
+#include <core/utils.h>
 #include "palette.h"
 
-MapPalette::MapPalette() {
-}
+Palette::Palette(unsigned int size, bool extra) {
+    //Reserve colors
+    colors.reserve(size);
 
-MapPalette::MapPalette(std::unordered_map<int, ColorRGB> colors) {
-    this->colors = colors;
-}
+    //Create texture
+    glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
+    glGenTextures(1, &texture);
+    error = Utils::checkGLError();
+    if (!error.empty()) {
+        return;
+    }
+    bindTexture();
 
-bool MapPalette::getColor(int index, ColorRGB& color) {
-    //Check index
-    if (!checkIndex(index)) {
-        error = "Index out of bounds: " + std::to_string(index);
-        return false;
+    //Repeat texture when texcoord overflows
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    error = Utils::checkGLError();
+    if (!error.empty()) {
+        return;
     }
 
-    //Get color if there is any
-    auto iter = colors.find(index);
-    if (iter != colors.end()) {
-        color.set(iter->second);
-        return true;
-    } else {
-        return false;
+    //Pixel scaling
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    error = Utils::checkGLError();
+    if (!error.empty()) {
+        return;
     }
 }
 
-bool MapPalette::setColor(int index, ColorRGB& color) {
-    //Check index
-    if (!checkIndex(index)) {
-        error = "Index out of bounds: " + std::to_string(index) + " color " + color.toString();
-        return false;
+Palette::~Palette() {
+    if (texture) {
+        glDeleteTextures(1, &texture);
+        //Remove ref
+        texture = 0;
     }
+}
 
-    //Set color
-    colors[index].set(color);
+unsigned long Palette::length() const {
+    return colors.size();
+}
+
+bool Palette::getColorVirtual(unsigned int index, ColorRGBA& color) {
+    color.setRGBA(colors[index]);
     return true;
+}
+
+bool Palette::setColorVirtual(unsigned int index, ColorRGBA& color) {
+    colors[index].setRGBA(color);
+    return true;
+}
+
+Palette::operator bool() {
+    return texture != 0;
+}
+
+bool Palette::check() {
+    if (!error.empty()) {
+        return false;
+    }
+    if (!*this) {
+        error = "Image not ready";
+        return false;
+    }
+    return true;
+}
+
+bool Palette::bindTexture() {
+    if (texture) {
+        glBindTexture(GL_TEXTURE_1D, texture);
+        return true;
+    }
+    return false;
 }

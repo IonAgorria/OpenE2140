@@ -68,7 +68,15 @@ using byteArray = byte[];
 #define GAME_ASSETS_DIR "assets"
 /** Names of asset containers to load */
 #define GAME_ASSET_CONTAINER_NAMES {"MIX", "LEVEL", "PIRO"}
+
+//Drawing related
 /** Minimum texture size */
-#define MINIMUM_TEXTURE_SIZE 2048
+#define MINIMUM_TEXTURE_SIZE 1024
+/** Texture unit for image texture */
+#define TEXTURE_UNIT_IMAGE GL_TEXTURE0
+/** Texture unit for colors palette texture */
+#define TEXTURE_UNIT_PALETTE_COLORS GL_TEXTURE1
+/** Texture unit for extra palette texture */
+#define TEXTURE_UNIT_PALETTE_EXTRA GL_TEXTURE2
 
 #endif //OPENE2140_CONFIG_H

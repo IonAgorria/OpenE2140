@@ -7,17 +7,11 @@ AssetPalette::AssetPalette(const asset_path& path, const std::shared_ptr<File> f
         Asset(path, file, fileOffset, fileSize) {
 }
 
-bool AssetPalette::checkIndex(int index) {
-    return 0 <= index && index < PALETTE_COUNT;
+unsigned long AssetPalette::length() const {
+    return ASSET_PALETTE_COUNT;
 }
 
-bool AssetPalette::getColor(int index, ColorRGB& color) {
-    //Check index
-    if (!checkIndex(index)) {
-        error = "Index out of bounds: " + std::to_string(index);
-        return false;
-    }
-
+bool AssetPalette::getColorVirtual(unsigned int index, ColorRGBA& color) {
     //Lookup the color
     const size_t amount = sizeof(ColorRGB);
     long pos = seek(index * amount, true);
@@ -26,17 +20,17 @@ bool AssetPalette::getColor(int index, ColorRGB& color) {
     }
 
     //Read the color
-    return readAll(color);
-}
-
-bool AssetPalette::setColor(int index, ColorRGB& color) {
-    //Check index
-    if (!checkIndex(index)) {
-        error = "Index out of bounds: " + std::to_string(index) + " color " + color.toString();
+    ColorRGB colorRGB;
+    if (!readAll(colorRGB)) {
         return false;
     }
+    color.setRGB(colorRGB);
+    return true;
+}
 
+bool AssetPalette::setColorVirtual(unsigned int index, ColorRGBA& color) {
     //Not used
+    if (0 < index || color.a == 0) {}
     return false;
 }
 

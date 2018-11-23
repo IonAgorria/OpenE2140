@@ -13,7 +13,7 @@
 /**
  * Implements simple file I/O abstraction using real files or memory
  */
-class File : public ErrorPossible {
+class File : public IErrorPossible {
 private:
     /**
      * SDL internal file struct pointer

@@ -1,18 +1,32 @@
 //
 // Created by Ion Agorria on 22/03/18
 //
-#include <GL/glew.h>
+#include <SDL_opengl.h>
 #include <SDL_events.h>
 #include "io/log.h"
 #include "core/utils.h"
 #include "window.h"
 
-Window::Window(WindowListener& listener): listener(listener) {
+Window::Window() {
     log = Log::get("Window");
     closing = false;
 }
 
-bool Window::init(unsigned int width, unsigned int height, const std::string& title) {
+Window::~Window() {
+    log->debug("Closing");
+    if (context != nullptr) {
+        SDL_GL_DeleteContext(context);
+        context = nullptr;
+    }
+    Utils::checkGLError(log);
+    if (windowHandle != nullptr) {
+        SDL_DestroyWindow(windowHandle);
+        windowHandle = nullptr;
+    }
+    Utils::checkSDLError(log);
+}
+
+bool Window::init(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener) {
     log->debug("Creating window {0}x{1} title '{2}'", width, height, title);
     if (windowHandle) {
         Utils::showErrorDialog("Window already created\n" + Utils::checkSDLError(), log, false, true);
@@ -33,11 +47,19 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
         return false;
     }
 
+    //Check errors
+    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
+        return false;
+    }
+
     //Set some attributes
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+    //Use OpenGL 3.2 Core
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
     //Create OpenGL context
     context = SDL_GL_CreateContext(windowHandle);
@@ -45,8 +67,27 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
         Utils::showErrorDialog("OpenGL context not available\n" + Utils::checkSDLError(), log, false, true);
         return false;
     }
-    glewExperimental = GL_TRUE;
-    glewInit();
+
+    //Check errors
+    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
+        return false;
+    }
+
+    /*
+    //Initialize GLEW
+    glewExperimental = GL_TRUE; //required for "new" OpenGL
+    GLenum glewResult = glewInit();;
+    if (glewResult != GLEW_OK) {
+        std::string error = std::string(reinterpret_cast<const char*>(glewGetErrorString(glewResult)));
+        Utils::showErrorDialog("GLEW init failed\n" + error, log, false, true);
+        return false;
+    }
+    */
+
+    //Check errors
+    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
+        return false;
+    }
 
     //Print some strings related to GL
     log->debug("GL_VERSION: {0}", glGetString(GL_VERSION));
@@ -59,27 +100,21 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
     SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &value);
     log->debug("GL_CONTEXT_MINOR_VERSION: {0}", value);
 
-    /* TODO
-    //Fetch renderer info
-    textureMaxSize = Vector2(MINIMUM_TEXTURE_SIZE, MINIMUM_TEXTURE_SIZE); //Assume default as minimum
-    SDL_RendererInfo rendererInfo;
-    std::string rendererName = "Unknown";
-    if (SDL_GetRendererInfo(rendererHandle, &rendererInfo) == 0) {
-        rendererName = rendererInfo.name;
-        textureMaxSize.set(rendererInfo.max_texture_width, rendererInfo.max_texture_height);
-    }
-    log->debug("Using renderer: {0}", rendererName);
-    log->debug("Maximum texture size: {0}", textureMaxSize.toString());
-
     //Check the texture size
-    if (textureMaxSize.x < MINIMUM_TEXTURE_SIZE || textureMaxSize.y < MINIMUM_TEXTURE_SIZE) {
-        Utils::showErrorDialog("Maximum texture size is too small: " + textureMaxSize.toString() + "\nRenderer: " + rendererName, log, false, false);
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &textureMaxSize);
+    log->debug("GL_MAX_TEXTURE_SIZE: {0}", textureMaxSize);
+    if (textureMaxSize < MINIMUM_TEXTURE_SIZE) {
+        Utils::showErrorDialog("Maximum texture size is too small: " + std::to_string(textureMaxSize), log, false, false);
         return false;
     }
-    */
 
     //Set parameters
     glClearColor(0.5, 0.5, 0.5, 1.0);
+
+    //Check errors
+    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
+        return false;
+    }
 
     //Send the initial resize event
     listener.windowResize(width, height);
@@ -89,39 +124,11 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
     return true;
 }
 
-Window::~Window() {
-    log->debug("Closing");
-    if (context != nullptr) {
-        SDL_GL_DeleteContext(context);
-        context = nullptr;
-    }
-    if (windowHandle != nullptr) {
-        SDL_DestroyWindow(windowHandle);
-        windowHandle = nullptr;
-    }
-    Utils::checkSDLError(log);
-}
-
 Window::operator bool() {
     return windowHandle != nullptr && context != nullptr;
 }
 
-bool Window::draw(Image& image, const Rectangle& rectangle) {
-    //TODO texture_ptr texture = image;
-    //if (SDL_RenderCopy(rendererHandle, texture.get(), &image.getRectangle(), &rectangle) != 0) {
-    //    Utils::showErrorDialog("SDL_RenderCopy error when drawing\n" + Utils::checkSDLError(), log, false, true);
-    //    return false;
-    //}
-    return true;
-}
-
-bool Window::update() {
-    //Clear for next iteration
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    //Show the current rendered
-    SDL_GL_SwapWindow(windowHandle);
-
+void Window::poll(IWindowListener& listener) {
     //Handle any events
     SDL_Event event;
     while (SDL_PollEvent(&event) == 1) {
@@ -166,26 +173,10 @@ bool Window::update() {
             }
         }
     }
-
-    return true;
 }
 
-texture_ptr Window::createTexture(const int width, const int height) {
-    texture_ptr texture;
-    /*
-    SDL_Texture* textureSDL = SDL_CreateTexture(rendererHandle, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, width, height);
-    if (!textureSDL) {
-        Utils::showErrorDialog("SDL_CreateTexture texture is not valid\n" + Utils::checkSDLError(), log, false, true);
-    } else {
-        //Set pointer to texture and deleter for texture
-        texture.reset(textureSDL, SDL_DestroyTexture);
-    }
-     */
-    return texture;
-}
-
-texture_ptr Window::createTexture(const Vector2& size) {
-    return createTexture(size.x, size.y);
+void Window::swap() {
+    SDL_GL_SwapWindow(windowHandle);
 }
 
 bool Window::isClosing() {

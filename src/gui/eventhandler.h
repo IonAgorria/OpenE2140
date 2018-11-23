@@ -12,24 +12,24 @@
  * Event handler to listen window events
  */
 class Game;
-class EventHandler: public WindowListener {
+class EventHandler: public virtual IWindowListener {
     /** Log for object */
     log_ptr log;
 
     /**
      * Listener to send actions
      */
-    Game& game;
+    std::shared_ptr<Game> game;
 public:
     /**
      * Event handler constructor
      */
-    EventHandler(Game& game);
+    EventHandler(std::shared_ptr<Game> game);
 
     /**
      * Destroys event handler
      */
-    virtual ~EventHandler() = default;
+    ~EventHandler();
 
     /**
      * Disable copy/move

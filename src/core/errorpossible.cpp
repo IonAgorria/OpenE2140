@@ -3,7 +3,7 @@
 //
 #include "errorpossible.h"
 
-std::string ErrorPossible::getError() {
+std::string IErrorPossible::getError() {
     std::string copy = error;
     error = "";
     return copy;

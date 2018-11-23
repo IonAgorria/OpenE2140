@@ -6,25 +6,61 @@
 #include "core/utils.h"
 #include "image.h"
 
-Image::Image(texture_ptr texture, const Rectangle& rectangle) :
-        texture(texture),
+Image::Image(const Vector2& size) : Image(nullptr, Rectangle(Vector2(), size)) {
+}
+
+Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
+        owner(owner),
         rectangle(rectangle)
 {
-    //Get the format from texture
-    if (texture && SDL_QueryTexture(texture.get(), &textureFormat, NULL, NULL, NULL) != 0) {
-        error = "Error querying texture " + Utils::checkSDLError();
+    if (owner) {
+        //Use the same texture
+        texture = owner->texture;
+        paletteColors = owner->paletteColors;
+        paletteExtra = owner->paletteExtra;
+    } else {
+        //Create texture
+        glActiveTexture(TEXTURE_UNIT_IMAGE);
+        glGenTextures(1, &texture);
+        error = Utils::checkGLError();
+        if (!error.empty()) {
+            return;
+        }
+        bindTexture();
+
+        //Repeat texture when texcoord overflows
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        error = Utils::checkGLError();
+        if (!error.empty()) {
+            return;
+        }
+
+        //Pixel scaling
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        error = Utils::checkGLError();
+        if (!error.empty()) {
+            return;
+        }
     }
 }
 
-Image::Image(texture_ptr texture, const Vector2& size) : Image(texture, Rectangle(Vector2(), size)) {
+Image::~Image() {
+    if (texture) {
+        if (owner) {
+            owner.reset();
+        } else {
+            //I'm the owner
+            glDeleteTextures(1, &texture);
+        }
+        //Remove ref
+        texture = 0;
+    }
 }
 
 Image::operator bool() {
-    return texture != nullptr;
-}
-
-Image::operator texture_ptr() {
-    return texture;
+    return texture != 0;
 }
 
 Rectangle& Image::getRectangle() {
@@ -35,39 +71,36 @@ const Rectangle& Image::getRectangle() const {
     return rectangle;
 }
 
-bool Image::check(unsigned int format) {
+bool Image::check() {
     if (!error.empty()) {
         return false;
     }
-    if (!texture) {
-        error = "Error loading image, texture not available";
-        return false;
-    }
-    if (textureFormat != format) {
-        error = "Error loading image, texture format " + std::to_string(textureFormat) + " doesn't match " + std::to_string(format);
+    if (!*this) {
+        error = "Image not ready";
         return false;
     }
     return true;
 }
 
-bool Image::loadAlpha(byte* pixels, const byte* alpha) {
-    size_t size = static_cast<const size_t>(rectangle.w * rectangle.h);
-    for (size_t i = 0; i < size; i++) {
-        pixels[i * 4] = alpha == nullptr ? (byte) 0xFF : alpha[i];
+bool Image::bindTexture() {
+    if (texture) {
+        glBindTexture(GL_TEXTURE_2D, texture);
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool Image::loadTexture(const byte* pixels, int bytes) {
+    /*
     if (SDL_UpdateTexture(texture.get(), &rectangle, pixels, rectangle.w * bytes) != 0) {
         error = "Couldn't update texture " + Utils::checkSDLError();
         return false;
-    }
+    }*/
     return true;
 }
 
 bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
-    if (!check(SDL_PIXELFORMAT_RGBA8888)) return false;
+    if (!check()) return false;
 
     //Create buffer for converted pixels and do conversion
     std::unique_ptr<byteArray> converted = Utils::createBuffer(
@@ -84,8 +117,9 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     }
 
     //Update the alpha
-    if (!loadAlpha(converted.get(), alpha)) {
-        return false;
+    size_t size = static_cast<const size_t>(rectangle.w * rectangle.h);
+    for (size_t i = 0; i < size; i++) {
+        converted[i * 4] = alpha == nullptr ? (byte) 0xFF : alpha[i];
     }
 
     //Load converted data and return result
@@ -93,7 +127,7 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
 }
 
 bool Image::loadFromRGBA8888(const byte* pixels) {
-    if (!check(SDL_PIXELFORMAT_RGBA8888)) return false;
+    if (!check()) return false;
 
     //Load data to texture
     return loadTexture(pixels, 4);

@@ -8,9 +8,7 @@
 #include "asset.h"
 
 /** Palette color count */
-#define PALETTE_COUNT 256
-/** Size of each palette in bytes */
-#define PALETTE_RGB_SIZE PALETTE_COUNT * sizeof(Palette::ColorRGB)
+#define ASSET_PALETTE_COUNT 256
 
 //Unit movement dependent colors (threads/wheels/jets)
 #define PALETTE_UNIT_MOVEMENT0 0xF0
@@ -51,7 +49,7 @@
 /**
  * Palette information asset
  */
-class AssetPalette : public Asset, public Palette {
+class AssetPalette : public Asset, public IPalette {
 public:
     /**
      * Constructor for palette asset
@@ -63,11 +61,11 @@ public:
      */
     AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
-    bool checkIndex(int index) override;
+    unsigned long length() const override;
 
-    bool getColor(int index, ColorRGB& color) override;
+    bool getColorVirtual(unsigned int index, ColorRGBA& color) override;
 
-    bool setColor(int index, ColorRGB& color) override;
+    bool setColorVirtual(unsigned int index, ColorRGBA& color) override;
 
     /**
      * @return string version of this asset

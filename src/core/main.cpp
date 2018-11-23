@@ -40,8 +40,12 @@ int main(int argc, char** argv) {
         error = true;
         Utils::showErrorDialog("SDL_Init failed\n" + Utils::checkSDLError(), log, false, true);
     } else {
-        Game game;
-        error = !game.run();
+        std::shared_ptr<Game> game = std::make_shared<Game>();
+        error = !game->run();
+        game.reset();
+        if (error) {
+            log->error("Error occurred");
+        }
     }
 
     //Close SDL (doesn't matter if SDL was init successfully)

@@ -5,7 +5,7 @@
 #define OPENE2140_RENDERER_H
 
 /**
- * Handles the rendering of various parts
+ * Handles the rendering of various parts using window and game state
  */
 class Renderer {
 

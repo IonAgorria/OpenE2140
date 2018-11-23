@@ -12,7 +12,7 @@ using asset_path = std::string;
 /**
  * Base asset containing any data for game
  */
-class Asset : public ErrorPossible {
+class Asset : public IErrorPossible {
 private:
     /**
      * Path of this assets inside manager

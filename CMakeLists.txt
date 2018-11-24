@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.1)
 project(opene2140)
 
+# Set CMAKE modules for project and local machine
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake-modules $ENV{CMAKE_MODULE_PATH_ENV})
+
 # Set C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

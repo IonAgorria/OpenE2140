@@ -14,6 +14,7 @@
 //Attempt to load boost libs
 //#define HAS_BOOST 0
 #if HAS_BOOST
+#   define BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED 1
 #   include "boost/stacktrace.hpp"
 #   include "boost/filesystem.hpp"
 #endif
@@ -68,7 +69,7 @@ bool Utils::startsWith(const std::string& string, const std::string& start) {
     return strncmp(string.c_str(), start.c_str(), startSize) == 0;
 }
 
-void Utils::setSignalHandler(__sighandler_t signalHandler, std::terminate_handler terminateHandler) {
+void Utils::setSignalHandler(sighandler signalHandler, std::terminate_handler terminateHandler) {
     signal(SIGSEGV, signalHandler);
     signal(SIGABRT, signalHandler);
     signal(SIGBUS, signalHandler);
@@ -361,7 +362,7 @@ std::string Utils::toInternalPath(const std::string& path) {
 }
 
 std::unique_ptr<byteArray> Utils::createBuffer(const size_t size) {
-    return std::move(std::make_unique<byteArray>(size));
+    return std::make_unique<byteArray>(size);
 }
 
 bool Utils::saveStackTrace(const std::string& file) {

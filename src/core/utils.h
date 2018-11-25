@@ -13,6 +13,8 @@
 
 #define DIALOG_MAX_WIDTH 150
 
+typedef void (*sighandler) (int);
+
 /**
  * Contains static utilities
  */
@@ -100,7 +102,7 @@ public:
     /**
      * Set custom signal handlers
      */
-    static void setSignalHandler(__sighandler_t signalHandler, std::terminate_handler terminateHandler);
+    static void setSignalHandler(sighandler signalHandler, std::terminate_handler terminateHandler);
 
     /**
      * Set default signal handlers

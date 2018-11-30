@@ -24,10 +24,14 @@ int main(int argc, char** argv) {
     Utils::getInstallPath();
     Utils::getUserPath();
 
-    //Enable args
+    //Parse args
     for(int i=1; i < argc; i++) {
-        if (strcmp(argv[i], "Debug") == 0) {
+        std::string arg = argv[i];
+        std::transform(BEGIN_END(arg), arg.begin(), ::tolower);
+        if (arg.compare("-debug") == 0 || arg.compare("-d") == 0) {
             Utils::setDebug(true);
+        } else {
+            std::cout << "Unknown arg " << arg << "\n";
         }
     }
 

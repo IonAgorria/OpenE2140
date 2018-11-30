@@ -7,6 +7,7 @@
 #include "config.h"
 #include <iomanip>
 #include <iostream>
+#include <sstream> //MacOS requires this to avoid implicit templates in string streams
 #include <csignal>
 #include <list>
 #include "io/log.h"

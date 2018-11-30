@@ -48,7 +48,7 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
     }
 
     //Check errors
-    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
+    if (!Utils::checkSDLError(log).empty()) {
         return false;
     }
 

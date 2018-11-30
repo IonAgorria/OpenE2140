@@ -25,10 +25,14 @@ git clone --recursive **url**
 2. Compile according to your platform:
     - Linux:
         Execute `./build-linux.sh`
+    - Mac OS:
+        Execute `./build-macos.sh`
         
 3. Find the generated files:
     - Linux:
-        The main executable should be called `opene2140`
+        The executable should be called `opene2140`
+    - MacOS:
+        The executable should be called `opene2140`
 
 ## Running
 Original game files are required to be located in folder **assets** in the same path as game executable.

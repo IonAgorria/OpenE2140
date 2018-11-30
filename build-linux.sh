@@ -1,13 +1,12 @@
 #!/bin/sh
 set -e
 
-#Create/clean out
-mkdir -p build
+#Clean out
 rm -rf build/*
 
 #Generate build files
-cd build
-cmake -G "Unix Makefiles" ..
+meson build
 
 #MAKE!
-cmake --build . --target opene2140 -- -j 2
+cd build
+ninja

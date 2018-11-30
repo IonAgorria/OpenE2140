@@ -1,6 +1,7 @@
 [submodule "lib/spdlog"]
 	path = lib/spdlog
 	url = https://github.com/gabime/spdlog
+	branch = v1.x
 [submodule "lib/stb"]
 	path = lib/stb
 	url = https://github.com/nothings/stb

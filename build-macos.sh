@@ -1,14 +1,12 @@
 #!/bin/sh
 set -e
-#NOT TESTED
 
-#Create/clean out
-mkdir -p build
+#Clean out
 rm -rf build/*
 
 #Generate build files
-cd build
-cmake –G "Xcode" ..
+meson build
 
 #MAKE!
-cmake --build . --target opene2140
+cd build
+ninja

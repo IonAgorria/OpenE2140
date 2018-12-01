@@ -4,7 +4,7 @@
 #ifndef OPENE2140_WORLD_H
 #define OPENE2140_WORLD_H
 
-#include "core/config.h"
+#include "core/common.h"
 #include <vector>
 #include "graphics/window.h"
 #include "assets/asset.h"

@@ -23,6 +23,9 @@ void Game::close() {
     if (luaVM) {
         luaVM.reset();
     }
+    if (eventHandler) {
+        eventHandler.reset();
+    }
 }
 
 bool Game::run() {

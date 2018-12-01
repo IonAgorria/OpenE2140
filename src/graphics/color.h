@@ -5,7 +5,7 @@
 #define OPENE2140_COLOR_H
 
 #include <string>
-#include "core/config.h"
+#include "core/common.h"
 
 /**
  * Struct for RG color

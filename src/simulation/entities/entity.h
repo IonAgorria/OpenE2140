@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ENTITY_H
 #define OPENE2140_ENTITY_H
 
-#include "core/config.h"
+#include "core/common.h"
 #include "math/rectangle.h"
 #include "assets/manager.h"
 #include "graphics/image.h"

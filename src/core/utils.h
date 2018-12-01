@@ -4,7 +4,7 @@
 #ifndef OPENE2140_UTILS_H
 #define OPENE2140_UTILS_H
 
-#include "config.h"
+#include "common.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream> //MacOS requires this to avoid implicit templates in string streams

@@ -1,5 +1,5 @@
 #include "assets/assetimage.h"
-#include "core/config.h"
+#include "core/common.h"
 #include "core/utils.h"
 #include "io/log.h"
 #include "graphics/window.h"

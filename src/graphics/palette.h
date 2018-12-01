@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 #include <SDL_opengl.h>
-#include "core/config.h"
+#include "core/common.h"
 #include "core/errorpossible.h"
 #include "ipalette.h"
 

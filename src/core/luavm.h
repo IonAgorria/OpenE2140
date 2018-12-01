@@ -4,7 +4,7 @@
 #ifndef OPENE2140_LUAVM_H
 #define OPENE2140_LUAVM_H
 
-#include "core/config.h"
+#include "core/common.h"
 #include "io/log.h"
 #include "lua.hpp"
 

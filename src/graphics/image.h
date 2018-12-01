@@ -6,7 +6,7 @@
 
 #include <memory>
 #include <SDL_opengl.h>
-#include "core/config.h"
+#include "core/common.h"
 #include "core/errorpossible.h"
 #include "math/rectangle.h"
 #include "palette.h"

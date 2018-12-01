@@ -4,14 +4,15 @@
 #ifndef OPENE2140_EVENTHANDLER_H
 #define OPENE2140_EVENTHANDLER_H
 
-#include <core/config.h>
+#include <core/common.h>
 #include <io/log.h>
 #include <graphics/window.h>
+
+class Game;
 
 /**
  * Event handler to listen window events
  */
-class Game;
 class EventHandler: public virtual IWindowListener {
     /** Log for object */
     log_ptr log;
@@ -29,7 +30,7 @@ public:
     /**
      * Destroys event handler
      */
-    ~EventHandler();
+    virtual ~EventHandler() override;
 
     /**
      * Disable copy/move
@@ -42,7 +43,7 @@ public:
      * @param width of window
      * @param height of window
      */
-    virtual void windowResize(int width, int height);
+    virtual void windowResize(int width, int height) override;
 
     /**
      * Called when mouse click occurs
@@ -52,7 +53,7 @@ public:
      * @param button pressed
      * @param press or release
      */
-    virtual void mouseClick(int x, int y, int button, bool press);
+    virtual void mouseClick(int x, int y, int button, bool press) override;
 
     /**
      * Called when mouse movement occurs
@@ -60,7 +61,7 @@ public:
      * @param x position
      * @param y position
      */
-    virtual void mouseMove(int x, int y);
+    virtual void mouseMove(int x, int y) override;
 
     /**
      * Called when key change occurs
@@ -69,7 +70,7 @@ public:
      * @param name of key
      * @param press or release
      */
-    virtual void keyChange(int code, std::string name, bool press);
+    virtual void keyChange(int code, std::string name, bool press) override;
 };
 
 

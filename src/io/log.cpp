@@ -3,7 +3,7 @@
 //
 #include "log.h"
 #include "core/utils.h"
-#include "core/config.h"
+#include "core/common.h"
 
 std::list<spdlog::sink_ptr> Log::sinks;
 

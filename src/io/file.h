@@ -4,7 +4,7 @@
 #ifndef OPENE2140_FILE_H
 #define OPENE2140_FILE_H
 
-#include "core/config.h"
+#include "core/common.h"
 #include <string>
 #include <memory>
 #include "core/errorpossible.h"

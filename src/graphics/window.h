@@ -13,13 +13,12 @@
  * Window listener
  */
 class IWindowListener {
-protected:
+public:
     /**
      * IWindowListener destructor
      */
-    ~IWindowListener() = default;
+    virtual ~IWindowListener() = default;
 
-public:
     /**
      * Called when window is resized
      *

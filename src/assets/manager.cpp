@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 8/04/18
 //
-#include "core/config.h"
+#include "core/common.h"
 #include "core/utils.h"
 #include "io/log.h"
 #include "manager.h"

@@ -3,6 +3,8 @@ project('OpenE2140', 'c', 'cpp', default_options : ['c_std=c11', 'cpp_std=c++14'
 
 #Vars
 opene2140_deps = []
+opene2140_is_macos = host_machine.system() == 'darwin'
+opene2140_is_windows = host_machine.system() == 'windows'
 
 #Load SDL2
 sdl2_dep = dependency('sdl2', version : '>=2.0.7')
@@ -40,8 +42,10 @@ opene2140_cfg.set('DEFAULT_RESOLUTION_HEIGHT', 600, description: 'Default resolu
 opene2140_cfg.set('GAME_ASSETS_DIR', '"assets"', description: 'Directory name containing assets')
 opene2140_cfg.set('GAME_ASSET_CONTAINER_NAMES', '{"MIX", "LEVEL", "PIRO"}', description: 'Names of asset containers to load')
 
-#Per library config
+#Variable config
 opene2140_cfg.set('OPENE2140_USE_BOOST', boost_dep.found() ? 'true' : 'false', description: 'Enables the use of Boost library')
+opene2140_cfg.set('OPENE2140_IS_MACOS', opene2140_is_macos ? 'true' : 'false', description: 'True if being building on macos')
+opene2140_cfg.set('OPENE2140_IS_WINDOWS', opene2140_is_windows ? 'true' : 'false', description: 'True if being building on windows')
 
 #Save the config to header file
 configure_file(output: 'config.h', configuration: opene2140_cfg)
@@ -80,10 +84,16 @@ opene2140_incs = include_directories(
     'lib/stb',
 )
 
+#Include extra files
+if opene2140_is_macos
+  install_data('Info.plist', install_dir: 'Contents')
+endif
+
 #Create executable, set definitions and link it
 opene2140_exe = executable(
     'opene2140',
     opene2140_src,
     include_directories: opene2140_incs,
     dependencies: opene2140_deps,
+    install: true,
 )

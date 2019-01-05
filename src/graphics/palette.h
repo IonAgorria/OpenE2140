@@ -8,7 +8,6 @@
 #include <unordered_map>
 #include <memory>
 #include <vector>
-#include <SDL_opengl.h>
 #include "core/common.h"
 #include "core/errorpossible.h"
 #include "ipalette.h"

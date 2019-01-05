@@ -2,9 +2,15 @@
 // Created by Ion Agorria on 26/03/18
 //
 
+//Include GL in proper order
+#include <GL/glew.h>
+#include <SDL_opengl.h>
+
+//Includes
 #include "macros.h"
 #include "types.h"
 #include "config.h"
+#include "config-placeholder.h"
 
 #ifndef OPENE2140_COMMON_H
 #define OPENE2140_COMMON_H

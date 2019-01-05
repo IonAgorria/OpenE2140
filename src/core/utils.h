@@ -63,6 +63,14 @@ public:
     static std::string checkGLError(const log_ptr log = nullptr);
 
     /**
+     * Checks if SDL and/or OpenGL has any error and concatenate them with newline if several errors occur
+     *
+     * @param log to write the error or null to ignore
+     * @return the produced error or string representing the lack of error
+     */
+    static std::string checkAnyError(const log_ptr log = nullptr);
+
+    /**
      * Converts value with n precision to string using ostream
      *
      * @tparam T type of value

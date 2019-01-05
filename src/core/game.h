@@ -4,11 +4,11 @@
 #ifndef OPENE2140_GAME_H
 #define OPENE2140_GAME_H
 
-
+#include "common.h"
 #include "graphics/renderer.h"
 #include "simulation/simulation.h"
 #include "graphics/window.h"
-#include "assets/manager.h"
+#include "assets/assetmanager.h"
 #include "gui/eventhandler.h"
 #include "luavm.h"
 
@@ -24,7 +24,7 @@ class Game: public std::enable_shared_from_this<Game> {
     /**
      * Manager for asset fetching
      */
-    std::unique_ptr<Manager> assetManager;
+    std::unique_ptr<AssetManager> assetManager;
 
     /**
      * Window where the game gets drawn

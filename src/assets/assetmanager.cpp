@@ -4,29 +4,67 @@
 #include "core/common.h"
 #include "core/utils.h"
 #include "io/log.h"
-#include "manager.h"
+#include "assetmanager.h"
 #include "assetpalette.h"
 #include "assetimage.h"
 #include <forward_list>
 
-Manager::Manager() {
+AssetManager::AssetManager() {
     log = Log::get("Assets");
     assetsCount = 0;
+    log->debug("Creating");
+    //Scan assets from containers by checking different paths that might contain assets
+    std::string assetDir = std::string(GAME_ASSETS_DIR) + DIR_SEP;
+    std::list<std::string> assetDirPaths = {
+            assetDir,                                                 //Current directory
+            Utils::getInstallPath() + assetDir,                       //Installation directory
+            Utils::getParentPath(Utils::getInstallPath()) + assetDir, //Parent of installation directory
+    };
+    for (std::string name : GAME_ASSET_CONTAINER_NAMES) {
+        log->debug("Loading '{0}'", name);
+        bool found = false;
+        for (std::string path : assetDirPaths) {
+            found |= scanContainer(path, name);
+            if (found || !error.empty()) break;
+        }
+
+        //Nothing was found
+        if (!found) {
+            std::string text = "Error loading game data for '" + name + "' directory or '" + name + ".WD' file\n";
+            text += "Check if game files are correctly set and are accessible inside following paths: \n";
+            for (std::string path : assetDirPaths) {
+                text += path + "\n";
+            }
+            //Add prev error
+            if (!error.empty()) {
+                text += error;
+            }
+            error = text;
+        }
+    }
+
+    //Scan intermediate assets
+    processIntermediates();
+
+    //Print loaded assets
+    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
+
+    log->debug("AssetManager has {0} assets", assetsCount);
 }
 
-Manager::~Manager() {
+AssetManager::~AssetManager() {
     log->debug("Closing");
     clearAssets();
 }
 
-bool Manager::addAsset(std::shared_ptr<Asset> asset) {
+bool AssetManager::addAsset(std::shared_ptr<Asset> asset) {
     if (!asset) {
-        log->error("Asset to add is null");
+        error = "Asset to add is null";
         return false;
     }
     const std::string& path = asset->getPath();
     if (assets[path]) {
-        log->debug("Asset already present: '{0}'", path);
+        error = "Asset already present: '" + path + "'";
         return false;
     }
     assets[path] = asset;
@@ -34,80 +72,37 @@ bool Manager::addAsset(std::shared_ptr<Asset> asset) {
     return true;
 }
 
-bool Manager::removeAsset(const asset_path& path) {
+bool AssetManager::removeAsset(const asset_path& path) {
     if (assets.erase(path) == 0) {
-        log->warn("Asset is not present: '{0}'", path);
+        error = "Asset is not present: '" + path + "'";
         return false;
     }
     assetsCount--;
     return true;
 }
 
-std::shared_ptr<Asset> Manager::getAsset(const asset_path& path) {
+std::shared_ptr<Asset> AssetManager::getAsset(const asset_path& path) {
     return assets[path];
 }
 
-int Manager::getAssetsCount() {
+int AssetManager::getAssetsCount() {
     return assetsCount;
 }
 
-void Manager::clearAssets() {
+void AssetManager::clearAssets() {
     //Delete all stored assets
     assets.clear();
     assetsCount = 0;
 }
 
-bool Manager::init() {
-    log->debug("Creating");
-    //Scan assets from containers
-    std::string assetDir = std::string(GAME_ASSETS_DIR) + DIR_SEP;
-    std::list<std::string> assetDirPaths = {
-        assetDir,                                                 //Current directory
-        Utils::getInstallPath() + assetDir,                       //Installation directory
-        Utils::getParentPath(Utils::getInstallPath()) + assetDir, //Parent of installation directory
-    };
-    for (std::string name : GAME_ASSET_CONTAINER_NAMES) {
-        log->debug("Loading '{0}'", name);
-        bool found = false;
-        for (std::string path : assetDirPaths) {
-            if (scanContainer(path, name)) {
-                found = true;
-                break;
-            }
-        }
-
-        //Nothing was found
-        if (!found) {
-            std::string error = "Error loading game data for " + name + " directory or " + name + ".WD file\n";
-            error += "Check if game files are correctly set and are accesible inside following paths: \n";
-            for (std::string path : assetDirPaths) {
-                error += path + "\n";
-            }
-            Utils::showErrorDialog(error, log, false, false);
-            return false;
-        }
-    }
-
-    //Scan intermediate assets
-    if (!processsIntermediates()) {
-        return false;
-    }
-
-    //Print loaded assets
-    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
-
-    log->debug("Manager has {0} assets", assetsCount);
-    return true;
-}
-
-bool Manager::scanContainer(const std::string& path, const std::string& name) {
+bool AssetManager::scanContainer(const std::string& path, const std::string& name) {
     std::string type = "";
 
     //Try to load it as dir
     int count = scanContainerDir(path, name);
     if (0 <= count) {
         type = "Directory";
-    } else {
+    } else if (error.empty()) {
         //Try to load it as WD
         count = scanContainerWD(path, name);
         if (0 <= count) {
@@ -116,7 +111,7 @@ bool Manager::scanContainer(const std::string& path, const std::string& name) {
     }
 
     //If loaded then save it
-    if (0 <= count) {
+    if (0 <= count && error.empty()) {
         log->debug("Loaded '{0}' as {1} with {2} assets totalling {3}", name, type, count, assetsCount);
         return true;
     } else {
@@ -124,7 +119,7 @@ bool Manager::scanContainer(const std::string& path, const std::string& name) {
     }
 }
 
-int Manager::scanContainerWD(const std::string& path, const std::string& name) {
+int AssetManager::scanContainerWD(const std::string& path, const std::string& name) {
     //Create file to be common between assets created from this container file
     std::shared_ptr<File> file = std::make_shared<File>();
     if (!file->fromPath(path + name + ".WD")) {
@@ -136,9 +131,9 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     //Read file record count
     unsigned int recordCount;
     size_t amount = file->read(&recordCount, sizeof(unsigned int));
-    std::string error = file->getError();
+    error = file->getError();
     if (amount != sizeof(unsigned int) || !error.empty()) {
-        log->error("Error reading file record count {0}", error);
+        error = "Error reading file record count\n" + error;
         return -1;
     }
 
@@ -152,7 +147,7 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     amount = file->read(&namesBlockSize, sizeof(unsigned int));
     error = file->getError();
     if (amount != sizeof(unsigned int) || !error.empty()) {
-        log->error("Error reading names block size {0}", error);
+        error = "Error reading names block size " + error;
         return -1;
     }
 
@@ -161,11 +156,11 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
     amount = file->read(namesBlock.get(), namesBlockSize);
     error = file->getError();
     if (amount != namesBlockSize || !error.empty()) {
-        log->error("Error reading names block {0}", error);
+        error = "Error reading names block " + error;
         return -1;
     }
     if (namesBlock[namesBlockSize - 1] != '\0') {
-        log->error("Names block doesn't end with null terminator");
+        error = "Names block doesn't end with null terminator";
         return -1;
     }
 
@@ -178,19 +173,19 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
         amount = file->read(&record, recordSize);
         error = file->getError();
         if (amount != recordSize || !error.empty()) {
-            log->error("Error reading file record {0} {1}", recordIndex, error);
+            error = "Error reading file record " + std::to_string(recordIndex) + "\n" + error;
             return -1;
         }
 
         //Check file offset and size
         if (0 < fileSize && record.fileOffset + record.fileSize > fileSize) {
-            log->error("File offset+size is out of bounds at file record {0}", recordIndex);
+            error = "File offset+size is out of bounds at file record {0}" + std::to_string(recordIndex);
             return -1;
         }
 
         //Check name offset
         if (record.nameOffset > namesBlockSize) {
-            log->error("Name offset is out of bounds at file record {0}", recordIndex);
+            error = "Name offset is out of bounds at file record " + std::to_string(recordIndex);
             return -1;
         }
 
@@ -204,21 +199,22 @@ int Manager::scanContainerWD(const std::string& path, const std::string& name) {
 
         //Check if name is empty
         if (recordName.empty()) {
-            log->error("Name is empty at file record {0}", recordIndex);
+            error = "Name is empty at file record " + std::to_string(recordIndex);
             return -1;
         }
 
         //Create an asset now that we know the name and file offset/size, the file pointer is shared with each asset
         std::shared_ptr<Asset> asset = std::make_shared<Asset>(name + '/' + recordName, file, record.fileOffset, record.fileSize);
-        if (addAsset(asset)) {
-            count++;
+        if (!addAsset(asset)) {
+            return -1;
         }
+        count++;
     }
 
     return count;
 }
 
-int Manager::scanContainerDir(const std::string& path, const std::string& name) {
+int AssetManager::scanContainerDir(const std::string& path, const std::string& name) {
     //Set first dir
     std::list<std::string> paths;
     paths.push_back(name);
@@ -251,9 +247,13 @@ int Manager::scanContainerDir(const std::string& path, const std::string& name) 
                 std::shared_ptr<Asset> asset = std::make_shared<Asset>(current, std::move(file), 0, 0);
                 if (addAsset(asset)) {
                     count++;
+                } else {
+                    error = "scanContainerDir couldn't add asset\n" + error;
+                    return -1;
                 }
             } else {
-                log->debug("Error opening file: '{0}' '{1}'", current, file->getError());
+                error = "Error opening file: '" + current + "'\n" + file->getError();
+                return -1;
             }
         }
     }
@@ -261,7 +261,7 @@ int Manager::scanContainerDir(const std::string& path, const std::string& name) 
     return count;
 }
 
-bool Manager::processsIntermediates() {
+void AssetManager::processIntermediates() {
     //Counters
     long addedAssets = 0;
     long removedAssets = 0;
@@ -310,15 +310,14 @@ bool Manager::processsIntermediates() {
         int count = processIntermediateMIX(assetPath);
         if (count == 0) {
             continue;
-        } else if (count < 0) {
-            return false;
         }
         addedAssets += count;
 
         //Remove the old asset
         if (!removeAsset(assetPath)) {
-            return false;
+            error = "Couldn't remove processed asset\n" + error;
         }
+        if (!error.empty()) return;
         removedAssets++;
     }
 
@@ -342,8 +341,8 @@ bool Manager::processsIntermediates() {
         Vector2 imageSize;
         ImageSize16 imageSizeStruct;
         if (!asset->readAll(imageSizeStruct)) {
-            log->error("Error reading '{0}' image size {1}", assetPath, asset->getError());
-            return false;
+            error = "Error reading '" + assetPath + "' image size\n" + asset->getError();
+            return;
         }
         imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
@@ -357,16 +356,16 @@ bool Manager::processsIntermediates() {
 
         //Remove the old assets
         if (!removeAsset(assetPath) || !removeAsset(palettePath)) {
-            return false;
+            error = "Couldn't remove processed asset\n" + error;
+            return;
         }
         removedAssets += 2;
     }
 
     log->debug("Processed intermediate assets: added {0} removed {1}", addedAssets, removedAssets);
-    return true;
 }
 
-int Manager::processIntermediateMIX(const asset_path& path) {
+int AssetManager::processIntermediateMIX(const asset_path& path) {
     std::shared_ptr<Asset> asset = getAsset(path);
     asset_path basePath = path.substr(0, path.size() - 4);
     int addedAssets = 0;
@@ -375,7 +374,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
     bool match = asset->match("MIX FILE  ");
     std::string error = asset->getError();
     if (!match || !error.empty()) {
-        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        error = "Error reading '" + path + "' MIX constant " + error;
         return -1;
     }
 
@@ -385,7 +384,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
     size_t amount = asset->read(&mixHeader, readSize);
     error = asset->getError();
     if (amount != readSize || !error.empty()) {
-        log->error("Error reading '{0}' MIX header {1}", path, error);
+        error = "Error reading '" + path + "' MIX header " + error;
         return -1;
     }
     //log->debug("{0} Streams: {1} Palettes: {2} Index: {3}", path, mixHeader.streamsCount, mixHeader.palettesCount, mixHeader.palettesFirstIndex);
@@ -394,7 +393,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
     match = asset->match("ENTRY");
     error = asset->getError();
     if (!match || !error.empty()) {
-        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        error = "Error reading '" + path + "' MIX constant " + error;
         return -1;
     }
 
@@ -406,7 +405,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         amount = asset->read(&streamEntry, readSize);
         error = asset->getError();
         if (amount != readSize || !error.empty()) {
-            log->error("Error reading '{0}' MIX stream {1} position {2}", path, i, error);
+            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " position " + error;
             return -1;
         }
         streamPositions.push_back(mixHeader.streamsOffset + streamEntry);
@@ -416,11 +415,12 @@ int Manager::processIntermediateMIX(const asset_path& path) {
     match = asset->match(" PAL ");
     error = asset->getError();
     if (!match || !error.empty()) {
-        log->error("Error reading '{0}' MIX constant {1}", path, error);
+        error = "Error reading '" + path + "' MIX constant " + error;
         return -1;
     }
     if (asset->tell() != mixHeader.palettesOffset) {
-        log->error("Error reading '{0}' MIX palette offset {1} mismatch {2}", path, asset->tell() != mixHeader.palettesOffset);
+        error = "Error reading '" + path + "' MIX palette offset ";
+        error += std::to_string(asset->tell()) + " mismatch " + std::to_string(mixHeader.palettesOffset);
         return -1;
     }
 
@@ -438,7 +438,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         long result = asset->seek(paletteSize);
         error = asset->getError();
         if (result < 0 || !error.empty()) {
-            log->error("Error reading '{0}' MIX palette {1} when seeking {2}", path, i, error);
+            error = "Error reading '" + path + "' MIX palette " + std::to_string(i) + " when seeking " + error;
             return -1;
         }
 
@@ -452,7 +452,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
         match = asset->match("DATA ");
         error = asset->getError();
         if (!match || !error.empty()) {
-            log->error("Error reading '{0}' MIX constant {1}", path, error);
+            error = "Error reading '" + path + "' MIX constant " + error;
             return -1;
         }
 
@@ -472,7 +472,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             long result = asset->seek(streamStart + sizeof(unsigned short) + sizeof(unsigned short), true);
             error = asset->getError();
             if (result < 0 || !error.empty()) {
-                log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
                 return -1;
             }
 
@@ -482,7 +482,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             amount = asset->read(&streamType, readSize);
             error = asset->getError();
             if (amount != readSize || !error.empty()) {
-                log->error("Error reading '{0}' MIX stream {1} type {2}", path, i, error);
+                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " type " + error;
                 return -1;
             }
 
@@ -490,7 +490,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             result = asset->seek(streamStart, true);
             error = asset->getError();
             if (result < 0 || !error.empty()) {
-                log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
                 return -1;
             }
 
@@ -508,7 +508,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     //Get image size
                     ImageSize16 imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
-                        log->error("Error reading '{0}' MIX stream {1} image size {2}", path, i, asset->getError());
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + error;
                         return -1;
                     }
                     assetStart += sizeof(imageSizeStruct);
@@ -518,7 +518,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     result = asset->seek(1);
                     error = asset->getError();
                     if (result < 0 || !error.empty()) {
-                        log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
                         return -1;
                     }
                     assetStart += 1;
@@ -526,15 +526,15 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     //Get palette index
                     byte paletteIndex = 0;
                     if (!asset->readAll(paletteIndex)) {
-                        log->error("Error reading '{0}' MIX stream {1} palette index {2}", path, i, error);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index " + error;
                         return -1;
                     }
                     assetStart += 1;
 
                     //Get palette for this image
                     if (paletteIndex < mixHeader.palettesFirstIndex) {
-                        log->error("Error reading '{0}' MIX stream {1} palette index {2} is lower than first index {3}",
-                                   path, i, paletteIndex, mixHeader.palettesFirstIndex);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index ";
+                        error += std::to_string(paletteIndex) + " is lower than first index " + std::to_string(mixHeader.palettesFirstIndex);
                         return -1;
                     }
                     imagePalette = palettes.at(paletteIndex - mixHeader.palettesFirstIndex);
@@ -548,7 +548,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     //Get image size
                     ImageSize16 imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
-                        log->error("Error reading '{0}' MIX stream {1} image size {2}", path, i, asset->getError());
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + asset->getError();
                         return -1;
                     }
                     assetStart += sizeof(imageSizeStruct);
@@ -567,7 +567,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     result = asset->seek(5);
                     error = asset->getError();
                     if (result < 0 || !error.empty()) {
-                        log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
                         return -1;
                     }
 
@@ -577,14 +577,14 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     amount = asset->read(&paletteIndex, readSize);
                     error = asset->getError();
                     if (amount != readSize || !error.empty()) {
-                        log->error("Error reading '{0}' MIX stream {1} palette index {2}", path, i, error);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index " + error;
                         return -1;
                     }
 
                     //Get palette for this image
                     if (paletteIndex < mixHeader.palettesFirstIndex) {
-                        log->error("Error reading '{0}' MIX stream {1} palette index {2} is lower than first index {3}",
-                                   path, i, paletteIndex, mixHeader.palettesFirstIndex);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index ";
+                        error += std::to_string(paletteIndex) + " is lower than first index " + std::to_string(mixHeader.palettesFirstIndex);
                         return -1;
                     }
                     imagePalette = palettes.at(paletteIndex - mixHeader.palettesFirstIndex);
@@ -592,7 +592,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     //Get segmented image header
                     SegmentedImageHeader segmentedImageHeader;
                     if (!asset->readAll(segmentedImageHeader)) {
-                        log->error("Error reading '{0}' MIX stream {1} segmented image header {2}", path, i, asset->getError());
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " segmented image header " + asset->getError();
                         return -1;
                     }
                     imageSize.set(segmentedImageHeader.width, segmentedImageHeader.height);
@@ -602,7 +602,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     unsigned short value;
                     for (unsigned int j = 0; j < segmentedImageHeader.scanLinesCount; ++j) {
                         if (!asset->readAll(value)) {
-                            log->error("Error reading '{0}' MIX stream {1} scan line {2} {3}", path, i, j, asset->getError());
+                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " scan line " + std::to_string(j) + " " + asset->getError();
                             return -1;
                         }
                         scanLines.push_back(value);
@@ -612,7 +612,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     std::vector<unsigned short> dataOffsets;
                     for (unsigned int j = 0; j < segmentedImageHeader.scanLinesCount; ++j) {
                         if (!asset->readAll(value)) {
-                            log->error("Error reading '{0}' MIX stream {1} data offset {2} {3}", path, i, j, asset->getError());
+                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " data offset " + std::to_string(j) + " " + asset->getError();
                             return -1;
                         }
                         dataOffsets.push_back(value);
@@ -625,7 +625,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     for (unsigned int j = 0; j < segmentsAmount; ++j) {
                         SegmentedImageSegment segment;
                         if (!asset->readAll(segment)) {
-                            log->error("Error reading '{0}' MIX stream {1} segment {2} {3}", path, i, j, asset->getError());
+                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment " + std::to_string(j) + " " + asset->getError();
                             return -1;
                         }
                         segments.push_back(segment);
@@ -635,7 +635,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     result = asset->seek(1);
                     error = asset->getError();
                     if (result < 0 || !error.empty()) {
-                        log->error("Error reading '{0}' MIX stream {1} when seeking {2}", path, i, error);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
                         return -1;
                     }
 
@@ -643,8 +643,8 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     long dataBlockOffset = asset->tell();
                     long dataBlockEnd = dataBlockOffset + segmentedImageHeader.dataBlockSize;
                     if (dataBlockEnd != streamEnd) {
-                        log->error("Error reading '{0}' MIX stream {1} data block end {2} mismatch asset end {3} {4}",
-                                   path, i, dataBlockEnd, streamEnd, asset->getError());
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " data block end  ";
+                        error += std::to_string(dataBlockEnd) + " mismatch asset end " + std::to_string(streamEnd) + " " + asset->getError();
                         return -1;
                     }
 
@@ -653,7 +653,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     unsigned int imagePixelCount = segmentedImageHeader.width * segmentedImageHeader.height;
                     assetSize = imagePixelCount * 2;
                     if (!assetFile->fromMemory(assetSize)) {
-                        log->error("Error reading '{0}' MIX stream {1} image buffer {2}", path, i, assetFile->getError());
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image buffer " + assetFile->getError();
                         return -1;
                     }
                     assetStart = 0;
@@ -669,7 +669,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                         result = asset->seek(dataBlockOffset + dataOffsets.at(scanLineIndex), true);
                         error = asset->getError();
                         if (result < 0 || !error.empty()) {
-                            log->error("Error reading '{0}' MIX stream {1} when seeking data block {2}", path, i, error);
+                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking data block " + error;
                             return -1;
                         }
 
@@ -684,7 +684,8 @@ int Manager::processIntermediateMIX(const asset_path& path) {
 
                             //Sanity check
                             if (lineSize > segmentedImageHeader.width) {
-                                log->error("Error reading '{0}' MIX stream {1} line size {2} is bigger than image {3}", path, i, lineSize, segmentedImageHeader.width);
+                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " line size ";
+                                error += std::to_string(lineSize) + " is bigger than image " + std::to_string(segmentedImageHeader.width);
                                 return -1;
                             }
 
@@ -693,7 +694,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                                 result = assetFile->write(&zero, 1);
                                 error = assetFile->getError();
                                 if (result < 0 || !error.empty()) {
-                                    log->error("Error reading '{0}' MIX stream {1} when writing left padding {2}", path, i, error);
+                                    error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing left padding " + error;
                                     return -1;
                                 }
                                 alphaBuffer[imagePosition] = 0;
@@ -707,7 +708,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                             amount = asset->read(segmentBuffer.get(), segment.width);
                             error = asset->getError();
                             if (amount != segment.width || !error.empty()) {
-                                log->error("Error reading '{0}' MIX stream {1} segment buffer reading {2}", path, i, error);
+                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer reading " + error;
                                 return -1;
                             }
 
@@ -715,7 +716,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                             amount = assetFile->write(segmentBuffer.get(), segment.width);
                             error = assetFile->getError();
                             if (amount != segment.width || !error.empty()) {
-                                log->error("Error reading '{0}' MIX stream {1} segment buffer writing {2}", path, i, error);
+                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer writing " + error;
                                 return -1;
                             }
 
@@ -731,7 +732,7 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                             result = assetFile->write(&zero, 1);
                             error = assetFile->getError();
                             if (result < 0 || !error.empty()) {
-                                log->error("Error reading '{0}' MIX stream {1} when writing right padding {2}", path, i, error);
+                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing right padding " + error;
                                 return -1;
                             }
                             alphaBuffer[imagePosition] = 0;
@@ -743,17 +744,19 @@ int Manager::processIntermediateMIX(const asset_path& path) {
                     amount = assetFile->write(alphaBuffer.get(), imagePixelCount);
                     error = assetFile->getError();
                     if (amount != imagePixelCount || !error.empty()) {
-                        log->error("Error reading '{0}' MIX stream {1} alpha buffer writing {2}", path, i, error);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " alpha buffer writing " + error;
                         return -1;
                     }
 
                     //Check if all was written
                     if (assetFile->tell() != assetFile->size()) {
-                        log->error("Error reading '{0}' MIX stream {1} not all data was written {2} vs {3}", path, i, assetFile->tell(), assetFile->size());
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i);
+                        error += " not all data was written " + std::to_string(assetFile->tell()) + " vs " + std::to_string(assetFile->size());
                         return -1;
                     }
                     if (imagePosition != imagePixelCount) {
-                        log->error("Error reading '{0}' MIX stream {1} not all position was written {2} vs {3}", path, i, imagePosition, imagePixelCount);
+                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i);
+                        error += " not all position was written " + std::to_string(imagePosition) + " vs " + std::to_string(imagePixelCount);
                         return -1;
                     }
 
@@ -775,9 +778,10 @@ int Manager::processIntermediateMIX(const asset_path& path) {
             } else {
                 assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, assetStart, assetSize);
             }
-            if (addAsset(assetStream)) {
-                addedAssets++;
+            if (!addAsset(assetStream)) {
+                error = "Couldn't add asset\n" + error;
             }
+            if (!error.empty()) return -1;
         }
     }
 

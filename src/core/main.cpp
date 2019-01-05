@@ -3,7 +3,6 @@
 #include "core/utils.h"
 #include "io/log.h"
 #include "graphics/window.h"
-#include "assets/manager.h"
 #include "SDL.h"
 #include "SDL_keycode.h"
 #include "luavm.h"

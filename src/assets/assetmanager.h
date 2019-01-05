@@ -6,6 +6,7 @@
 
 #include <string>
 #include <map>
+#include "core/errorpossible.h"
 #include "math/vector2.h"
 #include "io/log.h"
 #include "asset.h"
@@ -13,7 +14,7 @@
 /**
  * Handles the loading of different assets
  */
-class Manager {
+class AssetManager: public IErrorPossible {
 private:
     /**
      * Log for object
@@ -78,7 +79,7 @@ private:
      *
      * @return true if succeeded
      */
-    bool processsIntermediates();
+    void processIntermediates();
 
     /**
      * Processes the content of a MIX asset for more assets
@@ -147,17 +148,17 @@ public:
     /**
      * Constructs loader
      */
-    Manager();
+    AssetManager();
 
     /**
      * Destructs loader and cleans any loaded assets
      */
-    ~Manager();
+    ~AssetManager();
 
     /**
      * Disable copy/move
      */
-    NON_COPYABLE_NOR_MOVABLE(Manager)
+    NON_COPYABLE_NOR_MOVABLE(AssetManager)
 
     /**
      * Gets the loaded asset

@@ -14,6 +14,14 @@ opene2140_deps += [sdl2_dep]
 opengl_dep = dependency('gl')
 opene2140_deps += [opengl_dep]
 
+#Load GLEW
+glew_dep = dependency('glew')
+opene2140_deps += [glew_dep]
+
+#Load GLM
+glm_dep = dependency('glm')
+opene2140_deps += [glm_dep]
+
 #Load Lua
 lua_dep = dependency('lua', version : '>=5.1')
 opene2140_deps += [lua_dep]
@@ -32,6 +40,7 @@ endif
 
 #Create configuration
 opene2140_cfg = configuration_data()
+opene2140_cfg.set('OPENE2140_CONFIG_PLACEHOLDER_H', '"OpenE2140"', description: 'Disables placeholder config')
 opene2140_cfg.set('GAME_NAME', '"OpenE2140"', description: 'Game name')
 opene2140_cfg.set('GAME_VERSION_MAJOR', 0, description: 'Game version major digit')
 opene2140_cfg.set('GAME_VERSION_MINOR', 3, description: 'Game version minor digit')
@@ -64,7 +73,7 @@ opene2140_src = [
     'src/io/log.cpp',
     'src/io/file.cpp',
     'src/assets/asset.cpp',
-    'src/assets/manager.cpp',
+    'src/assets/assetmanager.cpp',
     'src/assets/assetimage.cpp',
     'src/assets/assetpalette.cpp',
     'src/gui/eventhandler.cpp',

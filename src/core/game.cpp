@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 1/11/18
 //
 #include "game.h"
+#include "core/common.h"
 
 Game::Game() {
     log = Log::get("Game");
@@ -16,6 +17,9 @@ void Game::close() {
     log->debug("Closing");
     if (assetManager) {
         assetManager.reset();
+    }
+    if (renderer) {
+        renderer.reset();
     }
     if (window) {
         window.reset();
@@ -40,14 +44,26 @@ bool Game::run() {
     eventHandler = std::make_unique<EventHandler>(this_ptr);
 
     //Initialize window
-    window = std::make_unique<Window>();
-    if (!window->init(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE, *eventHandler)) {
+    window = std::make_unique<Window>(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE, *eventHandler);
+    std::string error = window->getError();
+    if (!error.empty()) {
+        log->error("Error initializing window\n{0}", error);
+        return false;
+    }
+
+    // Initialize renderer
+    renderer = std::make_unique<Renderer>();
+    error = renderer->getError();
+    if (!error.empty()) {
+        log->error("Error initializing renderer\n{0}", error);
         return false;
     }
 
     //Initialize asset manager
-    std::unique_ptr<Manager> manager = std::make_unique<Manager>();
-    if (!manager->init()) {
+    assetManager = std::make_unique<AssetManager>();
+    error = assetManager->getError();
+    if (!error.empty()) {
+        log->error("Error initializing asset manager\n{0}", error);
         return false;
     }
 

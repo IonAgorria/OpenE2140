@@ -1,39 +1,18 @@
 //
 // Created by Ion Agorria on 22/03/18
 //
-#include <SDL_opengl.h>
+#include "core/common.h"
+#include "core/utils.h"
 #include <SDL_events.h>
 #include "io/log.h"
-#include "core/utils.h"
 #include "window.h"
 
-Window::Window() {
+Window::Window(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener) {
     log = Log::get("Window");
     closing = false;
-}
-
-Window::~Window() {
-    log->debug("Closing");
-    if (context != nullptr) {
-        SDL_GL_DeleteContext(context);
-        context = nullptr;
-    }
-    Utils::checkGLError(log);
-    if (windowHandle != nullptr) {
-        SDL_DestroyWindow(windowHandle);
-        windowHandle = nullptr;
-    }
-    Utils::checkSDLError(log);
-}
-
-bool Window::init(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener) {
-    log->debug("Creating window {0}x{1} title '{2}'", width, height, title);
-    if (windowHandle) {
-        Utils::showErrorDialog("Window already created\n" + Utils::checkSDLError(), log, false, true);
-        return false;
-    }
 
     //Create window
+    log->debug("Creating window {0}x{1} title '{2}'", width, height, title);
     windowHandle = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_CENTERED,
@@ -42,17 +21,15 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
             height,
             SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
     );
-    if (!windowHandle) {
-        Utils::showErrorDialog("SDL2 window not available\n" + Utils::checkSDLError(), log, false, true);
-        return false;
-    }
 
     //Check errors
-    if (!Utils::checkSDLError(log).empty()) {
-        return false;
+    error = Utils::checkSDLError();
+    if (!windowHandle) {
+        error = "SDL2 window not available\n" + error;
     }
+    if (!error.empty()) return;
 
-    //Set some attributes
+    //Set some attributes before context creation
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     //Use OpenGL 3.2 Core
@@ -63,31 +40,23 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
 
     //Create OpenGL context
     context = SDL_GL_CreateContext(windowHandle);
+    error = Utils::checkAnyError();
     if (!context) {
-        Utils::showErrorDialog("OpenGL context not available\n" + Utils::checkSDLError(), log, false, true);
-        return false;
+        error = "SDL OpenGL context not available\n" + error;
     }
+    if (!error.empty()) return;
 
-    //Check errors
-    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
-        return false;
-    }
-
-    /*
     //Initialize GLEW
     glewExperimental = GL_TRUE; //required for "new" OpenGL
-    GLenum glewResult = glewInit();;
-    if (glewResult != GLEW_OK) {
-        std::string error = std::string(reinterpret_cast<const char*>(glewGetErrorString(glewResult)));
-        Utils::showErrorDialog("GLEW init failed\n" + error, log, false, true);
-        return false;
-    }
-    */
+    GLenum glewResult = glewInit();
 
     //Check errors
-    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
-        return false;
+    error = Utils::checkAnyError();
+    if (glewResult != GLEW_OK) {
+        std::string glewResultString = std::string(reinterpret_cast<const char*>(glewGetErrorString(glewResult)));
+        error = "GLEW init failed\n" + glewResultString + "\n" + error;
     }
+    if (!error.empty()) return;
 
     //Print some strings related to GL
     log->debug("GL_VERSION: {0}", glGetString(GL_VERSION));
@@ -104,16 +73,17 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &textureMaxSize);
     log->debug("GL_MAX_TEXTURE_SIZE: {0}", textureMaxSize);
     if (textureMaxSize < MINIMUM_TEXTURE_SIZE) {
-        Utils::showErrorDialog("Maximum texture size is too small: " + std::to_string(textureMaxSize), log, false, false);
-        return false;
+        error = "Maximum texture size is too small: " + std::to_string(textureMaxSize);
+        return;
     }
 
     //Set parameters
     glClearColor(0.5, 0.5, 0.5, 1.0);
 
     //Check errors
-    if (!Utils::checkSDLError(log).empty() || !Utils::checkGLError(log).empty()) {
-        return false;
+    error = Utils::checkAnyError();
+    if (!error.empty()) {
+        return;
     }
 
     //Send the initial resize event
@@ -121,7 +91,26 @@ bool Window::init(unsigned int width, unsigned int height, const std::string& ti
 
     //Show window
     SDL_ShowWindow(windowHandle);
-    return true;
+
+    //Check errors
+    error = Utils::checkAnyError();
+    if (!error.empty()) {
+        return;
+    }
+}
+
+Window::~Window() {
+    log->debug("Closing");
+    if (context != nullptr) {
+        SDL_GL_DeleteContext(context);
+        context = nullptr;
+    }
+    Utils::checkGLError(log);
+    if (windowHandle != nullptr) {
+        SDL_DestroyWindow(windowHandle);
+        windowHandle = nullptr;
+    }
+    Utils::checkSDLError(log);
 }
 
 Window::operator bool() {

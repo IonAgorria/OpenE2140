@@ -5,7 +5,6 @@
 #define OPENE2140_IMAGE_H
 
 #include <memory>
-#include <SDL_opengl.h>
 #include "core/common.h"
 #include "core/errorpossible.h"
 #include "math/rectangle.h"

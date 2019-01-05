@@ -4,12 +4,11 @@
 #include <cstdio>
 #include <csignal>
 #include <list>
-#include "SDL_opengl.h"
+#include "common.h"
 #include "SDL_filesystem.h"
 #include "SDL_quit.h"
 #include "SDL_messagebox.h"
 #include "utils.h"
-#include "common.h"
 
 //Attempt to load boost libs
 //#define OPENE2140_USE_BOOST 0
@@ -53,12 +52,22 @@ std::string Utils::checkGLError(const log_ptr log) {
         const char* error = reinterpret_cast<const char*>(glGetString(result));
         if (error && strlen(error) != 0) {
             if (log) {
-                log->error("SDL Error: {0}", error);
+                log->error("GL Error: {0}", error);
             }
             return std::string(error);
         }
     }
     return "";
+}
+
+std::string Utils::checkAnyError(const log_ptr log) {
+    std::string result = checkSDLError(log);
+    std::string glError = checkGLError(log);
+    if (!result.empty() && !glError.empty()) {
+        result += "\n";
+    }
+    result += glError;
+    return result;
 }
 
 bool Utils::startsWith(const std::string& string, const std::string& start) {

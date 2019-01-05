@@ -6,6 +6,7 @@
 
 #include "SDL_video.h"
 #include "SDL_render.h"
+#include "core/errorpossible.h"
 #include "io/log.h"
 #include "image.h"
 
@@ -60,7 +61,7 @@ public:
  *
  * Window can be draw and receive input from OS
  */
-class Window {
+class Window: public IErrorPossible {
 private:
     /** Log for object */
     log_ptr log;
@@ -75,8 +76,13 @@ private:
 public:
     /**
      * Window constructor
+     * Creates the window with provided parameters
+     *
+     * @param width of window
+     * @param height of window
+     * @param title of window
      */
-    Window();
+    Window(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener);
 
     /**
      * Destroys any created window
@@ -92,15 +98,6 @@ public:
      * @return if window was created
      */
     operator bool();
-
-    /**
-     * Creates the window with provided parameters
-     *
-     * @param width of window
-     * @param height of window
-     * @param title of window
-     */
-    bool init(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener);
 
     /**
      * Polls input and events

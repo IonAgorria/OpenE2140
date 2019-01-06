@@ -10,16 +10,21 @@
 const char* VERTEX_SHADER_CODE = R"vertex(
 #version 150 core
 
-uniform mat4 uMatrix;
-attribute vec3 aPosition;
-attribute vec2 aTexCoord;
-varying vec2 varTexCoord;
+uniform mat4 uniformMatrix;
+
+in vec2 attribPosition;
+in vec2 attribSize;
+in float attribRotation;
+in vec4 attribTextureUV;
+
+out vec4 vertexPosition;
+out vec2 vertexSize;
+out float vertexRotation;
+out vec4 vertexTextureUV;
 
 void main() {
-    //Pass the texture coordinates to fragment shader via varying
-    varTexCoord = aTexCoord;
     //Multiply position of vertex with combined matrix, this gives us the final position to render the vertex
-    gl_Position = uMatrix * vec4(aPosition.xyz, 1.0);
+    vertexPosition = uniformMatrix * vec4(attribPosition.xy, 1.0, 1.0);
 }
 )vertex";
 
@@ -120,10 +125,10 @@ GLuint Renderer::loadShader(GLenum type, const char* code) {
     std::string shaderLog(buffer);
     if (!shaderLog.empty()) {
         if (Utils::toLower(shaderLog).find("error")) {
-            log->error("Shader type {0} compile error: {1}", type, shaderLog);
+            error = "Shader type " + std::to_string(type) + " compile error: " + shaderLog;
             return 0;
         } else {
-            log->error("Shader type {0} compile log: {1}", type, shaderLog);
+            log->debug("Shader type {0} compile log: {1}", type, shaderLog);
         }
     }
 
@@ -155,30 +160,18 @@ void Renderer::initShaderProgram() {
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
-    //Bind attributes
-    glBindAttribLocation(programHandle, 0, "aPosition");
-    glBindAttribLocation(programHandle, 1, "aTexCoord");
-    error = Utils::checkGLError(log);
-    if (!error.empty()) return;
-
     //Link the program
     glLinkProgram(programHandle);
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
-    //Get handle to shader variables
-    /*
-    positionHandle = GLES20.glGetAttribLocation(programHandle, "aPosition");
-    texCoordHandle = GLES20.glGetAttribLocation(programHandle, "aTexCoord");
+    //Get attributes location
+    GLint attribPositionLocation = glGetAttribLocation(programHandle, "attribPosition");
+    GLint attribSizeLocation = glGetAttribLocation(programHandle, "attribSize");
+    GLint attribRotationLocation = glGetAttribLocation(programHandle, "attribRotation");
+    GLint attribTextureUVLocation = glGetAttribLocation(programHandle, "attribTextureUV");
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
-    matrixHandle = GLES20.glGetUniformLocation(programHandle, "uMatrix");
-    textureHandle = GLES20.glGetUniformLocation(programHandle, "uTexture");
-    colorHandle = GLES20.glGetUniformLocation(programHandle, "uColor");
-    alphaThresholdHandle = GLES20.glGetUniformLocation(programHandle, "uAlphaThreshold");
-    error = Utils::checkGLError(log);
-    if (!error.empty()) return;
-    */
 }
 
 void Renderer::begin() {

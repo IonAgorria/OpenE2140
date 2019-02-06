@@ -166,6 +166,7 @@ void Window::poll(IWindowListener& listener) {
 
 void Window::swap() {
     SDL_GL_SwapWindow(windowHandle);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 bool Window::isClosing() {

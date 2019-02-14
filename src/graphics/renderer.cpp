@@ -25,6 +25,9 @@ out vec4 vertexTextureUV;
 void main() {
     //Multiply position of vertex with combined matrix, this gives us the final position to render the vertex
     vertexPosition = uniformMatrix * vec4(attribPosition.xy, 1.0, 1.0);
+    vertexSize = attribSize;
+    vertexRotation = attribRotation;
+    vertexTextureUV = attribTextureUV;
 }
 )vertex";
 
@@ -75,6 +78,8 @@ Renderer::Renderer() {
     log = Log::get("Renderer");
     initShaderProgram();
     if (!error.empty()) return;
+    initBuffers();
+    if (!error.empty()) return;
 }
 
 Renderer::~Renderer() {
@@ -98,6 +103,14 @@ Renderer::~Renderer() {
     if (programFragmentHandle) {
         glDeleteShader(programFragmentHandle);
         programFragmentHandle = 0;
+    }
+    if (vboHandle) {
+        glDeleteBuffers(1, &vboHandle);
+        vboHandle = 0;
+    }
+    if (vaoHandle) {
+        glDeleteVertexArrays(1, &vaoHandle);
+        vaoHandle = 0;
     }
 }
 
@@ -165,17 +178,31 @@ void Renderer::initShaderProgram() {
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
-    //Get attributes location
-    GLint attribPositionLocation = glGetAttribLocation(programHandle, "attribPosition");
-    GLint attribSizeLocation = glGetAttribLocation(programHandle, "attribSize");
-    GLint attribRotationLocation = glGetAttribLocation(programHandle, "attribRotation");
-    GLint attribTextureUVLocation = glGetAttribLocation(programHandle, "attribTextureUV");
+    //Delete shaders after linking
+    glDeleteShader(programVertexHandle);
+    glDeleteShader(programGeometryHandle);
+    glDeleteShader(programFragmentHandle);
+    programVertexHandle = 0;
+    programGeometryHandle = 0;
+    programFragmentHandle = 0;
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 }
 
-void Renderer::begin() {
+void Renderer::initBuffers() {
+    //Generate buffers
+    glGenVertexArrays(1, &vaoHandle);
+    glGenBuffers(1, &vboHandle);
 
+    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
+
+    glBindVertexArray(vaoHandle);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*) 0);
+}
+
+void Renderer::begin() {
+    verticesIndex = 0;
 }
 
 void Renderer::end() {

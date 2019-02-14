@@ -8,6 +8,8 @@
 #include "core/errorpossible.h"
 #include "io/log.h"
 
+#define MAX_BATCH_VERTICES 10240
+
 /**
  * Handles the rendering of various parts using window and game state
  */
@@ -37,6 +39,26 @@ private:
      * Fragment shader handle
      */
     GLuint programFragmentHandle;
+
+    /**
+     * VAO buffer handle
+     */
+    GLuint vaoHandle;
+
+    /**
+     * VBO buffer handle
+     */
+    GLuint vboHandle;
+
+    /**
+     * Vertices buffer to store current vertices in batch
+     */
+    GLfloat vertices[MAX_BATCH_VERTICES];
+
+    /**
+     * Vertices buffer index
+     */
+    unsigned int verticesIndex;
 public:
     /**
      * Constructs loader
@@ -76,6 +98,11 @@ public:
      * Initializes OpenGL shader program with shaders code.
      */
     void initShaderProgram();
+
+    /**
+     * Initializes OpenGL buffers.
+     */
+    void initBuffers();
 };
 
 #endif //OPENE2140_RENDERER_H

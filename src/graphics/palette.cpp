@@ -4,7 +4,7 @@
 #include <core/utils.h>
 #include "palette.h"
 
-Palette::Palette(unsigned int size, bool extra) {
+Palette::Palette(unsigned int size, bool extra): extra(extra) {
     //Reserve colors
     colors.reserve(size);
 
@@ -73,6 +73,7 @@ bool Palette::check() {
 
 bool Palette::bindTexture() {
     if (texture) {
+        glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
         glBindTexture(GL_TEXTURE_1D, texture);
         return true;
     }

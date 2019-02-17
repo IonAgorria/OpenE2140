@@ -105,9 +105,12 @@ public:
     void poll(IWindowListener& listener);
 
     /**
+     * Clears window content
+     */
+    void clear();
+
+    /**
      * Updates window content
-     *
-     * @return if success
      */
     void swap();
 

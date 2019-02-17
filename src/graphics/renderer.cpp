@@ -1,78 +1,9 @@
 //
 // Created by Ion Agorria on 3/11/18
 //
-#include "src/core/utils.h"
+#include "core/utils.h"
 #include "renderer.h"
-
-/**
- * Vertex shader code
- */
-const char* VERTEX_SHADER_CODE = R"vertex(
-#version 150 core
-
-uniform mat4 uniformMatrix;
-
-in vec2 attribPosition;
-in vec2 attribSize;
-in float attribRotation;
-in vec4 attribTextureUV;
-
-out vec4 vertexPosition;
-out vec2 vertexSize;
-out float vertexRotation;
-out vec4 vertexTextureUV;
-
-void main() {
-    //Multiply position of vertex with combined matrix, this gives us the final position to render the vertex
-    vertexPosition = uniformMatrix * vec4(attribPosition.xy, 1.0, 1.0);
-    vertexSize = attribSize;
-    vertexRotation = attribRotation;
-    vertexTextureUV = attribTextureUV;
-}
-)vertex";
-
-/**
- * Geometry shader code
- */
-const char* GEOMETRY_SHADER_CODE = R"geometry(
-#version 330 core
-layout (points) in;
-layout (points, max_vertices = 1) out;
-
-void main() {
-    gl_Position = gl_in[0].gl_Position;
-    EmitVertex();
-    EndPrimitive();
-}
-)geometry";
-
-/**
- * Fragment shader code
- */
-const char* FRAGMENT_SHADER_CODE = R"fragment(
-#version 150 core
-
-precision mediump float;
-uniform sampler2D uTexture;
-uniform vec4 uColor;
-uniform float uAlphaThreshold;
-varying vec2 varTexCoord;
-
-void main() {
-    //Apply the texture id and coordinates, then multiply it with color
-    vec4 vColor = texture2D(uTexture, varTexCoord) * uColor;
-    //Uncomment to override with color
-    //vColor = uColor;
-    //Discard if alpha is lower than threshold
-    if (vColor.a < uAlphaThreshold) discard;
-    //Apply the texture id and coordinates, then multiply it with color
-    gl_FragColor = vColor;
-    //Uncomment to override with texcoord
-    //gl_FragColor = vec4(varTexCoord, 0.0, 1.0);
-    //Uncomment to show depth buffer
-    //gl_FragColor.xyz = vec3(gl_FragCoord.z / gl_FragCoord.w * 0.4); gl_FragColor.a = 1.0;
-}
-)fragment";
+#include "renderer_shaders.h"
 
 Renderer::Renderer() {
     log = Log::get("Renderer");
@@ -80,6 +11,10 @@ Renderer::Renderer() {
     if (!error.empty()) return;
     initBuffers();
     if (!error.empty()) return;
+
+    //Set some parameters
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe mode
 }
 
 Renderer::~Renderer() {
@@ -193,18 +128,109 @@ void Renderer::initBuffers() {
     //Generate buffers
     glGenVertexArrays(1, &vaoHandle);
     glGenBuffers(1, &vboHandle);
+    error = Utils::checkGLError(log);
+    if (!error.empty()) return;
 
-    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-
+    //Bind the stuff
     glBindVertexArray(vaoHandle);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+    error = Utils::checkGLError(log);
+    if (!error.empty()) return;
+
+    //Amount of components per attrib
+    const int loc0amount = 2; //Vec2
+    const int loc1amount = 2; //Vec2
+    const int loc2amount = 1; //Float
+    const int loc3amount = 4; //Vec4
+    //Total bytes taken by each attrib
+    const size_t loc0bytes = loc0amount * sizeof(GLfloat);
+    const size_t loc1bytes = loc1amount * sizeof(GLfloat);
+    const size_t loc2bytes = loc2amount * sizeof(GLfloat);
+    const size_t loc3bytes = loc3amount * sizeof(GLfloat);
+    //Offset for attrib in relation to previous attribute end
+    const GLvoid* loc0offset = 0;
+    const GLvoid* loc1offset = (GLvoid*) (loc0bytes);
+    const GLvoid* loc2offset = (GLvoid*) (loc0bytes + loc1bytes);
+    const GLvoid* loc3offset = (GLvoid*) (loc0bytes + loc1bytes + loc2bytes);
+    //All attributes bytes count in a entire vertex
+    const int stride = loc0bytes + loc1bytes + loc2bytes + loc3bytes;
+    //Setup all the vertex attributes data on this vertex array
+    glVertexAttribPointer(0, loc0amount, GL_FLOAT, GL_FALSE, stride, loc0offset);
+    glVertexAttribPointer(1, loc1amount, GL_FLOAT, GL_FALSE, stride, loc1offset);
+    glVertexAttribPointer(2, loc2amount, GL_FLOAT, GL_FALSE, stride, loc2offset);
+    glVertexAttribPointer(3, loc3amount, GL_FLOAT, GL_FALSE, stride, loc3offset);
+    error = Utils::checkGLError(log);
+    if (!error.empty()) return;
+
+    //Enable them
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
+    error = Utils::checkGLError(log);
+    if (!error.empty()) return;
 }
 
-void Renderer::begin() {
-    verticesIndex = 0;
+void Renderer::draw(float x, float y, float width, float height, float angle, Image& image) {
+    //Check if we need to flush the batch
+    if (image.getTexture() != lastTexture || verticesCount >= MAX_BATCH_VERTICES) {
+        flush();
+        lastTexture = image.bindTexture();
+    }
+
+    //Increment the vertices count
+    verticesCount++;
+
+    //Position
+    vertices[verticesIndex++] = x;
+    vertices[verticesIndex++] = y;
+    //Size
+    vertices[verticesIndex++] = width;
+    vertices[verticesIndex++] = height;
+    //Angle
+    vertices[verticesIndex++] = angle;
+    //Texture UV
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v2;
 }
 
-void Renderer::end() {
+bool Renderer::flush() {
+    if (verticesCount > 0) {
+        //Set blending
+        /*
+        if (blending) {
+            glEnable(GL_BLEND);
+            if (blendSrcFunc != -1) {
+                glBlendFunc(blendSrcFunc, blendDstFunc);
+            }
+        } else {
+            glDisable(GL_BLEND);
+        }
+        */
 
+        //Enable samples
+        //glEnable(GL_MULTISAMPLE);
+
+        //Bind the stuff
+        glUseProgram(programHandle);
+        glBindVertexArray(vaoHandle);
+
+        //Load data
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verticesIndex, vertices, GL_DYNAMIC_DRAW);
+
+        //Draw it
+        glDrawArrays(GL_POINTS, 0, verticesCount);
+
+        //Check any error
+        error = Utils::checkGLError(log);
+        if (!error.empty()) return false;
+
+        //Reset the counters
+        verticesIndex = 0;
+        verticesCount = 0;
+    }
+
+    return true;
 }

@@ -23,7 +23,7 @@ log_ptr Log::get(const std::string& name) {
         std::string logPath = Utils::getUserPath();
         if (!logPath.empty()) {
             logPath = logPath + GAME_LOG_FILE;
-            sinks.push_back(std::make_shared<spdlog::sinks::simple_file_sink_mt>(logPath, true));
+            sinks.push_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>(logPath, true));
         }
     }
 

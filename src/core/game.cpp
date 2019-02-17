@@ -80,17 +80,21 @@ bool Game::run() {
 }
 
 void Game::loop() {
+    //Clear
+    window->clear();
+
     //Poll input
     window->poll(*eventHandler);
 
     //Update simulation
-    //simulation
 
     //Draw the simulation
-    //renderer->()
 
     //Draw/update UI
 
+    //TODO remove this
+    //renderer->draw(0, 0, 0.5, 0.8, 1.2, );
+    renderer->flush();
 
     //Update window
     window->swap();

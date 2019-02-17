@@ -36,6 +36,11 @@ private:
     std::shared_ptr<Palette> paletteExtra;
 
     /**
+     * Texture size
+     */
+    Vector2 textureSize;
+
+    /**
      * Rectangle to know texture source
      */
     Rectangle rectangle;
@@ -52,11 +57,32 @@ private:
      * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle allocated to this image into texture
-     * @param bytes bytes per pixel
      * @return if success
      */
-    bool loadTexture(const byte* pixels, int bytes);
+    bool loadTexture(const byte* pixels);
+
+    /**
+     * Updates UVs for this image based on rectangle and texture size
+     */
+     void updateUVs();
 public:
+    /**
+     * Image texture U
+     */
+    float u;
+    /**
+     * Image texture V
+     */
+    float u2;
+    /**
+     * Image texture U2
+     */
+    float v;
+    /**
+     * Image texture V2
+     */
+    float v2;
+
     /**
      * Constructor for a image containing the entire texture
      */
@@ -83,9 +109,9 @@ public:
     operator bool();
 
     /**
-     * @return rectangle of this image inside the texture
+     * Set the rectangle of this image inside the texture
      */
-    Rectangle& getRectangle();
+    void setRectangle(Rectangle& rectangle);
 
     /**
      * @return rectangle of this image inside the texture
@@ -93,9 +119,14 @@ public:
     const Rectangle& getRectangle() const;
 
     /**
+     * @return if the provided image has the same texture as this image
+     */
+    const GLuint getTexture();
+
+    /**
      * Binds the texture for use
      */
-    bool bindTexture();
+    GLuint bindTexture();
 
     /**
      * Loads image data to texture using pixels in RGB565 format.

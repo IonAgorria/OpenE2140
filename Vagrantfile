@@ -41,8 +41,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         echo "- Setting lightdm -"
         echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf.d/10-autologin.conf
         echo "autologin-user=vagrant" >> /etc/lightdm/lightdm.conf.d/10-autologin.conf
-        systemctl start lightdm
         systemctl enable lightdm
+        systemctl start lightdm
         echo "- Finished provision script -"
     SHELL
 end

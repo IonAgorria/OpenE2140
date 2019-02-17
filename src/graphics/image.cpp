@@ -14,8 +14,13 @@ Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
         rectangle(rectangle)
 {
     if (owner) {
-        //Use the same texture
+        //Get the root owner if the owner image has an owner
+        while (owner->owner) {
+            owner = owner->owner;
+        }
+        //Use the same texture data
         texture = owner->texture;
+        textureSize = owner->textureSize;
         paletteColors = owner->paletteColors;
         paletteExtra = owner->paletteExtra;
     } else {
@@ -43,7 +48,12 @@ Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
         if (!error.empty()) {
             return;
         }
+
+        //Store the texture size
+        textureSize = Vector2(rectangle.w, rectangle.h);
     }
+
+    updateUVs();
 }
 
 Image::~Image() {
@@ -63,8 +73,16 @@ Image::operator bool() {
     return texture != 0;
 }
 
-Rectangle& Image::getRectangle() {
-    return rectangle;
+void Image::updateUVs() {
+    u = rectangle.x / (float) textureSize.x;
+    v = rectangle.y / (float) textureSize.y;
+    u2 = (rectangle.x + rectangle.w) / (float) textureSize.x;
+    v2 = (rectangle.y + rectangle.h) / (float) textureSize.y;
+}
+
+void Image::setRectangle(Rectangle& rectangle) {
+    this->rectangle = Rectangle(rectangle);
+    updateUVs();
 }
 
 const Rectangle& Image::getRectangle() const {
@@ -82,20 +100,21 @@ bool Image::check() {
     return true;
 }
 
-bool Image::bindTexture() {
-    if (texture) {
-        glBindTexture(GL_TEXTURE_2D, texture);
-        return true;
-    }
-    return false;
+const GLuint Image::getTexture() {
+    return texture;
 }
 
-bool Image::loadTexture(const byte* pixels, int bytes) {
-    /*
-    if (SDL_UpdateTexture(texture.get(), &rectangle, pixels, rectangle.w * bytes) != 0) {
-        error = "Couldn't update texture " + Utils::checkSDLError();
-        return false;
-    }*/
+GLuint Image::bindTexture() {
+    if (texture) {
+        glActiveTexture(TEXTURE_UNIT_IMAGE);
+        glBindTexture(GL_TEXTURE_2D, texture);
+    }
+    return texture;
+}
+
+bool Image::loadTexture(const byte* pixels) {
+    bindTexture();
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rectangle.w, rectangle.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     return true;
 }
 
@@ -123,12 +142,12 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     }
 
     //Load converted data and return result
-    return loadTexture(converted.get(), 4);
+    return loadTexture(converted.get());
 }
 
 bool Image::loadFromRGBA8888(const byte* pixels) {
     if (!check()) return false;
 
     //Load data to texture
-    return loadTexture(pixels, 4);
+    return loadTexture(pixels);
 }

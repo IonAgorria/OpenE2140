@@ -7,8 +7,10 @@
 #include "core/macros.h"
 #include "core/errorpossible.h"
 #include "io/log.h"
+#include "image.h"
 
 #define MAX_BATCH_VERTICES 10240
+#define MAX_COMPONENTS_PER_VERTICE 9
 
 /**
  * Handles the rendering of various parts using window and game state
@@ -53,12 +55,22 @@ private:
     /**
      * Vertices buffer to store current vertices in batch
      */
-    GLfloat vertices[MAX_BATCH_VERTICES];
+    GLfloat vertices[MAX_BATCH_VERTICES * MAX_COMPONENTS_PER_VERTICE];
+
+    /**
+     * Vertices buffer written vertices count
+     */
+    unsigned int verticesCount;
 
     /**
      * Vertices buffer index
      */
     unsigned int verticesIndex;
+
+    /**
+     * Last used texture
+     */
+    GLuint lastTexture;
 public:
     /**
      * Constructs loader
@@ -76,14 +88,14 @@ public:
     NON_COPYABLE_NOR_MOVABLE(Renderer)
 
     /**
-     * Starts the rendering batch
+     * Flushes data if any to GPU
      */
-    void begin();
+    bool flush();
 
     /**
-     * Finishes the current rendering batch
+     * Draws the provided data
      */
-    void end();
+    void draw(float x, float y, float width, float height, float angle, Image& image);
 
     /**
      * Create and load a OpenGL shader.

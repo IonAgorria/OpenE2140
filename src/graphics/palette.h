@@ -36,6 +36,11 @@ protected:
 
 public:
     /**
+     * Is palette for extra colors?
+     */
+    const bool extra;
+
+    /**
      * Constructor for empty palette
      */
     Palette(unsigned int size, bool extra);

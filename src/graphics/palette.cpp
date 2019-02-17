@@ -71,11 +71,14 @@ bool Palette::check() {
     return true;
 }
 
-bool Palette::bindTexture() {
+GLuint Palette::bindTexture() {
     if (texture) {
         glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
         glBindTexture(GL_TEXTURE_1D, texture);
-        return true;
     }
-    return false;
+    return texture;
+}
+
+const GLuint Palette::getTexture() {
+    return texture;
 }

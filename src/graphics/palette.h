@@ -69,7 +69,12 @@ public:
     /**
      * Binds the texture for use
      */
-    bool bindTexture();
+    GLuint bindTexture();
+
+    /**
+     * @return texture id
+     */
+    const GLuint getTexture();
 };
 
 #endif //OPENE2140_PALETTE_H

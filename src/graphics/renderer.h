@@ -68,9 +68,19 @@ private:
     unsigned int verticesIndex;
 
     /**
-     * Last used texture
+     * Last used texture for image
      */
-    GLuint lastTexture;
+    GLuint lastTextureImage;
+
+    /**
+     * Last used texture for palette
+     */
+    GLuint lastTexturePalette;
+
+    /**
+     * Last used texture for extra palette
+     */
+    GLuint lastTexturePaletteExtra;
 public:
     /**
      * Constructs loader
@@ -94,8 +104,16 @@ public:
 
     /**
      * Draws the provided data
+     *
+     * @param x position of drawn image
+     * @param y position of drawn image
+     * @param width size of drawn image
+     * @param height size of drawn image
+     * @param angle angle of drawn image
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(float x, float y, float width, float height, float angle, Image& image);
+    void draw(float x, float y, float width, float height, float angle, Image& image, Palette* paletteExtra);
 
     /**
      * Create and load a OpenGL shader.

@@ -171,11 +171,25 @@ void Renderer::initBuffers() {
     if (!error.empty()) return;
 }
 
-void Renderer::draw(float x, float y, float width, float height, float angle, Image& image) {
+void Renderer::draw(float x, float y, float width, float height, float angle, Image& image, Palette* paletteExtra) {
+    //Get palette
+    std::shared_ptr<Palette> palette = image.getPalette();
+
     //Check if we need to flush the batch
-    if (image.getTexture() != lastTexture || verticesCount >= MAX_BATCH_VERTICES) {
+    bool textureImageChanged = !lastTextureImage || lastTextureImage != image.getTexture();
+    bool texturePaletteChanged = palette && (!lastTexturePalette || lastTexturePalette != palette->getTexture());
+    bool texturePaletteExtraChanged = paletteExtra && (!lastTexturePaletteExtra || lastTexturePaletteExtra != paletteExtra->getTexture());
+    bool bufferFull = verticesCount >= MAX_BATCH_VERTICES;
+    if (textureImageChanged || texturePaletteChanged || texturePaletteExtraChanged || bufferFull) {
         flush();
-        lastTexture = image.bindTexture();
+        //Now bind the image and required palettes if any
+        lastTextureImage = image.bindTexture();
+        if (palette) {
+            lastTexturePalette = palette->bindTexture();
+        }
+        if (paletteExtra) {
+            lastTexturePalette = paletteExtra->bindTexture();
+        }
     }
 
     //Increment the vertices count

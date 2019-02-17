@@ -28,12 +28,7 @@ private:
     /**
      * Color palette for this image if any
      */
-    std::shared_ptr<Palette> paletteColors;
-
-    /**
-     * Extra palette for this image if any
-     */
-    std::shared_ptr<Palette> paletteExtra;
+    std::shared_ptr<Palette> palette;
 
     /**
      * Texture size
@@ -53,13 +48,22 @@ private:
     bool check();
 
     /**
-     * Loads image data to texture in this image.
+     * Loads single channel image data to texture in this image.
      * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle allocated to this image into texture
      * @return if success
      */
-    bool loadTexture(const byte* pixels);
+    bool loadTextureR(const byte* pixels);
+
+    /**
+     * Loads RGBA image data to texture in this image.
+     * Pixels array must match rectangle of image.
+     *
+     * @param pixels to fill the rectangle allocated to this image into texture
+     * @return if success
+     */
+    bool loadTextureRGBA(const byte* pixels);
 
     /**
      * Updates UVs for this image based on rectangle and texture size
@@ -119,14 +123,28 @@ public:
     const Rectangle& getRectangle() const;
 
     /**
-     * @return if the provided image has the same texture as this image
+     * @return texture id
      */
     const GLuint getTexture();
+
+    /**
+     * @return palette used by this image if any
+     */
+    std::shared_ptr<Palette> getPalette();
 
     /**
      * Binds the texture for use
      */
     GLuint bindTexture();
+
+    /**
+     * Loads image data to texture using pixels in indexed format.
+     * Pixels array must match rectangle of image.
+     *
+     * @param pixels indices to fill the rectangle
+     * @return if success
+     */
+    bool loadFromI8(const byte* pixels);
 
     /**
      * Loads image data to texture using pixels in RGB565 format.

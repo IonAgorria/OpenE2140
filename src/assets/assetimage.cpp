@@ -41,7 +41,7 @@ bool AssetImage::writeImage(Image& image) {
         //Create buffer, read asset into it and load to image
         std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
         if (readAll(buffer.get(), imagePixelsCount * 2)) {
-            result = 0;//image.loadFromI8(buffer.get(), nullptr);
+            result = image.loadFromI8(buffer.get());
             error = image.getError();
         } else {
             result = false;

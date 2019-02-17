@@ -13,6 +13,7 @@ Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
         owner(owner),
         rectangle(rectangle)
 {
+    texture = 0;
     if (owner) {
         //Get the root owner if the owner image has an owner
         while (owner->owner) {
@@ -21,8 +22,7 @@ Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
         //Use the same texture data
         texture = owner->texture;
         textureSize = owner->textureSize;
-        paletteColors = owner->paletteColors;
-        paletteExtra = owner->paletteExtra;
+        palette = owner->palette;
     } else {
         //Create texture
         glActiveTexture(TEXTURE_UNIT_IMAGE);
@@ -104,6 +104,10 @@ const GLuint Image::getTexture() {
     return texture;
 }
 
+std::shared_ptr<Palette> Image::getPalette() {
+    return palette;
+}
+
 GLuint Image::bindTexture() {
     if (texture) {
         glActiveTexture(TEXTURE_UNIT_IMAGE);
@@ -112,10 +116,18 @@ GLuint Image::bindTexture() {
     return texture;
 }
 
-bool Image::loadTexture(const byte* pixels) {
+bool Image::loadTextureR(const byte* pixels) {
+    bindTexture();
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rectangle.w, rectangle.h, 0, GL_RED, GL_UNSIGNED_BYTE, pixels);
+    error = Utils::checkGLError();
+    return error.empty();
+}
+
+bool Image::loadTextureRGBA(const byte* pixels) {
     bindTexture();
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rectangle.w, rectangle.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-    return true;
+    error = Utils::checkGLError();
+    return error.empty();
 }
 
 bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
@@ -142,12 +154,19 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     }
 
     //Load converted data and return result
-    return loadTexture(converted.get());
+    return loadTextureRGBA(converted.get());
+}
+
+bool Image::loadFromI8(const byte* pixels) {
+    if (!check()) return false;
+
+    //Load data to texture
+    return loadTextureR(pixels);
 }
 
 bool Image::loadFromRGBA8888(const byte* pixels) {
     if (!check()) return false;
 
     //Load data to texture
-    return loadTexture(pixels);
+    return loadTextureRGBA(pixels);
 }

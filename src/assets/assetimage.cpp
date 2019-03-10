@@ -20,7 +20,7 @@ const Vector2& AssetImage::getImageSize() const {
     return imageSize;
 }
 
-bool AssetImage::writeImage(Image& image) {
+bool AssetImage::assignImage(Image& image) {
     bool result = 0;
     size_t imagePixelsCount = static_cast<size_t>(imageSize.x * imageSize.y);
 
@@ -65,6 +65,10 @@ bool AssetImage::writeImage(Image& image) {
 
     //Return result
     return result && error.empty();
+}
+
+std::shared_ptr<Image> AssetImage::getImage() const {
+    return image;
 }
 
 std::string AssetImage::toString() const {

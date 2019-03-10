@@ -85,6 +85,11 @@ std::shared_ptr<Asset> AssetManager::getAsset(const asset_path& path) {
     return assets[path];
 }
 
+template <typename T>
+std::shared_ptr<T> AssetManager::getAsset(const asset_path& path) {
+    return std::dynamic_pointer_cast<T>(assets[path]);
+}
+
 int AssetManager::getAssetsCount() {
     return assetsCount;
 }
@@ -308,6 +313,7 @@ void AssetManager::processIntermediates() {
     //Iterate mix paths
     for (asset_path assetPath : mix_paths) {
         int count = processIntermediateMIX(assetPath);
+        if (!error.empty()) return;
         if (count == 0) {
             continue;
         }
@@ -786,4 +792,14 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
     }
 
     return addedAssets;
+}
+
+void AssetManager::loadAssets() {
+    //Iterate all assets
+    for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
+        std::shared_ptr<AssetImage> assetImage = std::dynamic_pointer_cast<AssetImage>(pair.second);
+        if (assetImage) {
+
+        }
+    }
 }

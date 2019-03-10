@@ -21,16 +21,20 @@
  */
 class AssetImage : public Asset {
 private:
-public:
     /**
      * Image size
      */
     const Vector2 imageSize;
 
     /**
-     * Palette to use if need
+     * Asset containing palette data for this image
      */
     const std::shared_ptr<AssetPalette> palette;
+
+    /**
+     * Image containing this asset's data
+     */
+    const std::shared_ptr<Image> image;
 
 public:
     /**
@@ -62,12 +66,17 @@ public:
     const Vector2& getImageSize() const;
 
     /**
-     * Writes this asset image content to provided image
+     * Writes this asset image content to provided image and set this image in the asset
      *
-     * @param image target to write
+     * @param image to set for this asset
      * @return true if success
      */
-    bool writeImage(Image& image);
+    bool assignImage(Image& image);
+
+    /**
+     * @return image containing data for this image asset
+     */
+    std::shared_ptr<Image> getImage() const;
 
     /**
      * @return string version of this asset

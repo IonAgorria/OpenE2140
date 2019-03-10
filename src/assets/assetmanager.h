@@ -76,10 +76,13 @@ private:
 
     /**
      * Processes intermediate assets if they can be converted to different assets
-     *
-     * @return true if succeeded
      */
     void processIntermediates();
+
+    /**
+     * Loads the volatile data from assets
+     */
+    void loadAssets();
 
     /**
      * Processes the content of a MIX asset for more assets
@@ -173,9 +176,7 @@ public:
      * @return asset
      */
     template <typename T>
-    std::shared_ptr<T> getAsset(const asset_path& path) {
-        return std::dynamic_pointer_cast<T>(assets[path]);
-    }
+    std::shared_ptr<T> getAsset(const asset_path& path);
 
     /**
      * @return the count of assets loaded
@@ -186,13 +187,6 @@ public:
      * Clears all loaded assets from manager
      */
     void clearAssets();
-
-    /**
-     * Initializes manager
-     *
-     * @return true if success
-     */
-    bool init();
 };
 
 #endif //OPENE2140_ASSETMANAGER_H

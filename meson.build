@@ -73,6 +73,8 @@ opene2140_src = [
     'src/io/log.cpp',
     'src/io/file.cpp',
     'src/assets/asset.cpp',
+    'src/assets/assetmanager_scan.cpp',
+    'src/assets/assetmanager_process.cpp',
     'src/assets/assetmanager.cpp',
     'src/assets/assetimage.cpp',
     'src/assets/assetpalette.cpp',

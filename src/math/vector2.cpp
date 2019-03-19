@@ -9,6 +9,11 @@ Vector2::Vector2(int x, int y) {
     this->y = y;
 }
 
+Vector2::Vector2(int v) {
+    this->x = v;
+    this->y = v;
+}
+
 Vector2::Vector2(const Vector2& vector2) {
     this->x = vector2.x;
     this->y = vector2.y;

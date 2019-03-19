@@ -1,8 +1,14 @@
 //
 // Created by Ion Agorria on 1/11/18
 //
-#include "game.h"
 #include "core/common.h"
+#include "assets/assetmanager.h"
+#include "graphics/renderer.h"
+#include "graphics/window.h"
+#include "gui/eventhandler.h"
+#include "simulation/simulation.h"
+#include "core/luavm.h"
+#include "game.h"
 
 Game::Game() {
     log = Log::get("Game");
@@ -35,7 +41,7 @@ void Game::close() {
 bool Game::run() {
     log->debug("Running");
 
-    std::shared_ptr<Game> this_ptr = shared_from_this();//this_shared_ptr();
+    std::shared_ptr<Game> this_ptr = shared_from_this();
 
     // Initialize Lua
     luaVM = LuaVM::create();
@@ -60,7 +66,8 @@ bool Game::run() {
     }
 
     //Initialize asset manager
-    assetManager = std::make_unique<AssetManager>();
+    assetManager = std::make_unique<AssetManager>(this_ptr);
+    assetManager->loadAssets();
     error = assetManager->getError();
     if (!error.empty()) {
         log->error("Error initializing asset manager\n{0}", error);
@@ -98,4 +105,21 @@ void Game::loop() {
 
     //Update window
     window->swap();
+}
+
+void loop();
+
+/** @return Window */
+Window* Game::getWindow() {
+    return window.get();
+}
+
+/** @return Simulation */
+Simulation* Game::getSimulation() {
+    return simulation.get();
+}
+
+/** @return AssetManager */
+AssetManager* Game::getAssetManager() {
+    return assetManager.get();
 }

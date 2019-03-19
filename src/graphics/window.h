@@ -70,7 +70,7 @@ private:
     /** Context used for SDL2 */
     SDL_GLContext context = nullptr;
     /** Max texture size */
-    int textureMaxSize;
+    int maxTextureSize;
     /** Window close state */
     bool closing;
 public:
@@ -118,6 +118,11 @@ public:
      * @return if window must close
      */
     bool isClosing();
+
+    /**
+     * @return the maximum texture size allowed
+     */
+    unsigned int getMaxTextureSize();
 };
 
 #endif //OPENE2140_WINDOW_H

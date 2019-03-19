@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 3/11/18
 //
 #include "core/utils.h"
+#include "palette.h"
 #include "renderer.h"
 #include "renderer_shaders.h"
 

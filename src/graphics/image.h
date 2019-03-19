@@ -8,11 +8,11 @@
 #include "core/common.h"
 #include "core/errorpossible.h"
 #include "math/rectangle.h"
-#include "palette.h"
 
 /**
  * Image instance used for window drawing in abstract way
  */
+class Palette;
 class Image: public IErrorPossible {
 private:
     /**
@@ -75,11 +75,11 @@ public:
      */
     float u;
     /**
-     * Image texture V
+     * Image texture U2
      */
     float u2;
     /**
-     * Image texture U2
+     * Image texture V
      */
     float v;
     /**

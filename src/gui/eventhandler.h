@@ -4,9 +4,9 @@
 #ifndef OPENE2140_EVENTHANDLER_H
 #define OPENE2140_EVENTHANDLER_H
 
-#include <core/common.h>
-#include <io/log.h>
-#include <graphics/window.h>
+#include "core/common.h"
+#include "io/log.h"
+#include "graphics/window.h"
 
 class Game;
 

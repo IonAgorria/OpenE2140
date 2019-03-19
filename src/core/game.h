@@ -4,17 +4,19 @@
 #ifndef OPENE2140_GAME_H
 #define OPENE2140_GAME_H
 
+#include <memory>
 #include "common.h"
-#include "graphics/renderer.h"
-#include "simulation/simulation.h"
-#include "graphics/window.h"
-#include "assets/assetmanager.h"
-#include "gui/eventhandler.h"
-#include "luavm.h"
+#include "io/log.h"
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
  */
+class AssetManager;
+class Window;
+class EventHandler;
+class Renderer;
+class Simulation;
+class LuaVM;
 class Game: public std::enable_shared_from_this<Game> {
     /**
      * Log for game
@@ -88,7 +90,19 @@ public:
      */
     bool run();
 
+    /**
+     * Main loop for game
+     */
     void loop();
+
+    /** @return Window */
+    Window* getWindow();
+
+    /** @return Simulation */
+    Simulation* getSimulation();
+
+    /** @return AssetManager */
+    AssetManager* getAssetManager();
 };
 
 #endif //OPENE2140_GAME_H

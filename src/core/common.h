@@ -10,7 +10,7 @@
 #include "macros.h"
 #include "types.h"
 #include "config.h"
-#include "config-placeholder.h"
+#include "config_placeholder.h"
 
 #ifndef OPENE2140_COMMON_H
 #define OPENE2140_COMMON_H

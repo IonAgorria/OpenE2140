@@ -1,9 +1,9 @@
 //
 // Created by Ion Agorria on 22/03/18
 //
+#include <SDL_events.h>
 #include "core/common.h"
 #include "core/utils.h"
-#include <SDL_events.h>
 #include "io/log.h"
 #include "window.h"
 
@@ -70,10 +70,10 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     log->debug("GL_CONTEXT_MINOR_VERSION: {0}", value);
 
     //Check the texture size
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &textureMaxSize);
-    log->debug("GL_MAX_TEXTURE_SIZE: {0}", textureMaxSize);
-    if (textureMaxSize < MINIMUM_TEXTURE_SIZE) {
-        error = "Maximum texture size is too small: " + std::to_string(textureMaxSize);
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+    log->debug("GL_MAX_TEXTURE_SIZE: {0}", maxTextureSize);
+    if (maxTextureSize < MINIMUM_TEXTURE_SIZE) {
+        error = "Maximum texture size is too small: " + std::to_string(maxTextureSize);
         return;
     }
 
@@ -174,4 +174,8 @@ void Window::swap() {
 
 bool Window::isClosing() {
     return closing;
+}
+
+unsigned int Window::getMaxTextureSize() {
+    return static_cast<unsigned int>(maxTextureSize);
 }

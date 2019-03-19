@@ -5,8 +5,6 @@
 #define OPENE2140_ASSETIMAGE_H
 
 #include "math/vector2.h"
-#include "graphics/window.h"
-#include "assetpalette.h"
 #include "asset.h"
 
 /** 8 bit index palette image */
@@ -19,6 +17,8 @@
 /**
  * Asset for image data
  */
+class AssetPalette;
+class Image;
 class AssetImage : public Asset {
 private:
     /**
@@ -34,7 +34,7 @@ private:
     /**
      * Image containing this asset's data
      */
-    const std::shared_ptr<Image> image;
+    std::shared_ptr<Image> image;
 
 public:
     /**
@@ -71,7 +71,7 @@ public:
      * @param image to set for this asset
      * @return true if success
      */
-    bool assignImage(Image& image);
+    bool assignImage(std::shared_ptr<Image> image);
 
     /**
      * @return image containing data for this image asset

@@ -3,7 +3,8 @@
 //
 #include "core/common.h"
 #include "core/utils.h"
-#include "assets/assetmanager.h"
+#include "io/file.h"
+#include "assetmanager.h"
 
 bool AssetManager::scanContainer(const std::string& path, const std::string& name) {
     std::string type = "";

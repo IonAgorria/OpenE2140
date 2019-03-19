@@ -4,8 +4,8 @@
 #ifndef OPENE2140_WORLD_H
 #define OPENE2140_WORLD_H
 
-#include "core/common.h"
 #include <vector>
+#include "core/common.h"
 #include "graphics/window.h"
 #include "assets/asset.h"
 #include "tile.h"

@@ -13,7 +13,7 @@
 #include "ipalette.h"
 
 /**
- * Palette implementation which uses array
+ * Palette implementation which uses array for CPU side and 1D texture for GPU side
  */
 class Palette : public IPalette {
 protected:

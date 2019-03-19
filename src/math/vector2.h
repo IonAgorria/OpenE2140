@@ -21,6 +21,13 @@ public:
     Vector2(int x, int y);
 
     /**
+     * Constructs a new vector
+     *
+     * @param v value for all
+     */
+    Vector2(int v);
+
+    /**
      * Constructs a new vector from another
      *
      * @param vector2 to copy

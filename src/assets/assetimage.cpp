@@ -1,10 +1,11 @@
 //
 // Created by Ion Agorria on 21/04/18
 //
-#include <core/utils.h>
-#include "assetimage.h"
+#include "core/utils.h"
+#include "graphics/image.h"
 #include "assetpalette.h"
 #include "graphics/color.h"
+#include "assetimage.h"
 
 AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
                        const Vector2& size, const std::shared_ptr<AssetPalette> palette) :
@@ -20,7 +21,7 @@ const Vector2& AssetImage::getImageSize() const {
     return imageSize;
 }
 
-bool AssetImage::assignImage(Image& image) {
+bool AssetImage::assignImage(std::shared_ptr<Image> image) {
     bool result = 0;
     size_t imagePixelsCount = static_cast<size_t>(imageSize.x * imageSize.y);
 
@@ -41,8 +42,8 @@ bool AssetImage::assignImage(Image& image) {
         //Create buffer, read asset into it and load to image
         std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
         if (readAll(buffer.get(), imagePixelsCount * 2)) {
-            result = image.loadFromI8(buffer.get());
-            error = image.getError();
+            result = image->loadFromI8(buffer.get());
+            error = image->getError();
         } else {
             result = false;
         }
@@ -56,14 +57,15 @@ bool AssetImage::assignImage(Image& image) {
         //Create buffer, read asset into it and load to image
         std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount * 2);
         if (readAll(buffer.get(), imagePixelsCount * 2)) {
-            result = image.loadFromRGB565(buffer.get(), nullptr);
-            error = image.getError();
+            result = image->loadFromRGB565(buffer.get(), nullptr);
+            error = image->getError();
         } else {
             result = false;
         }
     }
 
     //Return result
+    this->image = image;
     return result && error.empty();
 }
 

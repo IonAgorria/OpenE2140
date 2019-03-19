@@ -1,9 +1,14 @@
 //
 // Created by Ion Agorria on 18/03/19
 //
+#include <forward_list>
 #include "core/common.h"
 #include "core/utils.h"
-#include "assets/assetmanager.h"
+#include "io/file.h"
+#include "asset.h"
+#include "assetpalette.h"
+#include "assetimage.h"
+#include "assetmanager.h"
 
 void AssetManager::processIntermediates() {
     //Counters
@@ -403,12 +408,9 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                     }
                     assetStart = 0;
 
-                    //Create buffer to store alpha channel data
-                    std::unique_ptr<byteArray> alphaBuffer = Utils::createBuffer(imagePixelCount);
-
                     //Decode the data, ignore the last entry
                     byte zero = 0;
-                    unsigned int imagePosition = 0;
+                    byte one = 1;
                     for (unsigned int scanLineIndex = 0; scanLineIndex < segmentedImageHeader.scanLinesCount - 1; scanLineIndex++) {
                         //Go to data position
                         result = asset->seek(dataBlockOffset + dataOffsets.at(scanLineIndex), true);
@@ -434,16 +436,18 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                                 return -1;
                             }
 
-                            //Fill left padding
+                            //Fill left padding (palette 1 index 0)
                             for (unsigned int j = 0; j < segment.padding; j++) {
-                                result = assetFile->write(&zero, 1);
+                                result = assetFile->write(&one, 1);
                                 error = assetFile->getError();
+                                if (result >= 0 && error.empty()) {
+                                    result = assetFile->write(&zero, 1);
+                                    error = assetFile->getError();
+                                }
                                 if (result < 0 || !error.empty()) {
                                     error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing left padding " + error;
                                     return -1;
                                 }
-                                alphaBuffer[imagePosition] = 0;
-                                imagePosition++;
                             }
 
                             //Create buffer to store current segment data
@@ -458,21 +462,21 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                             }
 
                             //Write segment data from buffer
-                            amount = assetFile->write(segmentBuffer.get(), segment.width);
-                            error = assetFile->getError();
-                            if (amount != segment.width || !error.empty()) {
-                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer writing " + error;
-                                return -1;
-                            }
-
-                            //Write alpha
-                            for (int k = 0; k < segment.width; ++k) {
-                                alphaBuffer[imagePosition] = 0xFF;
-                                imagePosition++;
+                            for (unsigned int j = 0; j < segment.width; j++) {
+                                result = assetFile->write(&zero, 1);
+                                error = assetFile->getError();
+                                if (result >= 0 && error.empty()) {
+                                    result = assetFile->write(&segmentBuffer[j], segment.width);
+                                    error = assetFile->getError();
+                                }
+                                if (result < 0 || !error.empty()) {
+                                    error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer writing " + error;
+                                    return -1;
+                                }
                             }
                         }
 
-                        //Fill right padding
+                        //Fill right padding (palette + index)
                         for (unsigned int j = 0; j < segmentedImageHeader.width - lineSize; j++) {
                             result = assetFile->write(&zero, 1);
                             error = assetFile->getError();
@@ -480,28 +484,13 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                                 error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing right padding " + error;
                                 return -1;
                             }
-                            alphaBuffer[imagePosition] = 0;
-                            imagePosition++;
                         }
-                    }
-
-                    //Append alpha buffer
-                    amount = assetFile->write(alphaBuffer.get(), imagePixelCount);
-                    error = assetFile->getError();
-                    if (amount != imagePixelCount || !error.empty()) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " alpha buffer writing " + error;
-                        return -1;
                     }
 
                     //Check if all was written
                     if (assetFile->tell() != assetFile->size()) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i);
                         error += " not all data was written " + std::to_string(assetFile->tell()) + " vs " + std::to_string(assetFile->size());
-                        return -1;
-                    }
-                    if (imagePosition != imagePixelCount) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i);
-                        error += " not all position was written " + std::to_string(imagePosition) + " vs " + std::to_string(imagePixelCount);
                         return -1;
                     }
 

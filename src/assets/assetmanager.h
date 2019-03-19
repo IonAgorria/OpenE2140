@@ -6,20 +6,28 @@
 
 #include <string>
 #include <map>
+#include <list>
+#include "asset.h"
 #include "core/errorpossible.h"
 #include "math/vector2.h"
 #include "io/log.h"
-#include "asset.h"
 
 /**
  * Handles the loading of different assets
  */
+class Game;
+class AssetImage;
 class AssetManager: public IErrorPossible {
 private:
     /**
      * Log for object
      */
     log_ptr log;
+
+    /**
+     * Game which assets belong to
+     */
+    std::shared_ptr<Game> game;
 
     /**
      * Contains all assets in this manager
@@ -80,17 +88,17 @@ private:
     void processIntermediates();
 
     /**
-     * Loads the volatile data from assets
-     */
-    void loadAssets();
-
-    /**
      * Processes the content of a MIX asset for more assets
      *
      * @param path containing MIX asset
      * @return amount of added assets or -1 if error
      */
     int processIntermediateMIX(const asset_path& path);
+
+    /**
+     * Processes the images
+     */
+    void processImages(unsigned int textureSize, unsigned int batchSize, std::vector<AssetImage*>& assetImages);
 
     /**
      * Each WD container file record struct
@@ -151,7 +159,7 @@ public:
     /**
      * Constructs loader
      */
-    AssetManager();
+    AssetManager(std::shared_ptr<Game> game);
 
     /**
      * Destructs loader and cleans any loaded assets
@@ -187,6 +195,16 @@ public:
      * Clears all loaded assets from manager
      */
     void clearAssets();
+
+    /**
+     * Loads the assets data from files into memory
+     */
+    void loadAssets();
+
+    /**
+     * (Re)Loads the volatile assets data using memory data
+     */
+    void refreshAssets();
 };
 
 #endif //OPENE2140_ASSETMANAGER_H

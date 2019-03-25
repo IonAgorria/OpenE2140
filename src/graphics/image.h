@@ -48,17 +48,23 @@ private:
     bool check();
 
     /**
-     * Loads single channel image data to texture in this image.
-     * Pixels array must match rectangle of image.
+     * Loads single channel 8 bit image data to texture in this image.
      *
      * @param pixels to fill the rectangle allocated to this image into texture
      * @return if success
      */
-    bool loadTextureR(const byte* pixels);
+    bool loadTextureR8(const byte* pixels);
+
+    /**
+     * Loads single channel 16 bit image data to texture in this image.
+     *
+     * @param pixels to fill the rectangle allocated to this image into texture
+     * @return if success
+     */
+    bool loadTextureR16(const byte* pixels);
 
     /**
      * Loads RGBA image data to texture in this image.
-     * Pixels array must match rectangle of image.
      *
      * @param pixels to fill the rectangle allocated to this image into texture
      * @return if success
@@ -139,12 +145,23 @@ public:
 
     /**
      * Loads image data to texture using pixels in indexed format.
+     * 8bits each pixel (color index 8 bits)
      * Pixels array must match rectangle of image.
      *
      * @param pixels indices to fill the rectangle
      * @return if success
      */
-    bool loadFromI8(const byte* pixels);
+    bool loadFromIndexed8(const byte* pixels);
+
+    /**
+     * Loads image data to texture using pixels in indexed format.
+     * 16bits each pixel (palette index 8 bits + color index 8 bits)
+     * Pixels array must match rectangle of image.
+     *
+     * @param pixels indices to fill the rectangle
+     * @return if success
+     */
+    bool loadFromIndexed16(const byte* pixels);
 
     /**
      * Loads image data to texture using pixels in RGB565 format.

@@ -101,14 +101,17 @@ void AssetManager::loadAssets() {
                 text += error;
             }
             error = text;
+            return;
         }
     }
 
     //Scan intermediate assets
     processIntermediates();
+    if (!error.empty()) return;
 
     //Refresh the assets
     refreshAssets();
+    if (!error.empty()) return;
 
     //Print loaded assets
     //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
@@ -129,7 +132,7 @@ void AssetManager::refreshAssets() {
     }
 
     //Process the images
-    processImages(textureSize, textureSize * textureSize, assetImages);
+    processImages(textureSize, (textureSize * textureSize) / (128 * 128), assetImages);
     if (!error.empty()) return;
 }
 
@@ -142,6 +145,7 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
     int retry = 0;
     size_t totalCount = assetImages.size();
     size_t lastSize = 0;
+    size_t pixelCount = 0;
     while (!assetImages.empty() && lastSize != assetImages.size()) {
         lastSize = assetImages.size();
 
@@ -153,10 +157,12 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
         //Setup the rects and add the index so we know which image does reference
         unsigned int imageCount = (unsigned int) std::min((size_t) batchSize, lastSize);
         for (unsigned int i = 0; i < imageCount; ++i) {
-            stbrp_rect& rect = rects.at(i);
-            AssetImage* assetImage = assetImages.at(lastSize - i - 1);
+            unsigned int index = imageCount - 1 - i;
+            stbrp_rect& rect = rects.at(index);
+            AssetImage* assetImage = assetImages.at(index);
             Vector2 imageSize = assetImage->getImageSize();
-            rect.id = i;
+            pixelCount += imageSize.x * imageSize.y;
+            rect.id = index;
             rect.w = imageSize.x;
             rect.h = imageSize.y;
             rect.x = 0;
@@ -176,22 +182,24 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
 
         //Get the rects that were packed and use them for actual image setup
         for (unsigned int i = 0; i < imageCount; ++i) {
+            unsigned int index = imageCount - 1 - i;
             //Get rectangle
-            stbrp_rect& rect = rects.at(i);
-            if (rect.was_packed == 0) {
-                //Okay, to next round
-                retry++;
-                continue;
-            }
-            if (rect.id != i) {
+            stbrp_rect& rect = rects.at(index);
+            if ((unsigned) rect.id != index) {
                 //This shouldn't happen unless rects become reordered
                 error = "Rect id doesn't match index";
                 return;
             };
+            if (rect.was_packed == 0) {
+                //Okay, to next round
+                log->debug("Retry {0}", index);
+                retry++;
+                continue;
+            }
             Rectangle rectangle(rect.x, rect.y, rect.w, rect.h);
 
             //Fetch and remove asset image from queue
-            std::vector<AssetImage*>::iterator it = assetImages.end() - (rect.id + 1);
+            std::vector<AssetImage*>::iterator it = assetImages.begin() + index;
             AssetImage* assetImage = *it;
             assetImages.erase(it);
 
@@ -213,8 +221,8 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
 
     //Done
     log->debug("Packing retry count {0} image count {1}", retry, totalCount);
-    if (lastSize != 0) {
-        error = "Packing failed for " + std::to_string(lastSize) + " assets";
+    if (!assetImages.empty()) {
+        error = "Packing failed for " + std::to_string(assetImages.size()) + " assets";
         return;
     }
 }

@@ -116,9 +116,16 @@ GLuint Image::bindTexture() {
     return texture;
 }
 
-bool Image::loadTextureR(const byte* pixels) {
+bool Image::loadTextureR8(const byte* pixels) {
     bindTexture();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rectangle.w, rectangle.h, 0, GL_RED, GL_UNSIGNED_BYTE, pixels);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R16UI, rectangle.w, rectangle.h, 0, GL_RED_INTEGER, GL_UNSIGNED_BYTE, pixels);
+    error = Utils::checkGLError();
+    return error.empty();
+}
+
+bool Image::loadTextureR16(const byte* pixels) {
+    bindTexture();
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R16UI, rectangle.w, rectangle.h, 0, GL_RED_INTEGER, GL_UNSIGNED_SHORT, pixels);
     error = Utils::checkGLError();
     return error.empty();
 }
@@ -157,11 +164,18 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     return loadTextureRGBA(converted.get());
 }
 
-bool Image::loadFromI8(const byte* pixels) {
+bool Image::loadFromIndexed8(const byte* pixels) {
     if (!check()) return false;
 
     //Load data to texture
-    return loadTextureR(pixels);
+    return loadTextureR8(pixels);
+}
+
+bool Image::loadFromIndexed16(const byte* pixels) {
+    if (!check()) return false;
+
+    //Load data to texture
+    return loadTextureR16(pixels);
 }
 
 bool Image::loadFromRGBA8888(const byte* pixels) {

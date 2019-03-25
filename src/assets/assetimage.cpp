@@ -33,19 +33,32 @@ bool AssetImage::assignImage(std::shared_ptr<Image> image) {
 
     //Handle according to asset image type (paletted or raw)
     if (palette) {
-        //Check size
-        if (imagePixelsCount != static_cast<size_t>(size())) {
-            error = "Asset size doesn't match image size";
-            return false;
-        }
-
-        //Create buffer, read asset into it and load to image
-        std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
-        if (readAll(buffer.get(), imagePixelsCount * 2)) {
-            result = image->loadFromI8(buffer.get());
-            error = image->getError();
+        //Check if pixel count is same as byte count (8 bit indexed)
+        if (imagePixelsCount == static_cast<size_t>(size())) {
+            //Create buffer, read asset into it and load to image
+            std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
+            if (readAll(buffer.get(), imagePixelsCount)) {
+                result = image->loadFromIndexed8(buffer.get());
+                error = image->getError();
+            } else {
+                result = false;
+            }
         } else {
-            result = false;
+            //Check if 16 bits width is correct
+            imagePixelsCount *= 2;
+            if (imagePixelsCount == static_cast<size_t>(size())) {
+                //Create buffer, read asset into it and load to image
+                std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
+                if (readAll(buffer.get(), imagePixelsCount)) {
+                    result = image->loadFromIndexed16(buffer.get());
+                    error = image->getError();
+                } else {
+                    result = false;
+                }
+            } else {
+                error = "AssetImage size doesn't match image size (has palette)";
+                return false;
+            }
         }
     } else {
         //Check size
@@ -65,8 +78,11 @@ bool AssetImage::assignImage(std::shared_ptr<Image> image) {
     }
 
     //Return result
-    this->image = image;
-    return result && error.empty();
+    if (result && error.empty()) {
+        this->image = image;
+        return true;
+    }
+    return false;
 }
 
 std::shared_ptr<Image> AssetImage::getImage() const {

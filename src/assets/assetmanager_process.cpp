@@ -17,8 +17,8 @@ void AssetManager::processIntermediates() {
 
     //Cached assets
     std::unordered_map<asset_path, std::shared_ptr<AssetPalette>> assetPalettes;
-    std::forward_list<asset_path> image_paths;
-    std::forward_list<asset_path> mix_paths;
+    std::forward_list<asset_path> datPaths;
+    std::forward_list<asset_path> mixPaths;
 
     //Iterate all assets
     for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
@@ -42,20 +42,20 @@ void AssetManager::processIntermediates() {
             //Store asset path for later if they are images
             bool isImage = !Utils::startsWith(assetPath, "LEVEL/DATA");
             if (isImage) {
-                image_paths.push_front(assetPath);
+                datPaths.push_front(assetPath);
             }
         } else if (ext == ".MIX") {
             //Check if it's not a special file
             bool isMixMax = assetPath.find("MIXMAX") != std::string::npos;
             if (!isMixMax) {
                 //Store asset path for later
-                mix_paths.push_front(assetPath);
+                mixPaths.push_front(assetPath);
             }
         }
     }
 
     //Iterate mix paths
-    for (asset_path assetPath : mix_paths) {
+    for (asset_path assetPath : mixPaths) {
         int count = processIntermediateMIX(assetPath);
         if (!error.empty()) return;
         if (count == 0) {
@@ -72,7 +72,7 @@ void AssetManager::processIntermediates() {
     }
 
     //Iterate images paths
-    for (asset_path assetPath : image_paths) {
+    for (asset_path assetPath : datPaths) {
         //Get the asset
         std::string::size_type size = assetPath.size();
         asset_path imagePath = assetPath.substr(0, size - 4);
@@ -87,7 +87,7 @@ void AssetManager::processIntermediates() {
         }
 
         //Pass the image size struct to fill it
-        size_t readSize = sizeof(ImageSize16);
+        size_t readSize = sizeof(ImageSize16) + 2;
         Vector2 imageSize;
         ImageSize16 imageSizeStruct;
         if (!asset->readAll(imageSizeStruct)) {
@@ -96,13 +96,23 @@ void AssetManager::processIntermediates() {
         }
         imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
 
+        //Skip 2 bytes
+        asset->seek(2);
+        error = asset->getError();
+        if (!error.empty()) {
+            error = "Error reading '" + assetPath + "' when seeking " + asset->getError();
+            return;
+        }
+
         //Create image asset with the palette indexes data and store it
         std::shared_ptr<AssetImage> assetImage = std::make_shared<AssetImage>(
                 imagePath, asset->getFile(), asset->offset() + readSize, asset->size() - readSize, imageSize, assetPalette
         );
         if (!addAsset(assetImage)) {
-            addedAssets++;
+            error = "Couldn't create asset from processed asset\n" + error;
+            return;
         }
+        addedAssets++;
 
         //Remove the old assets
         if (!removeAsset(assetPath) || !removeAsset(palettePath)) {
@@ -226,7 +236,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                 return -1;
             }
 
-            //Read 5th byte, this hack serves to detect stream type
+            //Read 5th byte (unknown purpose), this hack serves to detect stream type
             byte streamType;
             readSize = sizeof(streamType);
             amount = asset->read(&streamType, readSize);
@@ -398,7 +408,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                         return -1;
                     }
 
-                    //Create memory file to store image 8 bit palette indexes and set it as asset file, also reset streamStart
+                    //Create memory file to store image 8 bit palette indexes and set it as asset file
                     assetFile = std::make_shared<File>();
                     unsigned int imagePixelCount = segmentedImageHeader.width * segmentedImageHeader.height;
                     assetSize = imagePixelCount * 2;
@@ -507,15 +517,17 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
             std::shared_ptr<Asset> assetStream;
             asset_path streamAssetPath = basePath + "/" + std::to_string(i);
             if (isImageStream) {
+                //log->debug("AssetImage: {0} type {1}", streamAssetPath, i, streamType);
                 assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, assetStart, assetSize,
                                                            imageSize, imagePalette);
             } else {
                 assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, assetStart, assetSize);
             }
             if (!addAsset(assetStream)) {
-                error = "Couldn't add asset\n" + error;
+                error = "Couldn't add asset";
             }
             if (!error.empty()) return -1;
+            addedAssets++;
         }
     }
 

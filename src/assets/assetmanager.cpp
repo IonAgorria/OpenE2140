@@ -116,36 +116,70 @@ void AssetManager::loadAssets() {
     //Print loaded assets
     //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
 
-    log->debug("Has {0} assets", assetsCount);
+    log->debug("Loaded {0} assets", assetsCount);
 }
 
 void AssetManager::refreshAssets() {
     unsigned int textureSize = game->getWindow()->getMaxTextureSize();
+    unsigned int batchSize = (textureSize * textureSize) / (64 * 64);
 
-    //Iterate all assets
+    //Iterate all assets and handle by asset type
     std::vector<AssetImage*> assetImages;
+    std::vector<AssetImage*> assetImagesWithPalettes;
     for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
+        //Handle image assets
         std::shared_ptr<AssetImage> assetImage = std::dynamic_pointer_cast<AssetImage>(pair.second);
         if (assetImage) {
-            assetImages.push_back(assetImage.get());
+            assetImage->assignImage(nullptr);
+            std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
+            if (assetPalette) {
+                assetPalette->assignPalette(nullptr);
+                assetImagesWithPalettes.push_back(assetImage.get());
+            } else {
+                assetImages.push_back(assetImage.get());
+            }
+            continue;
         }
     }
 
-    //Process the images
-    processImages(textureSize, (textureSize * textureSize) / (128 * 128), assetImages);
+    //Process the images without palettes
+    processImages(textureSize, batchSize, assetImages);
+    if (!error.empty()) return;
+
+    //Palettes must be refreshed before images
+    for (AssetImage* assetImage : assetImagesWithPalettes) {
+        //Create a new palette
+        std::shared_ptr<Palette> palette = std::make_shared<Palette>(ASSET_PALETTE_COUNT, false);
+        error = palette->getError();
+        if (!error.empty()) return;
+
+        //Set or replace with the new palette
+        std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
+        if (!assetPalette->assignPalette(palette)) {
+            error = assetPalette->getError();
+            return;
+        }
+    }
+
+    //Process the images with palettes
+    processImages(textureSize, batchSize, assetImagesWithPalettes);
     if (!error.empty()) return;
 }
 
-void AssetManager::processImages(unsigned int textureSize, unsigned int batchSize, std::vector<AssetImage*>& assetImages) {
+void AssetManager::processImages(
+        const unsigned int textureSize, unsigned int batchSize,
+        std::vector<AssetImage*>& assetImages
+    ) {
     //Init structures
     stbrp_context context;
     std::vector<stbrp_node> nodes(textureSize * 2);
     std::vector<stbrp_rect> rects(batchSize);
 
-    int retry = 0;
+    int retryCount = 0;
     size_t totalCount = assetImages.size();
     size_t lastSize = 0;
-    size_t pixelCount = 0;
+    size_t atlasIndex = 0;
+    //This is used to detect stalled packing (no advances in successive attempts)
     while (!assetImages.empty() && lastSize != assetImages.size()) {
         lastSize = assetImages.size();
 
@@ -161,7 +195,13 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
             stbrp_rect& rect = rects.at(index);
             AssetImage* assetImage = assetImages.at(index);
             Vector2 imageSize = assetImage->getImageSize();
-            pixelCount += imageSize.x * imageSize.y;
+            if (0 > imageSize.x
+             || 0 > imageSize.y
+             || textureSize < (unsigned) imageSize.x
+             || textureSize < (unsigned) imageSize.y) {
+                error = "This asset image exceeds the maximum texture size allowed" + assetImage->getPath();
+                return;
+            }
             rect.id = index;
             rect.w = imageSize.x;
             rect.h = imageSize.y;
@@ -176,7 +216,7 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
                 textureSize,
                 textureSize,
                 nodes.data(),
-                textureSize //* 2
+                textureSize
         );
         stbrp_pack_rects(&context, rects.data(), imageCount);
 
@@ -189,11 +229,11 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
                 //This shouldn't happen unless rects become reordered
                 error = "Rect id doesn't match index";
                 return;
-            };
+            }
             if (rect.was_packed == 0) {
                 //Okay, to next round
-                log->debug("Retry {0}", index);
-                retry++;
+                //log->debug("Retry {0}", index);
+                retryCount++;
                 continue;
             }
             Rectangle rectangle(rect.x, rect.y, rect.w, rect.h);
@@ -208,7 +248,14 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
             error = subImage->getError();
             if (!error.empty()) return;
 
+            //Assign palette if any
+            std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
+            if (assetPalette) {
+                subImage->setPalette(assetPalette->getPalette());
+            }
+
             //Assign the subset image to the asset, this loads the asset data to image
+            //log->debug("{0}:{1} {2} {3}", atlasIndex, i, rectangle.toString(), assetImage->getPath());
             bool result = assetImage->assignImage(subImage);
             if (!result) {
                 error = assetImage->getError();
@@ -217,10 +264,13 @@ void AssetManager::processImages(unsigned int textureSize, unsigned int batchSiz
                 return;
             }
         }
+
+        log->debug("Atlas {0} contains {1} images", atlasIndex, lastSize - assetImages.size());
+        atlasIndex++;
     }
 
     //Done
-    log->debug("Packing retry count {0} image count {1}", retry, totalCount);
+    log->debug("Packing atlas count {0} image count {1} retry count {2}", atlasIndex, totalCount, retryCount);
     if (!assetImages.empty()) {
         error = "Packing failed for " + std::to_string(assetImages.size()) + " assets";
         return;

@@ -49,7 +49,18 @@
 /**
  * Palette information asset
  */
-class AssetPalette : public Asset, public IPalette {
+class AssetPalette : public Asset {
+private:
+    /**
+     * Asset containing palette data for this image
+     */
+    const std::shared_ptr<AssetPalette> assetPalette;
+
+    /**
+     * Palette containing this asset's data
+     */
+    std::shared_ptr<Palette> palette;
+
 public:
     /**
      * Constructor for palette asset
@@ -61,11 +72,18 @@ public:
      */
     AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
-    unsigned long length() const override;
+    /**
+     * Writes this asset palette content to palette and set this image in the asset
+     *
+     * @param palette to write this asset content to
+     * @return true if success
+     */
+    bool assignPalette(std::shared_ptr<Palette> assigningPalette);
 
-    bool getColorVirtual(unsigned int index, ColorRGBA& color) override;
-
-    bool setColorVirtual(unsigned int index, ColorRGBA& color) override;
+    /**
+     * @return palette containing data for this palette asset
+     */
+    std::shared_ptr<Palette> getPalette() const;
 
     /**
      * @return string version of this asset

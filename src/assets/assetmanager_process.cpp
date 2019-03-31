@@ -46,11 +46,14 @@ void AssetManager::processIntermediates() {
             }
         } else if (ext == ".MIX") {
             //Check if it's not a special file
+            //Unknown content or purpose files, doesn't seem to be image MIXes
             bool isMixMax = assetPath.find("MIXMAX") != std::string::npos;
-            if (!isMixMax) {
-                //Store asset path for later
-                mixPaths.push_front(assetPath);
-            }
+            if (isMixMax) continue;
+            //Contains network UI images
+            bool isNet = assetPath.find("NET.MIX") != std::string::npos;
+            if (isNet) continue;
+            //Store asset path for later
+            mixPaths.push_front(assetPath);
         }
     }
 
@@ -260,11 +263,10 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
             std::shared_ptr<File> assetFile = asset->getFile();
             std::shared_ptr<AssetPalette> imagePalette = nullptr;
             Vector2 imageSize;
-            bool isImageStream = false;
+            bool isImageStream = true;
             //Handle the type
             switch (streamType) {
                 case TYPE_IMAGE_8_INDEXED: {
-                    isImageStream = true;
                     //Get image size
                     ImageSize16 imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
@@ -303,8 +305,6 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                     break;
                 }
                 case TYPE_IMAGE_16_RAW: {
-                    isImageStream = true;
-
                     //Get image size
                     ImageSize16 imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
@@ -321,8 +321,6 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                     break;
                 }
                 case TYPE_IMAGE_SEGMENTED: {
-                    isImageStream = true;
-
                     //Skip 4 unknown bytes and stream type byte
                     result = asset->seek(5);
                     error = asset->getError();
@@ -507,6 +505,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                     break;
                 }
                 default: { //Unknown
+                    isImageStream = false;
                     log->warn("'{0}' MIX stream {1} is unknown type", path, i);
                     assetStart += asset->offset();
                     break;

@@ -22,7 +22,6 @@ Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
         //Use the same texture data
         texture = owner->texture;
         textureSize = owner->textureSize;
-        palette = owner->palette;
     } else {
         //Create texture
         glActiveTexture(TEXTURE_UNIT_IMAGE);
@@ -80,8 +79,8 @@ void Image::updateUVs() {
     v2 = (rectangle.y + rectangle.h) / (float) textureSize.y;
 }
 
-void Image::setRectangle(Rectangle& rectangle) {
-    this->rectangle = Rectangle(rectangle);
+void Image::setRectangle(Rectangle& newPectangle) {
+    this->rectangle = Rectangle(newPectangle);
     updateUVs();
 }
 
@@ -102,6 +101,10 @@ bool Image::check() {
 
 const GLuint Image::getTexture() {
     return texture;
+}
+
+void Image::setPalette(std::shared_ptr<Palette> newPalette) {
+    this->palette = newPalette;
 }
 
 std::shared_ptr<Palette> Image::getPalette() {

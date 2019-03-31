@@ -21,8 +21,8 @@
 #define GAME_TITLE GAME_NAME " " GAME_VERSION
 /** Game main log tag for global use when required */
 #define MAIN_LOG "Main"
-/** Minimum texture size */
-#define MINIMUM_TEXTURE_SIZE 1024
+/** Minimum texture size (texture packer fails under this) */
+#define MINIMUM_TEXTURE_SIZE 256
 /** Texture unit for image texture */
 #define TEXTURE_UNIT_IMAGE GL_TEXTURE0
 /** Texture unit for colors palette texture */

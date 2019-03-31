@@ -29,7 +29,7 @@ private:
     /**
      * Asset containing palette data for this image
      */
-    const std::shared_ptr<AssetPalette> palette;
+    const std::shared_ptr<AssetPalette> assetPalette;
 
     /**
      * Image containing this asset's data
@@ -47,7 +47,7 @@ public:
      * @param palette to use when decoding image data
      */
     AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
-        const Vector2& size, const std::shared_ptr<AssetPalette> palette);
+        const Vector2& size, const std::shared_ptr<AssetPalette> assetPalette);
 
     /**
      * Constructor for 16 bit image
@@ -68,10 +68,15 @@ public:
     /**
      * Writes this asset image content to provided image and set this image in the asset
      *
-     * @param image to set for this asset
+     * @param image to write this asset content to
      * @return true if success
      */
-    bool assignImage(std::shared_ptr<Image> image);
+    bool assignImage(std::shared_ptr<Image> assigningImage);
+
+    /**
+     * @return palette asset related to this image asset if any
+     */
+    std::shared_ptr<AssetPalette> getAssetPalette() const;
 
     /**
      * @return image containing data for this image asset

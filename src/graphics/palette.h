@@ -10,12 +10,12 @@
 #include <vector>
 #include "core/common.h"
 #include "core/errorpossible.h"
-#include "ipalette.h"
+#include "color.h"
 
 /**
  * Palette implementation which uses array for CPU side and 1D texture for GPU side
  */
-class Palette : public IPalette {
+class Palette : public IErrorPossible {
 protected:
     /**
      * Internal palette colors
@@ -60,16 +60,56 @@ public:
      */
     operator bool();
 
-    unsigned long length() const override;
+    /**
+     * @return palette number of colors
+     */
+    unsigned long length() const;
 
-    bool getColorVirtual(unsigned int index, ColorRGBA& color) override;
+    /**
+     * Sets this palette from other palette
+     *
+     * @return true if OK
+     */
+    bool set(Palette& palette);
 
-    bool setColorVirtual(unsigned int index, ColorRGBA& color) override;
+    /**
+     * Gets the color value at index in this palette
+     *
+     * @param index to look
+     * @param color struct to fill
+     * @return true if OK
+     */
+    bool getColor(unsigned int index, ColorRGBA& color);
+
+    /**
+     * Sets the color value at index in this palette
+     *
+     * @param index to set
+     * @param color struct to use
+     * @return true if OK
+     */
+    bool setColor(unsigned int index, ColorRGBA& color);
+
+    /**
+     * Sets the color value at index in this palette
+     *
+     * @param index to set
+     * @param color struct to use
+     * @return true if OK
+     */
+    bool setColor(unsigned int index, ColorRGB& color);
 
     /**
      * Binds the texture for use
      */
     GLuint bindTexture();
+
+    /**
+     * Updates the palette content to texture
+     *
+     * @return true if OK
+     */
+    bool updateTexture();
 
     /**
      * @return texture id

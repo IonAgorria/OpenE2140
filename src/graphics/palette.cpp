@@ -6,7 +6,10 @@
 
 Palette::Palette(unsigned int size, bool extra): extra(extra) {
     //Reserve colors
-    colors.reserve(size);
+    ColorRGBA color;
+    for (int i = 0; i < size; ++i) {
+        colors.push_back(color);
+    }
 
     //Create texture
     glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
@@ -46,13 +49,46 @@ unsigned long Palette::length() const {
     return colors.size();
 }
 
-bool Palette::getColorVirtual(unsigned int index, ColorRGBA& color) {
+bool Palette::set(Palette& palette) {
+    for (unsigned int i = 0; i < palette.length(); ++i) {
+        ColorRGBA color;
+        if (!palette.getColor(i, color)) {
+            return false;
+        }
+        if (!setColor(i,color)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Palette::getColor(unsigned int index, ColorRGBA& color) {
+    //Check index
+    if (index >= length()) {
+        error = "Index out of bounds: " + std::to_string(index);
+        return false;
+    }
     color.setRGBA(colors[index]);
     return true;
 }
 
-bool Palette::setColorVirtual(unsigned int index, ColorRGBA& color) {
+bool Palette::setColor(unsigned int index, ColorRGBA& color) {
+    //Check index
+    if (index >= length()) {
+        error = "Index out of bounds: " + std::to_string(index) + " color " + color.toString();
+        return false;
+    }
     colors[index].setRGBA(color);
+    return true;
+}
+
+bool Palette::setColor(unsigned int index, ColorRGB& color) {
+    //Check index
+    if (index >= length()) {
+        error = "Index out of bounds: " + std::to_string(index) + " color " + color.toString();
+        return false;
+    }
+    colors[index].setRGB(color);
     return true;
 }
 
@@ -65,7 +101,7 @@ bool Palette::check() {
         return false;
     }
     if (!*this) {
-        error = "Image not ready";
+        error = "Palette not ready";
         return false;
     }
     return true;
@@ -81,4 +117,11 @@ GLuint Palette::bindTexture() {
 
 const GLuint Palette::getTexture() {
     return texture;
+}
+
+bool Palette::updateTexture() {
+    bindTexture();
+    glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, colors.size(), 0, GL_RGBA, GL_UNSIGNED_BYTE, colors.data());
+    error = Utils::checkGLError();
+    return error.empty();
 }

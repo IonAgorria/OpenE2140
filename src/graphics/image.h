@@ -121,7 +121,7 @@ public:
     /**
      * Set the rectangle of this image inside the texture
      */
-    void setRectangle(Rectangle& rectangle);
+    void setRectangle(Rectangle& newRectangle);
 
     /**
      * @return rectangle of this image inside the texture
@@ -132,6 +132,11 @@ public:
      * @return texture id
      */
     const GLuint getTexture();
+
+    /**
+     * Set the palette to use with this image
+     */
+    void setPalette(std::shared_ptr<Palette> newPalette);
 
     /**
      * @return palette used by this image if any

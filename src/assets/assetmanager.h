@@ -17,6 +17,7 @@
  */
 class Game;
 class AssetImage;
+class Image;
 class AssetManager: public IErrorPossible {
 private:
     /**
@@ -98,7 +99,7 @@ private:
     /**
      * Processes the images
      */
-    void processImages(unsigned int textureSize, unsigned int batchSize, std::vector<AssetImage*>& assetImages);
+    void processImages(unsigned int textureSize, unsigned int batchSize, std::vector<AssetImage*>& assetImages, bool withPalette);
 
     /**
      * Each WD container file record struct
@@ -185,6 +186,13 @@ public:
      */
     template <typename T>
     std::shared_ptr<T> getAsset(const asset_path& path);
+
+    /**
+     * Gets the loaded image from an asset
+     *
+     * @return image
+     */
+    std::shared_ptr<Image> getImage(const asset_path& path);
 
     /**
      * @return the count of assets loaded

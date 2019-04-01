@@ -87,17 +87,19 @@ void main() {
 const char* FRAGMENT_SHADER_CODE = R"fragment(
 #version 330 core
 
+uniform sampler2D uTexture;
+
 in vec2 gs_TexCoord;
 out vec4 FragColor;
 
 void main() {
     //Apply the texture id and coordinates, then multiply it with color
-    //vec4 vColor = texture2D(uTexture, varTexCoord) * uColor;
+    vec4 vColor = texture2D(uTexture, gs_TexCoord);
     //Discard if alpha is lower than threshold
     //if (vColor.a < uAlphaThreshold) discard;
-    FragColor = vec4(1, 1, 1, 1);
+    FragColor = vColor;
     //Uncomment to override with texcoord
-    //FragColor = vec4(varTexCoord.xy, 0.0, 1.0);
+    //FragColor = vec4(gs_TexCoord.xy, 0.0, 1.0);
     //Uncomment to show depth buffer
     //FragColor.xyz = vec3(gl_FragCoord.z / gl_FragCoord.w * 0.4); gl_FragColor.a = 1.0;
 }

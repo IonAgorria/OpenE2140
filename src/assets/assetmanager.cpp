@@ -57,6 +57,15 @@ std::shared_ptr<T> AssetManager::getAsset(const asset_path& path) {
     return std::dynamic_pointer_cast<T>(assets[path]);
 }
 
+std::shared_ptr<Image> AssetManager::getImage(const asset_path& path) {
+    std::shared_ptr<Image> image;
+    std::shared_ptr<AssetImage> assetImage = std::dynamic_pointer_cast<AssetImage>(assets[path]);
+    if (assetImage) {
+        image = assetImage->getImage();
+    }
+    return image;
+}
+
 int AssetManager::getAssetsCount() {
     return assetsCount;
 }
@@ -143,7 +152,7 @@ void AssetManager::refreshAssets() {
     }
 
     //Process the images without palettes
-    processImages(textureSize, batchSize, assetImages);
+    processImages(textureSize, batchSize, assetImages, false);
     if (!error.empty()) return;
 
     //Palettes must be refreshed before images
@@ -162,13 +171,13 @@ void AssetManager::refreshAssets() {
     }
 
     //Process the images with palettes
-    processImages(textureSize, batchSize, assetImagesWithPalettes);
+    processImages(textureSize, batchSize, assetImagesWithPalettes, true);
     if (!error.empty()) return;
 }
 
 void AssetManager::processImages(
         const unsigned int textureSize, unsigned int batchSize,
-        std::vector<AssetImage*>& assetImages
+        std::vector<AssetImage*>& assetImages, bool withPalette
     ) {
     //Init structures
     stbrp_context context;
@@ -184,7 +193,7 @@ void AssetManager::processImages(
         lastSize = assetImages.size();
 
         //Create the base image
-        std::shared_ptr<Image> atlasImage = std::make_shared<Image>(Vector2(textureSize));
+        std::shared_ptr<Image> atlasImage = std::make_shared<Image>(Vector2(textureSize), withPalette);
         error = atlasImage->getError();
         if (!error.empty()) return;
 
@@ -244,13 +253,13 @@ void AssetManager::processImages(
             assetImages.erase(it);
 
             //Create a subset image which inherits the atlas image using the rectangle
-            std::shared_ptr<Image> subImage = std::make_shared<Image>(atlasImage, rectangle);
+            std::shared_ptr<Image> subImage = std::make_shared<Image>(rectangle, withPalette, atlasImage);
             error = subImage->getError();
             if (!error.empty()) return;
 
-            //Assign palette if any
-            std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
-            if (assetPalette) {
+            //Assign palette
+            if (withPalette) {
+                std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
                 subImage->setPalette(assetPalette->getPalette());
             }
 

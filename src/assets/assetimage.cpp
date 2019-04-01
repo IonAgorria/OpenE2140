@@ -49,19 +49,8 @@ bool AssetImage::assignImage(std::shared_ptr<Image> assigningImage) {
                     error = assigningImage->getError();
                 }
             } else {
-                //Check if 16 bits width is correct
-                imagePixelsCount *= 2;
-                if (imagePixelsCount == static_cast<size_t>(size())) {
-                    //Create buffer, read asset into it and load to image
-                    std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
-                    if (readAll(buffer.get(), imagePixelsCount)) {
-                        result = assigningImage->loadFromIndexed16(buffer.get());
-                        error = assigningImage->getError();
-                    }
-                } else {
-                    error = "AssetImage size doesn't match image size (has palette)";
-                    return false;
-                }
+                error = "AssetImage size doesn't match image size (has palette)";
+                return false;
             }
         } else {
             //Check size
@@ -73,7 +62,7 @@ bool AssetImage::assignImage(std::shared_ptr<Image> assigningImage) {
             //Create buffer, read asset into it and load to image
             std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount * 2);
             if (readAll(buffer.get(), imagePixelsCount * 2)) {
-                result = assigningImage->loadFromRGB565(buffer.get(), nullptr);
+                result = assigningImage->loadFromRGB565(buffer.get());
                 error = assigningImage->getError();
             }
         }

@@ -6,12 +6,13 @@
 #include "core/utils.h"
 #include "image.h"
 
-Image::Image(const Vector2& size) : Image(nullptr, Rectangle(Vector2(), size)) {
+Image::Image(const Vector2& size, bool withPalette) : Image(Rectangle(Vector2(), size), withPalette, nullptr) {
 }
 
-Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
+Image::Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image> owner) :
         owner(owner),
-        rectangle(rectangle)
+        rectangle(rectangle),
+        withPalette(withPalette)
 {
     texture = 0;
     if (owner) {
@@ -50,6 +51,20 @@ Image::Image(std::shared_ptr<Image> owner, const Rectangle& rectangle) :
 
         //Store the texture size
         textureSize = Vector2(rectangle.w, rectangle.h);
+
+        //Set the initial texture data
+        size_t bufferSize = static_cast<const size_t>(textureSize.x * textureSize.y);
+        std::unique_ptr<byteArray> buffer = Utils::createBuffer(withPalette ? bufferSize : bufferSize * 4);
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            withPalette ? GL_R8UI : GL_RGBA,
+            rectangle.w, rectangle.h,
+            0,
+            withPalette ? GL_RED_INTEGER : GL_RGBA,
+            GL_UNSIGNED_BYTE,
+            buffer.get()
+        );
     }
 
     updateUVs();
@@ -88,12 +103,16 @@ const Rectangle& Image::getRectangle() const {
     return rectangle;
 }
 
-bool Image::check() {
+bool Image::check(bool usePalette) {
     if (!error.empty()) {
         return false;
     }
     if (!*this) {
         error = "Image not ready";
+        return false;
+    }
+    if (usePalette != withPalette) {
+        error = "Palette type mismatch";
         return false;
     }
     return true;
@@ -121,27 +140,29 @@ GLuint Image::bindTexture() {
 
 bool Image::loadTextureR8(const byte* pixels) {
     bindTexture();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R16UI, rectangle.w, rectangle.h, 0, GL_RED_INTEGER, GL_UNSIGNED_BYTE, pixels);
-    error = Utils::checkGLError();
-    return error.empty();
-}
-
-bool Image::loadTextureR16(const byte* pixels) {
-    bindTexture();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R16UI, rectangle.w, rectangle.h, 0, GL_RED_INTEGER, GL_UNSIGNED_SHORT, pixels);
+    std::unique_ptr<byteArray> flipped = Utils::bufferFlipY(pixels, rectangle.w, rectangle.h);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RED_INTEGER, GL_UNSIGNED_BYTE, flipped.get());
     error = Utils::checkGLError();
     return error.empty();
 }
 
 bool Image::loadTextureRGBA(const byte* pixels) {
     bindTexture();
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rectangle.w, rectangle.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    std::unique_ptr<byteArray> flipped = Utils::bufferFlipY(pixels, rectangle.w * 4, rectangle.h);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RGBA, GL_UNSIGNED_BYTE, flipped.get());
     error = Utils::checkGLError();
     return error.empty();
 }
 
-bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
-    if (!check()) return false;
+bool Image::loadFromIndexed8(const byte* pixels) {
+    if (!check(true)) return false;
+
+    //Load data to texture
+    return loadTextureR8(pixels);
+}
+
+bool Image::loadFromRGB565(const byte* pixels) {
+    if (!check(false)) return false;
 
     //Create buffer for converted pixels and do conversion
     std::unique_ptr<byteArray> converted = Utils::createBuffer(
@@ -150,39 +171,19 @@ bool Image::loadFromRGB565(const byte* pixels, const byte* alpha) {
     int result = SDL_ConvertPixels(
             rectangle.w, rectangle.h,
             SDL_PIXELFORMAT_RGB565, pixels, rectangle.w * 2,
-            SDL_PIXELFORMAT_RGBA8888, converted.get(), rectangle.w * 4
+            SDL_PIXELFORMAT_ABGR8888, converted.get(), rectangle.w * 4
     );
     if (result < 0) {
         error = "Error converting RGB565 " + Utils::checkSDLError();
         return false;
     }
 
-    //Update the alpha
-    size_t size = static_cast<const size_t>(rectangle.w * rectangle.h);
-    for (size_t i = 0; i < size; i++) {
-        converted[i * 4] = alpha == nullptr ? (byte) 0xFF : alpha[i];
-    }
-
     //Load converted data and return result
     return loadTextureRGBA(converted.get());
 }
 
-bool Image::loadFromIndexed8(const byte* pixels) {
-    if (!check()) return false;
-
-    //Load data to texture
-    return loadTextureR8(pixels);
-}
-
-bool Image::loadFromIndexed16(const byte* pixels) {
-    if (!check()) return false;
-
-    //Load data to texture
-    return loadTextureR16(pixels);
-}
-
 bool Image::loadFromRGBA8888(const byte* pixels) {
-    if (!check()) return false;
+    if (!check(false)) return false;
 
     //Load data to texture
     return loadTextureRGBA(pixels);

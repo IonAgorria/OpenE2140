@@ -329,6 +329,16 @@ public:
      * @return if success
      */
     static bool listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths);
+
+    /**
+     * Flips the lines in buffer vertically
+     *
+     * @param width of each line in buffer
+     * @param height lines of buffer
+     * @param data pointer to data
+     * @return flipped data
+     */
+    static std::unique_ptr<byteArray> bufferFlipY(const byteArray data, unsigned int width, unsigned int height);
 };
 
 #endif //OPENE2140_UTILS_H

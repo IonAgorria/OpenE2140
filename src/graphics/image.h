@@ -41,11 +41,17 @@ private:
     Rectangle rectangle;
 
     /**
+     * Flag to specify if this image will use a palette
+     */
+    bool withPalette;
+
+    /**
      * Checks if image is correct
      *
+     * @param usePalette is current call for a palette type?
      * @return true if OK
      */
-    bool check();
+    bool check(bool usePalette);
 
     /**
      * Loads single channel 8 bit image data to texture in this image.
@@ -54,14 +60,6 @@ private:
      * @return if success
      */
     bool loadTextureR8(const byte* pixels);
-
-    /**
-     * Loads single channel 16 bit image data to texture in this image.
-     *
-     * @param pixels to fill the rectangle allocated to this image into texture
-     * @return if success
-     */
-    bool loadTextureR16(const byte* pixels);
 
     /**
      * Loads RGBA image data to texture in this image.
@@ -96,12 +94,12 @@ public:
     /**
      * Constructor for a image containing the entire texture
      */
-    Image(const Vector2& size);
+    Image(const Vector2& size, bool withPalette);
 
     /**
      * Constructor for image using a subset of an texture
      */
-    Image(std::shared_ptr<Image> owner, const Rectangle& rectangle);
+    Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image> owner);
 
     /**
      * Image destructor
@@ -159,16 +157,6 @@ public:
     bool loadFromIndexed8(const byte* pixels);
 
     /**
-     * Loads image data to texture using pixels in indexed format.
-     * 16bits each pixel (palette index 8 bits + color index 8 bits)
-     * Pixels array must match rectangle of image.
-     *
-     * @param pixels indices to fill the rectangle
-     * @return if success
-     */
-    bool loadFromIndexed16(const byte* pixels);
-
-    /**
      * Loads image data to texture using pixels in RGB565 format.
      * Pixels array must match rectangle of image.
      *
@@ -176,7 +164,7 @@ public:
      * @param alpha data for each pixel
      * @return if success
      */
-    bool loadFromRGB565(const byte* pixels, const byte* alpha);
+    bool loadFromRGB565(const byte* pixels);
 
     /**
      * Loads image data to texture using pixels in RGBA8888 format.

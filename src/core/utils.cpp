@@ -101,7 +101,6 @@ void Utils::handleTerminate() {
         saveStackTrace(*dumpPath);
     }
 
-
     //Get exception
     std::exception_ptr e = std::current_exception();
     if (e) {
@@ -439,4 +438,21 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
     if (dirPath.empty() && dirPaths.empty()) {} //To shut up about unused args
     return false;
 #endif
+}
+
+
+/**
+ * Flips the buffer lines in Y axis
+ *
+ * @param width of lines in bytes
+ * @param lines of buffer
+ * @param data to flip
+ */
+std::unique_ptr<byteArray> Utils::bufferFlipY(const byteArray data, unsigned int width, unsigned int height) {
+    //Copy first line before shifting all
+    std::unique_ptr<byteArray> tmp = createBuffer(width * height);
+    for (unsigned int i = 0; i < height; ++i) {
+        memcpy(tmp.get() + i * width, data + (height - i - 1) * width, width);
+    }
+    return tmp;
 }

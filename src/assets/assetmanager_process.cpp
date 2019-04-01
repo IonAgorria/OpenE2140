@@ -135,7 +135,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
 
     //Verify constant
     bool match = asset->match("MIX FILE  ");
-    std::string error = asset->getError();
+    error = asset->getError();
     if (!match || !error.empty()) {
         error = "Error reading '" + path + "' MIX constant " + error;
         return -1;
@@ -409,7 +409,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                     //Create memory file to store image 8 bit palette indexes and set it as asset file
                     assetFile = std::make_shared<File>();
                     unsigned int imagePixelCount = segmentedImageHeader.width * segmentedImageHeader.height;
-                    assetSize = imagePixelCount * 2;
+                    assetSize = imagePixelCount;
                     if (!assetFile->fromMemory(assetSize)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image buffer " + assetFile->getError();
                         return -1;
@@ -418,7 +418,6 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
 
                     //Decode the data, ignore the last entry
                     byte zero = 0;
-                    byte one = 1;
                     for (unsigned int scanLineIndex = 0; scanLineIndex < segmentedImageHeader.scanLinesCount - 1; scanLineIndex++) {
                         //Go to data position
                         result = asset->seek(dataBlockOffset + dataOffsets.at(scanLineIndex), true);
@@ -444,14 +443,10 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                                 return -1;
                             }
 
-                            //Fill left padding (palette 1 index 0)
+                            //Fill left padding
                             for (unsigned int j = 0; j < segment.padding; j++) {
-                                result = assetFile->write(&one, 1);
+                                result = assetFile->write(&zero, 1);
                                 error = assetFile->getError();
-                                if (result >= 0 && error.empty()) {
-                                    result = assetFile->write(&zero, 1);
-                                    error = assetFile->getError();
-                                }
                                 if (result < 0 || !error.empty()) {
                                     error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing left padding " + error;
                                     return -1;
@@ -470,17 +465,11 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                             }
 
                             //Write segment data from buffer
-                            for (unsigned int j = 0; j < segment.width; j++) {
-                                result = assetFile->write(&zero, 1);
-                                error = assetFile->getError();
-                                if (result >= 0 && error.empty()) {
-                                    result = assetFile->write(&segmentBuffer[j], segment.width);
-                                    error = assetFile->getError();
-                                }
-                                if (result < 0 || !error.empty()) {
-                                    error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer writing " + error;
-                                    return -1;
-                                }
+                            amount = assetFile->write(segmentBuffer.get(), segment.width);
+                            error = assetFile->getError();
+                            if (amount != segment.width || !error.empty()) {
+                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer writing " + error;
+                                return -1;
                             }
                         }
 
@@ -516,7 +505,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
             std::shared_ptr<Asset> assetStream;
             asset_path streamAssetPath = basePath + "/" + std::to_string(i);
             if (isImageStream) {
-                //log->debug("AssetImage: {0} type {1}", streamAssetPath, i, streamType);
+                //log->debug("AssetImage: {0} type {1}", streamAssetPath, streamType);
                 assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, assetStart, assetSize,
                                                            imageSize, imagePalette);
             } else {

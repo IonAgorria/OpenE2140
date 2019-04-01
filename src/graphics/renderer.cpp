@@ -16,6 +16,9 @@ Renderer::Renderer() {
     //Set some parameters
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe mode
+
+    //Enable samples
+    //glEnable(GL_MULTISAMPLE);
 }
 
 Renderer::~Renderer() {
@@ -205,10 +208,10 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
     //Angle
     vertices[verticesIndex++] = angle;
     //Texture UV
-    vertices[verticesIndex++] = image.u;
-    vertices[verticesIndex++] = image.v;
-    vertices[verticesIndex++] = image.u2;
-    vertices[verticesIndex++] = image.v2;
+    vertices[verticesIndex++] = 0;//image.u;
+    vertices[verticesIndex++] = 0;//image.v;
+    vertices[verticesIndex++] = 0.05;//image.u2;
+    vertices[verticesIndex++] = 0.05;//image.v2;
 }
 
 bool Renderer::flush() {
@@ -224,9 +227,6 @@ bool Renderer::flush() {
             glDisable(GL_BLEND);
         }
         */
-
-        //Enable samples
-        //glEnable(GL_MULTISAMPLE);
 
         //Bind the stuff
         glUseProgram(programHandle);

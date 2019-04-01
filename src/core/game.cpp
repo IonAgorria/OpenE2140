@@ -38,6 +38,7 @@ void Game::close() {
     }
 }
 
+std::shared_ptr<Image> image;
 bool Game::run() {
     log->debug("Running");
 
@@ -74,6 +75,8 @@ bool Game::run() {
         return false;
     }
 
+    image = assetManager->getImage("MIX/SPRT2/5");
+
     //Main loop
     log->debug("Starting loop");
     while (!window->isClosing()) {
@@ -100,7 +103,7 @@ void Game::loop() {
     //Draw/update UI
 
     //TODO remove this
-    //renderer->draw(0, 0, 0.5, 0.8, 1.2, );
+    renderer->draw(0, 0, 1, 1, 1.2, *image, nullptr);
     renderer->flush();
 
     //Update window

@@ -180,19 +180,28 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
     std::shared_ptr<Palette> palette = image.getPalette();
 
     //Check if we need to flush the batch
-    bool textureImageChanged = !lastTextureImage || lastTextureImage != image.getTexture();
-    bool texturePaletteChanged = palette && (!lastTexturePalette || lastTexturePalette != palette->getTexture());
-    bool texturePaletteExtraChanged = paletteExtra && (!lastTexturePaletteExtra || lastTexturePaletteExtra != paletteExtra->getTexture());
+    bool needFlush;
+    if (palette) {
+        bool textureImageChanged = !lastTextureImagePalette || lastTextureImagePalette != image.getTexture();
+        bool texturePaletteChanged = !lastTexturePalette || lastTexturePalette != palette->getTexture();
+        bool texturePaletteExtraChanged = paletteExtra && (!lastTexturePaletteExtra || lastTexturePaletteExtra != paletteExtra->getTexture());
+        needFlush = textureImageChanged || texturePaletteChanged || texturePaletteExtraChanged;
+    } else {
+        needFlush = !lastTextureImageRGBA || lastTextureImageRGBA != image.getTexture();
+    }
     bool bufferFull = verticesCount >= MAX_BATCH_VERTICES;
-    if (textureImageChanged || texturePaletteChanged || texturePaletteExtraChanged || bufferFull) {
+    if (needFlush || bufferFull) {
         flush();
         //Now bind the image and required palettes if any
-        lastTextureImage = image.bindTexture();
+        GLuint bindedTexture = image.bindTexture();
         if (palette) {
             lastTexturePalette = palette->bindTexture();
-        }
-        if (paletteExtra) {
-            lastTexturePalette = paletteExtra->bindTexture();
+            lastTextureImagePalette = bindedTexture;
+            if (paletteExtra) {
+                lastTexturePalette = paletteExtra->bindTexture();
+            }
+        } else {
+            lastTextureImageRGBA = bindedTexture;
         }
     }
 

@@ -87,14 +87,23 @@ void main() {
 const char* FRAGMENT_SHADER_CODE = R"fragment(
 #version 330 core
 
+uniform int mode;
+uniform usampler2D uIndexedTexture;
 uniform sampler2D uTexture;
 
 in vec2 gs_TexCoord;
 out vec4 FragColor;
 
 void main() {
-    //Apply the texture id and coordinates, then multiply it with color
-    vec4 vColor = texture2D(uTexture, gs_TexCoord);
+    vec4 vColor;
+    if (mode == 0) {
+        //Get integer and convert to color
+        uvec4 uvColor = texture(uIndexedTexture, gs_TexCoord);
+        vColor = vec4(float(uvColor.r) / 255.0, 0.0, 0.0, 1.0);
+    } else {
+        //Apply the texture id and coordinates, then multiply it with color
+        vColor = texture2D(uTexture, gs_TexCoord);
+    }
     //Discard if alpha is lower than threshold
     //if (vColor.a < uAlphaThreshold) discard;
     FragColor = vColor;

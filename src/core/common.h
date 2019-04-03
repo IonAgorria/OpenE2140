@@ -23,11 +23,13 @@
 #define MAIN_LOG "Main"
 /** Minimum texture size (texture packer fails under this) */
 #define MINIMUM_TEXTURE_SIZE 256
-/** Texture unit for image texture */
-#define TEXTURE_UNIT_IMAGE GL_TEXTURE0
+/** Texture unit for palette image texture */
+#define TEXTURE_UNIT_IMAGE_PALETTE GL_TEXTURE0
+/** Texture unit for RGBA image texture */
+#define TEXTURE_UNIT_IMAGE_RGBA GL_TEXTURE1
 /** Texture unit for colors palette texture */
-#define TEXTURE_UNIT_PALETTE_COLORS GL_TEXTURE1
+#define TEXTURE_UNIT_PALETTE_COLORS GL_TEXTURE2
 /** Texture unit for extra palette texture */
-#define TEXTURE_UNIT_PALETTE_EXTRA GL_TEXTURE2
+#define TEXTURE_UNIT_PALETTE_EXTRA GL_TEXTURE3
 
 #endif //OPENE2140_COMMON_H

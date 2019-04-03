@@ -25,7 +25,7 @@ Image::Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image
         textureSize = owner->textureSize;
     } else {
         //Create texture
-        glActiveTexture(TEXTURE_UNIT_IMAGE);
+        glActiveTexture(withPalette ? TEXTURE_UNIT_IMAGE_PALETTE : TEXTURE_UNIT_IMAGE_RGBA);
         glGenTextures(1, &texture);
         error = Utils::checkGLError();
         if (!error.empty()) {
@@ -132,7 +132,7 @@ std::shared_ptr<Palette> Image::getPalette() {
 
 GLuint Image::bindTexture() {
     if (texture) {
-        glActiveTexture(TEXTURE_UNIT_IMAGE);
+        glActiveTexture(this->withPalette ? TEXTURE_UNIT_IMAGE_PALETTE : TEXTURE_UNIT_IMAGE_RGBA);
         glBindTexture(GL_TEXTURE_2D, texture);
     }
     return texture;

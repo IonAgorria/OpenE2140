@@ -68,9 +68,14 @@ private:
     unsigned int verticesIndex;
 
     /**
-     * Last used texture for image
+     * Last used texture for RGBA image
      */
-    GLuint lastTextureImage;
+    GLuint lastTextureImageRGBA;
+
+    /**
+     * Last used texture for palette image
+     */
+    GLuint lastTextureImagePalette;
 
     /**
      * Last used texture for palette

@@ -75,7 +75,7 @@ bool Game::run() {
         return false;
     }
 
-    image = assetManager->getImage("MIX/SPRT2/5");
+    image = assetManager->getImage("MIX/SPRU0/10");
 
     //Main loop
     log->debug("Starting loop");

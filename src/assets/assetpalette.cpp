@@ -17,12 +17,21 @@ bool AssetPalette::assignPalette(std::shared_ptr<Palette> assigningPalette) {
         }
 
         //Read each color and set to palette
+        ColorRGBA colorRGBA;
         for (int i = 0; i < ASSET_PALETTE_COUNT; ++i) {
+            //Load RGB and set to RGBA
             ColorRGB colorRGB;
             if (!readAll(colorRGB)) {
                 return false;
             }
-            if (!assigningPalette->setColor(i, colorRGB)) {
+            colorRGBA.setRGB(colorRGB);
+
+            //Handle first color as transparent and the rest as opaque
+            bool isAlphaColor = i == 0 && colorRGB.r == 0 && colorRGB.g == 0 && colorRGB.b == 0;
+            colorRGBA.a = isAlphaColor ? 0 : 0xFF;
+
+            //Set it to provided palette
+            if (!assigningPalette->setColor(i, colorRGBA)) {
                 error = assigningPalette->getError();
                 break;
             }

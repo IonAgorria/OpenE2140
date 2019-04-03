@@ -7,7 +7,11 @@
 Palette::Palette(unsigned int size, bool extra): extra(extra) {
     //Reserve colors
     ColorRGBA color;
-    for (int i = 0; i < size; ++i) {
+    for (unsigned int i = 0; i < size; ++i) {
+        color.r = 0;
+        color.g = 0;
+        color.b = 0;
+        color.a = 0;
         colors.push_back(color);
     }
 

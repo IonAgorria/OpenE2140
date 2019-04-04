@@ -115,6 +115,16 @@ public:
      * @return texture id
      */
     const GLuint getTexture();
+
+    /**
+     * @return string version of this
+     */
+    std::string toString() const;
+
+    /**
+    * @return string content of this
+    */
+    std::string toStringContent() const;
 };
 
 #endif //OPENE2140_PALETTE_H

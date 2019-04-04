@@ -129,3 +129,13 @@ bool Palette::updateTexture() {
     error = Utils::checkGLError();
     return error.empty();
 }
+
+std::string Palette::toString() const {
+    return "Palette(" + toStringContent() + ")";
+}
+
+std::string Palette::toStringContent() const {
+    return " Count: " + std::to_string(length())
+         + " Extra: " + std::to_string(extra)
+            ;
+}

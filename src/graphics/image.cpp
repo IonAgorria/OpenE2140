@@ -5,6 +5,7 @@
 #include "SDL_surface.h"
 #include "core/utils.h"
 #include "image.h"
+#include "palette.h"
 
 Image::Image(const Vector2& size, bool withPalette) : Image(Rectangle(Vector2(), size), withPalette, nullptr) {
 }
@@ -187,4 +188,15 @@ bool Image::loadFromRGBA8888(const byte* pixels) {
 
     //Load data to texture
     return loadTextureRGBA(pixels);
+}
+
+std::string Image::toString() const {
+    return "Image(" + toStringContent() + ")";
+}
+
+std::string Image::toStringContent() const {
+    return " Rectangle: " + rectangle.toString()
+         + " With palette: " + std::to_string(withPalette)
+         + " Palette: " + (palette ? palette->toString() : "null")
+            ;
 }

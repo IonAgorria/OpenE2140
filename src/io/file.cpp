@@ -124,7 +124,7 @@ long File::size() {
     return size;
 }
 
-size_t File::read(void* buffer, size_t amount) {
+size_t File::read(void* buffer, const size_t amount) {
     if (amount == 0) return 0;
     size_t read = SDL_RWread(file, buffer, 1, amount);
     if (read == 0) {
@@ -133,13 +133,14 @@ size_t File::read(void* buffer, size_t amount) {
     return read;
 }
 
-size_t File::write(void* buffer, size_t amount) {
+size_t File::write(const void* buffer, const size_t amount) {
     if (amount == 0) return 0;
     size_t written = SDL_RWwrite(file, buffer, 1, amount);
     if (written != amount) {
         setAnySDLError();
         if (error.empty()) {
-            error = "No error produced but written amount is different than expected";
+            error = "No error produced but written amount " + std::to_string(amount)
+                  + " is different than expected " + std::to_string(written);
         }
     }
     return written;

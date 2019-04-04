@@ -174,6 +174,16 @@ public:
      * @return if success
      */
     bool loadFromRGBA8888(const byte* pixels);
+
+    /**
+     * @return string version of this
+     */
+    std::string toString() const;
+
+    /**
+    * @return string content of this
+    */
+    std::string toStringContent() const;
 };
 
 #endif //OPENE2140_IMAGE_H

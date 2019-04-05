@@ -38,7 +38,6 @@ void Game::close() {
     }
 }
 
-std::shared_ptr<Image> image;
 bool Game::run() {
     log->debug("Running");
 
@@ -74,9 +73,7 @@ bool Game::run() {
         log->error("Error initializing asset manager\n{0}", error);
         return false;
     }
-
-    image = assetManager->getImage("MIX/SPRU0/10");
-
+    test(0);
     //Main loop
     log->debug("Starting loop");
     while (!window->isClosing()) {
@@ -89,6 +86,8 @@ bool Game::run() {
     return true;
 }
 
+std::shared_ptr<Image> image;
+int v;
 void Game::loop() {
     //Clear
     window->clear();
@@ -103,14 +102,24 @@ void Game::loop() {
     //Draw/update UI
 
     //TODO remove this
-    renderer->draw(0, 0, 1, 1, 1.2, *image, nullptr);
+    if (image) {
+        renderer->draw(0, 0, 1, 1, 1.2, *image, nullptr);
+    }
     renderer->flush();
 
     //Update window
     window->swap();
 }
 
-void loop();
+void Game::test(int i) {
+    if (0 < i) {
+        v++;
+    } else if (i < 0) {
+        v--;
+    }
+    image = assetManager->getImage("MIX/SPRU0/"+std::to_string(v));
+    if (image) log->debug("Current: {0} {1}", v, image->toString());
+}
 
 /** @return Window */
 Window* Game::getWindow() {

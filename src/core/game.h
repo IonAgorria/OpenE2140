@@ -95,6 +95,8 @@ public:
      */
     void loop();
 
+    void test(int i);
+
     /** @return Window */
     Window* getWindow();
 

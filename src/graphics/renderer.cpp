@@ -217,10 +217,10 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
     //Angle
     vertices[verticesIndex++] = angle;
     //Texture UV
-    vertices[verticesIndex++] = 0;//image.u;
-    vertices[verticesIndex++] = 0;//image.v;
-    vertices[verticesIndex++] = 0.05;//image.u2;
-    vertices[verticesIndex++] = 0.05;//image.v2;
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v2;
 }
 
 bool Renderer::flush() {

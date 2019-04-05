@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 20/05/18
 //
 #include "eventhandler.h"
+#include "core/game.h"
 
 EventHandler::EventHandler(std::shared_ptr<Game> game): game(game) {
     log = Log::get("EventHandler");
@@ -28,4 +29,10 @@ void EventHandler::mouseMove(int x, int y) {
 
 void EventHandler::keyChange(int code, std::string name, bool press) {
     log->debug("Key change: {0} '{1}' {2}", code, name, press ? "press" : "release");
+    if (press) return;
+    if (name == "Left") {
+        game->test(-1);
+    } else if (name == "Right") {
+        game->test(1);
+    }
 }

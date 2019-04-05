@@ -221,6 +221,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
 
         //Read streams
         for (unsigned int i = 0; i < streamPositions.size(); ++i) {
+            asset_path streamAssetPath = basePath + "/" + std::to_string(i);
             //Calculate start-end-size of stream
             unsigned int streamStart = streamPositions[i];
             unsigned int streamEnd;
@@ -417,7 +418,8 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                     assetStart = 0;
 
                     //Decode the data, ignore the last entry
-                    byte zero = 0;
+                    const byte zero = 0;
+                    unsigned int lineIndex = 0;
                     for (unsigned int scanLineIndex = 0; scanLineIndex < segmentedImageHeader.scanLinesCount - 1; scanLineIndex++) {
                         //Go to data position
                         result = asset->seek(dataBlockOffset + dataOffsets.at(scanLineIndex), true);
@@ -445,6 +447,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
 
                             //Fill left padding
                             for (unsigned int j = 0; j < segment.padding; j++) {
+                                if (lineIndex == 0) result = assetFile->write(&zero, 1); else
                                 result = assetFile->write(&zero, 1);
                                 error = assetFile->getError();
                                 if (result < 0 || !error.empty()) {
@@ -482,6 +485,7 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
                                 return -1;
                             }
                         }
+                        lineIndex++;
                     }
 
                     //Check if all was written
@@ -503,7 +507,6 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
 
             //Create normal or image asset from stream and add it to manager
             std::shared_ptr<Asset> assetStream;
-            asset_path streamAssetPath = basePath + "/" + std::to_string(i);
             if (isImageStream) {
                 //log->debug("AssetImage: {0} type {1}", streamAssetPath, streamType);
                 assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, assetStart, assetSize,

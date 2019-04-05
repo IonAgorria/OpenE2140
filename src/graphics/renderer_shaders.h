@@ -98,8 +98,8 @@ void main() {
     vec4 vColor;
     if (mode == 0) {
         //Get integer and convert to color
-        uvec4 uvColor = texture(uIndexedTexture, gs_TexCoord);
-        vColor = vec4(float(uvColor.r) / 255.0, 0.0, 0.0, 1.0);
+        int index = int(texture(uIndexedTexture, gs_TexCoord).r);
+        vColor = vec4(float(index) / 255.0, 0.0, 0.0, 1.0);
     } else {
         //Apply the texture id and coordinates, then multiply it with color
         vColor = texture2D(uTexture, gs_TexCoord);

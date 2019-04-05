@@ -55,7 +55,9 @@ Image::Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image
 
         //Set the initial texture data
         size_t bufferSize = static_cast<const size_t>(textureSize.x * textureSize.y);
-        std::unique_ptr<byteArray> buffer = Utils::createBuffer(withPalette ? bufferSize : bufferSize * 4);
+        if (!withPalette) bufferSize *= 4;
+        std::unique_ptr<byteArray> buffer = Utils::createBuffer(bufferSize);
+        memset(buffer.get(), 0, bufferSize);
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
@@ -141,7 +143,15 @@ GLuint Image::bindTexture() {
 
 bool Image::loadTextureR8(const byte* pixels) {
     bindTexture();
+
+    //Flip image
     std::unique_ptr<byteArray> flipped = Utils::bufferFlipY(pixels, rectangle.w, rectangle.h);
+
+    //Required to properly load the data
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+
+    //Load it
     glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RED_INTEGER, GL_UNSIGNED_BYTE, flipped.get());
     error = Utils::checkGLError();
     return error.empty();
@@ -149,7 +159,15 @@ bool Image::loadTextureR8(const byte* pixels) {
 
 bool Image::loadTextureRGBA(const byte* pixels) {
     bindTexture();
+
+    //Flip image
     std::unique_ptr<byteArray> flipped = Utils::bufferFlipY(pixels, rectangle.w * 4, rectangle.h);
+
+    //Required to properly load the data
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    glPixelStorei(GL_PACK_ALIGNMENT, 4);
+
+    //Load it
     glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RGBA, GL_UNSIGNED_BYTE, flipped.get());
     error = Utils::checkGLError();
     return error.empty();

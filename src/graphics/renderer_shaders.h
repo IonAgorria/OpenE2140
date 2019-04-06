@@ -60,26 +60,67 @@ out vec2 gs_TexCoord;
 void main() {
     float sx = gs_in[0].size.x;
     float sy = gs_in[0].size.y;
+    if (gs_in[0].rotation == 0) {
+        //Bottom left
+        gl_Position = gl_in[0].gl_Position + vec4(-sx, -sy, 0.0, 0.0);
+        gs_TexCoord = gs_in[0].textureUV.xy;
+        EmitVertex();
 
-    //Bottom left
-    gl_Position = gl_in[0].gl_Position + vec4(-sx, -sy, 0.0, 0.0);
-    gs_TexCoord = gs_in[0].textureUV.xy;
-    EmitVertex();
+        //Bottom right
+        gl_Position = gl_in[0].gl_Position + vec4( sx, -sy, 0.0, 0.0);
+        gs_TexCoord = gs_in[0].textureUV.zy;
+        EmitVertex();
 
-    //Bottom right
-    gl_Position = gl_in[0].gl_Position + vec4( sx, -sy, 0.0, 0.0);
-    gs_TexCoord = gs_in[0].textureUV.zy;
-    EmitVertex();
+        //Top left
+        gl_Position = gl_in[0].gl_Position + vec4(-sx,  sy, 0.0, 0.0);
+        gs_TexCoord = gs_in[0].textureUV.xw;
+        EmitVertex();
 
-    //Top left
-    gl_Position = gl_in[0].gl_Position + vec4(-sx,  sy, 0.0, 0.0);
-    gs_TexCoord = gs_in[0].textureUV.xw;
-    EmitVertex();
+        //Top right
+        gl_Position = gl_in[0].gl_Position + vec4( sx,  sy, 0.0, 0.0);
+        gs_TexCoord = gs_in[0].textureUV.zw;
+        EmitVertex();
+    } else {
+        float rs = sin(gs_in[0].rotation);
+        float rc = cos(gs_in[0].rotation);
+        vec4 position = gl_in[0].gl_Position;
 
-    //Top right
-    gl_Position = gl_in[0].gl_Position + vec4( sx,  sy, 0.0, 0.0);
-    gs_TexCoord = gs_in[0].textureUV.zw;
-    EmitVertex();
+        //Bottom left
+        gl_Position = gl_in[0].gl_Position + vec4(
+            position.x + ((rc * -sx) - (rs * -sy)),
+            position.y + ((rs * -sx) + (rc * -sy)),
+            0.0, 0.0
+        );
+        gs_TexCoord = gs_in[0].textureUV.xy;
+        EmitVertex();
+
+        //Bottom right
+        gl_Position = gl_in[0].gl_Position + vec4(
+            position.x + ((rc *  sx) - (rs * -sy)),
+            position.y + ((rs *  sx) + (rc * -sy)),
+            0.0, 0.0
+        );
+        gs_TexCoord = gs_in[0].textureUV.zy;
+        EmitVertex();
+
+        //Top left
+        gl_Position = gl_in[0].gl_Position + vec4(
+            position.x + ((rc * -sx) - (rs *  sy)),
+            position.y + ((rs * -sx) + (rc *  sy)),
+            0.0, 0.0
+        );
+        gs_TexCoord = gs_in[0].textureUV.xw;
+        EmitVertex();
+
+        //Top right
+        gl_Position = gl_in[0].gl_Position + vec4(
+            position.x + ((rc *  sx) - (rs * sy)),
+            position.y + ((rs *  sx) + (rc * sy)),
+            0.0, 0.0
+        );
+        gs_TexCoord = gs_in[0].textureUV.zw;
+        EmitVertex();
+    }
 
     EndPrimitive();
 }

@@ -90,7 +90,7 @@ bool Game::run() {
 }
 
 std::shared_ptr<Image> image;
-int v;
+int v = 0;
 double t;
 void Game::loop() {
     //Clear
@@ -114,7 +114,7 @@ void Game::loop() {
             extra->setColor(i, color);
         }
         extra->updateTexture();
-        renderer->draw(0, 0, 0.2, 0.2, 1.2, *image, extra.get());
+        renderer->draw(0, 0, 0.2, 0.2, std::sin(t / 2) * 3.12, *image, extra.get());
     }
     renderer->flush();
 
@@ -128,7 +128,7 @@ void Game::test(int i) {
     } else if (i < 0) {
         v--;
     }
-    std::string path = v < 0 ? "MIX/SPRT0/"+std::to_string(std::abs(v) - 1) : "MIX/SPRB0/"+std::to_string(v);
+    std::string path = v < 0 ? "MIX/SPRT0/"+std::to_string(std::abs(v) - 1) : "MIX/SPRU0/"+std::to_string(v);
     log->debug(path);
     image = assetManager->getImage(path);
     if (image) log->debug("Current: {0} {1}", v, image->toString());

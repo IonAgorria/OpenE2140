@@ -86,6 +86,41 @@ private:
      * Last used texture for extra palette
      */
     GLuint lastTexturePaletteExtra;
+
+    /**
+     * Location for uMode uniform in shader
+     */
+    GLint uModeLocation;
+
+    /**
+     * Location for uPaletteExtraOffset uniform in shader
+     */
+    GLint uPaletteExtraOffsetLocation;
+
+    /**
+     * Location for uTextureImagePalette uniform in shader
+     */
+    GLint uTextureImagePaletteLocation;
+
+    /**
+     * Location for uTextureImageRGBA uniform in shader
+     */
+    GLint uTextureImageRGBALocation;
+
+    /**
+     * Location for uTexturePalette uniform in shader
+     */
+    GLint uTexturePaletteLocation;
+
+    /**
+     * Location for uTexturePaletteExtra uniform in shader
+     */
+    GLint uTexturePaletteExtraLocation;
+
+    /**
+     * Current mode value for shaders
+     */
+    int mode;
 public:
     /**
      * Constructs loader

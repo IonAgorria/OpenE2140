@@ -4,6 +4,9 @@
 #ifndef OPENE2140_RENDERER_SHADERS_H
 #define OPENE2140_RENDERER_SHADERS_H
 
+#define RENDERER_SHADER_MODE_TEXTURE 0
+#define RENDERER_SHADER_MODE_PALETTE_TEXTURE 1
+
 /**
  * Vertex shader code
  */
@@ -42,6 +45,7 @@ void main() {
  */
 const char* GEOMETRY_SHADER_CODE = R"geometry(
 #version 330 core
+
 layout (points) in;
 layout (triangle_strip, max_vertices = 4) out;
 
@@ -87,22 +91,31 @@ void main() {
 const char* FRAGMENT_SHADER_CODE = R"fragment(
 #version 330 core
 
-uniform int mode;
-uniform usampler2D uIndexedTexture;
-uniform sampler2D uTexture;
+uniform int uMode;
+uniform int uPaletteExtraOffset;
+uniform usampler2D uTextureImagePalette;
+uniform sampler2D uTextureImageRGBA;
+uniform sampler1D uTexturePalette;
+uniform sampler1D uTexturePaletteExtra;
 
 in vec2 gs_TexCoord;
 out vec4 FragColor;
 
 void main() {
     vec4 vColor;
-    if (mode == 0) {
-        //Get integer and convert to color
-        int index = int(texture(uIndexedTexture, gs_TexCoord).r);
-        vColor = vec4(float(index) / 255.0, 0.0, 0.0, 1.0);
+    if (uMode == 1) {
+        //Get the index to access in the palettes from the 2D image
+        int index = int(texture(uTextureImagePalette, gs_TexCoord).r);
+        if (0 <= uPaletteExtraOffset && uPaletteExtraOffset <= index) {
+            //Access the real color from extra palette
+            vColor = texelFetch(uTexturePaletteExtra, index - uPaletteExtraOffset, 0);
+        } else {
+            //Access the real color from main palette
+            vColor = texelFetch(uTexturePalette, index, 0);
+        }
     } else {
-        //Apply the texture id and coordinates, then multiply it with color
-        vColor = texture2D(uTexture, gs_TexCoord);
+        //Get the color from image texture
+        vColor = texture2D(uTextureImageRGBA, gs_TexCoord);
     }
     //Discard if alpha is lower than threshold
     //if (vColor.a < uAlphaThreshold) discard;

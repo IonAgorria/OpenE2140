@@ -8,6 +8,7 @@
 
 Renderer::Renderer() {
     log = Log::get("Renderer");
+    mode = RENDERER_SHADER_MODE_PALETTE_TEXTURE;
     initShaderProgram();
     if (!error.empty()) return;
     initBuffers();
@@ -19,6 +20,20 @@ Renderer::Renderer() {
 
     //Enable samples
     //glEnable(GL_MULTISAMPLE);
+
+    //Bind the stuff
+    glUseProgram(programHandle);
+    glBindVertexArray(vaoHandle);
+
+    //Set the texture units for samplers
+    glUniform1i(uTextureImagePaletteLocation, 0);
+    glUniform1i(uTextureImageRGBALocation, 1);
+    glUniform1i(uTexturePaletteLocation, 2);
+    glUniform1i(uTexturePaletteExtraLocation, 3);
+
+    //Set blending func
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 Renderer::~Renderer() {
@@ -126,6 +141,23 @@ void Renderer::initShaderProgram() {
     programFragmentHandle = 0;
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
+
+    //Get the locations
+    uModeLocation = glGetUniformLocation(programHandle, "uMode");
+    uPaletteExtraOffsetLocation = glGetUniformLocation(programHandle, "uPaletteExtraOffset");
+    uTextureImagePaletteLocation = glGetUniformLocation(programHandle, "uTextureImagePalette");
+    uTextureImageRGBALocation = glGetUniformLocation(programHandle, "uTextureImageRGBA");
+    uTexturePaletteLocation = glGetUniformLocation(programHandle, "uTexturePalette");
+    uTexturePaletteExtraLocation = glGetUniformLocation(programHandle, "uTexturePaletteExtra");
+
+    error = Utils::checkGLError(log);
+    if (error.empty() && (uModeLocation < 0
+                      || uTextureImagePaletteLocation < 0 || uTextureImageRGBALocation < 0
+                      || uTexturePaletteLocation < 0 || uTexturePaletteExtraLocation < 0
+    )) {
+        //error = "Uniform location not found in shaders";
+    }
+    if (!error.empty()) return;
 }
 
 void Renderer::initBuffers() {
@@ -179,27 +211,44 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
     //Get palette
     std::shared_ptr<Palette> palette = image.getPalette();
 
-    //Check if we need to flush the batch
     bool needFlush;
+    int requiredMode;
     if (palette) {
+        //Palette image
+        requiredMode = RENDERER_SHADER_MODE_PALETTE_TEXTURE;
         bool textureImageChanged = !lastTextureImagePalette || lastTextureImagePalette != image.getTexture();
         bool texturePaletteChanged = !lastTexturePalette || lastTexturePalette != palette->getTexture();
         bool texturePaletteExtraChanged = paletteExtra && (!lastTexturePaletteExtra || lastTexturePaletteExtra != paletteExtra->getTexture());
         needFlush = textureImageChanged || texturePaletteChanged || texturePaletteExtraChanged;
     } else {
+        //RGBA image
+        requiredMode = RENDERER_SHADER_MODE_TEXTURE;
         needFlush = !lastTextureImageRGBA || lastTextureImageRGBA != image.getTexture();
     }
-    bool bufferFull = verticesCount >= MAX_BATCH_VERTICES;
-    if (needFlush || bufferFull) {
+    needFlush |= verticesCount >= MAX_BATCH_VERTICES;
+    needFlush |= requiredMode != mode;
+
+    //Check if we need to flush the batch
+    if (needFlush) {
         flush();
+
+        //Set the mode
+        mode = requiredMode;
+        glUniform1i(uModeLocation, mode);
+
         //Now bind the image and required palettes if any
         GLuint bindedTexture = image.bindTexture();
         if (palette) {
             lastTexturePalette = palette->bindTexture();
             lastTextureImagePalette = bindedTexture;
+
+            //Set the extra palette and offset (disabled if negative)
+            unsigned int paletteExtraOffset = -1;
             if (paletteExtra) {
                 lastTexturePalette = paletteExtra->bindTexture();
+                paletteExtraOffset = 0x100 - paletteExtra->length();
             }
+            glUniform1i(uPaletteExtraOffsetLocation, paletteExtraOffset);
         } else {
             lastTextureImageRGBA = bindedTexture;
         }
@@ -225,22 +274,6 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
 
 bool Renderer::flush() {
     if (verticesCount > 0) {
-        //Set blending
-        /*
-        if (blending) {
-            glEnable(GL_BLEND);
-            if (blendSrcFunc != -1) {
-                glBlendFunc(blendSrcFunc, blendDstFunc);
-            }
-        } else {
-            glDisable(GL_BLEND);
-        }
-        */
-
-        //Bind the stuff
-        glUseProgram(programHandle);
-        glBindVertexArray(vaoHandle);
-
         //Load data
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verticesIndex, vertices, GL_DYNAMIC_DRAW);
 

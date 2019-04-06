@@ -3,6 +3,7 @@
 //
 #include "core/common.h"
 #include "assets/assetmanager.h"
+#include "graphics/palette.h"
 #include "graphics/renderer.h"
 #include "graphics/window.h"
 #include "gui/eventhandler.h"
@@ -38,6 +39,7 @@ void Game::close() {
     }
 }
 
+std::unique_ptr<Palette> extra;
 bool Game::run() {
     log->debug("Running");
 
@@ -73,6 +75,7 @@ bool Game::run() {
         log->error("Error initializing asset manager\n{0}", error);
         return false;
     }
+    extra = std::make_unique<Palette>(3, true);
     test(0);
     //Main loop
     log->debug("Starting loop");
@@ -88,6 +91,7 @@ bool Game::run() {
 
 std::shared_ptr<Image> image;
 int v;
+double t;
 void Game::loop() {
     //Clear
     window->clear();
@@ -102,8 +106,15 @@ void Game::loop() {
     //Draw/update UI
 
     //TODO remove this
+    t += 0.01;
     if (image) {
-        renderer->draw(0, 0, 1, 1, 1.2, *image, nullptr);
+        ColorRGBA color = {(byte) (std::round(std::sin(t) * 0x7f) + 0x7f), 0,
+                          (byte) (std::round(std::cos(t) * 0x7f) + 0x7f), 128};
+        for (int i = 0; i < extra->length(); ++i) {
+            extra->setColor(i, color);
+        }
+        extra->updateTexture();
+        renderer->draw(0, 0, 0.2, 0.2, 1.2, *image, extra.get());
     }
     renderer->flush();
 
@@ -117,7 +128,9 @@ void Game::test(int i) {
     } else if (i < 0) {
         v--;
     }
-    image = assetManager->getImage("MIX/SPRU0/"+std::to_string(v));
+    std::string path = v < 0 ? "MIX/SPRT0/"+std::to_string(std::abs(v) - 1) : "MIX/SPRB0/"+std::to_string(v);
+    log->debug(path);
+    image = assetManager->getImage(path);
     if (image) log->debug("Current: {0} {1}", v, image->toString());
 }
 

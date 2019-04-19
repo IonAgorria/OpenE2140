@@ -22,8 +22,8 @@ Game::~Game() {
 
 void Game::close() {
     log->debug("Closing");
-    if (assetManager) {
-        assetManager.reset();
+    if (eventHandler) {
+        eventHandler.reset();
     }
     if (renderer) {
         renderer.reset();
@@ -34,8 +34,8 @@ void Game::close() {
     if (luaVM) {
         luaVM.reset();
     }
-    if (eventHandler) {
-        eventHandler.reset();
+    if (assetManager) {
+        assetManager.reset();
     }
 }
 

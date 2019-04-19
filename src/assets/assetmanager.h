@@ -33,7 +33,7 @@ private:
     /**
      * Contains all assets in this manager
      */
-    std::unordered_map<asset_path, std::shared_ptr<Asset>> assets;
+    std::unordered_map<asset_path, std::unique_ptr<Asset>> assets;
 
     /**
      * Number of assets loaded
@@ -46,7 +46,7 @@ private:
      * @param asset to add
      * @return true if added or false if asset exists on same path
      */
-    bool addAsset(std::shared_ptr<Asset> asset);
+    bool addAsset(std::unique_ptr<Asset> asset);
 
     /**
      * Removes asset from manager in specified path
@@ -176,16 +176,18 @@ public:
      * Gets the loaded asset
      *
      * @return asset
+     * @throw  std::out_of_range  If no such asset exists
      */
-    std::shared_ptr<Asset> getAsset(const asset_path& path);
+    Asset* getAsset(const asset_path& path);
 
     /**
      * Gets the loaded asset with specified cast
      *
      * @return asset
+     * @throw  std::out_of_range  If no such asset exists
      */
     template <typename T>
-    std::shared_ptr<T> getAsset(const asset_path& path);
+    T* getAsset(const asset_path& path);
 
     /**
      * Gets the loaded image from an asset

@@ -115,8 +115,8 @@ int AssetManager::scanContainerWD(const std::string& path, const std::string& na
         }
 
         //Create an asset now that we know the name and file offset/size, the file pointer is shared with each asset
-        std::shared_ptr<Asset> asset = std::make_shared<Asset>(name + '/' + recordName, file, record.fileOffset, record.fileSize);
-        if (!addAsset(asset)) {
+        std::unique_ptr<Asset> asset = std::make_unique<Asset>(name + '/' + recordName, file, record.fileOffset, record.fileSize);
+        if (!addAsset(std::move(asset))) {
             return -1;
         }
         count++;
@@ -155,8 +155,8 @@ int AssetManager::scanContainerDir(const std::string& path, const std::string& n
             //Is not a directory or is not valid, try to load as file
             std::unique_ptr<File> file = std::make_unique<File>();
             if (file->fromPath(path + current)) {
-                std::shared_ptr<Asset> asset = std::make_shared<Asset>(current, std::move(file), 0, 0);
-                if (addAsset(asset)) {
+                std::unique_ptr<Asset> asset = std::make_unique<Asset>(current, std::move(file), 0, 0);
+                if (addAsset(std::move(asset))) {
                     count++;
                 } else {
                     error = "scanContainerDir couldn't add asset\n" + error;

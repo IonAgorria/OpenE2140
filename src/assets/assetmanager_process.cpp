@@ -21,9 +21,9 @@ void AssetManager::processIntermediates() {
     std::forward_list<asset_path> mixPaths;
 
     //Iterate all assets
-    for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
+    for (std::unordered_map<asset_path, std::unique_ptr<Asset>>::iterator pair = assets.begin(); pair != assets.end(); ++pair) {
         //Get the "extension" of asset
-        asset_path assetPath = pair.first;
+        asset_path assetPath = pair->first;
         std::string::size_type size = assetPath.size();
         if (4 > size) {
             continue;
@@ -31,7 +31,7 @@ void AssetManager::processIntermediates() {
         std::string ext = assetPath.substr(size - 4, 4);
 
         //Handle special extensions
-        std::shared_ptr<Asset> asset = pair.second;
+        Asset* asset = pair->second.get();
         if (ext == ".PAL") {
             //Create palette asset and store it
             std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
@@ -79,7 +79,7 @@ void AssetManager::processIntermediates() {
         //Get the asset
         std::string::size_type size = assetPath.size();
         asset_path imagePath = assetPath.substr(0, size - 4);
-        std::shared_ptr<Asset> asset = getAsset(assetPath);
+        Asset* asset = getAsset(assetPath);
 
         //Check if there is palette asset under same name
         asset_path palettePath = imagePath + ".PAL";
@@ -108,10 +108,10 @@ void AssetManager::processIntermediates() {
         }
 
         //Create image asset with the palette indexes data and store it
-        std::shared_ptr<AssetImage> assetImage = std::make_shared<AssetImage>(
+        std::unique_ptr<AssetImage> assetImage = std::make_unique<AssetImage>(
                 imagePath, asset->getFile(), asset->offset() + readSize, asset->size() - readSize, imageSize, assetPalette
         );
-        if (!addAsset(assetImage)) {
+        if (!addAsset(std::move(assetImage))) {
             error = "Couldn't create asset from processed asset\n" + error;
             return;
         }
@@ -129,7 +129,7 @@ void AssetManager::processIntermediates() {
 }
 
 int AssetManager::processIntermediateMIX(const asset_path& path) {
-    std::shared_ptr<Asset> asset = getAsset(path);
+    Asset* asset = getAsset(path);
     asset_path basePath = path.substr(0, path.size() - 4);
     int addedAssets = 0;
 
@@ -506,15 +506,15 @@ int AssetManager::processIntermediateMIX(const asset_path& path) {
             }
 
             //Create normal or image asset from stream and add it to manager
-            std::shared_ptr<Asset> assetStream;
+            std::unique_ptr<Asset> assetStream;
             if (isImageStream) {
                 //log->debug("AssetImage: {0} type {1}", streamAssetPath, streamType);
-                assetStream = std::make_shared<AssetImage>(streamAssetPath, assetFile, assetStart, assetSize,
+                assetStream = std::make_unique<AssetImage>(streamAssetPath, assetFile, assetStart, assetSize,
                                                            imageSize, imagePalette);
             } else {
-                assetStream = std::make_shared<Asset>(streamAssetPath, assetFile, assetStart, assetSize);
+                assetStream = std::make_unique<Asset>(streamAssetPath, assetFile, assetStart, assetSize);
             }
-            if (!addAsset(assetStream)) {
+            if (!addAsset(std::move(assetStream))) {
                 error = "Couldn't add asset";
             }
             if (!error.empty()) return -1;

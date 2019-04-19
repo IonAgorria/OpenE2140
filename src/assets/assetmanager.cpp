@@ -24,7 +24,7 @@ AssetManager::~AssetManager() {
     clearAssets();
 }
 
-bool AssetManager::addAsset(std::shared_ptr<Asset> asset) {
+bool AssetManager::addAsset(std::unique_ptr<Asset> asset) {
     if (!asset) {
         error = "Asset to add is null";
         return false;
@@ -34,7 +34,7 @@ bool AssetManager::addAsset(std::shared_ptr<Asset> asset) {
         error = "Asset already present: '" + path + "'";
         return false;
     }
-    assets[path] = asset;
+    assets[path] = std::move(asset);
     assetsCount++;
     return true;
 }
@@ -48,18 +48,20 @@ bool AssetManager::removeAsset(const asset_path& path) {
     return true;
 }
 
-std::shared_ptr<Asset> AssetManager::getAsset(const asset_path& path) {
-    return assets[path];
+Asset* AssetManager::getAsset(const asset_path& path) {
+    auto it = assets.find(path);
+    if (it == assets.end()) return nullptr;
+    return it->second.get();
 }
 
 template <typename T>
-std::shared_ptr<T> AssetManager::getAsset(const asset_path& path) {
-    return std::dynamic_pointer_cast<T>(assets[path]);
+T* AssetManager::getAsset(const asset_path& path) {
+    return dynamic_cast<T*>(getAsset(path));
 }
 
 std::shared_ptr<Image> AssetManager::getImage(const asset_path& path) {
     std::shared_ptr<Image> image;
-    std::shared_ptr<AssetImage> assetImage = std::dynamic_pointer_cast<AssetImage>(assets[path]);
+    AssetImage* assetImage = getAsset<AssetImage>(path);
     if (assetImage) {
         image = assetImage->getImage();
     }
@@ -135,17 +137,17 @@ void AssetManager::refreshAssets() {
     //Iterate all assets and handle by asset type
     std::vector<AssetImage*> assetImages;
     std::vector<AssetImage*> assetImagesWithPalettes;
-    for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) {
+    for (std::unordered_map<asset_path, std::unique_ptr<Asset>>::iterator pair = assets.begin(); pair != assets.end(); ++pair) {
         //Handle image assets
-        std::shared_ptr<AssetImage> assetImage = std::dynamic_pointer_cast<AssetImage>(pair.second);
+        AssetImage* assetImage = dynamic_cast<AssetImage*>(pair->second.get());
         if (assetImage) {
             assetImage->assignImage(nullptr);
             std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
             if (assetPalette) {
                 assetPalette->assignPalette(nullptr);
-                assetImagesWithPalettes.push_back(assetImage.get());
+                assetImagesWithPalettes.push_back(assetImage);
             } else {
-                assetImages.push_back(assetImage.get());
+                assetImages.push_back(assetImage);
             }
             continue;
         }

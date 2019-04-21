@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 29/04/18
 //
-#include <src/core/utils.h>
+#include "core/utils.h"
 #include "assetpalette.h"
 
 AssetPalette::AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :

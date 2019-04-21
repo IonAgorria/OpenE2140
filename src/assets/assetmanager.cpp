@@ -6,7 +6,7 @@
 #include "io/log.h"
 #include "assetpalette.h"
 #include "assetimage.h"
-#include "graphics/window.h"
+#include "graphics/renderer.h"
 #include "core/game.h"
 #include "assetmanager.h"
 
@@ -49,9 +49,7 @@ bool AssetManager::removeAsset(const asset_path& path) {
 }
 
 Asset* AssetManager::getAsset(const asset_path& path) {
-    auto it = assets.find(path);
-    if (it == assets.end()) return nullptr;
-    return it->second.get();
+    return Utils::getPointerFromUnorderedMap(assets, path);
 }
 
 template <typename T>
@@ -131,7 +129,12 @@ void AssetManager::loadAssets() {
 }
 
 void AssetManager::refreshAssets() {
-    unsigned int textureSize = game->getWindow()->getMaxTextureSize();
+    Renderer* renderer = game->getRenderer();
+    if (!renderer) {
+        error = "Renderer is not available";
+        return;
+    }
+    unsigned int textureSize = renderer->getMaxTextureSize();
     unsigned int batchSize = (textureSize * textureSize) / (64 * 64);
 
     //Iterate all assets and handle by asset type

@@ -13,7 +13,7 @@ class Game;
 /**
  * Event handler to listen window events
  */
-class EventHandler: public virtual IWindowListener {
+class EventHandler {
     /** Log for object */
     log_ptr log;
 
@@ -21,6 +21,9 @@ class EventHandler: public virtual IWindowListener {
      * Listener to send actions
      */
     std::shared_ptr<Game> game;
+
+    /** Close request state */
+    bool closing;
 public:
     /**
      * Event handler constructor
@@ -30,7 +33,17 @@ public:
     /**
      * Destroys event handler
      */
-    virtual ~EventHandler() override;
+    virtual ~EventHandler();
+
+    /**
+     * @return if close is requested
+     */
+    bool isClosing();
+
+    /**
+     * Polls input and events
+     */
+    void poll();
 
     /**
      * Disable copy/move
@@ -38,39 +51,43 @@ public:
     NON_COPYABLE_NOR_MOVABLE(EventHandler)
 
     /**
-     * Called when window is resized
+     * Called when window is changed (resized or made visible)
      *
+     * @param window causing the event
      * @param width of window
      * @param height of window
      */
-    virtual void windowResize(int width, int height) override;
+    void windowChanged(Window* window);
 
     /**
      * Called when mouse click occurs
      *
+     * @param window causing the event
      * @param x position
      * @param y position
      * @param button pressed
      * @param press or release
      */
-    virtual void mouseClick(int x, int y, int button, bool press) override;
+    void mouseClick(Window* window, int x, int y, int button, bool press);
 
     /**
      * Called when mouse movement occurs
      *
+     * @param window causing the event
      * @param x position
      * @param y position
      */
-    virtual void mouseMove(int x, int y) override;
+    void mouseMove(Window* window, int x, int y);
 
     /**
      * Called when key change occurs
      *
+     * @param window causing the event
      * @param code of key
      * @param name of key
      * @param press or release
      */
-    virtual void keyChange(int code, std::string name, bool press) override;
+    void keyChange(Window* window, int code, std::string name, bool press);
 };
 
 

@@ -1,6 +1,9 @@
 //
 // Created by Ion Agorria on 3/11/18
 //
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "core/utils.h"
 #include "palette.h"
 #include "renderer.h"
@@ -13,6 +16,14 @@ Renderer::Renderer() {
     if (!error.empty()) return;
     initBuffers();
     if (!error.empty()) return;
+
+    //Get and check the texture size
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+    log->debug("GL_MAX_TEXTURE_SIZE: {0}", maxTextureSize);
+    if (maxTextureSize < MINIMUM_TEXTURE_SIZE) {
+        error = "Maximum texture size is too small: " + std::to_string(maxTextureSize);
+        return;
+    }
 
     //Set some parameters
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -143,6 +154,7 @@ void Renderer::initShaderProgram() {
     if (!error.empty()) return;
 
     //Get the locations
+    uCombinedLocation = glGetUniformLocation(programHandle, "uCombined");
     uModeLocation = glGetUniformLocation(programHandle, "uMode");
     uPaletteExtraOffsetLocation = glGetUniformLocation(programHandle, "uPaletteExtraOffset");
     uTextureImagePaletteLocation = glGetUniformLocation(programHandle, "uTextureImagePalette");
@@ -151,11 +163,11 @@ void Renderer::initShaderProgram() {
     uTexturePaletteExtraLocation = glGetUniformLocation(programHandle, "uTexturePaletteExtra");
 
     error = Utils::checkGLError(log);
-    if (error.empty() && (uModeLocation < 0
+    if (error.empty() && (uCombinedLocation < 0 || uModeLocation < 0
                       || uTextureImagePaletteLocation < 0 || uTextureImageRGBALocation < 0
                       || uTexturePaletteLocation < 0 || uTexturePaletteExtraLocation < 0
     )) {
-        //error = "Uniform location not found in shaders";
+        error = "Uniform location not found in shaders";
     }
     if (!error.empty()) return;
 }
@@ -274,6 +286,10 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
 
 bool Renderer::flush() {
     if (verticesCount > 0) {
+        //Load combined matrix before drawing
+        glm::mat4 combined = projection * view;
+        glUniformMatrix4fv(uCombinedLocation, 1, GL_FALSE, glm::value_ptr(combined));
+
         //Load data
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verticesIndex, vertices, GL_DYNAMIC_DRAW);
 
@@ -290,4 +306,17 @@ bool Renderer::flush() {
     }
 
     return true;
+}
+
+void Renderer::changeViewport(int width, int height) {
+    glViewport(0, 0, width, height);
+    projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f, 3.0f);
+}
+
+void Renderer::changeCamera(int x, int y) {
+    view = glm::translate(glm::mat4(1.0f), glm::vec3(-x, -y, -2));
+}
+
+unsigned int Renderer::getMaxTextureSize() {
+    return static_cast<unsigned int>(maxTextureSize);
 }

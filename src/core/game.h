@@ -29,9 +29,14 @@ class Game: public std::enable_shared_from_this<Game> {
     std::unique_ptr<AssetManager> assetManager;
 
     /**
-     * Window where the game gets drawn
+     * Main window pointer
      */
-    std::unique_ptr<Window> window;
+    Window* mainWindow;
+
+    /**
+     * Windows where the game gets drawn
+     */
+    std::unordered_map<unsigned int, std::unique_ptr<Window>> windows;
 
     /**
      * Stores the game simulation state
@@ -95,16 +100,27 @@ public:
      */
     void loop();
 
-    void test(int i);
+    /**
+     * @return main window
+     */
+    Window* getMainWindow();
 
-    /** @return Window */
-    Window* getWindow();
+    /**
+     * @param id of window to get
+     * @return Window
+     */
+    Window* getWindow(unsigned int id);
+
+    /** @return Renderer */
+    Renderer* getRenderer();
 
     /** @return Simulation */
     Simulation* getSimulation();
 
     /** @return AssetManager */
     AssetManager* getAssetManager();
+
+    void test(int i);
 };
 
 #endif //OPENE2140_GAME_H

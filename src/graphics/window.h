@@ -4,57 +4,11 @@
 #ifndef OPENE2140_WINDOW_H
 #define OPENE2140_WINDOW_H
 
-#include "SDL_video.h"
-#include "SDL_render.h"
+#include <SDL_video.h>
+#include <SDL_render.h>
 #include "core/errorpossible.h"
 #include "io/log.h"
 #include "image.h"
-
-/**
- * Window listener
- */
-class IWindowListener {
-public:
-    /**
-     * IWindowListener destructor
-     */
-    virtual ~IWindowListener() = default;
-
-    /**
-     * Called when window is resized
-     *
-     * @param width of window
-     * @param height of window
-     */
-    virtual void windowResize(int width, int height) = 0;
-
-    /**
-     * Called when mouse click occurs
-     *
-     * @param x position
-     * @param y position
-     * @param button pressed
-     * @param press or release
-     */
-    virtual void mouseClick(int x, int y, int button, bool press) = 0;
-
-    /**
-     * Called when mouse movement occurs
-     *
-     * @param x position
-     * @param y position
-     */
-    virtual void mouseMove(int x, int y) = 0;
-
-    /**
-     * Called when key change occurs
-     *
-     * @param code of key
-     * @param name of key
-     * @param press or release
-     */
-    virtual void keyChange(int code, std::string name, bool press) = 0;
-};
 
 /**
  * Window class, each one contains a handle for a window.
@@ -65,14 +19,15 @@ class Window: public IErrorPossible {
 private:
     /** Log for object */
     log_ptr log;
+
     /** Window handle used for SDL2 */
     SDL_Window* windowHandle = nullptr;
+
+    /** Window ID used for SDL2 */
+    unsigned int windowID = 0;
+
     /** Context used for SDL2 */
     SDL_GLContext context = nullptr;
-    /** Max texture size */
-    int maxTextureSize;
-    /** Window close state */
-    bool closing;
 public:
     /**
      * Window constructor
@@ -82,7 +37,7 @@ public:
      * @param height of window
      * @param title of window
      */
-    Window(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener);
+    Window(unsigned int width, unsigned int height, const std::string& title);
 
     /**
      * Destroys any created window
@@ -95,14 +50,37 @@ public:
     NON_COPYABLE_NOR_MOVABLE(Window)
 
     /**
-     * @return if window was created
+     * Shows the window
+     * @return if succeed
      */
-    operator bool();
+    bool show();
 
     /**
-     * Polls input and events
+     * Hides the window
+     * @return if succeed
      */
-    void poll(IWindowListener& listener);
+    bool hide();
+
+    /**
+     * @return window id
+     */
+    unsigned int getID();
+
+    /**
+     * @return current window size
+     */
+    Vector2 getSize();
+
+    /**
+     * Set current window size
+     * @return if succeed
+     */
+    bool setSize(Vector2 size);
+
+    /**
+     * @return if window was created
+     */
+    bool check();
 
     /**
      * Clears window content
@@ -113,16 +91,6 @@ public:
      * Updates window content
      */
     void swap();
-
-    /**
-     * @return if window must close
-     */
-    bool isClosing();
-
-    /**
-     * @return the maximum texture size allowed
-     */
-    unsigned int getMaxTextureSize();
 };
 
 #endif //OPENE2140_WINDOW_H

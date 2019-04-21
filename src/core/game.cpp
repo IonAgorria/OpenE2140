@@ -10,6 +10,7 @@
 #include "simulation/simulation.h"
 #include "core/luavm.h"
 #include "game.h"
+#include "utils.h"
 
 Game::Game() {
     log = Log::get("Game");
@@ -28,9 +29,8 @@ void Game::close() {
     if (renderer) {
         renderer.reset();
     }
-    if (window) {
-        window.reset();
-    }
+    windows.clear();
+    mainWindow = nullptr;
     if (luaVM) {
         luaVM.reset();
     }
@@ -52,12 +52,14 @@ bool Game::run() {
     eventHandler = std::make_unique<EventHandler>(this_ptr);
 
     //Initialize window
-    window = std::make_unique<Window>(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE, *eventHandler);
+    std::unique_ptr<Window> window = std::make_unique<Window>(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE);
     std::string error = window->getError();
     if (!error.empty()) {
         log->error("Error initializing window\n{0}", error);
         return false;
     }
+    mainWindow = window.get();
+    windows.emplace(window->getID(), std::move(window));
 
     // Initialize renderer
     renderer = std::make_unique<Renderer>();
@@ -75,11 +77,17 @@ bool Game::run() {
         log->error("Error initializing asset manager\n{0}", error);
         return false;
     }
-    extra = std::make_unique<Palette>(3, true);
+
+    //Show main window
+    mainWindow->show();
+
+    //TODO remove
+    extra = std::make_unique<Palette>(10, true);
     test(0);
+
     //Main loop
     log->debug("Starting loop");
-    while (!window->isClosing()) {
+    while (!eventHandler->isClosing()) {
         loop();
     }
 
@@ -90,36 +98,40 @@ bool Game::run() {
 }
 
 std::shared_ptr<Image> image;
-int v = 0;
+int v = 90;
 double t;
 void Game::loop() {
     //Clear
-    window->clear();
+    mainWindow->clear();
 
     //Poll input
-    window->poll(*eventHandler);
+    eventHandler->poll();
 
     //Update simulation
 
     //Draw the simulation
 
     //Draw/update UI
-
+    renderer->changeCamera(0, 0);
     //TODO remove this
-    t += 0.01;
+    t += 0.05;
     if (image) {
         ColorRGBA color = {(byte) (std::round(std::sin(t) * 0x7f) + 0x7f), 0,
                           (byte) (std::round(std::cos(t) * 0x7f) + 0x7f), 128};
-        for (int i = 0; i < extra->length(); ++i) {
+        for (unsigned int i = 0; i < extra->length(); ++i) {
             extra->setColor(i, color);
         }
         extra->updateTexture();
-        renderer->draw(0, 0, 0.2, 0.2, std::sin(t / 2) * 3.12, *image, extra.get());
+        for (float j = 0; j <= 100; j += 1) {
+            for (float i = 0; i <= 100; i += 1) {
+                renderer->draw(j * 10, i * 10, 15, 15, std::sin(t / 2) * 1.3, *image, extra.get());
+            }
+        }
     }
     renderer->flush();
 
     //Update window
-    window->swap();
+    mainWindow->swap();
 }
 
 void Game::test(int i) {
@@ -134,17 +146,22 @@ void Game::test(int i) {
     if (image) log->debug("Current: {0} {1}", v, image->toString());
 }
 
-/** @return Window */
-Window* Game::getWindow() {
-    return window.get();
+Window* Game::getMainWindow() {
+    return mainWindow;
 }
 
-/** @return Simulation */
+Window* Game::getWindow(unsigned int id) {
+    return Utils::getPointerFromUnorderedMap(windows, id);
+}
+
+Renderer* Game::getRenderer() {
+    return renderer.get();
+}
+
 Simulation* Game::getSimulation() {
     return simulation.get();
 }
 
-/** @return AssetManager */
 AssetManager* Game::getAssetManager() {
     return assetManager.get();
 }

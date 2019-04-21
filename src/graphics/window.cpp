@@ -7,9 +7,8 @@
 #include "io/log.h"
 #include "window.h"
 
-Window::Window(unsigned int width, unsigned int height, const std::string& title, IWindowListener& listener) {
+Window::Window(unsigned int width, unsigned int height, const std::string& title) {
     log = Log::get("Window");
-    closing = false;
 
     //Create window
     log->debug("Creating window {0}x{1} title '{2}'", width, height, title);
@@ -28,6 +27,9 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
         error = "SDL2 window not available\n" + error;
     }
     if (!error.empty()) return;
+
+    //Get window ID
+    windowID = SDL_GetWindowID(windowHandle);
 
     //Set some attributes before context creation
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -69,28 +71,8 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
     SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &value);
     log->debug("GL_CONTEXT_MINOR_VERSION: {0}", value);
 
-    //Check the texture size
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
-    log->debug("GL_MAX_TEXTURE_SIZE: {0}", maxTextureSize);
-    if (maxTextureSize < MINIMUM_TEXTURE_SIZE) {
-        error = "Maximum texture size is too small: " + std::to_string(maxTextureSize);
-        return;
-    }
-
     //Set parameters
     glClearColor(0.5, 0.5, 0.5, 1.0);
-
-    //Check errors
-    error = Utils::checkAnyError();
-    if (!error.empty()) {
-        return;
-    }
-
-    //Send the initial resize event
-    listener.windowResize(width, height);
-
-    //Show window
-    SDL_ShowWindow(windowHandle);
 
     //Check errors
     error = Utils::checkAnyError();
@@ -101,6 +83,7 @@ Window::Window(unsigned int width, unsigned int height, const std::string& title
 
 Window::~Window() {
     log->debug("Closing");
+    windowID = 0;
     if (context != nullptr) {
         SDL_GL_DeleteContext(context);
         context = nullptr;
@@ -113,69 +96,55 @@ Window::~Window() {
     Utils::checkSDLError(log);
 }
 
-Window::operator bool() {
+bool Window::show() {
+    if (!check()) return false;
+    SDL_ShowWindow(windowHandle);
+
+    //Check errors
+    error = Utils::checkAnyError();
+    return !error.empty();
+}
+
+bool Window::hide() {
+    if (!check()) return false;
+    SDL_HideWindow(windowHandle);
+
+    //Check errors
+    error = Utils::checkAnyError();
+    return !error.empty();
+}
+
+unsigned int Window::getID() {
+    return windowID;
+}
+
+Vector2 Window::getSize() {
+    int width = 0;
+    int height = 0;
+    SDL_GetWindowSize(windowHandle, &width, &height);
+    return Vector2(width, height);
+}
+
+bool Window::setSize(Vector2 size) {
+    if (!check()) return false;
+    SDL_SetWindowSize(windowHandle, size.x, size.y);
+
+    //Check errors
+    error = Utils::checkAnyError();
+    return !error.empty();
+}
+
+
+bool Window::check() {
     return windowHandle != nullptr && context != nullptr;
 }
 
-void Window::poll(IWindowListener& listener) {
-    //Handle any events
-    SDL_Event event;
-    while (SDL_PollEvent(&event) == 1) {
-        switch (event.type) {
-            case SDL_MOUSEBUTTONDOWN:
-            case SDL_MOUSEBUTTONUP: {
-                listener.mouseClick(
-                        event.button.x, event.button.y,
-                        event.button.button,
-                        event.button.state == SDL_PRESSED
-                );
-                break;
-            }
-            case SDL_MOUSEMOTION: {
-                listener.mouseMove(event.motion.x, event.motion.y);
-                break;
-            }
-            case SDL_KEYDOWN:
-            case SDL_KEYUP: {
-                SDL_Keycode sym = event.key.keysym.sym;
-                std::string name(SDL_GetKeyName(sym));
-                listener.keyChange(sym, name, event.key.state == SDL_PRESSED);
-                break;
-            }
-            case SDL_WINDOWEVENT: {
-                switch (event.window.event) {
-                    case SDL_WINDOWEVENT_RESIZED:
-                    case SDL_WINDOWEVENT_SIZE_CHANGED:
-                        listener.windowResize(event.window.data1, event.window.data2);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            }
-            case SDL_QUIT: {
-                closing = true;
-                continue;
-            }
-            default: {
-                continue;
-            }
-        }
-    }
-}
-
 void Window::clear() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (this->check()) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 }
 
 void Window::swap() {
     SDL_GL_SwapWindow(windowHandle);
-}
-
-bool Window::isClosing() {
-    return closing;
-}
-
-unsigned int Window::getMaxTextureSize() {
-    return static_cast<unsigned int>(maxTextureSize);
 }

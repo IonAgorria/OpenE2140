@@ -1,11 +1,14 @@
 //
 // Created by Ion Agorria on 20/05/18
 //
+#include <SDL_events.h>
 #include "eventhandler.h"
 #include "core/game.h"
+#include "graphics/renderer.h"
 
 EventHandler::EventHandler(std::shared_ptr<Game> game): game(game) {
     log = Log::get("EventHandler");
+    closing = false;
 }
 
 EventHandler::~EventHandler() {
@@ -15,19 +18,89 @@ EventHandler::~EventHandler() {
     }
 }
 
-void EventHandler::windowResize(int width, int height) {
-    log->debug("Window size {0}x{1}", width, height);
+bool EventHandler::isClosing() {
+    return closing;
 }
 
-void EventHandler::mouseClick(int x, int y, int button, bool press) {
+void EventHandler::poll() {
+    //Handle any events
+    SDL_Event event;
+    while (SDL_PollEvent(&event) == 1) {
+        Window* window = nullptr;
+        if (event.window.windowID) {
+            window = game->getWindow(event.window.windowID);
+            if (!window) {
+                //Event is for window that is not registered/active
+                continue;
+            }
+        }
+        switch (event.type) {
+            case SDL_MOUSEBUTTONDOWN:
+            case SDL_MOUSEBUTTONUP: {
+                mouseClick(
+                        window,
+                        event.button.x, event.button.y,
+                        event.button.button,
+                        event.button.state == SDL_PRESSED
+                );
+                break;
+            }
+            case SDL_MOUSEMOTION: {
+                mouseMove(window, event.motion.x, event.motion.y);
+                break;
+            }
+            case SDL_KEYDOWN:
+            case SDL_KEYUP: {
+                SDL_Keycode sym = event.key.keysym.sym;
+                std::string name(SDL_GetKeyName(sym));
+                keyChange(window, sym, name, event.key.state == SDL_PRESSED);
+                break;
+            }
+            case SDL_WINDOWEVENT: {
+                switch (event.window.event) {
+                    case SDL_WINDOWEVENT_SHOWN: {
+                        windowChanged(window);
+                        break;
+                    }
+                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_SIZE_CHANGED: {
+                        windowChanged(window);
+                        break;
+                    }
+                    default:
+                        break;
+                }
+                break;
+            }
+            case SDL_QUIT: {
+                closing = true;
+                continue;
+            }
+            default: {
+                continue;
+            }
+        }
+    }
+}
+
+void EventHandler::windowChanged(Window* window) {
+    Vector2 size = window->getSize();
+    log->debug("Window changed {0}x{1}", size.x, size.y);
+    Renderer* renderer = game->getRenderer();
+    if (renderer) {
+        renderer->changeViewport(size.x, size.y);
+    }
+}
+
+void EventHandler::mouseClick(Window* window, int x, int y, int button, bool press) {
     log->debug("Mouse button: {0} at {1}x{2} {3}", button, x, y, press ? "press" : "release");
 }
 
-void EventHandler::mouseMove(int x, int y) {
+void EventHandler::mouseMove(Window* window, int x, int y) {
     //log->debug("Mouse motion: {0}x{1}", x, y);
 }
 
-void EventHandler::keyChange(int code, std::string name, bool press) {
+void EventHandler::keyChange(Window* window, int code, std::string name, bool press) {
     log->debug("Key change: {0} '{1}' {2}", code, name, press ? "press" : "release");
     if (press) return;
     if (name == "Left") {

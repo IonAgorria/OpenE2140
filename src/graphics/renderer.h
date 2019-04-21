@@ -4,6 +4,7 @@
 #ifndef OPENE2140_RENDERER_H
 #define OPENE2140_RENDERER_H
 
+#include <glm/matrix.hpp>
 #include "core/macros.h"
 #include "core/errorpossible.h"
 #include "io/log.h"
@@ -68,6 +69,11 @@ private:
     unsigned int verticesIndex;
 
     /**
+     * Max texture size
+     */
+    int maxTextureSize;
+
+    /**
      * Last used texture for RGBA image
      */
     GLuint lastTextureImageRGBA;
@@ -86,6 +92,11 @@ private:
      * Last used texture for extra palette
      */
     GLuint lastTexturePaletteExtra;
+
+    /**
+     * Location for combined uniform in shader
+     */
+    GLint uCombinedLocation;
 
     /**
      * Location for uMode uniform in shader
@@ -121,6 +132,16 @@ private:
      * Current mode value for shaders
      */
     int mode;
+
+    /**
+     * Current projection matrix
+     */
+    glm::mat4 projection;
+
+    /**
+     * Current view matrix
+     */
+    glm::mat4 view;
 public:
     /**
      * Constructs loader
@@ -141,6 +162,22 @@ public:
      * Flushes data if any to GPU
      */
     bool flush();
+
+    /**
+     * Updates viewport for renderer
+     *
+     * @param width
+     * @param height
+     */
+    void changeViewport(int width, int height);
+
+    /**
+     * Updates camera for renderer
+     *
+     * @param width
+     * @param height
+     */
+    void changeCamera(int x, int y);
 
     /**
      * Draws the provided data
@@ -173,6 +210,11 @@ public:
      * Initializes OpenGL buffers.
      */
     void initBuffers();
+
+    /**
+     * @return the maximum texture size allowed
+     */
+    unsigned int getMaxTextureSize();
 };
 
 #endif //OPENE2140_RENDERER_H

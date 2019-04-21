@@ -4,16 +4,27 @@
 #ifndef OPENE2140_ENTITY_H
 #define OPENE2140_ENTITY_H
 
+#include <vector>
 #include "core/common.h"
 #include "math/rectangle.h"
-#include "assets/manager.h"
 #include "graphics/image.h"
 
 /**
  * Base entity in game
  */
+class Simulation;
 class Entity {
 private:
+    /**
+     * Unique ID for entity
+     */
+    long id;
+
+    /**
+     * Simulation reference which this entity belongs
+     */
+    const Simulation& simulation;
+
     /**
      * Images used by this entity
      */
@@ -41,9 +52,9 @@ public:
     NON_COPYABLE_NOR_MOVABLE(Entity)
 
     /**
-     * Loads assets from provided manager
+     * Sets the entity simulation when entity is added or loaded from saved state
      */
-    virtual bool loadAssets(const Manager& manager);
+    virtual bool setupSimulation(const Simulation& simulation);
 
     /**
      * @return string version of this entity

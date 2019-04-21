@@ -13,4 +13,7 @@ using byteArray = byte[];
 /** Asset path */
 using asset_path = std::string;
 
+/** Window ID */
+using window_id = unsigned int;
+
 #endif //OPENE2140_TYPES_H

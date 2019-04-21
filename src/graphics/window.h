@@ -10,6 +10,8 @@
 #include "io/log.h"
 #include "image.h"
 
+
+
 /**
  * Window class, each one contains a handle for a window.
  *
@@ -24,10 +26,13 @@ private:
     SDL_Window* windowHandle = nullptr;
 
     /** Window ID used for SDL2 */
-    unsigned int windowID = 0;
+    window_id windowID = 0;
 
     /** Context used for SDL2 */
     SDL_GLContext context = nullptr;
+
+    /** Current size */
+    Vector2 size;
 public:
     /**
      * Window constructor
@@ -64,18 +69,27 @@ public:
     /**
      * @return window id
      */
-    unsigned int getID();
+    window_id getID();
 
     /**
      * @return current window size
      */
-    Vector2 getSize();
+    const Vector2& getSize();
+
+    /**
+     * Updates the size to the current size
+     *
+     * @return current window size
+     */
+    const Vector2& updateSize();
 
     /**
      * Set current window size
+     *
+     * @param newSize to set
      * @return if succeed
      */
-    bool setSize(Vector2 size);
+    bool setSize(const Vector2& newSize);
 
     /**
      * @return if window was created

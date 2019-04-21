@@ -29,8 +29,9 @@ void Game::close() {
     if (renderer) {
         renderer.reset();
     }
-    windows.clear();
-    mainWindow = nullptr;
+    if (window) {
+        window.reset();
+    }
     if (luaVM) {
         luaVM.reset();
     }
@@ -52,14 +53,12 @@ bool Game::run() {
     eventHandler = std::make_unique<EventHandler>(this_ptr);
 
     //Initialize window
-    std::unique_ptr<Window> window = std::make_unique<Window>(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE);
+    window = std::make_unique<Window>(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT, GAME_TITLE);
     std::string error = window->getError();
     if (!error.empty()) {
         log->error("Error initializing window\n{0}", error);
         return false;
     }
-    mainWindow = window.get();
-    windows.emplace(window->getID(), std::move(window));
 
     // Initialize renderer
     renderer = std::make_unique<Renderer>();
@@ -79,7 +78,7 @@ bool Game::run() {
     }
 
     //Show main window
-    mainWindow->show();
+    window->show();
 
     //TODO remove
     extra = std::make_unique<Palette>(10, true);
@@ -102,7 +101,7 @@ int v = 90;
 double t;
 void Game::loop() {
     //Clear
-    mainWindow->clear();
+    window->clear();
 
     //Poll input
     eventHandler->poll();
@@ -131,7 +130,7 @@ void Game::loop() {
     renderer->flush();
 
     //Update window
-    mainWindow->swap();
+    window->swap();
 }
 
 void Game::test(int i) {
@@ -146,12 +145,8 @@ void Game::test(int i) {
     if (image) log->debug("Current: {0} {1}", v, image->toString());
 }
 
-Window* Game::getMainWindow() {
-    return mainWindow;
-}
-
-Window* Game::getWindow(unsigned int id) {
-    return Utils::getPointerFromUnorderedMap(windows, id);
+Window* Game::getWindow() {
+    return window.get();
 }
 
 Renderer* Game::getRenderer() {

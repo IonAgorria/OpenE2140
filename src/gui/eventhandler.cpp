@@ -23,17 +23,15 @@ bool EventHandler::isClosing() {
 }
 
 void EventHandler::poll() {
-    //Handle any events
+    Window* window = game->getWindow();
     SDL_Event event;
     while (SDL_PollEvent(&event) == 1) {
-        Window* window = nullptr;
-        if (event.window.windowID) {
-            window = game->getWindow(event.window.windowID);
-            if (!window) {
-                //Event is for window that is not registered/active
-                continue;
-            }
+        if (event.window.windowID && (!window || event.window.windowID != window->getID())) {
+            //Event is for a window that is not current or window is not available
+            continue;
         }
+
+        //Handle event by type and subtype
         switch (event.type) {
             case SDL_MOUSEBUTTONDOWN:
             case SDL_MOUSEBUTTONUP: {
@@ -84,7 +82,7 @@ void EventHandler::poll() {
 }
 
 void EventHandler::windowChanged(Window* window) {
-    Vector2 size = window->getSize();
+    Vector2 size = window->updateSize();
     log->debug("Window changed {0}x{1}", size.x, size.y);
     Renderer* renderer = game->getRenderer();
     if (renderer) {
@@ -97,7 +95,7 @@ void EventHandler::mouseClick(Window* window, int x, int y, int button, bool pre
 }
 
 void EventHandler::mouseMove(Window* window, int x, int y) {
-    //log->debug("Mouse motion: {0}x{1}", x, y);
+    log->debug("Mouse motion: {0}x{1}", x, y);
 }
 
 void EventHandler::keyChange(Window* window, int code, std::string name, bool press) {

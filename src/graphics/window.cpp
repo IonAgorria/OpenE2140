@@ -114,19 +114,27 @@ bool Window::hide() {
     return !error.empty();
 }
 
-unsigned int Window::getID() {
+window_id Window::getID() {
     return windowID;
 }
 
-Vector2 Window::getSize() {
+const Vector2& Window::getSize() {
+    return size;
+}
+
+const Vector2& Window::updateSize() {
     int width = 0;
     int height = 0;
     SDL_GetWindowSize(windowHandle, &width, &height);
-    return Vector2(width, height);
+    size.set(width, height);
+    return size;
 }
 
-bool Window::setSize(Vector2 size) {
+bool Window::setSize(const Vector2& newSize) {
     if (!check()) return false;
+
+    //Set size for vector and window
+    size.set(newSize);
     SDL_SetWindowSize(windowHandle, size.x, size.y);
 
     //Check errors

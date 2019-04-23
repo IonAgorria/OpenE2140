@@ -3,7 +3,7 @@
 //
 #include <SDL_events.h>
 #include "eventhandler.h"
-#include "core/game.h"
+#include "src/engine/core/game.h"
 #include "graphics/renderer.h"
 
 EventHandler::EventHandler(std::shared_ptr<Game> game): game(game) {

@@ -7,13 +7,6 @@
 #include "math/vector2.h"
 #include "asset.h"
 
-/** 8 bit index palette image */
-#define TYPE_IMAGE_8_INDEXED 1
-/** Raw 16 bits per color image */
-#define TYPE_IMAGE_16_RAW 2
-/** Sprite image with scanlines and segments */
-#define TYPE_IMAGE_SEGMENTED 9
-
 /**
  * Asset for image data
  */

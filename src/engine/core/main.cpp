@@ -5,7 +5,6 @@
 #include "graphics/window.h"
 #include "SDL.h"
 #include "SDL_keycode.h"
-#include "luavm.h"
 #include "game.h"
 
 /**

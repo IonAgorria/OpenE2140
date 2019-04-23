@@ -5,7 +5,7 @@
 #define OPENE2140_GAME_H
 
 #include <memory>
-#include "common.h"
+#include "src/engine/core/common.h"
 #include "io/log.h"
 
 /**
@@ -16,7 +16,6 @@ class Window;
 class EventHandler;
 class Renderer;
 class Simulation;
-class LuaVM;
 class Game: public std::enable_shared_from_this<Game> {
     /**
      * Log for game
@@ -47,12 +46,6 @@ class Game: public std::enable_shared_from_this<Game> {
      * Renderer which handles the drawing of game
      */
     std::unique_ptr<Renderer> renderer;
-
-    /**
-     * Lua VM for game
-     */
-    std::shared_ptr<LuaVM> luaVM;
-
 public:
     /**
      * Game constructor

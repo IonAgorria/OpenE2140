@@ -8,9 +8,8 @@
 #include "graphics/window.h"
 #include "gui/eventhandler.h"
 #include "simulation/simulation.h"
-#include "core/luavm.h"
 #include "game.h"
-#include "utils.h"
+#include "src/engine/core/utils.h"
 
 Game::Game() {
     log = Log::get("Game");
@@ -32,9 +31,6 @@ void Game::close() {
     if (window) {
         window.reset();
     }
-    if (luaVM) {
-        luaVM.reset();
-    }
     if (assetManager) {
         assetManager.reset();
     }
@@ -45,9 +41,6 @@ bool Game::run() {
     log->debug("Running");
 
     std::shared_ptr<Game> this_ptr = shared_from_this();
-
-    // Initialize Lua
-    luaVM = LuaVM::create();
 
     //Initialize event handler
     eventHandler = std::make_unique<EventHandler>(this_ptr);
@@ -70,7 +63,7 @@ bool Game::run() {
 
     //Initialize asset manager
     assetManager = std::make_unique<AssetManager>(this_ptr);
-    assetManager->loadAssets();
+    assetManager->loadAssets(std::string(GAME_ASSETS_DIR) + DIR_SEP, GAME_ASSET_CONTAINER_NAMES);
     error = assetManager->getError();
     if (!error.empty()) {
         log->error("Error initializing asset manager\n{0}", error);

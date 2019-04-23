@@ -18,6 +18,7 @@
 class Game;
 class AssetImage;
 class Image;
+class IAssetProcessor;
 class AssetManager: public IErrorPossible {
 private:
     /**
@@ -31,6 +32,11 @@ private:
     std::shared_ptr<Game> game;
 
     /**
+     * Asset processors
+     */
+    std::vector<std::unique_ptr<IAssetProcessor>> processors;
+
+    /**
      * Contains all assets in this manager
      */
     std::unordered_map<asset_path, std::unique_ptr<Asset>> assets;
@@ -39,6 +45,33 @@ private:
      * Number of assets loaded
      */
     int assetsCount;
+
+    /**
+     * Processes the images
+     */
+    void processImages(unsigned int textureSize, unsigned int batchSize, std::vector<AssetImage*>& assetImages, bool withPalette);
+public:
+    /**
+     * Constructs loader
+     */
+    AssetManager(std::shared_ptr<Game> game);
+
+    /**
+     * Destructs loader and cleans any loaded assets
+     */
+    ~AssetManager();
+
+    /**
+     * Disable copy/move
+     */
+    NON_COPYABLE_NOR_MOVABLE(AssetManager)
+
+    /**
+     * Registers asset processor
+     *
+     * @param processor to register
+     */
+    void addAssetProcessor(std::unique_ptr<IAssetProcessor> processor);
 
     /**
      * Adds asset to manager in specified path
@@ -55,122 +88,6 @@ private:
      * @return true if removed
      */
     bool removeAsset(const asset_path& path);
-
-    /**
-     * Scans a container which contains assets to get the contents (folder or mapped file with paths)
-     *
-     * @param path of containers root
-     * @param name of container
-     * @return true if succeeded
-     */
-    bool scanContainer(const std::string& path, const std::string& name);
-
-    /**
-     * Scans assets from WD file container and stores in manager
-     *
-     * @param path to use as assets root
-     * @param name of container
-     * @return amount of loaded assets or -1 if error occurred
-     */
-    int scanContainerWD(const std::string& path, const std::string& name);
-
-    /**
-     * Scans assets from directory container and stores in manager
-     *
-     * @param path to use as assets root
-     * @param name of container
-     * @return amount of loaded assets or -1 if error occurred
-     */
-    int scanContainerDir(const std::string& path, const std::string& name);
-
-    /**
-     * Processes intermediate assets if they can be converted to different assets
-     */
-    void processIntermediates();
-
-    /**
-     * Processes the content of a MIX asset for more assets
-     *
-     * @param path containing MIX asset
-     * @return amount of added assets or -1 if error
-     */
-    int processIntermediateMIX(const asset_path& path);
-
-    /**
-     * Processes the images
-     */
-    void processImages(unsigned int textureSize, unsigned int batchSize, std::vector<AssetImage*>& assetImages, bool withPalette);
-
-    /**
-     * Each WD container file record struct
-     */
-    struct WDFileRecord {
-        unsigned int fileOffset;
-        unsigned int fileSize;
-        unsigned int unused1;
-        unsigned int unused2;
-        unsigned int checkSum;
-        unsigned int nameOffset;
-    };
-
-    /**
-     * MIX file header struct
-     */
-    struct MIXHeader {
-        unsigned int unused;
-        unsigned int streamsCount;
-        unsigned int streamsOffset;
-        unsigned int palettesCount;
-        unsigned int palettesFirstIndex;
-        unsigned int palettesOffset;
-    };
-
-    /**
-     * Image size struct with shorts
-     */
-    struct ImageSize16 {
-        unsigned short width;
-        unsigned short height;
-    };
-
-    /**
-     * Segmented image header
-     */
-    struct SegmentedImageHeader {
-        unsigned int width;
-        unsigned int height;
-        unsigned int dataBlockSize;
-        unsigned int scanLinesCount;
-        unsigned int segmentBlockSize;
-        unsigned int unknown6;
-        unsigned int unknown7;
-        unsigned int unknown8;
-        unsigned int unknown9;
-    };
-
-    /**
-     * Segmented image segment
-     */
-    struct SegmentedImageSegment {
-        byte padding;
-        byte width;
-    };
-
-public:
-    /**
-     * Constructs loader
-     */
-    AssetManager(std::shared_ptr<Game> game);
-
-    /**
-     * Destructs loader and cleans any loaded assets
-     */
-    ~AssetManager();
-
-    /**
-     * Disable copy/move
-     */
-    NON_COPYABLE_NOR_MOVABLE(AssetManager)
 
     /**
      * Gets the loaded asset
@@ -208,8 +125,11 @@ public:
 
     /**
      * Loads the assets data from files into memory
+     *
+     * @param assetsRoot directory to use as assets root
+     * @param containerNames names of containers to scan in assets root
      */
-    void loadAssets();
+    void loadAssets(const std::string& assetsRoot, const std::vector<std::string> containerNames);
 
     /**
      * (Re)Loads the volatile assets data using memory data

@@ -7,8 +7,9 @@
 #include "assetpalette.h"
 #include "assetimage.h"
 #include "graphics/renderer.h"
-#include "core/game.h"
+#include "src/engine/core/game.h"
 #include "assetmanager.h"
+#include "iassetprocessor.h"
 
 //Rect pack
 #define STB_RECT_PACK_IMPLEMENTATION
@@ -22,6 +23,11 @@ AssetManager::AssetManager(std::shared_ptr<Game> game): game(game) {
 AssetManager::~AssetManager() {
     log->debug("Closing");
     clearAssets();
+}
+
+void AssetManager::addAssetProcessor(std::unique_ptr<IAssetProcessor> processor) {
+    processor->setManager(this);
+    processors.push_back(std::move(processor));
 }
 
 bool AssetManager::addAsset(std::unique_ptr<Asset> asset) {
@@ -79,28 +85,30 @@ void AssetManager::clearAssets() {
     assetsCount = 0;
 }
 
-void AssetManager::loadAssets() {
+void AssetManager::loadAssets(const std::string& assetsRoot, const std::vector<std::string> containerNames) {
     clearAssets();
     log->debug("Loading assets");
 
     //Scan assets from containers by checking different paths that might contain assets
-    std::string assetDir = std::string(GAME_ASSETS_DIR) + DIR_SEP;
     std::list<std::string> assetDirPaths = {
-            assetDir,                                                 //Current directory
-            Utils::getInstallPath() + assetDir,                       //Installation directory
-            Utils::getParentPath(Utils::getInstallPath()) + assetDir, //Parent of installation directory
+            assetsRoot,                                                 //Current directory
+            Utils::getInstallPath() + assetsRoot,                       //Installation directory
+            Utils::getParentPath(Utils::getInstallPath()) + assetsRoot, //Parent of installation directory
     };
-    for (std::string name : GAME_ASSET_CONTAINER_NAMES) {
+    for (std::string name : containerNames) {
         log->debug("Loading '{0}'", name);
         bool found = false;
         for (std::string path : assetDirPaths) {
-            found |= scanContainer(path, name);
+            for (std::unique_ptr<IAssetProcessor>& processor : processors) {
+                found |= processor->scanContainer(path, name);
+                error = processor->getError();
+            }
             if (found || !error.empty()) break;
         }
 
         //Nothing was found
         if (!found) {
-            std::string text = "Error loading game data for '" + name + "' directory or '" + name + ".WD' file\n";
+            std::string text = "Error loading game data for directory/file '" + name + "'\n";
             text += "Check if game files are correctly set and are accessible inside following paths: \n";
             for (std::string path : assetDirPaths) {
                 text += path + "\n";
@@ -114,8 +122,11 @@ void AssetManager::loadAssets() {
         }
     }
 
-    //Scan intermediate assets
-    processIntermediates();
+    //Process intermediate assets to extract assets inside assets
+    for (std::unique_ptr<IAssetProcessor>& processor : processors) {
+        processor->processIntermediates();
+        error = processor->getError();
+    }
     if (!error.empty()) return;
 
     //Refresh the assets

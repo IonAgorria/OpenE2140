@@ -17,7 +17,7 @@ protected:
     std::string error;
 public:
     /**
-     * IPalette destructor
+     * Destructor
      */
     virtual ~IErrorPossible() = default;
 

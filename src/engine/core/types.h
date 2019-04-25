@@ -16,4 +16,13 @@ using asset_path = std::string;
 /** Window ID */
 using window_id = unsigned int;
 
+
+/**
+ * Size struct with shorts
+ */
+struct SSize16 {
+    unsigned short width;
+    unsigned short height;
+};
+
 #endif //OPENE2140_TYPES_H

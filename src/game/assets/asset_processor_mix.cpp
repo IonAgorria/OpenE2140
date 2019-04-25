@@ -12,127 +12,20 @@
 #include "assets/assetimage.h"
 #include "core/utils.h"
 #include "math/vector2.h"
-#include "gameassetprocessor.h"
+#include "asset_processor_mix.h"
 
-bool GameAssetProcessor::scanContainer(const std::string& path, const std::string& name) {
-    //Try base impl first
-    if (IAssetProcessor::scanContainer(path, name)) {
-        return true;
-    }
-    //Try WD container
-    int count = scanContainerWD(path, name);
-    return 0 <= count && error.empty();
-}
-
-int GameAssetProcessor::scanContainerWD(const std::string& path, const std::string& name) {
-    //Create file to be common between assets created from this container file
-    std::shared_ptr<File> file = std::make_shared<File>();
-    if (!file->fromPath(path + name + ".WD")) {
-        error = "Error opening file: '" + name + ".WD' '{1}'" + file->getError();
-        return -1;
-    }
-    long fileSize = file->size();
-
-    //Read file record count
-    unsigned int recordCount;
-    size_t amount = file->read(&recordCount, sizeof(unsigned int));
-    error = file->getError();
-    if (amount != sizeof(unsigned int) || !error.empty()) {
-        error = "Error reading file record count\n" + error;
-        return -1;
-    }
-
-    //We want to get names block before iterating records so jump to name block size
-    long recordsBlockOffset = file->tell();
-    size_t recordSize = sizeof(WDFileRecord);
-    file->seek(recordSize * recordCount);
-
-    //Read names block size
-    unsigned int namesBlockSize;
-    amount = file->read(&namesBlockSize, sizeof(unsigned int));
-    error = file->getError();
-    if (amount != sizeof(unsigned int) || !error.empty()) {
-        error = "Error reading names block size " + error;
-        return -1;
-    }
-
-    //Now get the names block
-    std::unique_ptr<byteArray> namesBlock = Utils::createBuffer(static_cast<size_t>(namesBlockSize));
-    amount = file->read(namesBlock.get(), namesBlockSize);
-    error = file->getError();
-    if (amount != namesBlockSize || !error.empty()) {
-        error = "Error reading names block " + error;
-        return -1;
-    }
-    if (namesBlock[namesBlockSize - 1] != '\0') {
-        error = "Names block doesn't end with null terminator";
-        return -1;
-    }
-
-    //Go back to records and iterate all records
-    int count = 0;
-    file->seek(recordsBlockOffset, true);
-    for (unsigned int recordIndex = 0; recordIndex < recordCount; ++recordIndex) {
-        //Pass the record to fill it
-        WDFileRecord record;
-        amount = file->read(&record, recordSize);
-        error = file->getError();
-        if (amount != recordSize || !error.empty()) {
-            error = "Error reading file record " + std::to_string(recordIndex) + "\n" + error;
-            return -1;
-        }
-
-        //Check file offset and size
-        if (0 < fileSize && record.fileOffset + record.fileSize > fileSize) {
-            error = "File offset+size is out of bounds at file record {0}" + std::to_string(recordIndex);
-            return -1;
-        }
-
-        //Check name offset
-        if (record.nameOffset > namesBlockSize) {
-            error = "Name offset is out of bounds at file record " + std::to_string(recordIndex);
-            return -1;
-        }
-
-        //Get the name in safe way (ensure index is inside block or stop if null terminator is seen)
-        std::string recordName = std::string();
-        for (unsigned int nameIndex = record.nameOffset; nameIndex < namesBlockSize; ++nameIndex) {
-            byte& c = namesBlock[nameIndex];
-            if (c == '\0') break;
-            recordName += c;
-        }
-
-        //Check if name is empty
-        if (recordName.empty()) {
-            error = "Name is empty at file record " + std::to_string(recordIndex);
-            return -1;
-        }
-
-        //Create an asset now that we know the name and file offset/size, the file pointer is shared with each asset
-        std::unique_ptr<Asset> asset = std::make_unique<Asset>(name + '/' + recordName, file, record.fileOffset, record.fileSize);
-        if (!manager->addAsset(std::move(asset))) {
-            return -1;
-        }
-        count++;
-    }
-
-    return count;
-}
-
-void GameAssetProcessor::processIntermediates() {
+void AssetProcessorMIX::processIntermediates() {
     //Counters
     long addedAssets = 0;
     long removedAssets = 0;
 
     //Cached assets
-    std::unordered_map<asset_path, std::shared_ptr<AssetPalette>> assetPalettes;
-    std::forward_list<asset_path> datPaths;
     std::forward_list<asset_path> mixPaths;
 
     //Iterate all assets
-    for (std::unordered_map<asset_path, std::unique_ptr<Asset>>::iterator pair = assets.begin(); pair != assets.end(); ++pair) {
+    for (const std::pair<const asset_path, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
         //Get the "extension" of asset
-        asset_path assetPath = pair->first;
+        asset_path assetPath = pair.first;
         std::string::size_type size = assetPath.size();
         if (4 > size) {
             continue;
@@ -140,20 +33,7 @@ void GameAssetProcessor::processIntermediates() {
         std::string ext = assetPath.substr(size - 4, 4);
 
         //Handle special extensions
-        Asset* asset = pair->second.get();
-        if (ext == ".PAL") {
-            //Create palette asset and store it
-            std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
-                    assetPath, asset->getFile(), asset->offset(), asset->size()
-            );
-            assetPalettes[assetPath] = assetPalette;
-        } else if (ext == ".DAT") {
-            //Store asset path for later if they are images
-            bool isImage = !Utils::startsWith(assetPath, "LEVEL/DATA");
-            if (isImage) {
-                datPaths.push_front(assetPath);
-            }
-        } else if (ext == ".MIX") {
+        if (ext == ".MIX") {
             //Check if it's not a special file
             //Unknown content or purpose files, doesn't seem to be image MIXes
             bool isMixMax = assetPath.find("MIXMAX") != std::string::npos;
@@ -182,65 +62,10 @@ void GameAssetProcessor::processIntermediates() {
             error = "Couldn't remove processed asset\n" + error;
         }
         if (!error.empty()) return;
-        removedAssets++;
     }
-
-    //Iterate images paths
-    for (asset_path assetPath : datPaths) {
-        //Get the asset
-        std::string::size_type size = assetPath.size();
-        asset_path imagePath = assetPath.substr(0, size - 4);
-        Asset* asset = manager->getAsset(assetPath);
-
-        //Check if there is palette asset under same name
-        asset_path palettePath = imagePath + ".PAL";
-        std::shared_ptr<AssetPalette> assetPalette = assetPalettes[palettePath];
-        if (!assetPalette) {
-            error = assetPath + " doesn't have palette counterpart";
-            return;
-        }
-
-        //Pass the image size struct to fill it
-        size_t readSize = sizeof(ImageSize16) + 2;
-        Vector2 imageSize;
-        ImageSize16 imageSizeStruct;
-        if (!asset->readAll(imageSizeStruct)) {
-            error = "Error reading '" + assetPath + "' image size\n" + asset->getError();
-            return;
-        }
-        imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
-
-        //Skip 2 bytes
-        asset->seek(2);
-        error = asset->getError();
-        if (!error.empty()) {
-            error = "Error reading '" + assetPath + "' when seeking " + asset->getError();
-            return;
-        }
-
-        //Create image asset with the palette indexes data and store it
-        std::unique_ptr<AssetImage> assetImage = std::make_unique<AssetImage>(
-                imagePath, asset->getFile(), asset->offset() + readSize, asset->size() - readSize, imageSize, assetPalette
-        );
-        if (!manager->addAsset(std::move(assetImage))) {
-            error = "Couldn't create asset from processed asset\n" + error;
-            return;
-        }
-        addedAssets++;
-
-        //Remove the old assets
-        if (!manager->removeAsset(assetPath) || !manager->removeAsset(palettePath)) {
-            error = "Couldn't remove processed asset\n" + error;
-            return;
-        }
-        removedAssets += 2;
-    }
-
-    //log->debug("Processed intermediate assets: added {0} removed {1}", addedAssets, removedAssets);
 }
 
-
-int GameAssetProcessor::processIntermediateMIX(Asset* asset) {
+int AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
     asset_path path = asset->getPath();
     asset_path basePath = path.substr(0, path.size() - 4);
     int addedAssets = 0;
@@ -381,7 +206,7 @@ int GameAssetProcessor::processIntermediateMIX(Asset* asset) {
             switch (streamType) {
                 case TYPE_IMAGE_8_INDEXED: {
                     //Get image size
-                    ImageSize16 imageSizeStruct;
+                    SSize16 imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + error;
                         return -1;
@@ -419,7 +244,7 @@ int GameAssetProcessor::processIntermediateMIX(Asset* asset) {
                 }
                 case TYPE_IMAGE_16_RAW: {
                     //Get image size
-                    ImageSize16 imageSizeStruct;
+                    SSize16 imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + asset->getError();
                         return -1;

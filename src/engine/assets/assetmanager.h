@@ -74,6 +74,13 @@ public:
     void addAssetProcessor(std::unique_ptr<IAssetProcessor> processor);
 
     /**
+     * Gets the loaded assets map
+     *
+     * @return assets
+     */
+    const std::unordered_map<asset_path, std::unique_ptr<Asset>> getAssets();
+
+    /**
      * Adds asset to manager in specified path
      *
      * @param asset to add

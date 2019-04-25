@@ -6,10 +6,10 @@
 #include <forward_list>
 
 #include "io/file.h"
-#include "assets/assetmanager.h"
+#include "assets/asset_manager.h"
 #include "assets/asset.h"
-#include "assets/assetpalette.h"
-#include "assets/assetimage.h"
+#include "assets/asset_palette.h"
+#include "assets/asset_image.h"
 #include "core/utils.h"
 #include "math/vector2.h"
 #include "asset_processor_wd.h"

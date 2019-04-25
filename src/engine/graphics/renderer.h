@@ -6,7 +6,7 @@
 
 #include <glm/matrix.hpp>
 #include "core/macros.h"
-#include "core/errorpossible.h"
+#include "core/error_possible.h"
 #include "io/log.h"
 #include "image.h"
 

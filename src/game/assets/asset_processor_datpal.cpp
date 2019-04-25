@@ -7,10 +7,10 @@
 #include <src/engine/core/utils.h>
 
 #include "io/file.h"
-#include "assets/assetmanager.h"
+#include "assets/asset_manager.h"
 #include "assets/asset.h"
-#include "assets/assetpalette.h"
-#include "assets/assetimage.h"
+#include "assets/asset_palette.h"
+#include "assets/asset_image.h"
 #include "asset_processor_datpal.h"
 
 void AssetProcessorDatPal::processIntermediates() {

@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 22/04/18
 //
-#include "errorpossible.h"
+#include "error_possible.h"
 
 std::string IErrorPossible::getError() {
     std::string copy = error;

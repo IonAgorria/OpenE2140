@@ -3,9 +3,9 @@
 //
 #include "core/utils.h"
 #include "graphics/image.h"
-#include "assetpalette.h"
+#include "asset_palette.h"
 #include "graphics/color.h"
-#include "assetimage.h"
+#include "asset_image.h"
 
 AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
                        const Vector2& size, const std::shared_ptr<AssetPalette> assetPalette) :

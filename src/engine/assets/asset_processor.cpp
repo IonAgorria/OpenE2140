@@ -5,9 +5,9 @@
 #include <memory>
 #include <src/engine/io/file.h>
 #include "core/utils.h"
-#include "iassetprocessor.h"
+#include "asset_processor.h"
 #include "asset.h"
-#include "assetmanager.h"
+#include "asset_manager.h"
 
 void IAssetProcessor::setManager(AssetManager* current) {
     manager = current;

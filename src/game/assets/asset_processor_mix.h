@@ -5,7 +5,7 @@
 #define OPENE2140_GAMEASSETPROCESSOR_H
 
 #include "core/types.h"
-#include "assets/iassetprocessor.h"
+#include "assets/asset_processor.h"
 
 /** 8 bit index palette image */
 #define TYPE_IMAGE_8_INDEXED 1

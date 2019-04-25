@@ -2,11 +2,11 @@
 // Created by Ion Agorria on 1/11/18
 //
 #include "core/common.h"
-#include "assets/assetmanager.h"
+#include "assets/asset_manager.h"
 #include "graphics/palette.h"
 #include "graphics/renderer.h"
 #include "graphics/window.h"
-#include "gui/eventhandler.h"
+#include "gui/event_handler.h"
 #include "simulation/simulation.h"
 #include "game.h"
 #include "src/engine/core/utils.h"

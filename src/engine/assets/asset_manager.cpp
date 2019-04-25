@@ -4,12 +4,12 @@
 #include "core/common.h"
 #include "core/utils.h"
 #include "io/log.h"
-#include "assetpalette.h"
-#include "assetimage.h"
+#include "asset_palette.h"
+#include "asset_image.h"
 #include "graphics/renderer.h"
 #include "src/engine/core/game.h"
-#include "assetmanager.h"
-#include "iassetprocessor.h"
+#include "asset_manager.h"
+#include "asset_processor.h"
 
 //Rect pack
 #define STB_RECT_PACK_IMPLEMENTATION

@@ -8,7 +8,7 @@
 #include <map>
 #include <list>
 #include "asset.h"
-#include "core/errorpossible.h"
+#include "core/error_possible.h"
 #include "math/vector2.h"
 #include "io/log.h"
 

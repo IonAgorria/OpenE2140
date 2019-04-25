@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 #include "core/common.h"
-#include "core/errorpossible.h"
+#include "core/error_possible.h"
 #include "SDL_rwops.h"
 
 /**

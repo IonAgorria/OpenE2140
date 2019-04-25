@@ -2,7 +2,7 @@
 // Created by Ion Agorria on 20/05/18
 //
 #include <SDL_events.h>
-#include "eventhandler.h"
+#include "event_handler.h"
 #include "src/engine/core/game.h"
 #include "graphics/renderer.h"
 

@@ -1,4 +1,4 @@
-#include "assets/assetimage.h"
+#include "assets/asset_image.h"
 #include "core/common.h"
 #include "core/utils.h"
 #include "io/log.h"

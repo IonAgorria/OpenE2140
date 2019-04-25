@@ -6,7 +6,7 @@
 
 #include <memory>
 #include "core/common.h"
-#include "core/errorpossible.h"
+#include "core/error_possible.h"
 
 /**
  * Base asset containing any data for game

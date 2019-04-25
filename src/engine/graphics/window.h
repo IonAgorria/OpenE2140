@@ -6,7 +6,7 @@
 
 #include <SDL_video.h>
 #include <SDL_render.h>
-#include "core/errorpossible.h"
+#include "core/error_possible.h"
 #include "io/log.h"
 #include "image.h"
 

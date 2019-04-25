@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSET_PROCESSOR_WD_H
 #define OPENE2140_ASSET_PROCESSOR_WD_H
 
-#include "assets/iassetprocessor.h"
+#include "assets/asset_processor.h"
 
 class AssetProcessorWD: public IAssetProcessor {
 private:

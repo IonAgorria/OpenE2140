@@ -100,7 +100,6 @@ public:
      * Gets the loaded asset
      *
      * @return asset
-     * @throw  std::out_of_range  If no such asset exists
      */
     Asset* getAsset(const asset_path& path);
 
@@ -108,7 +107,6 @@ public:
      * Gets the loaded asset with specified cast
      *
      * @return asset
-     * @throw  std::out_of_range  If no such asset exists
      */
     template <typename T>
     T* getAsset(const asset_path& path);

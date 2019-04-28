@@ -69,6 +69,7 @@ opene2140_src = [
     'src/engine/io/file.cpp',
     'src/engine/io/event_handler.cpp',
     'src/engine/io/event_listener.cpp',
+    'src/engine/io/event_dispatcher.cpp',
     'src/engine/assets/asset.cpp',
     'src/engine/assets/asset_manager.cpp',
     'src/engine/assets/asset_processor.cpp',

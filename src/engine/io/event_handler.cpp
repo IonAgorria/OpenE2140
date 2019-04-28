@@ -5,6 +5,7 @@
 #include "src/engine/core/engine.h"
 #include "graphics/renderer.h"
 #include "graphics/window.h"
+#include "event_dispatcher.h"
 #include "event_handler.h"
 
 EventHandler::EventHandler(std::shared_ptr<Engine> engine): engine(engine) {
@@ -94,36 +95,20 @@ bool EventHandler::windowChanged(Window* window) {
     if (renderer) {
         renderer->changeViewport(size.x, size.y);
     }
-    for (std::unique_ptr<IEventListener>& listener : listeners) {
-        if (listener->windowChanged(window)) {
-            break;
-        }
-    }
+    return EventDispatcher::windowChanged(window);
 }
 
 bool EventHandler::mouseClick(Window* window, int x, int y, int button, bool press) {
     log->debug("Mouse button: {0} at {1}x{2} {3}", button, x, y, press ? "press" : "release");
-    for (std::unique_ptr<IEventListener>& listener : listeners) {
-        if (listener->mouseClick(window, x, y, button, press)) {
-            break;
-        }
-    }
+    return EventDispatcher::mouseClick(window, x, y, button, press);
 }
 
 bool EventHandler::mouseMove(Window* window, int x, int y) {
     //log->debug("Mouse motion: {0}x{1}", x, y);
-    for (std::unique_ptr<IEventListener>& listener : listeners) {
-        if (listener->mouseMove(window, x, y)) {
-            break;
-        }
-    }
+    return EventDispatcher::mouseMove(window, x, y);
 }
 
 bool EventHandler::keyChange(Window* window, int code, const std::string& name, bool press) {
     log->debug("Key change: {0} '{1}' {2}", code, name, press ? "press" : "release");
-    for (std::unique_ptr<IEventListener>& listener : listeners) {
-        if (listener->keyChange(window, code, name, press)) {
-            break;
-        }
-    }
+    return EventDispatcher::keyChange(window, code, name, press);
 }

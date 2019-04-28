@@ -6,14 +6,14 @@
 
 #include "core/common.h"
 #include "io/log.h"
-#include "event_listener.h"
+#include "event_dispatcher.h"
 
 class Engine;
 
 /**
  * Event handler to listen window events
  */
-class EventHandler: public IEventListener {
+class EventHandler: public EventDispatcher {
     /** Log for object */
     log_ptr log;
 
@@ -21,11 +21,6 @@ class EventHandler: public IEventListener {
      * Engine object
      */
     std::shared_ptr<Engine> engine;
-
-    /**
-     * Listeners to send actions
-     */
-    std::vector<std::unique_ptr<IEventListener>> listeners;
 
     /** Close request state */
     bool closing;

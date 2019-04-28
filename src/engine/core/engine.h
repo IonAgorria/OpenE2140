@@ -14,6 +14,7 @@ class Window;
 class EventHandler;
 class Renderer;
 class Simulation;
+class Timer;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -46,9 +47,14 @@ protected:
     std::unique_ptr<AssetManager> assetManager;
 
     /**
-     * Stores the game simulation state
+     * Stores the simulation state
      */
     std::unique_ptr<Simulation> simulation;
+
+    /**
+     * Stores the engine timer
+     */
+    std::unique_ptr<Timer> timer;
 
     /**
      * Called when engine is requested to close
@@ -59,6 +65,16 @@ protected:
      * Initializes engine
      */
     virtual void run();
+
+    /**
+     * Updates engine data
+     */
+    void update();
+
+    /**
+     * Draws engine data
+     */
+    void draw();
 
     /**
      * Called from engine to setup EventHandler

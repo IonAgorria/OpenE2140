@@ -7,14 +7,14 @@
 #include "io/log.h"
 #include "window.h"
 
-Window::Window(const std::string& title) {
+Window::Window() {
     log = Log::get("Window");
     size = Vector2(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT);
 
     //Create window
-    log->debug("Creating window {0}x{1} title '{2}'", title);
+    log->debug("Creating window {0}x{1}");
     windowHandle = SDL_CreateWindow(
-            title.c_str(),
+            GAME_TITLE,
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             size.x,
@@ -141,6 +141,14 @@ bool Window::setSize(const Vector2& newSize) {
     //Check errors
     error = Utils::checkAnyError();
     return !error.empty();
+}
+
+void Window::setTitle(const std::string& title) {
+    std::string base = std::string(GAME_TITLE);
+    if (!title.empty()) {
+        base += " - " + title;
+    }
+    SDL_SetWindowTitle(windowHandle, base.c_str());
 }
 
 

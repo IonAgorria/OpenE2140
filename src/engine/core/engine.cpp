@@ -9,8 +9,9 @@
 #include "graphics/window.h"
 #include "src/engine/io/event_handler.h"
 #include "simulation/simulation.h"
+#include "engine/core/utils.h"
+#include "engine/io/timer.h"
 #include "engine.h"
-#include "src/engine/core/utils.h"
 
 int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
     //Register signal and terminate handler
@@ -87,6 +88,9 @@ void Engine::close() {
     if (assetManager) {
         assetManager.reset();
     }
+    if (timer) {
+        timer.reset();
+    }
 }
 
 void Engine::run() {
@@ -94,11 +98,14 @@ void Engine::run() {
 
     std::shared_ptr<Engine> this_ptr = shared_from_this();
 
+    //Initialize timer
+    timer = std::make_unique<Timer>();
+
     //Initialize event handler
     eventHandler = std::make_unique<EventHandler>(this_ptr);
 
     //Initialize window
-    window = std::make_unique<Window>(GAME_TITLE);
+    window = std::make_unique<Window>();
     error = window->getError();
     if (hasError()) {
         error = "Error initializing window\n" + error;
@@ -127,6 +134,30 @@ void Engine::run() {
     if (hasError()) {
         return;
     }
+}
+
+void Engine::update() {
+    //Update timer
+    timer->update();
+
+    //Poll input
+    eventHandler->poll();
+
+    //Update simulation
+
+    //Clear
+    window->clear();
+}
+
+void Engine::draw() {
+    //Draw the simulation
+
+    //Draw/update UI
+
+    //Update window
+    float elapsed = std::max(0.001f, timer->elapsed());
+    window->setTitle(std::to_string(1.0f / elapsed).substr(0, 4) + " FPS");
+    window->swap();
 }
 
 void Engine::setupEventHandler() {

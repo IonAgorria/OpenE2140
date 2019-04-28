@@ -37,11 +37,8 @@ public:
     /**
      * Window constructor
      * Creates the window with provided parameters
-     *
-     * @param size of window
-     * @param title of window
      */
-    Window(const std::string& title);
+    Window();
 
     /**
      * Destroys any created window
@@ -89,6 +86,14 @@ public:
      * @return if succeed
      */
     bool setSize(const Vector2& newSize);
+
+    /**
+     * Set current window title
+     *
+     * @param title to set
+     * @return if succeed
+     */
+    void setTitle(const std::string& title);
 
     /**
      * @return if window was created

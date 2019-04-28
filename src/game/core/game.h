@@ -17,11 +17,6 @@ protected:
 
     void setupAssetManager() override;
 
-    /**
-     * Main loop for game
-     */
-    void loop();
-
 public:
     void test(int i);
 };

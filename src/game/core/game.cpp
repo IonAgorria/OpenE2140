@@ -53,42 +53,28 @@ void Game::run() {
     //Main loop
     log->debug("Starting loop");
     while (!eventHandler->isClosing()) {
-        loop();
-    }
-}
+        update();
 
-void Game::loop() {
-    //Clear
-    window->clear();
-
-    //Poll input
-    eventHandler->poll();
-
-    //Update simulation
-
-    //Draw the simulation
-
-    //Draw/update UI
-    renderer->changeCamera(0, 0);
-    //TODO remove this
-    t += 0.05;
-    if (image) {
-        ColorRGBA color = {(byte) (std::round(std::sin(t) * 0x7f) + 0x7f), 0,
-                           (byte) (std::round(std::cos(t) * 0x7f) + 0x7f), 128};
-        for (unsigned int i = 0; i < extra->length(); ++i) {
-            extra->setColor(i, color);
-        }
-        extra->updateTexture();
-        for (float j = 0; j <= 39; j += 1) {
-            for (float i = 0; i <= 28; i += 1) {
-                renderer->draw(j * 10, i * 10, 50, 50, std::sin(t / 2) * 1.3, *image, extra.get());
+        //TODO remove this
+        renderer->changeCamera(0, 0);
+        t += 0.05;
+        if (image) {
+            ColorRGBA color = {(byte) (std::round(std::sin(t) * 0x7f) + 0x7f), 0,
+                               (byte) (std::round(std::cos(t) * 0x7f) + 0x7f), 128};
+            for (unsigned int i = 0; i < extra->length(); ++i) {
+                extra->setColor(i, color);
+            }
+            extra->updateTexture();
+            for (float j = 0; j <= 39; j += 1) {
+                for (float i = 0; i <= 28; i += 1) {
+                    renderer->draw(j * 10, i * 10, 50, 50, std::sin(t / 2) * 1.3, *image, extra.get());
+                }
             }
         }
-    }
-    renderer->flush();
+        renderer->flush();
 
-    //Update window
-    window->swap();
+        draw();
+    }
 }
 
 void Game::test(int i) {

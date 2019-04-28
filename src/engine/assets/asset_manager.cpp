@@ -152,6 +152,7 @@ void AssetManager::refreshAssets() {
     }
     unsigned int textureSize = renderer->getMaxTextureSize();
     unsigned int batchSize = (textureSize * textureSize) / (64 * 64);
+    log->debug("Using texture size {0} batch size {1}", textureSize, batchSize);
 
     //Iterate all assets and handle by asset type
     std::vector<AssetImage*> assetImages;
@@ -173,6 +174,7 @@ void AssetManager::refreshAssets() {
     }
 
     //Process the images without palettes
+    log->debug("Processing {0} images", assetImages.size());
     processImages(textureSize, batchSize, assetImages, false);
     if (!error.empty()) return;
 
@@ -192,6 +194,7 @@ void AssetManager::refreshAssets() {
     }
 
     //Process the images with palettes
+    log->debug("Processing {0} palette images", assetImages.size());
     processImages(textureSize, batchSize, assetImagesWithPalettes, true);
     if (!error.empty()) return;
 }

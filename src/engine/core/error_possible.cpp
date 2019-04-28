@@ -8,3 +8,7 @@ std::string IErrorPossible::getError() {
     error = "";
     return copy;
 }
+
+bool IErrorPossible::hasError() {
+    return !error.empty();
+}

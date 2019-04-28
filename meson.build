@@ -37,9 +37,9 @@ endif
 #Create configuration
 opene2140_cfg = configuration_data()
 opene2140_cfg.set('OPENE2140_CONFIG_PLACEHOLDER_H', '"OpenE2140"', description: 'Disables placeholder config')
-opene2140_cfg.set('GAME_NAME', '"OpenE2140"', description: 'Game name')
-opene2140_cfg.set('GAME_VERSION_MAJOR', 0, description: 'Game version major digit')
-opene2140_cfg.set('GAME_VERSION_MINOR', 3, description: 'Game version minor digit')
+opene2140_cfg.set('GAME_NAME', '"OpenE2140"', description: 'Engine name')
+opene2140_cfg.set('GAME_VERSION_MAJOR', 0, description: 'Engine version major digit')
+opene2140_cfg.set('GAME_VERSION_MINOR', 3, description: 'Engine version minor digit')
 opene2140_cfg.set('GAME_DUMP_FILE', '"dump.bin"', description: 'File to dump when crashing')
 opene2140_cfg.set('GAME_LOG_FILE', '"log.txt"', description: 'File to store log output')
 opene2140_cfg.set('DEFAULT_RESOLUTION_WIDTH', 800, description: 'Default resolution width')
@@ -57,8 +57,8 @@ configure_file(output: 'config.h', configuration: opene2140_cfg)
 
 #Set source files
 opene2140_src = [
-    'src/engine/core/main.cpp',
-    'src/engine/core/errorpossible.cpp',
+    'src/engine/core/engine.cpp',
+    'src/engine/core/error_possible.cpp',
     'src/engine/core/utils.cpp',
     'src/engine/graphics/window.cpp',
     'src/engine/graphics/palette.cpp',
@@ -67,15 +67,21 @@ opene2140_src = [
     'src/engine/math/vector2.cpp',
     'src/engine/io/log.cpp',
     'src/engine/io/file.cpp',
+    'src/engine/io/event_handler.cpp',
+    'src/engine/io/event_listener.cpp',
     'src/engine/assets/asset.cpp',
-    'src/engine/assets/assetmanager.cpp',
-    'src/engine/assets/iassetprocessor.cpp',
-    'src/engine/assets/assetimage.cpp',
-    'src/engine/assets/assetpalette.cpp',
-    'src/engine/gui/eventhandler.cpp',
-    'src/engine/core/game.cpp',
+    'src/engine/assets/asset_manager.cpp',
+    'src/engine/assets/asset_processor.cpp',
+    'src/engine/assets/asset_image.cpp',
+    'src/engine/assets/asset_palette.cpp',
     'src/engine/simulation/simulation.cpp',
-    'src/engine/graphics/renderer.cpp'
+    'src/engine/graphics/renderer.cpp',
+    'src/game/assets/asset_processor_datpal.cpp',
+    'src/game/assets/asset_processor_wd.cpp',
+    'src/game/assets/asset_processor_mix.cpp',
+    'src/game/io/ui_event_listener.cpp',
+    'src/game/core/game.cpp',
+    'src/game/core/main.cpp',
 ]
 
 #Include headers

@@ -7,7 +7,7 @@
 #include "asset_palette.h"
 #include "asset_image.h"
 #include "graphics/renderer.h"
-#include "src/engine/core/game.h"
+#include "src/engine/core/engine.h"
 #include "asset_manager.h"
 #include "asset_processor.h"
 
@@ -16,13 +16,14 @@
 #define STBRP_LARGE_RECTS
 #include "stb_rect_pack.h"
 
-AssetManager::AssetManager(std::shared_ptr<Game> game): game(game) {
+AssetManager::AssetManager(std::shared_ptr<Engine> game): game(game) {
     log = Log::get("Assets");
 }
 
 AssetManager::~AssetManager() {
     log->debug("Closing");
     clearAssets();
+    processors.clear();
 }
 
 void AssetManager::addAssetProcessor(std::unique_ptr<IAssetProcessor> processor) {

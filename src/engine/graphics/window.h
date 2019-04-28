@@ -38,11 +38,10 @@ public:
      * Window constructor
      * Creates the window with provided parameters
      *
-     * @param width of window
-     * @param height of window
+     * @param size of window
      * @param title of window
      */
-    Window(unsigned int width, unsigned int height, const std::string& title);
+    Window(const std::string& title);
 
     /**
      * Destroys any created window

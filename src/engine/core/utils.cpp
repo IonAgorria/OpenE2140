@@ -231,8 +231,8 @@ void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool ap
     //Get lines from error
     std::list<std::string> lines;
     if (informDeveloper) {
-        lines.emplace_back("Unexpected error occurred, please inform this to developer :(");
-        lines.emplace_back(""); //Empty line
+        lines.push_back("Unexpected error occurred, please inform this to developer :(");
+        lines.push_back(""); //Empty line
     }
     split(lines, error, "\n", false);
 
@@ -240,12 +240,12 @@ void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool ap
     if (appendStackTrace) {
         std::list<std::string> linesStackTrace;
         bool success = getStackTrace(linesStackTrace);
-        lines.emplace_back(""); //Empty line
-        lines.emplace_back("Stack trace:");
+        lines.push_back(""); //Empty line
+        lines.push_back("Stack trace:");
         if (success && !lines.empty()) {
             std::copy(BEGIN_END(linesStackTrace), std::back_inserter(lines));
         } else {
-            lines.emplace_back("Empty stack trace!");
+            lines.push_back("Empty stack trace!");
         }
     }
 

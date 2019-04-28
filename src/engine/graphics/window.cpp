@@ -7,17 +7,18 @@
 #include "io/log.h"
 #include "window.h"
 
-Window::Window(unsigned int width, unsigned int height, const std::string& title) {
+Window::Window(const std::string& title) {
     log = Log::get("Window");
+    size = Vector2(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT);
 
     //Create window
-    log->debug("Creating window {0}x{1} title '{2}'", width, height, title);
+    log->debug("Creating window {0}x{1} title '{2}'", title);
     windowHandle = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            width,
-            height,
+            size.x,
+            size.y,
             SDL_WINDOW_HIDDEN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
     );
 

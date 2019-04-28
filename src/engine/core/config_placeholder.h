@@ -39,17 +39,17 @@
 #define GAME_LOG_FILE ""
 #endif
 
-/* Game name */
+/* Engine name */
 #ifndef GAME_NAME
 #define GAME_NAME ""
 #endif
 
-/* Game version major digit */
+/* Engine version major digit */
 #ifndef GAME_VERSION_MAJOR
 #define GAME_VERSION_MAJOR 0
 #endif
 
-/* Game version minor digit */
+/* Engine version minor digit */
 #ifndef GAME_VERSION_MINOR
 #define GAME_VERSION_MINOR 0
 #endif

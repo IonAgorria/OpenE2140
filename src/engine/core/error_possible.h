@@ -25,6 +25,11 @@ public:
      * @return the last occurred error and clears it
      */
     std::string getError();
+
+    /**
+     * @return if object has error
+     */
+    bool hasError();
 };
 
 #endif //OPENE2140_ERRORPOSSIBLE_H

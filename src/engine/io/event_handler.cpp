@@ -2,20 +2,26 @@
 // Created by Ion Agorria on 20/05/18
 //
 #include <SDL_events.h>
-#include "event_handler.h"
-#include "src/engine/core/game.h"
+#include "src/engine/core/engine.h"
 #include "graphics/renderer.h"
+#include "graphics/window.h"
+#include "event_handler.h"
 
-EventHandler::EventHandler(std::shared_ptr<Game> game): game(game) {
+EventHandler::EventHandler(std::shared_ptr<Engine> engine): engine(engine) {
     log = Log::get("EventHandler");
     closing = false;
 }
 
 EventHandler::~EventHandler() {
     log->debug("Closing");
-    if (game) {
-        game.reset();
+    if (engine) {
+        engine.reset();
     }
+    listeners.clear();
+}
+
+void EventHandler::addEventListener(std::unique_ptr<IEventListener> listener) {
+    listeners.push_back(std::move(listener));
 }
 
 bool EventHandler::isClosing() {
@@ -23,7 +29,7 @@ bool EventHandler::isClosing() {
 }
 
 void EventHandler::poll() {
-    Window* window = game->getWindow();
+    Window* window = engine->getWindow();
     SDL_Event event;
     while (SDL_PollEvent(&event) == 1) {
         if (event.window.windowID && (!window || event.window.windowID != window->getID())) {
@@ -72,38 +78,52 @@ void EventHandler::poll() {
             }
             case SDL_QUIT: {
                 closing = true;
-                continue;
+                break;
             }
             default: {
-                continue;
+                break;
             }
         }
     }
 }
 
-void EventHandler::windowChanged(Window* window) {
+bool EventHandler::windowChanged(Window* window) {
     Vector2 size = window->updateSize();
     log->debug("Window changed {0}x{1}", size.x, size.y);
-    Renderer* renderer = game->getRenderer();
+    Renderer* renderer = engine->getRenderer();
     if (renderer) {
         renderer->changeViewport(size.x, size.y);
     }
+    for (std::unique_ptr<IEventListener>& listener : listeners) {
+        if (listener->windowChanged(window)) {
+            break;
+        }
+    }
 }
 
-void EventHandler::mouseClick(Window* window, int x, int y, int button, bool press) {
+bool EventHandler::mouseClick(Window* window, int x, int y, int button, bool press) {
     log->debug("Mouse button: {0} at {1}x{2} {3}", button, x, y, press ? "press" : "release");
+    for (std::unique_ptr<IEventListener>& listener : listeners) {
+        if (listener->mouseClick(window, x, y, button, press)) {
+            break;
+        }
+    }
 }
 
-void EventHandler::mouseMove(Window* window, int x, int y) {
-    log->debug("Mouse motion: {0}x{1}", x, y);
+bool EventHandler::mouseMove(Window* window, int x, int y) {
+    //log->debug("Mouse motion: {0}x{1}", x, y);
+    for (std::unique_ptr<IEventListener>& listener : listeners) {
+        if (listener->mouseMove(window, x, y)) {
+            break;
+        }
+    }
 }
 
-void EventHandler::keyChange(Window* window, int code, std::string name, bool press) {
+bool EventHandler::keyChange(Window* window, int code, const std::string& name, bool press) {
     log->debug("Key change: {0} '{1}' {2}", code, name, press ? "press" : "release");
-    if (press) return;
-    if (name == "Left") {
-        game->test(-1);
-    } else if (name == "Right") {
-        game->test(1);
+    for (std::unique_ptr<IEventListener>& listener : listeners) {
+        if (listener->keyChange(window, code, name, press)) {
+            break;
+        }
     }
 }

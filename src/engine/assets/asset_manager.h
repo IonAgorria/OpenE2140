@@ -15,7 +15,7 @@
 /**
  * Handles the loading of different assets
  */
-class Game;
+class Engine;
 class AssetImage;
 class Image;
 class IAssetProcessor;
@@ -29,7 +29,7 @@ private:
     /**
      * Game which assets belong to
      */
-    std::shared_ptr<Game> game;
+    std::shared_ptr<Engine> game;
 
     /**
      * Asset processors
@@ -54,7 +54,7 @@ public:
     /**
      * Constructs loader
      */
-    AssetManager(std::shared_ptr<Game> game);
+    AssetManager(std::shared_ptr<Engine> game);
 
     /**
      * Destructs loader and cleans any loaded assets

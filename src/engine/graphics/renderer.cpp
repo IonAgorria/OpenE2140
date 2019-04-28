@@ -273,8 +273,8 @@ void Renderer::draw(float x, float y, float width, float height, float angle, Im
     vertices[verticesIndex++] = x;
     vertices[verticesIndex++] = y;
     //Size
-    vertices[verticesIndex++] = width;
-    vertices[verticesIndex++] = height;
+    vertices[verticesIndex++] = width / 2.0f;
+    vertices[verticesIndex++] = height / 2.0f;
     //Angle
     vertices[verticesIndex++] = angle;
     //Texture UV

@@ -103,6 +103,10 @@ void Engine::run() {
 
     //Initialize event handler
     eventHandler = std::make_unique<EventHandler>(this_ptr);
+    setupEventHandler();
+    if (hasError()) {
+        return;
+    }
 
     //Initialize window
     window = std::make_unique<Window>();

@@ -79,7 +79,7 @@ public:
      * @param color struct to fill
      * @return true if OK
      */
-    bool getColor(unsigned int index, ColorRGBA& color);
+    bool getColor(unsigned int index, ColorRGBA& color) const;
 
     /**
      * Sets the color value at index in this palette
@@ -102,7 +102,7 @@ public:
     /**
      * Binds the texture for use
      */
-    GLuint bindTexture();
+    GLuint bindTexture() const;
 
     /**
      * Updates the palette content to texture
@@ -114,7 +114,7 @@ public:
     /**
      * @return texture id
      */
-    const GLuint getTexture();
+    const GLuint getTexture() const;
 
     /**
      * @return string version of this

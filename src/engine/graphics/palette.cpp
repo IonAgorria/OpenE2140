@@ -66,10 +66,9 @@ bool Palette::set(Palette& palette) {
     return true;
 }
 
-bool Palette::getColor(unsigned int index, ColorRGBA& color) {
+bool Palette::getColor(unsigned int index, ColorRGBA& color) const {
     //Check index
     if (index >= length()) {
-        error = "Index out of bounds: " + std::to_string(index);
         return false;
     }
     color.setRGBA(colors[index]);
@@ -111,7 +110,7 @@ bool Palette::check() {
     return true;
 }
 
-GLuint Palette::bindTexture() {
+GLuint Palette::bindTexture() const {
     if (texture) {
         glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
         glBindTexture(GL_TEXTURE_1D, texture);
@@ -119,7 +118,7 @@ GLuint Palette::bindTexture() {
     return texture;
 }
 
-const GLuint Palette::getTexture() {
+const GLuint Palette::getTexture() const {
     return texture;
 }
 

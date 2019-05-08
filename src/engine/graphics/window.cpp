@@ -151,7 +151,6 @@ void Window::setTitle(const std::string& title) {
     SDL_SetWindowTitle(windowHandle, base.c_str());
 }
 
-
 bool Window::check() {
     return windowHandle != nullptr && context != nullptr;
 }

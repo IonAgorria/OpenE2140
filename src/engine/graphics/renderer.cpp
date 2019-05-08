@@ -219,7 +219,7 @@ void Renderer::initBuffers() {
     if (!error.empty()) return;
 }
 
-void Renderer::draw(float x, float y, float width, float height, float angle, Image& image, Palette* paletteExtra) {
+void Renderer::draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra) {
     //Get palette
     std::shared_ptr<Palette> palette = image.getPalette();
 

@@ -190,7 +190,7 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(float x, float y, float width, float height, float angle, Image& image, Palette* paletteExtra);
+    void draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra);
 
     /**
      * Create and load a OpenGL shader.

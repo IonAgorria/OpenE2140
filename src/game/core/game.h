@@ -16,9 +16,6 @@ protected:
     void setupEventHandler() override;
 
     void setupAssetManager() override;
-
-public:
-    void test(int i);
 };
 
 #endif //OPENE2140_GAME_H

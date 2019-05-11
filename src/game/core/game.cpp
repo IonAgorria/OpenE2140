@@ -15,12 +15,6 @@
 #include "game/io/ui_event_listener.h"
 #include "game.h"
 
-//TODO remove
-std::unique_ptr<Palette> extra;
-std::shared_ptr<Image> image;
-int v = 90;
-double t;
-
 void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
@@ -46,10 +40,6 @@ void Game::run() {
     //Show main window
     window->show();
 
-    //TODO remove
-    extra = std::make_unique<Palette>(10, true);
-    test(0);
-
     //Main loop
     log->debug("Starting loop");
     while (!eventHandler->isClosing()) {
@@ -57,34 +47,9 @@ void Game::run() {
 
         //TODO remove this
         renderer->changeCamera(0, 0);
-        t += 0.05;
-        if (image) {
-            ColorRGBA color = {(byte) (std::round(std::sin(t) * 0x7f) + 0x7f), 0,
-                               (byte) (std::round(std::cos(t) * 0x7f) + 0x7f), 128};
-            for (unsigned int i = 0; i < extra->length(); ++i) {
-                extra->setColor(i, color);
-            }
-            extra->updateTexture();
-            for (float j = 0; j <= 39; j += 1) {
-                for (float i = 0; i <= 28; i += 1) {
-                    renderer->draw(j * 10, i * 10, 50, 50, std::sin(t / 2) * 1.3, *image, extra.get());
-                }
-            }
-        }
+
         renderer->flush();
 
         draw();
     }
-}
-
-void Game::test(int i) {
-    if (0 < i) {
-        v++;
-    } else if (i < 0) {
-        v--;
-    }
-    std::string path = v < 0 ? "MIX/SPRT0/"+std::to_string(std::abs(v) - 1) : "MIX/SPRU0/"+std::to_string(v);
-    log->debug(path);
-    image = assetManager->getImage(path);
-    if (image) log->debug("Current: {0} {1}", v, image->toString());
 }

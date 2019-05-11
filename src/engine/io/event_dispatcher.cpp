@@ -15,6 +15,17 @@ bool EventDispatcher::windowChanged(Window* window) {
     return handled;
 }
 
+bool EventDispatcher::windowFocus(Window* window, bool state) {
+    bool handled = false;
+    for (std::unique_ptr<IEventListener>& listener : listeners) {
+        handled = listener->windowFocus(window, state);
+        if (handled) {
+            break;
+        }
+    }
+    return handled;
+}
+
 bool EventDispatcher::mouseClick(Window* window, int x, int y, int button, bool press) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {

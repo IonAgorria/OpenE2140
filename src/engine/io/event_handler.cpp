@@ -80,6 +80,14 @@ void EventHandler::poll() {
                         windowChanged(window);
                         break;
                     }
+                    case SDL_WINDOWEVENT_FOCUS_LOST: {
+                        windowFocus(window, false);
+                        break;
+                    }
+                    case SDL_WINDOWEVENT_FOCUS_GAINED: {
+                        windowFocus(window, true);
+                        break;
+                    }
                     default:
                         break;
                 }
@@ -104,6 +112,11 @@ bool EventHandler::windowChanged(Window* window) {
         renderer->changeViewport(size.x, size.y);
     }
     return EventDispatcher::windowChanged(window);
+}
+
+bool EventHandler::windowFocus(Window* window, bool state) {
+    log->debug("Window focus: {0}", state ? "gained" : "lost");
+    return EventDispatcher::windowFocus(window, state);
 }
 
 bool EventHandler::mouseClick(Window* window, int x, int y, int button, bool press) {

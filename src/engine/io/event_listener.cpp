@@ -9,6 +9,10 @@ bool IEventListener::windowChanged(Window* window) {
     return false;
 }
 
+bool IEventListener::windowFocus(Window* window, bool state) {
+    return false;
+}
+
 bool IEventListener::mouseClick(Window* window, int x, int y, int button, bool press) {
     return false;
 }

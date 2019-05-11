@@ -29,6 +29,15 @@ public:
     virtual bool windowChanged(Window* window);
 
     /**
+     * Called when window focus is changed
+     *
+     * @param window causing the event
+     * @param state current focus state
+     * @return true if handled to stop propagation
+     */
+    virtual bool windowFocus(Window* window, bool state);
+
+    /**
      * Called when mouse click occurs
      *
      * @param window causing the event

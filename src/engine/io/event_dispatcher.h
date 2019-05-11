@@ -19,6 +19,8 @@ protected:
 public:
     bool windowChanged(Window* window) override;
 
+    bool windowFocus(Window* window, bool focus) override;
+
     bool mouseClick(Window* window, int x, int y, int button, bool press) override;
 
     bool mouseWheel(Window* window, int x, int y) override;

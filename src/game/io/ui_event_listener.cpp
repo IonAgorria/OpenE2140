@@ -14,13 +14,12 @@ UIEventListener::~UIEventListener() {
     }
 }
 
-bool UIEventListener::keyChange(Window* window, int code, const std::string& name, bool press) {
+bool UIEventListener::mouseMove(Window* window, int x, int y) {
+    return false;
+}
+
+bool UIEventListener::keyChange(Window* window, int code, bool press) {
     if (!press) {
-        if (name == "Left") {
-            game->test(-1);
-        } else if (name == "Right") {
-            game->test(1);
-        }
     }
     return false;
 }

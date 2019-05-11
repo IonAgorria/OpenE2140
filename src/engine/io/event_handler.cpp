@@ -50,6 +50,15 @@ void EventHandler::poll() {
                 );
                 break;
             }
+            case SDL_MOUSEWHEEL: {
+                bool normal = event.wheel.direction == SDL_MOUSEWHEEL_NORMAL;
+                mouseWheel(
+                        window,
+                        event.wheel.x * (normal ? 1 : -1),
+                        event.wheel.y * (normal ? 1 : -1)
+                );
+                break;
+            }
             case SDL_MOUSEMOTION: {
                 mouseMove(window, event.motion.x, event.motion.y);
                 break;
@@ -57,8 +66,7 @@ void EventHandler::poll() {
             case SDL_KEYDOWN:
             case SDL_KEYUP: {
                 SDL_Keycode sym = event.key.keysym.sym;
-                std::string name(SDL_GetKeyName(sym));
-                keyChange(window, sym, name, event.key.state == SDL_PRESSED);
+                keyChange(window, sym, event.key.state == SDL_PRESSED);
                 break;
             }
             case SDL_WINDOWEVENT: {
@@ -103,12 +111,26 @@ bool EventHandler::mouseClick(Window* window, int x, int y, int button, bool pre
     return EventDispatcher::mouseClick(window, x, y, button, press);
 }
 
+bool EventHandler::mouseWheel(Window* window, int x, int y) {
+    log->debug("Mouse wheel: {0} {1}", x, y);
+    return EventDispatcher::mouseWheel(window, x, y);
+}
+
 bool EventHandler::mouseMove(Window* window, int x, int y) {
     //log->debug("Mouse motion: {0}x{1}", x, y);
     return EventDispatcher::mouseMove(window, x, y);
 }
 
-bool EventHandler::keyChange(Window* window, int code, const std::string& name, bool press) {
-    log->debug("Key change: {0} '{1}' {2}", code, name, press ? "press" : "release");
-    return EventDispatcher::keyChange(window, code, name, press);
+bool EventHandler::keyChange(Window* window, int code, bool press) {
+    log->debug("Key change: {0} '{1}' {2}", code, getNameFromCode(code), press ? "press" : "release");
+    return EventDispatcher::keyChange(window, code, press);
+}
+
+int EventHandler::getCodeFromName(const std::string& name) {
+    SDL_Keycode code = SDL_GetKeyFromName(name.c_str());
+    return code == SDLK_UNKNOWN ? 0 : code;
+}
+
+std::string EventHandler::getNameFromCode(const int code) {
+    return std::string(SDL_GetKeyName(code));
 }

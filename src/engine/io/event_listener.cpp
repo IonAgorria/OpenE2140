@@ -13,10 +13,14 @@ bool IEventListener::mouseClick(Window* window, int x, int y, int button, bool p
     return false;
 }
 
+bool IEventListener::mouseWheel(Window* window, int x, int y) {
+    return false;
+}
+
 bool IEventListener::mouseMove(Window* window, int x, int y) {
     return false;
 }
 
-bool IEventListener::keyChange(Window* window, int code, const std::string& name, bool press) {
+bool IEventListener::keyChange(Window* window, int code, bool press) {
     return false;
 }

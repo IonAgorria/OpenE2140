@@ -34,8 +34,9 @@ public:
      */
     NON_COPYABLE(UIEventListener)
 
+    bool mouseMove(Window* window, int x, int y) override;
 
-    bool keyChange(Window* window, int code, const std::string& name, bool press) override;
+    bool keyChange(Window* window, int code, bool press) override;
 };
 
 #endif //OPENE2140_UI_EVENT_LISTENER_H

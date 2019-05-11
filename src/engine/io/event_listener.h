@@ -41,6 +41,16 @@ public:
     virtual bool mouseClick(Window* window, int x, int y, int button, bool press);
 
     /**
+     * Called when mouse wheel/scroll occurs
+     *
+     * @param window causing the event
+     * @param x movement, toward left < 0 > toward right
+     * @param y movement, toward user < 0 > away from the user
+     * @return true if handled to stop propagation
+     */
+    virtual bool mouseWheel(Window* window, int x, int y);
+
+    /**
      * Called when mouse movement occurs
      *
      * @param window causing the event
@@ -59,7 +69,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool keyChange(Window* window, int code, const std::string& name, bool press);
+    virtual bool keyChange(Window* window, int code, bool press);
 };
 
 #endif //OPENE2140_EVENT_LISTENER_H

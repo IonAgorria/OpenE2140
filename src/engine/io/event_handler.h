@@ -53,17 +53,35 @@ public:
     void poll();
 
     /**
+     * @param name key name to get code from
+     * @return code for key
+     */
+    static int getCodeFromName(const std::string& name);
+
+    /**
+     * @param code key code to get name from
+     * @return name for key
+     */
+    static std::string getNameFromCode(const int code);
+
+    /**
      * Disable copy/move
      */
     NON_COPYABLE_NOR_MOVABLE(EventHandler)
+
+    /*
+     * EventDispatcher overrides
+     */
 
     bool windowChanged(Window* window) override;
 
     bool mouseClick(Window* window, int x, int y, int button, bool press) override;
 
+    bool mouseWheel(Window* window, int x, int y) override;
+
     bool mouseMove(Window* window, int x, int y) override;
 
-    bool keyChange(Window* window, int code, const std::string& name, bool press) override;
+    bool keyChange(Window* window, int code, bool press) override;
 };
 
 

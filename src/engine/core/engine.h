@@ -15,6 +15,7 @@ class EventHandler;
 class Renderer;
 class Simulation;
 class Timer;
+class GUIMenu;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -55,6 +56,11 @@ protected:
      * Stores the engine timer
      */
     std::unique_ptr<Timer> timer;
+
+    /**
+     * Current active menu if any
+     */
+    std::unique_ptr<GUIMenu> menu;
 
     /**
      * Called when engine is requested to close

@@ -7,8 +7,9 @@
 #include "graphics/palette.h"
 #include "graphics/renderer.h"
 #include "graphics/window.h"
-#include "src/engine/io/event_handler.h"
+#include "gui/guimenu.h"
 #include "simulation/simulation.h"
+#include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"
 #include "engine.h"
@@ -79,6 +80,9 @@ void Engine::close() {
     if (eventHandler) {
         eventHandler.reset();
     }
+    if (menu) {
+        menu.reset();
+    }
     if (renderer) {
         renderer.reset();
     }
@@ -144,15 +148,18 @@ void Engine::update() {
     eventHandler->poll();
 
     //Update simulation
-
-    //Clear
-    window->clear();
 }
 
 void Engine::draw() {
+    //Clear
+    window->clear();
+
     //Draw the simulation
 
     //Draw/update UI
+    if (menu) {
+        menu->draw();
+    }
 
     //Update window
     float elapsed = std::max(0.001f, timer->elapsed());

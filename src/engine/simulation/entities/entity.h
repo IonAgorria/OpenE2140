@@ -9,10 +9,11 @@
 #include "math/rectangle.h"
 #include "graphics/image.h"
 
+class Simulation;
+
 /**
  * Base entity in game
  */
-class Simulation;
 class Entity {
 private:
     /**
@@ -21,18 +22,18 @@ private:
     long id;
 
     /**
-     * Simulation reference which this entity belongs
+     * Simulation which this entity belongs
      */
-    const Simulation& simulation;
+    Simulation* simulation;
 
     /**
      * Images used by this entity
      */
-    const std::vector<std::shared_ptr<Image>> images;
+    std::vector<std::shared_ptr<Image>> images;
 
 public:
     /**
-     * Entity position and size;
+     * Entity position and size
      */
     Rectangle rectangle;
 
@@ -44,17 +45,22 @@ public:
     /**
      * Entity destructor
      */
-    virtual ~Entity() = default;
+    virtual ~Entity();
 
     /**
-     * Disable copy/move
+     * Disable copy
      */
-    NON_COPYABLE_NOR_MOVABLE(Entity)
+    NON_COPYABLE(Entity)
 
     /**
-     * Sets the entity simulation when entity is added or loaded from saved state
+     * Called when entity is added to simulation
      */
-    virtual bool setupSimulation(const Simulation& simulation);
+    virtual void addedToSimulation(Simulation* simulation);
+
+    /**
+     * Called when entity is added to simulation
+     */
+    virtual void removedFromSimulation();
 
     /**
      * @return string version of this entity

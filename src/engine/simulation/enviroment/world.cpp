@@ -19,14 +19,14 @@ void World::update() {
     }
 }
 
-void World::draw(Renderer& renderer, const Rectangle& rectangle) {
+void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     //Do pixel to tile conversions
     int drawStartX = rectangle.x % tileSize;
     int drawStartY = rectangle.y % tileSize;
-    int tileStartX = rectangle.x / tileSize;
-    int tileStartY = rectangle.y / tileSize;
-    int tileEndX = (rectangle.x + rectangle.w) / tileSize + 1;
-    int tileEndY = (rectangle.y + rectangle.h) / tileSize + 1;
+    int tileStartX = std::max(worldRectangle.x, rectangle.x / tileSize);
+    int tileStartY = std::max(worldRectangle.y, rectangle.y / tileSize);
+    int tileEndX = std::min(worldRectangle.w, (rectangle.x + rectangle.w) / tileSize + 1);
+    int tileEndY = std::min(worldRectangle.h, (rectangle.y + rectangle.h) / tileSize + 1);
     int tileCountX = tileEndX - tileStartX;
     int tileCountY = tileEndY - tileStartY;
 
@@ -36,11 +36,12 @@ void World::draw(Renderer& renderer, const Rectangle& rectangle) {
     for (int y = tileStartY; y < tileEndY; y++) {
         for (int x = tileStartX; x < tileEndX; x++) {
             //Get current image of tile and draw it
-            std::shared_ptr<Image> image = tileImages.at(x + worldRectangle.w * y);
+            int index = x + worldRectangle.w * y;
+            std::shared_ptr<Image> image = tileImages.at(index);
             if (!image) {
                 continue;
             }
-            renderer.draw(
+            renderer->draw(
                 drawStartX + ((x - tileCountX) * drawTileSize),
                 drawStartY + ((y - tileCountY) * drawTileSize),
                 drawTileSize,

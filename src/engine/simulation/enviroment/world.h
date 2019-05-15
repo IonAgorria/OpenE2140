@@ -76,7 +76,7 @@ public:
      * @param renderer to use for drawing
      * @param view window
      */
-    void draw(Renderer& renderer, const Rectangle& rectangle);
+    void draw(Renderer* renderer, const Rectangle& rectangle);
 
     /**
      * Tile in specified tile index

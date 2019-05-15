@@ -83,6 +83,9 @@ void Engine::close() {
     if (menu) {
         menu.reset();
     }
+    if (simulation) {
+        simulation.reset();
+    }
     if (renderer) {
         renderer.reset();
     }
@@ -138,6 +141,13 @@ void Engine::run() {
     if (hasError()) {
         return;
     }
+
+    //Initialize simulation
+    simulation = std::make_unique<Simulation>(this_ptr);
+    setupSimulation();
+    if (hasError()) {
+        return;
+    }
 }
 
 void Engine::update() {
@@ -148,13 +158,19 @@ void Engine::update() {
     eventHandler->poll();
 
     //Update simulation
+    if (simulation) {
+        simulation->update();
+    }
 }
 
 void Engine::draw() {
     //Clear
     window->clear();
 
-    //Draw the simulation
+    //Draw the simulation if any
+    if (simulation) {
+        simulation->draw(renderer->getViewport());
+    }
 
     //Draw/update UI
     if (menu) {

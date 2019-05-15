@@ -78,7 +78,7 @@ public:
      *
      * @return assets
      */
-    const std::unordered_map<asset_path, std::unique_ptr<Asset>>& getAssets();
+    const std::unordered_map<asset_path, std::unique_ptr<Asset>>& getAssets() const;
 
     /**
      * Adds asset to manager in specified path

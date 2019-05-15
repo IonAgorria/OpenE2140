@@ -4,10 +4,7 @@
 #ifndef OPENE2140_PALETTE_H
 #define OPENE2140_PALETTE_H
 
-#include <string>
 #include <unordered_map>
-#include <memory>
-#include <vector>
 #include "core/common.h"
 #include "core/error_possible.h"
 #include "color.h"

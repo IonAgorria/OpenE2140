@@ -31,7 +31,7 @@ void AssetManager::addAssetProcessor(std::unique_ptr<IAssetProcessor> processor)
     processors.push_back(std::move(processor));
 }
 
-const std::unordered_map<asset_path, std::unique_ptr<Asset>>& AssetManager::getAssets() {
+const std::unordered_map<asset_path, std::unique_ptr<Asset>>& AssetManager::getAssets() const {
     return assets;
 }
 

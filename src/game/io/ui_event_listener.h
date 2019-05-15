@@ -30,7 +30,7 @@ public:
     virtual ~UIEventListener();
 
     /**
-     * Disable copy/move
+     * Disable copy
      */
     NON_COPYABLE(UIEventListener)
 

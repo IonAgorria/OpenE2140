@@ -36,6 +36,11 @@ public:
     virtual ~EventHandler();
 
     /**
+     * Disable copy
+     */
+    NON_COPYABLE_NOR_MOVABLE(EventHandler)
+
+    /**
      * Registers event listener
      *
      * @param listener to register
@@ -63,11 +68,6 @@ public:
      * @return name for key
      */
     static std::string getNameFromCode(const int code);
-
-    /**
-     * Disable copy/move
-     */
-    NON_COPYABLE_NOR_MOVABLE(EventHandler)
 
     /*
      * EventDispatcher overrides

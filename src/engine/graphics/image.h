@@ -4,7 +4,6 @@
 #ifndef OPENE2140_IMAGE_H
 #define OPENE2140_IMAGE_H
 
-#include <memory>
 #include "core/common.h"
 #include "core/error_possible.h"
 #include "math/rectangle.h"

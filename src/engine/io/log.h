@@ -5,7 +5,6 @@
 #define OPENE2140_LOG_H
 
 #include <list>
-#include <memory>
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"

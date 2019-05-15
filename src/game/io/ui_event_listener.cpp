@@ -19,7 +19,5 @@ bool UIEventListener::mouseMove(Window* window, int x, int y) {
 }
 
 bool UIEventListener::keyChange(Window* window, int code, bool press) {
-    if (!press) {
-    }
     return false;
 }

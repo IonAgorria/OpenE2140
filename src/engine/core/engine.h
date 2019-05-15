@@ -4,11 +4,11 @@
 #ifndef OPENE2140_ENGINE_H
 #define OPENE2140_ENGINE_H
 
-#include <memory>
 #include "engine/core/common.h"
 #include "engine/core/error_possible.h"
 #include "io/log.h"
 
+//Forward declarations
 class AssetManager;
 class Window;
 class EventHandler;

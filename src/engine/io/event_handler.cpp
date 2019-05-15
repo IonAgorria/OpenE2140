@@ -60,7 +60,11 @@ void EventHandler::poll() {
                 break;
             }
             case SDL_MOUSEMOTION: {
-                mouseMove(window, event.motion.x, event.motion.y);
+                mouseMove(
+                        window,
+                        event.motion.x,
+                        event.motion.y
+                );
                 break;
             }
             case SDL_KEYDOWN:

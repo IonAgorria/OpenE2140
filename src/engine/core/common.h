@@ -2,6 +2,9 @@
 // Created by Ion Agorria on 26/03/18
 //
 
+#ifndef OPENE2140_COMMON_H
+#define OPENE2140_COMMON_H
+
 //Include GL in proper order
 #include <GL/glew.h>
 #include <SDL_opengl.h>
@@ -12,8 +15,10 @@
 #include "config.h"
 #include "config_placeholder.h"
 
-#ifndef OPENE2140_COMMON_H
-#define OPENE2140_COMMON_H
+//Includes for common stuff
+#include <memory>
+#include <vector>
+#include <string>
 
 /** Game version string */
 #define GAME_VERSION STR(GAME_VERSION_MAJOR) "." STR(GAME_VERSION_MINOR)

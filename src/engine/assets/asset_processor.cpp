@@ -1,9 +1,7 @@
 //
 // Created by Ion Agorria on 21/04/19
 //
-#include <list>
-#include <memory>
-#include <src/engine/io/file.h>
+#include "engine/io/file.h"
 #include "core/utils.h"
 #include "asset_processor.h"
 #include "asset.h"

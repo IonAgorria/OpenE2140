@@ -142,6 +142,11 @@ private:
      * Current view matrix
      */
     glm::mat4 view;
+
+    /**
+     * Viewport rectangle
+     */
+    Rectangle viewport;
 public:
     /**
      * Constructs loader
@@ -166,10 +171,17 @@ public:
     /**
      * Updates viewport for renderer
      *
+     * @param x
+     * @param y
      * @param width
      * @param height
      */
-    void changeViewport(int width, int height);
+    void changeViewport(int x, int y, int width, int height);
+
+    /**
+     * @return current renderer viewport
+     */
+    const Rectangle& getViewport() const;
 
     /**
      * Updates camera for renderer

@@ -113,7 +113,7 @@ bool EventHandler::windowChanged(Window* window) {
     log->debug("Window changed {0}x{1}", size.x, size.y);
     Renderer* renderer = engine->getRenderer();
     if (renderer) {
-        renderer->changeViewport(size.x, size.y);
+        renderer->changeViewport(0, 0, size.x, size.y);
     }
     return EventDispatcher::windowChanged(window);
 }

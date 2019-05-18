@@ -7,7 +7,6 @@
 #include <string>
 #include <map>
 #include <list>
-#include "asset.h"
 #include "core/error_possible.h"
 #include "math/vector2.h"
 #include "io/log.h"
@@ -16,6 +15,7 @@
  * Handles the loading of different assets
  */
 class Engine;
+class Asset;
 class AssetImage;
 class Image;
 class IAssetProcessor;

@@ -1,6 +1,7 @@
 //
 // Created by Ion Agorria on 11/05/19
 //
+#include "core/utils.h"
 #include "guiview.h"
 #include <algorithm>
 
@@ -17,21 +18,16 @@ const std::vector<std::unique_ptr<GUIView>> GUIView::getViews() const {
 }
 
 void GUIView::addView(std::unique_ptr<GUIView> view) {
-    view->parent = this;
     views.emplace_back(std::move(view));
-    view->moved();
+    view->moved(this);
 }
 
 std::unique_ptr<GUIView> GUIView::removeView(GUIView* view) {
     std::unique_ptr<GUIView> result;
-    for (std::vector<std::unique_ptr<GUIView>>::iterator it = views.begin(); it != views.end(); ++it) {
-        std::unique_ptr<GUIView>& pointer = *it;
-        if (pointer.get() == view) {
-            view->parent = nullptr;
-            result = std::move(pointer);
-            views.erase(it);
-            view->moved();
-            break;
+    if (view) {
+        result = Utils::erasePointerFromVector(views, view);
+        if (result) {
+            result->moved(nullptr);
         }
     }
     return std::move(result);
@@ -47,7 +43,8 @@ void GUIView::removeViews() {
     }
 }
 
-void GUIView::moved() {
+void GUIView::moved(GUIView* newParent) {
+    this->parent = newParent;
 }
 
 void GUIView::show() {

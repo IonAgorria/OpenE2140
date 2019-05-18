@@ -4,7 +4,6 @@
 #ifndef OPENE2140_ENTITY_H
 #define OPENE2140_ENTITY_H
 
-#include <vector>
 #include "core/common.h"
 #include "math/rectangle.h"
 #include "graphics/image.h"
@@ -15,11 +14,11 @@ class Simulation;
  * Base entity in game
  */
 class Entity {
-private:
+protected:
     /**
      * Unique ID for entity
      */
-    long id;
+    long id = 0;
 
     /**
      * Simulation which this entity belongs
@@ -31,7 +30,10 @@ private:
      */
     std::vector<std::shared_ptr<Image>> images;
 
+
 public:
+    TYPE_NAME(Entity)
+
     /**
      * Entity position and size
      */
@@ -71,6 +73,16 @@ public:
      * @return string content of this entity
      */
     virtual std::string toStringContent() const;
+
+    /**
+     * Provides extra palette for this entity to draw custom colors
+     */
+    void updatePalette(Palette* extraPalette);
+
+    /**
+     * @return the image to be used when drawing this entity
+     */
+    Image* getImage();
 };
 
 #endif //OPENE2140_ENTITY_H

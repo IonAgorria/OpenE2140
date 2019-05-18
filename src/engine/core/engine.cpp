@@ -101,6 +101,8 @@ void Engine::close() {
 }
 
 void Engine::run() {
+    //Since log is created before setup we have to reset the default level
+    Log::set_default_level(log);
     log->debug("Running");
 
     std::shared_ptr<Engine> this_ptr = shared_from_this();
@@ -126,7 +128,7 @@ void Engine::run() {
     // Initialize renderer
     renderer = std::make_unique<Renderer>();
     error = renderer->getError();
-    if (!error.empty()) {
+    if (hasError()) {
         error = "Error initializing renderer\n" + error;
         return;
     }
@@ -138,13 +140,6 @@ void Engine::run() {
     //Initialize asset manager
     assetManager = std::make_unique<AssetManager>(this_ptr);
     setupAssetManager();
-    if (hasError()) {
-        return;
-    }
-
-    //Initialize simulation
-    simulation = std::make_unique<Simulation>(this_ptr);
-    setupSimulation();
     if (hasError()) {
         return;
     }
@@ -202,7 +197,12 @@ void Engine::setupAssetManager() {
     }
 }
 
-void Engine::setupSimulation() {
+void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
+    simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
+    error = simulation->getError();
+    if (hasError()) {
+        error = "Error initializing simulation\n" + error;
+    }
 }
 
 EventHandler* Engine::getEventHandler() {

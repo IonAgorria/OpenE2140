@@ -16,6 +16,7 @@ class Renderer;
 class Simulation;
 class Timer;
 class GUIMenu;
+class SimulationParameters;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -104,8 +105,10 @@ protected:
 
     /**
      * Called from engine to setup Simulation
+     *
+     * @param parameters
      */
-    virtual void setupSimulation();
+    virtual void setupSimulation(std::unique_ptr<SimulationParameters> parameters);
 public:
     /**
      * Main engine entry point, does the basic initializations

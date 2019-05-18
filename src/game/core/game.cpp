@@ -37,6 +37,10 @@ void Game::setupAssetManager() {
 void Game::run() {
     Engine::run();
 
+    //TODO
+    std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
+    setupSimulation(std::move(parameters));
+
     //Show main window
     window->show();
 
@@ -44,12 +48,6 @@ void Game::run() {
     log->debug("Starting loop");
     while (!eventHandler->isClosing()) {
         update();
-
-        //TODO remove this
-        renderer->changeCamera(0, 0);
-
-        renderer->flush();
-
         draw();
     }
 }

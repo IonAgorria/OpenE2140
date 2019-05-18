@@ -14,10 +14,6 @@
 #include "asset_processor_mix.h"
 
 void AssetProcessorMIX::processIntermediates() {
-    //Counters
-    long addedAssets = 0;
-    long removedAssets = 0;
-
     //Cached assets
     std::forward_list<asset_path> mixPaths;
 
@@ -54,7 +50,6 @@ void AssetProcessorMIX::processIntermediates() {
         if (count == 0) {
             continue;
         }
-        addedAssets += count;
 
         //Remove the old asset
         if (!manager->removeAsset(assetPath)) {

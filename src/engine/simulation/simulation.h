@@ -5,6 +5,8 @@
 #define OPENE2140_SIMULATION_H
 
 #include "core/common.h"
+#include "simulation_parameters.h"
+#include "io/log.h"
 
 class Engine;
 class World;
@@ -14,12 +16,17 @@ class Renderer;
 /**
  * Contains everything inside the running game
  */
-class Simulation {
+class Simulation: public IErrorPossible {
 private:
     /**
      * Log for object
      */
     log_ptr log;
+
+    /**
+     * Simulation setup parameters
+     */
+    std::unique_ptr<SimulationParameters> parameters;
 
     /**
      * Engine object
@@ -29,18 +36,23 @@ private:
     /**
      * Entities contained by this simulation
      */
-    std::vector<std::unique_ptr<Entity>> entities;
+    std::vector<std::shared_ptr<Entity>> entities;
 
     /**
      * World for this simulation
      */
     std::unique_ptr<World> world;
 
+    /**
+     * Last used entity id
+     */
+    entity_id lastEntityID = 0;
+
 public:
     /**
      * Constructor
      */
-    Simulation(std::shared_ptr<Engine> engine);
+    Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters> parameters);
 
     /**
      * Destructor
@@ -67,12 +79,27 @@ public:
     /**
      * @return entities in simulation
      */
-    const std::vector<std::unique_ptr<Entity>>& getEntities() const;
+    const std::vector<std::shared_ptr<Entity>>& getEntities() const;
 
     /**
      * @return World instance in simulation
      */
     World* getWorld() const;
+
+    /**
+     * @return the next entity ID
+     */
+    entity_id nextEntityID();
+
+    /**
+     * Adds entity to simulation
+     */
+    void addEntity(std::shared_ptr<Entity> entity);
+
+    /**
+     * Removes entity from simulation
+     */
+    void removeEntity(std::shared_ptr<Entity> entity);
 };
 
 #endif //OPENE2140_SIMULATION_H

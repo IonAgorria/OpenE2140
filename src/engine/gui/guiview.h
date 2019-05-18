@@ -66,7 +66,7 @@ public:
     /**
      * Called when view parent is changed
      */
-    virtual void moved();
+    virtual void moved(GUIView* newParent);
 
     /**
      * Called when view is show

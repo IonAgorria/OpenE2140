@@ -31,6 +31,13 @@ public:
     static log_ptr get(const std::string& name);
 
     /**
+     * Set's the level of a single logger with default value
+     *
+     * @param logger
+     */
+    static void set_default_level(log_ptr logger);
+
+    /**
      * Closes all logs and sinks
      */
     static void closeAll();

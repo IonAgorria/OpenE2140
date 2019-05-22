@@ -197,7 +197,7 @@ void Engine::setupAssetManager() {
     }
 }
 
-void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
+void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
     error = simulation->getError();
     if (hasError()) {

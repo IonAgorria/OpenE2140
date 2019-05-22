@@ -11,11 +11,10 @@
  */
 struct SimulationParameters {
     /** Initial simulation seed for randomness */
-    const long seed;
+    long seed = 0;
     /** World asset path to load */
-    const asset_path world;
+    asset_path world = "";
     /** Players in this simulation */
     //TODO const std::vector<Player> players;
 };
-
 #endif //OPENE2140_SIMULATION_PARAMETERS_H

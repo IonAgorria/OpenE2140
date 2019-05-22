@@ -6,6 +6,9 @@
 
 #include "assets/asset_processor.h"
 
+/**
+ * Handles the reading of WD archives into readable assets
+ */
 class AssetProcessorWD: public IAssetProcessor {
 private:
     /**

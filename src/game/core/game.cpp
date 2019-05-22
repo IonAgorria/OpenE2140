@@ -11,6 +11,7 @@
 #include "engine/core/utils.h"
 #include "game/assets/asset_processor_wd.h"
 #include "game/assets/asset_processor_datpal.h"
+#include "game/assets/asset_processor_level.h"
 #include "game/assets/asset_processor_mix.h"
 #include "game/io/ui_event_listener.h"
 #include "game.h"
@@ -27,8 +28,9 @@ void Game::setupEventHandler() {
 void Game::setupAssetManager() {
     //Register processors
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorWD>());
-    assetManager->addAssetProcessor(std::make_unique<AssetProcessorMIX>());
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorDatPal>());
+    assetManager->addAssetProcessor(std::make_unique<AssetProcessorLevel>());
+    assetManager->addAssetProcessor(std::make_unique<AssetProcessorMIX>());
 
     //Call setup
     Engine::setupAssetManager();
@@ -36,10 +38,18 @@ void Game::setupAssetManager() {
 
 void Game::run() {
     Engine::run();
+    if (hasError()) {
+        return;
+    }
 
     //TODO
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
-    setupSimulation(std::move(parameters));
+    parameters->seed = 1;
+    parameters->world = "LEVEL/DATA/LEVEL01.DAT";
+    setupSimulation(parameters);
+    if (hasError()) {
+        return;
+    }
 
     //Show main window
     window->show();

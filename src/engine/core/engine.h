@@ -5,6 +5,7 @@
 #define OPENE2140_ENGINE_H
 
 #include "engine/core/common.h"
+#include "simulation/simulation_parameters.h"
 #include "engine/core/error_possible.h"
 #include "io/log.h"
 
@@ -16,7 +17,6 @@ class Renderer;
 class Simulation;
 class Timer;
 class GUIMenu;
-class SimulationParameters;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -108,7 +108,7 @@ protected:
      *
      * @param parameters
      */
-    virtual void setupSimulation(std::unique_ptr<SimulationParameters> parameters);
+    virtual void setupSimulation(std::unique_ptr<SimulationParameters>& parameters);
 public:
     /**
      * Main engine entry point, does the basic initializations

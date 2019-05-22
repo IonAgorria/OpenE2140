@@ -15,6 +15,10 @@
 #define TYPE_IMAGE_SEGMENTED 9
 
 class Asset;
+
+/**
+ * Handles the decoding of MIX image packs into standalone image assets
+ */
 class AssetProcessorMIX: public IAssetProcessor {
 private:
     /**

@@ -2,9 +2,13 @@
 // Created by Ion Agorria on 20/05/18
 //
 #include "engine/graphics/renderer.h"
+#include "assets/asset_world.h"
 #include "world.h"
 
-World::World(const asset_path& path) {
+World::World(AssetWorld* assetWorld) {
+}
+
+World::~World() {
 }
 
 void World::update() {

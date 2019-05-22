@@ -63,11 +63,6 @@ Asset* AssetManager::getAsset(const asset_path& path) {
     return Utils::getPointerFromUnorderedMap(assets, path);
 }
 
-template <typename T>
-T* AssetManager::getAsset(const asset_path& path) {
-    return dynamic_cast<T*>(getAsset(path));
-}
-
 std::shared_ptr<Image> AssetManager::getImage(const asset_path& path) {
     std::shared_ptr<Image> image;
     AssetImage* assetImage = getAsset<AssetImage>(path);

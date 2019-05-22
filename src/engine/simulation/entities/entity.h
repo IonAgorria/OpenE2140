@@ -26,18 +26,17 @@ protected:
     Simulation* simulation;
 
     /**
+     * Entity position
+     */
+    Vector2 position;
+
+    /**
      * Images used by this entity
      */
     std::vector<std::shared_ptr<Image>> images;
 
-
 public:
     TYPE_NAME(Entity)
-
-    /**
-     * Entity position and size
-     */
-    Rectangle rectangle;
 
     /**
      * Entity constructor
@@ -53,6 +52,11 @@ public:
      * Disable copy
      */
     NON_COPYABLE(Entity)
+
+    /**
+     * @return entity position
+     */
+    const Vector2& getPosition();
 
     /**
      * Called when entity is added to simulation
@@ -75,14 +79,15 @@ public:
     virtual std::string toStringContent() const;
 
     /**
-     * Provides extra palette for this entity to draw custom colors
-     */
-    void updatePalette(Palette* extraPalette);
-
-    /**
+     * Called when this entity is going to be drawn
+     *
+     * @param drawPosition center to draw the image
+     * @param drawSize size of rectangle to draw
+     * @param drawAngle angle of image when drawing
+     * @param palette extra palette for this entity to draw custom colors
      * @return the image to be used when drawing this entity
      */
-    Image* getImage();
+    virtual Image* draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette);
 };
 
 #endif //OPENE2140_ENTITY_H

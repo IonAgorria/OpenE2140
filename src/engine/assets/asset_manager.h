@@ -4,10 +4,10 @@
 #ifndef OPENE2140_ASSETMANAGER_H
 #define OPENE2140_ASSETMANAGER_H
 
-#include <string>
 #include <map>
 #include <list>
 #include "core/error_possible.h"
+#include "core/utils.h"
 #include "math/vector2.h"
 #include "io/log.h"
 
@@ -109,7 +109,10 @@ public:
      * @return asset
      */
     template <typename T>
-    T* getAsset(const asset_path& path);
+    T* getAsset(const asset_path& path) {
+        Asset* asset = Utils::getPointerFromUnorderedMap(assets, path);
+        return dynamic_cast<T*>(asset);
+    }
 
     /**
      * Gets the loaded image from an asset

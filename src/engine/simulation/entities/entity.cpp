@@ -16,12 +16,16 @@ Entity::~Entity() {
 }
 
 std::string Entity::toString() const {
-    return "Entity(" + toStringContent() + ")";
+    return type_name + "(" + toStringContent() + ")";
 }
 
 std::string Entity::toStringContent() const {
-    return " Rectangle: " + rectangle.toString()
+    return " Position: " + position.toString()
         ;
+}
+
+const Vector2& Entity::getPosition() {
+    return position;
 }
 
 void Entity::addedToSimulation(Simulation* sim) {
@@ -32,5 +36,9 @@ void Entity::addedToSimulation(Simulation* sim) {
 void Entity::removedFromSimulation() {
     simulation = nullptr;
     id = 0;
+}
+
+Image* Entity::draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette) {
+    return nullptr;
 }
 

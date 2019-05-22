@@ -12,6 +12,8 @@
 
 class Renderer;
 class Image;
+class AssetWorld;
+
 /**
  * Contains the world data such as tiles
  */
@@ -51,12 +53,12 @@ public:
     /**
      * World constructor
      */
-    World(const asset_path& path);
+    World(AssetWorld* assetWorld);
 
     /**
      * World destructor
      */
-    ~World() = default;
+    ~World();
 
     /**
      * Disable copy/move

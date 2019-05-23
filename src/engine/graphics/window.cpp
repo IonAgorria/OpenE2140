@@ -12,7 +12,7 @@ Window::Window() {
     size = Vector2(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT);
 
     //Create window
-    log->debug("Creating window {0}x{1}");
+    log->debug("Creating window");
     windowHandle = SDL_CreateWindow(
             GAME_TITLE,
             SDL_WINDOWPOS_CENTERED,
@@ -151,7 +151,6 @@ void Window::setTitle(const std::string& title) {
     }
     SDL_SetWindowTitle(windowHandle, base.c_str());
 }
-
 
 bool Window::check() {
     return windowHandle != nullptr && context != nullptr;

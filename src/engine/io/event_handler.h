@@ -36,6 +36,11 @@ public:
     virtual ~EventHandler();
 
     /**
+     * Disable copy
+     */
+    NON_COPYABLE_NOR_MOVABLE(EventHandler)
+
+    /**
      * Registers event listener
      *
      * @param listener to register
@@ -53,17 +58,32 @@ public:
     void poll();
 
     /**
-     * Disable copy/move
+     * @param name key name to get code from
+     * @return code for key
      */
-    NON_COPYABLE_NOR_MOVABLE(EventHandler)
+    static int getCodeFromName(const std::string& name);
+
+    /**
+     * @param code key code to get name from
+     * @return name for key
+     */
+    static std::string getNameFromCode(const int code);
+
+    /*
+     * EventDispatcher overrides
+     */
 
     bool windowChanged(Window* window) override;
 
+    bool windowFocus(Window* window, bool state) override;
+
     bool mouseClick(Window* window, int x, int y, int button, bool press) override;
+
+    bool mouseWheel(Window* window, int x, int y) override;
 
     bool mouseMove(Window* window, int x, int y) override;
 
-    bool keyChange(Window* window, int code, const std::string& name, bool press) override;
+    bool keyChange(Window* window, int code, bool press) override;
 };
 
 

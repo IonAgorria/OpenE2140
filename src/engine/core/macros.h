@@ -33,4 +33,8 @@
       NON_COPYABLE(T) \
       NON_MOVABLE(T)
 
+/** Stores type name */
+#define TYPE_NAME(T) \
+    const std::string type_name = std::string(#T);
+
 #endif //OPENE2140_MACROS_H

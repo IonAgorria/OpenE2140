@@ -9,7 +9,15 @@ bool IEventListener::windowChanged(Window* window) {
     return false;
 }
 
+bool IEventListener::windowFocus(Window* window, bool state) {
+    return false;
+}
+
 bool IEventListener::mouseClick(Window* window, int x, int y, int button, bool press) {
+    return false;
+}
+
+bool IEventListener::mouseWheel(Window* window, int x, int y) {
     return false;
 }
 
@@ -17,6 +25,6 @@ bool IEventListener::mouseMove(Window* window, int x, int y) {
     return false;
 }
 
-bool IEventListener::keyChange(Window* window, int code, const std::string& name, bool press) {
+bool IEventListener::keyChange(Window* window, int code, bool press) {
     return false;
 }

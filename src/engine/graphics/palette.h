@@ -4,10 +4,7 @@
 #ifndef OPENE2140_PALETTE_H
 #define OPENE2140_PALETTE_H
 
-#include <string>
 #include <unordered_map>
-#include <memory>
-#include <vector>
 #include "core/common.h"
 #include "core/error_possible.h"
 #include "color.h"
@@ -79,7 +76,7 @@ public:
      * @param color struct to fill
      * @return true if OK
      */
-    bool getColor(unsigned int index, ColorRGBA& color);
+    bool getColor(unsigned int index, ColorRGBA& color) const;
 
     /**
      * Sets the color value at index in this palette
@@ -102,7 +99,7 @@ public:
     /**
      * Binds the texture for use
      */
-    GLuint bindTexture();
+    GLuint bindTexture() const;
 
     /**
      * Updates the palette content to texture
@@ -114,7 +111,7 @@ public:
     /**
      * @return texture id
      */
-    const GLuint getTexture();
+    const GLuint getTexture() const;
 
     /**
      * @return string version of this

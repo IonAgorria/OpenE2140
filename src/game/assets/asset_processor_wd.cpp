@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 21/04/19
 //
-#include <memory>
 #include <unordered_map>
 #include <forward_list>
 
@@ -10,7 +9,6 @@
 #include "assets/asset.h"
 #include "assets/asset_palette.h"
 #include "assets/asset_image.h"
-#include "core/utils.h"
 #include "math/vector2.h"
 #include "asset_processor_wd.h"
 

@@ -4,17 +4,19 @@
 #ifndef OPENE2140_ENGINE_H
 #define OPENE2140_ENGINE_H
 
-#include <memory>
 #include "engine/core/common.h"
+#include "simulation/simulation_parameters.h"
 #include "engine/core/error_possible.h"
 #include "io/log.h"
 
+//Forward declarations
 class AssetManager;
 class Window;
 class EventHandler;
 class Renderer;
 class Simulation;
 class Timer;
+class GUIMenu;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -55,6 +57,11 @@ protected:
      * Stores the engine timer
      */
     std::unique_ptr<Timer> timer;
+
+    /**
+     * Current active menu if any
+     */
+    std::unique_ptr<GUIMenu> menu;
 
     /**
      * Called when engine is requested to close
@@ -98,8 +105,10 @@ protected:
 
     /**
      * Called from engine to setup Simulation
+     *
+     * @param parameters
      */
-    virtual void setupSimulation();
+    virtual void setupSimulation(std::unique_ptr<SimulationParameters>& parameters);
 public:
     /**
      * Main engine entry point, does the basic initializations

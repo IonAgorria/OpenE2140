@@ -54,6 +54,11 @@ public:
        const Vector2& size);
 
     /**
+     * Asset destructor
+     */
+    virtual ~AssetImage() = default;
+
+    /**
      * @return image size
      */
     const Vector2& getImageSize() const;

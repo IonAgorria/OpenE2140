@@ -4,32 +4,39 @@
 #ifndef OPENE2140_TILE_H
 #define OPENE2140_TILE_H
 
+#include <vector>
 #include "core/common.h"
 
+class Entity;
 /**
  * Stores each tile information
  */
 class Tile {
 public:
     /**
+     * Flag for tile image being dirty
+     */
+    bool isImageDirty = true;
+
+    /**
      * Flag for water
      */
-    bool isWater;
+    bool isWater = false;
 
     /**
      * Flag for passable
      */
-    bool isPassable;
+    bool isPassable = false;
 
     /**
-     * Flag for inmutability (is not affected by explosions or other stuff
+     * Flag for immutable (is not affected by explosions or other stuff
      */
-    bool isInmutable;
+    bool isImmutable = false;
 
     /**
      * Entities inside this tile
      */
-     //TODO std::list<Entity> entities;
+     std::vector<Entity*> entities;
 
     /**
      * Type of damage on this tile (weapons, fire, reactor crate...)

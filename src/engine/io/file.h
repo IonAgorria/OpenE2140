@@ -4,8 +4,6 @@
 #ifndef OPENE2140_FILE_H
 #define OPENE2140_FILE_H
 
-#include <string>
-#include <memory>
 #include "core/common.h"
 #include "core/error_possible.h"
 #include "SDL_rwops.h"

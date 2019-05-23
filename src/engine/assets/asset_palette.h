@@ -16,11 +16,6 @@
 class AssetPalette : public Asset {
 private:
     /**
-     * Asset containing palette data for this image
-     */
-    const std::shared_ptr<AssetPalette> assetPalette;
-
-    /**
      * Palette containing this asset's data
      */
     std::shared_ptr<Palette> palette;
@@ -35,6 +30,11 @@ public:
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
     AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+
+    /**
+     * Asset destructor
+     */
+    virtual ~AssetPalette() = default;
 
     /**
      * Writes this asset palette content to palette and set this image in the asset

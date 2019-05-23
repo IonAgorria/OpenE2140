@@ -142,6 +142,11 @@ private:
      * Current view matrix
      */
     glm::mat4 view;
+
+    /**
+     * Viewport rectangle
+     */
+    Rectangle viewport;
 public:
     /**
      * Constructs loader
@@ -166,10 +171,17 @@ public:
     /**
      * Updates viewport for renderer
      *
+     * @param x
+     * @param y
      * @param width
      * @param height
      */
-    void changeViewport(int width, int height);
+    void changeViewport(int x, int y, int width, int height);
+
+    /**
+     * @return current renderer viewport
+     */
+    const Rectangle& getViewport() const;
 
     /**
      * Updates camera for renderer
@@ -190,7 +202,7 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(float x, float y, float width, float height, float angle, Image& image, Palette* paletteExtra);
+    void draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra);
 
     /**
      * Create and load a OpenGL shader.

@@ -7,8 +7,9 @@
 #include "graphics/palette.h"
 #include "graphics/renderer.h"
 #include "graphics/window.h"
-#include "src/engine/io/event_handler.h"
+#include "gui/guimenu.h"
 #include "simulation/simulation.h"
+#include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"
 #include "engine.h"
@@ -79,6 +80,12 @@ void Engine::close() {
     if (eventHandler) {
         eventHandler.reset();
     }
+    if (menu) {
+        menu.reset();
+    }
+    if (simulation) {
+        simulation.reset();
+    }
     if (renderer) {
         renderer.reset();
     }
@@ -94,6 +101,8 @@ void Engine::close() {
 }
 
 void Engine::run() {
+    //Since log is created before setup we have to reset the default level
+    Log::set_default_level(log);
     log->debug("Running");
 
     std::shared_ptr<Engine> this_ptr = shared_from_this();
@@ -123,7 +132,7 @@ void Engine::run() {
     // Initialize renderer
     renderer = std::make_unique<Renderer>();
     error = renderer->getError();
-    if (!error.empty()) {
+    if (hasError()) {
         error = "Error initializing renderer\n" + error;
         return;
     }
@@ -148,15 +157,24 @@ void Engine::update() {
     eventHandler->poll();
 
     //Update simulation
-
-    //Clear
-    window->clear();
+    if (simulation) {
+        simulation->update();
+    }
 }
 
 void Engine::draw() {
-    //Draw the simulation
+    //Clear
+    window->clear();
+
+    //Draw the simulation if any
+    if (simulation) {
+        simulation->draw(renderer->getViewport());
+    }
 
     //Draw/update UI
+    if (menu) {
+        menu->draw();
+    }
 
     //Update window
     float elapsed = std::max(0.001f, timer->elapsed());
@@ -183,7 +201,12 @@ void Engine::setupAssetManager() {
     }
 }
 
-void Engine::setupSimulation() {
+void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
+    simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
+    error = simulation->getError();
+    if (hasError()) {
+        error = "Error initializing simulation\n" + error;
+    }
 }
 
 EventHandler* Engine::getEventHandler() {

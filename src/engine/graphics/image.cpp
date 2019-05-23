@@ -121,7 +121,7 @@ bool Image::check(bool usePalette) {
     return true;
 }
 
-const GLuint Image::getTexture() {
+const GLuint Image::getTexture() const {
     return texture;
 }
 
@@ -129,11 +129,11 @@ void Image::setPalette(std::shared_ptr<Palette> newPalette) {
     this->palette = newPalette;
 }
 
-std::shared_ptr<Palette> Image::getPalette() {
+const std::shared_ptr<Palette> Image::getPalette() const {
     return palette;
 }
 
-GLuint Image::bindTexture() {
+GLuint Image::bindTexture() const {
     if (texture) {
         glActiveTexture(this->withPalette ? TEXTURE_UNIT_IMAGE_PALETTE : TEXTURE_UNIT_IMAGE_RGBA);
         glBindTexture(GL_TEXTURE_2D, texture);

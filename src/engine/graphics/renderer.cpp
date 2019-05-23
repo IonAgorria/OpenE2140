@@ -219,7 +219,7 @@ void Renderer::initBuffers() {
     if (!error.empty()) return;
 }
 
-void Renderer::draw(float x, float y, float width, float height, float angle, Image& image, Palette* paletteExtra) {
+void Renderer::draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra) {
     //Get palette
     std::shared_ptr<Palette> palette = image.getPalette();
 
@@ -308,9 +308,14 @@ bool Renderer::flush() {
     return true;
 }
 
-void Renderer::changeViewport(int width, int height) {
-    glViewport(0, 0, width, height);
+void Renderer::changeViewport(int x, int y, int width, int height) {
+    viewport.set(x, y, width, height);
+    glViewport(x, y, width, height);
     projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f, 3.0f);
+}
+
+const Rectangle& Renderer::getViewport() const {
+    return viewport;
 }
 
 void Renderer::changeCamera(int x, int y) {

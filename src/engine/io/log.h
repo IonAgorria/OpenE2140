@@ -5,7 +5,6 @@
 #define OPENE2140_LOG_H
 
 #include <list>
-#include <memory>
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
@@ -30,6 +29,13 @@ public:
      * @return log
      */
     static log_ptr get(const std::string& name);
+
+    /**
+     * Set's the level of a single logger with default value
+     *
+     * @param logger
+     */
+    static void set_default_level(log_ptr logger);
 
     /**
      * Closes all logs and sinks

@@ -6,6 +6,9 @@
 
 #include "assets/asset_processor.h"
 
+/**
+ * Handles the processing of .PAL/.DAT assets for standalone image assets
+ */
 class AssetProcessorDatPal: public IAssetProcessor {
 private:
     virtual void processIntermediates() override;

@@ -4,13 +4,11 @@
 #include "tile.h"
 
 Tile::Tile() {
-    isWater = false;
-    isPassable = true;
-    isInmutable = false;
 }
 
 void Tile::setReactorCrate() {
     isPassable = false;
-    isInmutable = true;
+    isImmutable = true;
+    isImageDirty = true;
     //TODO set damage type
 }

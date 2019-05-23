@@ -29,6 +29,15 @@ public:
     virtual bool windowChanged(Window* window);
 
     /**
+     * Called when window focus is changed
+     *
+     * @param window causing the event
+     * @param state current focus state
+     * @return true if handled to stop propagation
+     */
+    virtual bool windowFocus(Window* window, bool state);
+
+    /**
      * Called when mouse click occurs
      *
      * @param window causing the event
@@ -39,6 +48,16 @@ public:
      * @return true if handled to stop propagation
      */
     virtual bool mouseClick(Window* window, int x, int y, int button, bool press);
+
+    /**
+     * Called when mouse wheel/scroll occurs
+     *
+     * @param window causing the event
+     * @param x movement, toward left < 0 > toward right
+     * @param y movement, toward user < 0 > away from the user
+     * @return true if handled to stop propagation
+     */
+    virtual bool mouseWheel(Window* window, int x, int y);
 
     /**
      * Called when mouse movement occurs
@@ -59,7 +78,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool keyChange(Window* window, int code, const std::string& name, bool press);
+    virtual bool keyChange(Window* window, int code, bool press);
 };
 
 #endif //OPENE2140_EVENT_LISTENER_H

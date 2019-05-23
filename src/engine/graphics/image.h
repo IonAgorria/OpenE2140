@@ -4,7 +4,6 @@
 #ifndef OPENE2140_IMAGE_H
 #define OPENE2140_IMAGE_H
 
-#include <memory>
 #include "core/common.h"
 #include "core/error_possible.h"
 #include "math/rectangle.h"
@@ -129,7 +128,7 @@ public:
     /**
      * @return texture id
      */
-    const GLuint getTexture();
+    const GLuint getTexture() const;
 
     /**
      * Set the palette to use with this image
@@ -139,12 +138,12 @@ public:
     /**
      * @return palette used by this image if any
      */
-    std::shared_ptr<Palette> getPalette();
+    const std::shared_ptr<Palette> getPalette() const;
 
     /**
      * Binds the texture for use
      */
-    GLuint bindTexture();
+    GLuint bindTexture() const;
 
     /**
      * Loads image data to texture using pixels in indexed format.

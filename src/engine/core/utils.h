@@ -355,6 +355,47 @@ public:
         if (it == map.end()) return nullptr;
         return it->second.get();
     }
+
+    /**
+     * Moves unique pointer from vector, returns it and erases the vector position
+     *
+     * @tparam T type inside ptrs of vector
+     * @param vector vector to manipulate
+     * @param element element pointer to remove
+     * @return element unique pointer
+     */
+    template<typename T>
+    static std::unique_ptr<T> erasePointerFromVector(std::vector<std::unique_ptr<T>>& vector, T* element) {
+        std::unique_ptr<T> result;
+        for (auto it = vector.begin(); it != vector.end(); ++it) {
+            std::unique_ptr<T>& pointer = *it;
+            if (pointer.get() == element) {
+                result = std::move(pointer);
+                vector.erase(it);
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Removes element from vector
+     *
+     * @tparam T type inside vector
+     * @param vector vector to manipulate
+     * @param element element pointer to remove
+     * @return bool if removed successfully
+     */
+    template<typename T>
+    static bool eraseElementFromVector(std::vector<T>& vector, T element) {
+        for (auto it = vector.begin(); it != vector.end(); ++it) {
+            if (*it == element) {
+                vector.erase(it);
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 #endif //OPENE2140_UTILS_H

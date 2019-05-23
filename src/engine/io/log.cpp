@@ -11,7 +11,7 @@ log_ptr Log::get(const std::string& name) {
     std::string logName = Utils::padRight(name, 10);
 
     //Check if exists
-    std::shared_ptr<spdlog::logger> logger = spdlog::get(logName);
+    log_ptr logger = spdlog::get(logName);
     if (logger) {
         return logger;
     }
@@ -29,11 +29,15 @@ log_ptr Log::get(const std::string& name) {
 
     //Create logger
     logger = std::make_shared<spdlog::logger>(logName, begin(Log::sinks), end(Log::sinks));
-    logger->set_level(Utils::isDebug() ? spdlog::level::debug : spdlog::level::info);
-    logger->flush_on(spdlog::level::warn);
+    Log::set_default_level(logger);
+    logger->flush_on(spdlog::level::info);
     logger->set_pattern("[%H:%M:%S.%e][%L][%n] %v");
     spdlog::register_logger(logger);
     return logger;
+}
+
+void Log::set_default_level(log_ptr logger) {
+    logger->set_level(Utils::isDebug() ? spdlog::level::debug : spdlog::level::info);
 }
 
 void Log::closeAll() {

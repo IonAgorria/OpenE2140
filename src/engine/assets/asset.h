@@ -4,7 +4,6 @@
 #ifndef OPENE2140_ASSET_H
 #define OPENE2140_ASSET_H
 
-#include <memory>
 #include "core/common.h"
 #include "core/error_possible.h"
 

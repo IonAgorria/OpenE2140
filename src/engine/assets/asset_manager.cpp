@@ -31,7 +31,7 @@ void AssetManager::addAssetProcessor(std::unique_ptr<IAssetProcessor> processor)
     processors.push_back(std::move(processor));
 }
 
-const std::unordered_map<asset_path, std::unique_ptr<Asset>>& AssetManager::getAssets() {
+const std::unordered_map<asset_path, std::unique_ptr<Asset>>& AssetManager::getAssets() const {
     return assets;
 }
 
@@ -61,11 +61,6 @@ bool AssetManager::removeAsset(const asset_path& path) {
 
 Asset* AssetManager::getAsset(const asset_path& path) {
     return Utils::getPointerFromUnorderedMap(assets, path);
-}
-
-template <typename T>
-T* AssetManager::getAsset(const asset_path& path) {
-    return dynamic_cast<T*>(getAsset(path));
 }
 
 std::shared_ptr<Image> AssetManager::getImage(const asset_path& path) {

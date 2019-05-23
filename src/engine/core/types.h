@@ -16,6 +16,9 @@ using asset_path = std::string;
 /** Window ID */
 using window_id = unsigned int;
 
+/** Entity ID */
+using entity_id = unsigned long;
+
 
 /**
  * Size struct with shorts

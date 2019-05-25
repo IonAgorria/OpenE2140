@@ -1,0 +1,31 @@
+[
+  {
+    "name": "mg",
+    "type": "direct"
+  },
+  {
+    "name": "cannon",
+    "type": "direct"
+  },
+  {
+    "name": "rocket",
+    "type": "missile"
+  },
+  {
+    "name": "heavy_rocket",
+    "type": "missile"
+  },
+  {
+    "name": "plasma",
+    "type": "projectile"
+  },
+  {
+    "name": "laser",
+    "type": "line",
+    "line": [255, 0, 0, 128]
+  },
+  {
+    "name": "ion",
+    "type": "projectile"
+  }
+]

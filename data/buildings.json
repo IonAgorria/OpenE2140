@@ -1,0 +1,429 @@
+[
+    {
+        "id": 0,
+        "name": "power_plant",
+        "faction": 0,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 2000,
+        "health": 600,
+        "upgrades": [
+            {
+                "required_tecnology": "nuclear_reactor",
+                "price": 500,
+                "location": [2, 0]
+            },
+            {
+                "required_tecnology": "nuclear_reactor",
+                "price": 500,
+                "location": [2, 1]
+            }
+        ],
+        "capacity": {
+            "light": 6
+        }
+    },
+    {
+        "id": 0,
+        "name": "mine",
+        "faction": 0,
+        "layout": [
+            [-1, -1, 2, 2],
+            [1, -1, 1, 1]
+        ],
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": -2000,
+        "price": 800,
+        "health": 500,
+        "capacity": {
+            "light": 6
+        }
+    },
+    {
+        "id": 0,
+        "name": "refinery",
+        "faction": 0,
+        "layout": [
+            [-1, -1, 2, 2],
+            [1, -1, 1, 1]
+        ],
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": 300,
+        "price": 1000,
+        "health": 800,
+        "capacity": {
+            "light": 6
+        }
+    },
+    {
+        "id": 0,
+        "name": "research_center",
+        "faction": 0,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": 200,
+        "price": 1500,
+        "health": 800,
+        "capacity": {
+            "light": 3
+        }
+    },
+    { 
+        "id": 0,
+        "name": "air_base",
+        "faction": 0,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": "heavy_factory",
+        "required_tecnology": null,
+        "consumed_energy": 200,
+        "price": 1300,
+        "health": 500
+    },
+    {
+        "id": 0,
+        "name": "water_base",
+        "faction": 0,
+        "required_building": "heavy_factory",
+        "required_tecnology": "nuclear_reactor",
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "consumed_energy": 300,
+        "price": 1200,
+        "health": 900,
+        "produces": [
+            "shark",
+            "wtrn",
+            "kt30",
+            "russ_3",
+            "ttre_300"
+        ]
+    },
+    {
+        "id": 0,
+        "name": "shelter",
+        "faction": 0,
+        "required_building": null,
+        "required_tecnology": "nuclear_reactor",
+        "layout": [
+            [0, -1, 1, 1]
+        ],
+        "consumed_energy": 0,
+        "price": 800,
+        "health": 2000,
+        "door": [
+            [0, 0, 1, 1]
+        ],
+        "capacity": {
+            "light": 6,
+            "heavy": 6
+        }
+    },
+    {
+        "id": 0,
+        "name": "production_center_ucs",
+        "type": "construction_center",
+        "faction": 1,
+        "layout": [
+            [-1, -1, 2, 2],
+            [0, 1, 1, 1]
+        ],
+        "required_building": null,
+        "required_tecnology": "nuclear_engine",
+        "consumed_energy": 0,
+        "price": 2500,
+        "health": 1500,
+        "exit": [0, 1],
+        "produces": [
+            "bantha",
+            "heavy_lifter",
+            "hcr-m"
+        ]
+    },
+    {
+        "id": 0,
+        "name": "robot_factory",
+        "type": "light_factory",
+        "faction": 1,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": 200,
+        "price": 1000,
+        "health": 700,
+        "exit": [-1, 0],
+        "produces": [
+            "silver_one",
+            "silver_r",
+            "silver_max",
+            "silver_t"
+        ]
+    },
+    {
+        "id": 0,
+        "name": "heavy_tech",
+        "type": "heavy_factory",
+        "faction": 1,
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": 400,
+        "price": 1450,
+        "health": 100,
+        "exit": null,
+        "produces": [
+            "t100",
+            "raptor_es",
+            "raptor_ad",
+            "tiger_assault",
+            "tiger_hellmaker",
+            "spider",
+            "spider_ii",
+            "hellbike",
+            "atm_500",
+            "miner_bt",
+            "shadow",
+            "wtp_100",
+            "gargoil",
+            "hellwind"
+        ]
+    },
+    {
+        "id": 0,
+        "name": "teleport",
+        "faction": 1,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": "teleportation",
+        "consumed_energy": 700,
+        "price": 2150,
+        "health": 200
+    },
+    {
+        "id": 0,
+        "name": "pb_control",
+        "type": "superweapon_control",
+        "faction": 1,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": "research_center",
+        "required_tecnology": "plasma_weapons",
+        "consumed_energy": 200,
+        "price": 1800,
+        "health": 500
+    },
+    {
+        "id": 0,
+        "name": "pb_cannon",
+        "type": "superweapon",
+        "faction": 1,
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "required_building": "pb_control",
+        "required_tecnology": "plasma_weapons",
+        "consumed_energy": 500,
+        "price": 1500,
+        "health": 500
+    },
+    {
+        "id": 0,
+        "name": "little_eye",
+        "type": "light_tower",
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "faction": 1,
+        "required_building": "robot_factory",
+        "required_tecnology": null,
+        "consumed_energy": 50,
+        "price": 400,
+        "health": 150,
+        "upgrades": [
+            {
+                "required_tecnology": "rocket_engine",
+                "price": 200,
+                "weapon": "rocket"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "name": "big_eye",
+        "type": "heavy_tower",
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "faction": 1,
+        "required_building": "heavy_tech",
+        "required_tecnology": "heavy_rockets",
+        "consumed_energy": 100,
+        "price": 600,
+        "health": 300,
+        "upgrades": [
+            {
+                "required_tecnology": "plasma_cannon",
+                "price": 200,
+                "weapon": "plasma"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "name": "construction_center_ed",
+        "type": "construction_center",
+        "faction": 2,
+        "layout": [
+            [-1, -1, 3, 2],
+            [1, 1, 1, 1]
+        ],
+        "required_building": null,
+        "required_tecnology": "nuclear_engine",
+        "consumed_energy": 0,
+        "price": 2500,
+        "health": 1500,
+        "exit": [1, 1],
+        "produces": [
+            "bantha",
+            "heavy_lifter",
+            "hcr-m"
+        ]
+    },
+    {
+        "id": 0,
+        "name": "bio_center",
+        "type": "light_factory",
+        "faction": 2,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": 200,
+        "price": 1000,
+        "health": 700,
+        "exit": [-1, 0],
+        "produces": [
+            "a01_android",
+            "a02_android",
+            "a03_android",
+            "a04_android"
+        ]
+    },
+    {
+        "id": 0,
+        "name": "tech_house",
+        "type": "heavy_factory",
+        "faction": 2,
+        "layout": [
+            [-1, -1, 2, 2],
+            [1, 0, 1, 1]
+        ],
+        "required_building": "power_plant",
+        "required_tecnology": null,
+        "consumed_energy": 400,
+        "price": 1500,
+        "health": 1000,
+        "exit": {
+            "position": [1, 0]
+        },
+        "produces": [
+        ]
+    },
+    {
+        "id": 0,
+        "name": "bcc",
+        "type": "superweapon_control",
+        "faction": 2,
+        "required_building": "research_center",
+        "required_tecnology": "nuclear_weapons",
+        "consumed_energy": 200,
+        "price": 2000,
+        "health": 500
+    },
+    {
+        "id": 0,
+        "name": "silo",
+        "type": "superweapon",
+        "faction": 2,
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "required_building": "bcc",
+        "required_tecnology": "nuclear_weapons",
+        "consumed_energy": 100,
+        "price": 1000,
+        "health": 500
+    },
+    {
+        "id": 0,
+        "name": "defend_tower",
+        "type": "light_tower",
+        "faction": 2,
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "required_building": "bio_center",
+        "required_tecnology": null,
+        "consumed_energy": 100,
+        "price": 400,
+        "health": 150,
+        "upgrades": [
+            {
+                "required_tecnology": "laser_cannon",
+                "price": 200,
+                "weapon": "laser"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "name": "heavy_defend_tower",
+        "type": "heavy_tower",
+        "faction": 2,
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "required_building": "tech_house",
+        "required_tecnology": "heavy_rockets",
+        "consumed_energy": 100,
+        "price": 600,
+        "health": 300,
+        "upgrades": [
+            {
+                "required_tecnology": "ion_cannon",
+                "price": 300,
+                "weapon": "ion"
+            }
+        ]
+    },
+    {
+        "id": 0,
+        "name": "pillbox",
+        "type": "light_tower",
+        "faction": 2,
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "required_building": "tech_house",
+        "required_tecnology": "nuclear_reactor",
+        "consumed_energy": 50,
+        "price": 800,
+        "health": 900
+    }
+]

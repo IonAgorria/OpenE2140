@@ -2,7 +2,11 @@
 
 ## About
 An open source game reimplementing Earth 2140 gameplay using original game files.
-The project is still under heavy development and not much happens yet.
+
+The project aims to reproduce the overall gameplay experience while adding a modern game features
+that are not available in original game.
+
+NOTE: The project is still under heavy development and not much happens yet.
 
 ## Libraries
 This project includes these libraries as git submodules or bundled:
@@ -48,6 +52,36 @@ The following game assets must be present in WD file or directory form:
 | LEVEL.WD | LEVEL | Level maps and text |
 
 
+## Roadmap
+- Writting game data
+- World/map code and drawing of map tiles
+- Basic entity implementation
+- Entity drawing
+- Static map entities
+- Entity selection
+- Mobile units
+- Move order
+- Basic pathfinder
+- Buildings
+- Rectangle and circular collisions for buildings/units 
+- Basic ingame GUI
+- Menu GUI
+- Weapons
+- Turrets
+- Attack order
+- Add ingame menu for viewing player stuff
+- Building construction and deployment
+- Factories build queue
+- Player colors/teams
+- Ordenes mas complejas como reparar, patrulla, coger/dejar minerales etc
+- Minimap to show units, buildings and ore
+- Map trees, rocks and water
+- Saving/loading
+- Basic AI
+- Audio from game files (16000hz 8bits)
+- Game rebalancing
+- Multiplayer
+
 ## Mentions
 - WD and DAT+PAL decoding is based on tools made in Pascal. Source and compiled exe available on http://www.ctpax-x.org/?goto=files&show=17
-- MIX files, sprites and tiles decoding is based on work done by "mnn" on http://www.gamedev.net/topic/582821-sprite-formats-used-in-old-games/
+- MIX files, levels, sprites and tiles decoding is based on work done by "mnn" on http://www.gamedev.net/topic/582821-sprite-formats-used-in-old-games/

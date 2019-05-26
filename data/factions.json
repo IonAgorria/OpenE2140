@@ -1,10 +1,35 @@
 [
     {
-        "id": 0,
-        "name": "common"
+        "name": "ed",
+        "tecnologies": [
+            {
+                "nuclear_reactor": 50,
+                "engine": 50,
+                "laser_detector": 100
+            },
+            {
+                "nuclear_engine": 150,
+                "rocket_engine": 150,
+                "laser_cannon": 500,
+                "light_laser_cannon": 500
+            },
+            {
+                "high_medicine": 0,
+                "flying": 1500,
+                "heavy_rockets": 0
+            },
+            {
+                "fast_repairing":  0,
+                "ai_mine":  0,
+                "teleportation": 0,
+                "ion_cannon":  0
+            },
+            {
+                "nuclear_weapons": 5000
+            }
+        ]
     },
     {
-        "id": 1,
         "name": "ucs",
         "tecnologies": [
             {
@@ -34,35 +59,4 @@
             }
         ]
     },
-    {
-        "id": 2,
-        "name": "ed",
-        "tecnologies": [
-            {
-                "nuclear_reactor": 50,
-                "engine": 50,
-                "laser_detector": 100
-            },
-            {
-                "nuclear_engine": 150,
-                "rocket_engine": 150,
-                "laser_cannon": 500,
-                "light_laser_cannon": 500
-            },
-            {
-                "high_medicine": 0,
-                "flying": 1500,
-                "heavy_rockets": 0
-            },
-            {
-                "fast_repairing":  0,
-                "ai_mine":  0,
-                "teleportation": 0,
-                "ion_cannon":  0
-            },
-            {
-                "nuclear_weapons": 5000
-            }
-        ]
-    }
 ]

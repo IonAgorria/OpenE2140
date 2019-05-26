@@ -1,0 +1,67 @@
+[
+  {
+    "name": "exit_ed",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": {"asset": 76},
+      "exit_1": {"asset": 77},
+      "exit_2": {"asset": 78},
+      "exit_3_top": {"asset": 79},
+      "exit_3_bottom": {"asset": 80},
+      "exit_3_platform": {"asset": 81}
+    }
+  },
+  {
+    "name": "exit_ucs",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": {"asset": 82},
+      "exit_1": {"asset": 83},
+      "exit_2": {"asset": 84},
+      "exit_3_top": {"asset": 85},
+      "exit_3_bottom": {"asset": 86},
+      "exit_3_platform": {"asset": 87}
+    }
+  },
+  {
+    "name": "exit_water",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "default": {"asset": 88},
+      "damaged": {"asset": 89}
+    }
+  },
+  {
+    "name": "exit_bio_center",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": {"asset": 37},
+      "exit_1": {"asset": 38}
+    }
+  },
+  {
+    "name": "exit_robot_factory",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": [
+      "exit_0": {"asset": 58},
+      "exit_1": {"asset": 89}
+    ]
+  },
+  {
+    "name": "nuclear_reactor",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "default": {"asset": 2},
+      "damaged": {"asset": 3}
+    }
+  },
+  {
+    "name": "tiger_legs",
+    "sprites_path": "MIX/SPRU0/",
+    "sprites": {
+      "default_0": {"assets": [37, 45]},
+      "default_1": {"assets": [46, 54]},
+      "default_8": {"assets": [73, 81]}
+    }
+  }
+]

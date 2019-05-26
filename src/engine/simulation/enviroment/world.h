@@ -4,7 +4,6 @@
 #ifndef OPENE2140_WORLD_H
 #define OPENE2140_WORLD_H
 
-#include <vector>
 #include "core/common.h"
 #include "math/rectangle.h"
 #include "assets/asset.h"

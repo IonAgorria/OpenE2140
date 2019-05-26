@@ -4,7 +4,6 @@
 #ifndef OPENE2140_TILE_H
 #define OPENE2140_TILE_H
 
-#include <vector>
 #include "core/common.h"
 
 class Entity;

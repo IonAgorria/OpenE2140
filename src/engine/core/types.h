@@ -19,6 +19,12 @@ using window_id = unsigned int;
 /** Entity ID */
 using entity_id = unsigned long;
 
+/** Entity type */
+struct entity_type {
+    unsigned int kind;
+    unsigned int id;
+};
+
 
 /**
  * Size struct with shorts

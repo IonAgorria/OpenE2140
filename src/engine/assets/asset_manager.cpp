@@ -85,16 +85,18 @@ void AssetManager::clearAssets() {
     assetsCount = 0;
 }
 
-void AssetManager::loadAssets(const std::string& assetsRoot, const std::string& containerName, bool required) {
+void AssetManager::getAssetRoots(std::vector<std::string>& roots) {
+    std::string assetsRoot(std::string(GAME_ASSETS_DIR) + DIR_SEP);
+    roots.emplace_back(assetsRoot);                                                 //Current directory
+    roots.emplace_back(Utils::getInstallPath() + assetsRoot);                       //Installation directory
+    roots.emplace_back(Utils::getParentPath(Utils::getInstallPath()) + assetsRoot); //Parent of installation directory
+}
+
+void AssetManager::loadAssets(const std::vector<std::string>& assetRoots, const std::string& containerName, bool required) {
     log->debug("Loading from '{0}'", containerName);
     //Scan assets from containers by checking different paths that might contain assets
-    std::list<std::string> assetDirPaths = {
-            assetsRoot,                                                 //Current directory
-            Utils::getInstallPath() + assetsRoot,                       //Installation directory
-            Utils::getParentPath(Utils::getInstallPath()) + assetsRoot, //Parent of installation directory
-    };
     bool found = false;
-    for (std::string path : assetDirPaths) {
+    for (std::string path : assetRoots) {
         for (std::unique_ptr<IAssetProcessor>& processor : processors) {
             if (found || !error.empty()) break;
             found |= processor->scanContainer(path, containerName);
@@ -107,7 +109,7 @@ void AssetManager::loadAssets(const std::string& assetsRoot, const std::string& 
         std::string text = "Error loading game data for directory/file '" + containerName + "'\n";
         if (error.empty()) {
             text += "Check if game files are correctly set and are accessible inside following paths: \n";
-            for (std::string path : assetDirPaths) {
+            for (std::string path : assetRoots) {
                 text += path + "\n";
             }
         } else {

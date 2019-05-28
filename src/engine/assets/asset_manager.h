@@ -127,6 +127,13 @@ public:
     int getAssetsCount();
 
     /**
+     * Sets the asset roots available
+     *
+     * @param roots
+     */
+    static void getAssetRoots(std::vector<std::string>& roots);
+
+    /**
      * Clears all loaded assets from manager
      */
     void clearAssets();
@@ -138,7 +145,7 @@ public:
      * @param containerNames names of container to scan in assets root
      * @param required flag to throw error if container is not found
      */
-    void loadAssets(const std::string& assetsRoot, const std::string& containerName, bool required);
+    void loadAssets(const std::vector<std::string>& assetRoots, const std::string& containerName, bool required);
 
     /**
      * Processes intermediate assets

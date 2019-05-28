@@ -57,7 +57,7 @@ The following game assets must be present in WD file or directory form:
 - World/map code and drawing of map tiles
 - Basic entity implementation
 - Entity drawing
-- Static map entities
+- Static map entities (using SPRO*)
 - Entity selection
 - Mobile units
 - Move order

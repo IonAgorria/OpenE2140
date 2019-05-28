@@ -32,6 +32,18 @@ void Game::setupAssetManager() {
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorLevel>());
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorMIX>());
 
+    //Load assets
+    std::string assetsRoot(std::string(GAME_ASSETS_DIR) + DIR_SEP);
+    assetManager->loadAssets(assetsRoot, "PIRO", true);
+    assetManager->loadAssets(assetsRoot, "MIX", true);
+    assetManager->loadAssets(assetsRoot, "LEVEL", true);
+    assetManager->loadAssets(assetsRoot, "LEVEL2", false);
+    error = assetManager->getError();
+    if (hasError()) {
+        error = "Error initializing asset manager\n" + error;
+        return;
+    }
+
     //Call setup
     Engine::setupAssetManager();
 }

@@ -85,58 +85,46 @@ void AssetManager::clearAssets() {
     assetsCount = 0;
 }
 
-void AssetManager::loadAssets(const std::string& assetsRoot, const std::vector<std::string> containerNames) {
-    clearAssets();
-    log->debug("Loading assets");
-
+void AssetManager::loadAssets(const std::string& assetsRoot, const std::string& containerName, bool required) {
+    log->debug("Loading from '{0}'", containerName);
     //Scan assets from containers by checking different paths that might contain assets
     std::list<std::string> assetDirPaths = {
             assetsRoot,                                                 //Current directory
             Utils::getInstallPath() + assetsRoot,                       //Installation directory
             Utils::getParentPath(Utils::getInstallPath()) + assetsRoot, //Parent of installation directory
     };
-    for (std::string name : containerNames) {
-        log->debug("Loading '{0}'", name);
-        bool found = false;
-        for (std::string path : assetDirPaths) {
-            for (std::unique_ptr<IAssetProcessor>& processor : processors) {
-                found |= processor->scanContainer(path, name);
-                error = processor->getError();
-            }
+    bool found = false;
+    for (std::string path : assetDirPaths) {
+        for (std::unique_ptr<IAssetProcessor>& processor : processors) {
             if (found || !error.empty()) break;
+            found |= processor->scanContainer(path, containerName);
+            error = processor->getError();
         }
+    }
 
-        //Nothing was found
-        if (!found) {
-            std::string text = "Error loading game data for directory/file '" + name + "'\n";
+    //Nothing was found
+    if (!found && required) {
+        std::string text = "Error loading game data for directory/file '" + containerName + "'\n";
+        if (error.empty()) {
             text += "Check if game files are correctly set and are accessible inside following paths: \n";
             for (std::string path : assetDirPaths) {
                 text += path + "\n";
             }
-            //Add prev error
-            if (!error.empty()) {
-                text += error;
-            }
-            error = text;
-            return;
+        } else {
+            text += error;
         }
+        error = text;
+        return;
     }
+}
 
+void AssetManager::processIntermediates() {
     //Process intermediate assets to extract assets inside assets
     for (std::unique_ptr<IAssetProcessor>& processor : processors) {
         processor->processIntermediates();
         error = processor->getError();
+        if (!error.empty()) return;
     }
-    if (!error.empty()) return;
-
-    //Refresh the assets
-    refreshAssets();
-    if (!error.empty()) return;
-
-    //Print loaded assets
-    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assets) log->debug(pair.first);
-
-    log->debug("Loaded {0} assets", assetsCount);
 }
 
 void AssetManager::refreshAssets() {

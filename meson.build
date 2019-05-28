@@ -45,7 +45,6 @@ opene2140_cfg.set('GAME_LOG_FILE', '"log.txt"', description: 'File to store log 
 opene2140_cfg.set('DEFAULT_RESOLUTION_WIDTH', 800, description: 'Default resolution width')
 opene2140_cfg.set('DEFAULT_RESOLUTION_HEIGHT', 600, description: 'Default resolution height')
 opene2140_cfg.set('GAME_ASSETS_DIR', '"assets"', description: 'Directory name containing assets')
-opene2140_cfg.set('GAME_ASSET_CONTAINER_NAMES', '{"MIX", "LEVEL", "PIRO"}', description: 'Names of asset containers to load')
 
 #Variable config
 opene2140_cfg.set('OPENE2140_USE_BOOST', boost_dep.found() ? 'true' : 'false', description: 'Enables the use of Boost library')

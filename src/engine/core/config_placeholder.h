@@ -24,11 +24,6 @@
 #define GAME_ASSETS_DIR ""
 #endif
 
-/* Names of asset containers to load */
-#ifndef GAME_ASSET_CONTAINER_NAMES
-#define GAME_ASSET_CONTAINER_NAMES {""}
-#endif
-
 /* File to dump when crashing */
 #ifndef GAME_DUMP_FILE
 #define GAME_DUMP_FILE ""

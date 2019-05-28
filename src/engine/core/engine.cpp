@@ -192,13 +192,18 @@ void Engine::setupRenderer() {
 }
 
 void Engine::setupAssetManager() {
-    //Load assets
-    assetManager->loadAssets(std::string(GAME_ASSETS_DIR) + DIR_SEP, GAME_ASSET_CONTAINER_NAMES);
-    error = assetManager->getError();
-    if (hasError()) {
-        error = "Error initializing asset manager\n" + error;
-        return;
-    }
+    //Process the assets
+    assetManager->processIntermediates();
+    if (!error.empty()) return;
+
+    //Refresh the assets
+    assetManager->refreshAssets();
+    if (!error.empty()) return;
+
+    //Print loaded assets
+    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assetManager->getAssets()) log->debug(pair.first);
+
+    log->debug("Loaded {0} assets", assetManager->getAssetsCount());
 }
 
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {

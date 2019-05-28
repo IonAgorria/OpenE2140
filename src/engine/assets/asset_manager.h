@@ -135,9 +135,15 @@ public:
      * Loads the assets data from files into memory
      *
      * @param assetsRoot directory to use as assets root
-     * @param containerNames names of containers to scan in assets root
+     * @param containerNames names of container to scan in assets root
+     * @param required flag to throw error if container is not found
      */
-    void loadAssets(const std::string& assetsRoot, const std::vector<std::string> containerNames);
+    void loadAssets(const std::string& assetsRoot, const std::string& containerName, bool required);
+
+    /**
+     * Processes intermediate assets
+     */
+    void processIntermediates();
 
     /**
      * (Re)Loads the volatile assets data using memory data

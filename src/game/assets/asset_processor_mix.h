@@ -60,9 +60,8 @@ private:
      * Processes the content of a MIX asset for more assets
      *
      * @param asset containing MIX
-     * @return amount of added assets or -1 if error
      */
-    int processIntermediateMIX(Asset* asset);
+    void processIntermediateMIX(Asset* asset);
 
     virtual void processIntermediates() override;
 };

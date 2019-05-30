@@ -313,7 +313,7 @@ public:
      * @param size of buffer
      * @return unique pointer of buffer
      */
-    static std::unique_ptr<byteArray> createBuffer(const size_t size);
+    static std::unique_ptr<byte_array_t> createBuffer(const size_t size);
 
     /**
      * Saves current stack trace to file
@@ -347,7 +347,7 @@ public:
      * @param data pointer to data
      * @return flipped data
      */
-    static std::unique_ptr<byteArray> bufferFlipY(const byteArray data, unsigned int width, unsigned int height);
+    static std::unique_ptr<byte_array_t> bufferFlipY(const byte_array_t data, unsigned int width, unsigned int height);
 
     /**
      * Returns the value pointer inside the map or nullptr if none found

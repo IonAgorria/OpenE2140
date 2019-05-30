@@ -21,7 +21,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    AssetWorld(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetWorld(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Asset destructor
@@ -41,7 +41,7 @@ public:
     /**
      * @return asset to use as tileset
      */
-    virtual asset_path tileset() const = 0;
+    virtual asset_path_t tileset() const = 0;
 
     /**
      * @return players data

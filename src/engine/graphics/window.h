@@ -25,7 +25,7 @@ private:
     SDL_Window* windowHandle = nullptr;
 
     /** Window ID used for SDL2 */
-    window_id windowID = 0;
+    window_id_t windowID = 0;
 
     /** Context used for SDL2 */
     SDL_GLContext context = nullptr;
@@ -64,7 +64,7 @@ public:
     /**
      * @return window id
      */
-    window_id getID();
+    window_id_t getID();
 
     /**
      * @return current window size

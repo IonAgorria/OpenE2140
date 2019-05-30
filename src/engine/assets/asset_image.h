@@ -39,7 +39,7 @@ public:
      * @param fileSize of asset data in file, 0 for unknown/until end
      * @param palette to use when decoding image data
      */
-    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+    AssetImage(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
         const Vector2& size, const std::shared_ptr<AssetPalette> assetPalette);
 
     /**
@@ -50,7 +50,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+    AssetImage(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
        const Vector2& size);
 
     /**

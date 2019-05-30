@@ -24,7 +24,7 @@ private:
     /**
      * MIX file header struct
      */
-    struct MIXHeader {
+    struct mix_header_t {
         unsigned int unused;
         unsigned int streamsCount;
         unsigned int streamsOffset;
@@ -36,7 +36,7 @@ private:
     /**
      * Segmented image header
      */
-    struct SegmentedImageHeader {
+    struct segmented_image_header_t {
         unsigned int width;
         unsigned int height;
         unsigned int dataBlockSize;
@@ -51,9 +51,9 @@ private:
     /**
      * Segmented image segment
      */
-    struct SegmentedImageSegment {
-        byte padding;
-        byte width;
+    struct segmented_image_segment_t {
+        byte_t padding;
+        byte_t width;
     };
 
     /**

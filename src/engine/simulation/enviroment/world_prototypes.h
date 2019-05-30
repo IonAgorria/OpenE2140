@@ -13,17 +13,17 @@ struct PlayerPrototype {
     /**
      * Player ID
      */
-    player_id id;
+    player_id_t id;
 
     /**
      * Player initial money amount
      */
-    money money;
+    money_t money;
 
     /**
      * Player alliances mask
      */
-    player_id alliances;
+    player_id_t alliances;
 };
 
 /**
@@ -33,17 +33,17 @@ struct EntityPrototype {
     /**
      * Type of entity
      */
-    entity_type type;
+    entity_type_t type;
 
     /**
      * Direction of entity
      */
-    entity_direction direction;
+    entity_direction_t direction;
 
     /**
      * Player which entity belongs
      */
-    player_id player;
+    player_id_t player;
 };
 
 #endif //OPENE2140_WORLD_PROTOTYPES_H

@@ -29,7 +29,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0 for unknown/until end
      */
-    AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetPalette(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Asset destructor

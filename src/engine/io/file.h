@@ -21,7 +21,7 @@ private:
     /**
      * Memory buffer if file is memory based
      */
-    std::unique_ptr<byteArray> memory;
+    std::unique_ptr<byte_array_t> memory;
 
     /**
      * Sets error of this file if SDL has any error

@@ -11,8 +11,8 @@
  * Struct for RG color
  */
 struct ColorRG {
-    byte r = 0;
-    byte g = 0;
+    byte_t r = 0;
+    byte_t g = 0;
 
     /**
      * Sets this color from other color
@@ -34,9 +34,9 @@ struct ColorRG {
  * Struct for RGB color
  */
 struct ColorRGB {
-    byte r = 0;
-    byte g = 0;
-    byte b = 0;
+    byte_t r = 0;
+    byte_t g = 0;
+    byte_t b = 0;
 
     /**
      * Sets this color from other color
@@ -59,10 +59,10 @@ struct ColorRGB {
  * Struct for RGBA color
  */
 struct ColorRGBA {
-    byte r = 0;
-    byte g = 0;
-    byte b = 0;
-    byte a = 0;
+    byte_t r = 0;
+    byte_t g = 0;
+    byte_t b = 0;
+    byte_t a = 0;
 
     /**
      * Sets this color from other color

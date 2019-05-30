@@ -376,8 +376,8 @@ std::string Utils::toInternalPath(const std::string& path) {
     return result;
 }
 
-std::unique_ptr<byteArray> Utils::createBuffer(const size_t size) {
-    return std::make_unique<byteArray>(size);
+std::unique_ptr<byte_array_t> Utils::createBuffer(const size_t size) {
+    return std::make_unique<byte_array_t>(size);
 }
 
 bool Utils::saveStackTrace(const std::string& file) {
@@ -455,9 +455,9 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
  * @param lines of buffer
  * @param data to flip
  */
-std::unique_ptr<byteArray> Utils::bufferFlipY(const byteArray data, unsigned int width, unsigned int height) {
+std::unique_ptr<byte_array_t> Utils::bufferFlipY(const byte_array_t data, unsigned int width, unsigned int height) {
     //Copy first line before shifting all
-    std::unique_ptr<byteArray> tmp = createBuffer(width * height);
+    std::unique_ptr<byte_array_t> tmp = createBuffer(width * height);
     for (unsigned int i = 0; i < height; ++i) {
         memcpy(tmp.get() + i * width, data + (height - i - 1) * width, width);
     }

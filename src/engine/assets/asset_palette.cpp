@@ -4,7 +4,7 @@
 #include "core/utils.h"
 #include "asset_palette.h"
 
-AssetPalette::AssetPalette(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
+AssetPalette::AssetPalette(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
         Asset(path, file, fileOffset, fileSize) {
 }
 

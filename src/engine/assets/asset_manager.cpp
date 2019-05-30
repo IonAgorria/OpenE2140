@@ -31,7 +31,7 @@ void AssetManager::addAssetProcessor(std::unique_ptr<IAssetProcessor> processor)
     processors.push_back(std::move(processor));
 }
 
-const std::unordered_map<asset_path, std::unique_ptr<Asset>>& AssetManager::getAssets() const {
+const std::unordered_map<asset_path_t, std::unique_ptr<Asset>>& AssetManager::getAssets() const {
     return assets;
 }
 
@@ -50,7 +50,7 @@ bool AssetManager::addAsset(std::unique_ptr<Asset> asset) {
     return true;
 }
 
-bool AssetManager::removeAsset(const asset_path& path) {
+bool AssetManager::removeAsset(const asset_path_t& path) {
     if (assets.erase(path) == 0) {
         error = "Asset is not present: '" + path + "'";
         return false;
@@ -59,11 +59,11 @@ bool AssetManager::removeAsset(const asset_path& path) {
     return true;
 }
 
-Asset* AssetManager::getAsset(const asset_path& path) {
+Asset* AssetManager::getAsset(const asset_path_t& path) {
     return Utils::getPointerFromUnorderedMap(assets, path);
 }
 
-std::shared_ptr<Image> AssetManager::getImage(const asset_path& path) {
+std::shared_ptr<Image> AssetManager::getImage(const asset_path_t& path) {
     std::shared_ptr<Image> image;
     AssetImage* assetImage = getAsset<AssetImage>(path);
     if (assetImage) {
@@ -142,7 +142,7 @@ void AssetManager::refreshAssets() {
     //Iterate all assets and handle by asset type
     std::vector<AssetImage*> assetImages;
     std::vector<AssetImage*> assetImagesWithPalettes;
-    for (std::unordered_map<asset_path, std::unique_ptr<Asset>>::iterator pair = assets.begin(); pair != assets.end(); ++pair) {
+    for (std::unordered_map<asset_path_t, std::unique_ptr<Asset>>::iterator pair = assets.begin(); pair != assets.end(); ++pair) {
         //Handle image assets
         AssetImage* assetImage = dynamic_cast<AssetImage*>(pair->second.get());
         if (assetImage) {

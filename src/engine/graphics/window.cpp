@@ -116,7 +116,7 @@ bool Window::hide() {
     return !error.empty();
 }
 
-window_id Window::getID() {
+window_id_t Window::getID() {
     return windowID;
 }
 

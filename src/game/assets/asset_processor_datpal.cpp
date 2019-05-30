@@ -14,9 +14,9 @@ void AssetProcessorDatPal::processIntermediates() {
     std::forward_list<Asset*> assets;
 
     //Iterate all assets
-    for (const std::pair<const asset_path, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
+    for (const std::pair<const asset_path_t, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
         //Get the "extension" of asset
-        asset_path assetPath = pair.first;
+        asset_path_t assetPath = pair.first;
         std::string::size_type size = assetPath.size();
         if (4 > size) {
             continue;
@@ -32,7 +32,7 @@ void AssetProcessorDatPal::processIntermediates() {
     for (Asset* asset : assets) {
         std::string assetPath = asset->getPath();
         std::string::size_type assetSize = assetPath.size();
-        asset_path assetPathBase = assetPath.substr(0, assetSize - 4);
+        asset_path_t assetPathBase = assetPath.substr(0, assetSize - 4);
 
         //Create palette asset and store it
         std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
@@ -40,7 +40,7 @@ void AssetProcessorDatPal::processIntermediates() {
         );
 
         //Get the image asset from palette path
-        asset_path imagePath = assetPathBase + ".DAT";
+        asset_path_t imagePath = assetPathBase + ".DAT";
         asset = manager->getAsset(imagePath);
         if (!asset) {
             error = assetPath + " doesn't have image counterpart";
@@ -48,9 +48,9 @@ void AssetProcessorDatPal::processIntermediates() {
         }
 
         //Pass the image size struct to fill it
-        size_t readSize = sizeof(SSize16) + 2;
+        size_t readSize = sizeof(size_16_t) + 2;
         Vector2 imageSize;
-        SSize16 imageSizeStruct;
+        size_16_t imageSizeStruct;
         if (!asset->readAll(imageSizeStruct)) {
             error = "Error reading '" + imagePath + "' image size\n" + asset->getError();
             return;

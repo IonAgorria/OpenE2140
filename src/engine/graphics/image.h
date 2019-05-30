@@ -58,7 +58,7 @@ private:
      * @param pixels to fill the rectangle allocated to this image into texture
      * @return if success
      */
-    bool loadTextureR8(const byte* pixels);
+    bool loadTextureR8(const byte_t* pixels);
 
     /**
      * Loads RGBA image data to texture in this image.
@@ -66,7 +66,7 @@ private:
      * @param pixels to fill the rectangle allocated to this image into texture
      * @return if success
      */
-    bool loadTextureRGBA(const byte* pixels);
+    bool loadTextureRGBA(const byte_t* pixels);
 
     /**
      * Updates UVs for this image based on rectangle and texture size
@@ -153,7 +153,7 @@ public:
      * @param pixels indices to fill the rectangle
      * @return if success
      */
-    bool loadFromIndexed8(const byte* pixels);
+    bool loadFromIndexed8(const byte_t* pixels);
 
     /**
      * Loads image data to texture using pixels in RGB565 format.
@@ -163,7 +163,7 @@ public:
      * @param alpha data for each pixel
      * @return if success
      */
-    bool loadFromRGB565(const byte* pixels);
+    bool loadFromRGB565(const byte_t* pixels);
 
     /**
      * Loads image data to texture using pixels in RGBA8888 format.
@@ -172,7 +172,7 @@ public:
      * @param pixels to fill the rectangle
      * @return if success
      */
-    bool loadFromRGBA8888(const byte* pixels);
+    bool loadFromRGBA8888(const byte_t* pixels);
 
     /**
      * @return string version of this

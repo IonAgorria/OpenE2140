@@ -14,12 +14,12 @@
 #include "asset_processor_mix.h"
 
 void AssetProcessorMIX::processIntermediates() {
-    std::forward_list<asset_path> assets;
+    std::forward_list<asset_path_t> assets;
 
     //Iterate all assets
-    for (const std::pair<const asset_path, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
+    for (const std::pair<const asset_path_t, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
         //Get the "extension" of asset
-        asset_path assetPath = pair.first;
+        asset_path_t assetPath = pair.first;
         std::string::size_type size = assetPath.size();
         if (4 > size) {
             continue;
@@ -41,7 +41,7 @@ void AssetProcessorMIX::processIntermediates() {
     }
 
     //Iterate mix paths
-    for (asset_path assetPath : assets) {
+    for (asset_path_t assetPath : assets) {
         Asset* asset = manager->getAsset(assetPath);
         processIntermediateMIX(asset);
         if (!error.empty()) return;
@@ -55,8 +55,8 @@ void AssetProcessorMIX::processIntermediates() {
 }
 
 void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
-    asset_path path = asset->getPath();
-    asset_path basePath = path.substr(0, path.size() - 4);
+    asset_path_t path = asset->getPath();
+    asset_path_t basePath = path.substr(0, path.size() - 4);
 
     //Verify constant
     bool match = asset->match("MIX FILE  ");
@@ -67,7 +67,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
     }
 
     //Pass the header to fill it
-    MIXHeader mixHeader;
+    mix_header_t mixHeader;
     size_t readSize = sizeof(mixHeader);
     size_t amount = asset->read(&mixHeader, readSize);
     error = asset->getError();
@@ -117,7 +117,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
     size_t paletteSize = ASSET_PALETTE_COUNT * sizeof(ColorRGB);
     for (unsigned int i = 0; i < mixHeader.palettesCount; ++i) {
         //Create palette from MIX, path is not really used but it's nice to have
-        asset_path palettePath = basePath + "/" + std::to_string(i) + ".PAL";
+        asset_path_t palettePath = basePath + "/" + std::to_string(i) + ".PAL";
         std::shared_ptr<AssetPalette> assetPalette = std::make_shared<AssetPalette>(
                 palettePath, asset->getFile(), asset->offset() + asset->tell(), paletteSize
         );
@@ -146,7 +146,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
 
         //Read streams
         for (unsigned int i = 0; i < streamPositions.size(); ++i) {
-            asset_path streamAssetPath = basePath + "/" + std::to_string(i);
+            asset_path_t streamAssetPath = basePath + "/" + std::to_string(i);
             //Calculate start-end-size of stream
             unsigned int streamStart = streamPositions[i];
             unsigned int streamEnd;
@@ -166,7 +166,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
             }
 
             //Read 5th byte (unknown purpose), this hack serves to detect stream type
-            byte streamType;
+            byte_t streamType;
             readSize = sizeof(streamType);
             amount = asset->read(&streamType, readSize);
             error = asset->getError();
@@ -194,7 +194,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
             switch (streamType) {
                 case TYPE_IMAGE_8_INDEXED: {
                     //Get image size
-                    SSize16 imageSizeStruct;
+                    size_16_t imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + error;
                         return;
@@ -212,7 +212,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     assetStart += 1;
 
                     //Get palette index
-                    byte paletteIndex = 0;
+                    byte_t paletteIndex = 0;
                     if (!asset->readAll(paletteIndex)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index " + error;
                         return;
@@ -232,7 +232,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                 }
                 case TYPE_IMAGE_16_RAW: {
                     //Get image size
-                    SSize16 imageSizeStruct;
+                    size_16_t imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + asset->getError();
                         return;
@@ -256,7 +256,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     }
 
                     //Get palette index
-                    byte paletteIndex;
+                    byte_t paletteIndex;
                     readSize = sizeof(paletteIndex);
                     amount = asset->read(&paletteIndex, readSize);
                     error = asset->getError();
@@ -274,7 +274,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     imagePalette = palettes.at(paletteIndex - mixHeader.palettesFirstIndex);
 
                     //Get segmented image header
-                    SegmentedImageHeader segmentedImageHeader;
+                    segmented_image_header_t segmentedImageHeader;
                     if (!asset->readAll(segmentedImageHeader)) {
                         error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " segmented image header " + asset->getError();
                         return;
@@ -303,11 +303,11 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     }
 
                     //Get segments
-                    std::vector<SegmentedImageSegment> segments;
-                    unsigned short segmentSize = sizeof(SegmentedImageSegment);
+                    std::vector<segmented_image_segment_t> segments;
+                    unsigned short segmentSize = sizeof(segmented_image_segment_t);
                     unsigned int segmentsAmount = segmentedImageHeader.segmentBlockSize / segmentSize;
                     for (unsigned int j = 0; j < segmentsAmount; ++j) {
-                        SegmentedImageSegment segment;
+                        segmented_image_segment_t segment;
                         if (!asset->readAll(segment)) {
                             error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment " + std::to_string(j) + " " + asset->getError();
                             return;
@@ -343,7 +343,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     assetStart = 0;
 
                     //Decode the data, ignore the last entry
-                    const byte zero = 0;
+                    const byte_t zero = 0;
                     unsigned int lineIndex = 0;
                     for (unsigned int scanLineIndex = 0; scanLineIndex < segmentedImageHeader.scanLinesCount - 1; scanLineIndex++) {
                         //Go to data position
@@ -358,7 +358,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                         size_t lineSize = 0;
                         unsigned short lineEnd = scanLines.at(scanLineIndex + 1) / segmentSize;
                         for (unsigned short segmentIndex = scanLines.at(scanLineIndex) / segmentSize; segmentIndex < lineEnd; segmentIndex++) {
-                            SegmentedImageSegment segment = segments.at(segmentIndex);
+                            segmented_image_segment_t segment = segments.at(segmentIndex);
 
                             //Add line size
                             lineSize += segment.padding + segment.width;
@@ -381,7 +381,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                             }
 
                             //Create buffer to store current segment data
-                            std::unique_ptr<byteArray> segmentBuffer = Utils::createBuffer(segment.width);
+                            std::unique_ptr<byte_array_t> segmentBuffer = Utils::createBuffer(segment.width);
 
                             //Read segment data to buffer
                             amount = asset->read(segmentBuffer.get(), segment.width);

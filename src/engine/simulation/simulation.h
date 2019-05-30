@@ -46,7 +46,7 @@ private:
     /**
      * Last used entity id
      */
-    entity_id lastEntityID = 0;
+    entity_id_t lastEntityID = 0;
 
 public:
     /**
@@ -89,7 +89,7 @@ public:
     /**
      * @return the next entity ID
      */
-    entity_id nextEntityID();
+    entity_id_t nextEntityID();
 
     /**
      * Adds entity to simulation

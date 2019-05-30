@@ -55,7 +55,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
     }
 
     //Now get the names block
-    std::unique_ptr<byteArray> namesBlock = Utils::createBuffer(static_cast<size_t>(namesBlockSize));
+    std::unique_ptr<byte_array_t> namesBlock = Utils::createBuffer(static_cast<size_t>(namesBlockSize));
     amount = file->read(namesBlock.get(), namesBlockSize);
     error = file->getError();
     if (amount != namesBlockSize || !error.empty()) {
@@ -95,7 +95,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
         //Get the name in safe way (ensure index is inside block or stop if null terminator is seen)
         std::string recordName = std::string();
         for (unsigned int nameIndex = record.nameOffset; nameIndex < namesBlockSize; ++nameIndex) {
-            byte& c = namesBlock[nameIndex];
+            byte_t& c = namesBlock[nameIndex];
             if (c == '\0') break;
             recordName += c;
         }

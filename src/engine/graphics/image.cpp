@@ -56,7 +56,7 @@ Image::Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image
         //Set the initial texture data
         size_t bufferSize = static_cast<const size_t>(textureSize.x * textureSize.y);
         if (!withPalette) bufferSize *= 4;
-        std::unique_ptr<byteArray> buffer = Utils::createBuffer(bufferSize);
+        std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(bufferSize);
         memset(buffer.get(), 0, bufferSize);
         glTexImage2D(
             GL_TEXTURE_2D,
@@ -141,11 +141,11 @@ GLuint Image::bindTexture() const {
     return texture;
 }
 
-bool Image::loadTextureR8(const byte* pixels) {
+bool Image::loadTextureR8(const byte_t* pixels) {
     bindTexture();
 
     //Flip image
-    std::unique_ptr<byteArray> flipped = Utils::bufferFlipY(pixels, rectangle.w, rectangle.h);
+    std::unique_ptr<byte_array_t> flipped = Utils::bufferFlipY(pixels, rectangle.w, rectangle.h);
 
     //Required to properly load the data
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -157,11 +157,11 @@ bool Image::loadTextureR8(const byte* pixels) {
     return error.empty();
 }
 
-bool Image::loadTextureRGBA(const byte* pixels) {
+bool Image::loadTextureRGBA(const byte_t* pixels) {
     bindTexture();
 
     //Flip image
-    std::unique_ptr<byteArray> flipped = Utils::bufferFlipY(pixels, rectangle.w * 4, rectangle.h);
+    std::unique_ptr<byte_array_t> flipped = Utils::bufferFlipY(pixels, rectangle.w * 4, rectangle.h);
 
     //Required to properly load the data
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
@@ -173,18 +173,18 @@ bool Image::loadTextureRGBA(const byte* pixels) {
     return error.empty();
 }
 
-bool Image::loadFromIndexed8(const byte* pixels) {
+bool Image::loadFromIndexed8(const byte_t* pixels) {
     if (!check(true)) return false;
 
     //Load data to texture
     return loadTextureR8(pixels);
 }
 
-bool Image::loadFromRGB565(const byte* pixels) {
+bool Image::loadFromRGB565(const byte_t* pixels) {
     if (!check(false)) return false;
 
     //Create buffer for converted pixels and do conversion
-    std::unique_ptr<byteArray> converted = Utils::createBuffer(
+    std::unique_ptr<byte_array_t> converted = Utils::createBuffer(
             static_cast<const size_t>(rectangle.w * rectangle.h * 4)
     );
     int result = SDL_ConvertPixels(
@@ -201,7 +201,7 @@ bool Image::loadFromRGB565(const byte* pixels) {
     return loadTextureRGBA(converted.get());
 }
 
-bool Image::loadFromRGBA8888(const byte* pixels) {
+bool Image::loadFromRGBA8888(const byte_t* pixels) {
     if (!check(false)) return false;
 
     //Load data to texture

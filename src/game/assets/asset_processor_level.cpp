@@ -8,11 +8,11 @@
 #include "asset_processor_level.h"
 
 void AssetProcessorLevel::processIntermediates() {
-    std::unordered_map<asset_path,Asset*> assets;
+    std::unordered_map<asset_path_t,Asset*> assets;
 
     //Iterate all assets
-    for (const std::pair<const asset_path, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
-        asset_path assetPath = pair.first;
+    for (const std::pair<const asset_path_t, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
+        asset_path_t assetPath = pair.first;
 
         //Check if its level
         if (Utils::startsWith(assetPath, "LEVEL/DATA/LEVEL") && !Utils::endsWith(assetPath, ".INI")) {
@@ -20,10 +20,10 @@ void AssetProcessorLevel::processIntermediates() {
         }
     }
 
-    for (std::pair<asset_path,Asset*> pair : assets) {
+    for (std::pair<asset_path_t,Asset*> pair : assets) {
         //Get INI of level if available
         std::string::size_type assetSize = pair.first.size();
-        asset_path assetPathBase = pair.first.substr(0, assetSize - 4);
+        asset_path_t assetPathBase = pair.first.substr(0, assetSize - 4);
         Asset* ini = manager->getAsset(assetPathBase + ".INI");
 
         //Process it
@@ -43,7 +43,7 @@ void AssetProcessorLevel::processIntermediates() {
 
 void AssetProcessorLevel::processLevel(Asset* level, Asset* ini) {
     size_t size = 32;
-    std::unique_ptr<byteArray> buffer = Utils::createBuffer(size);
+    std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(size);
     level->read(buffer.get(), size);
     Log::get()->debug(buffer.get());
     if (ini) {

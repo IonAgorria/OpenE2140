@@ -7,12 +7,12 @@
 #include "graphics/color.h"
 #include "asset_image.h"
 
-AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+AssetImage::AssetImage(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
                        const Vector2& size, const std::shared_ptr<AssetPalette> assetPalette) :
         Asset(path, file, fileOffset, fileSize), imageSize(size), assetPalette(assetPalette) {
 }
 
-AssetImage::AssetImage(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
+AssetImage::AssetImage(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,
                        const Vector2& size) :
         AssetImage(path, file, fileOffset, fileSize, size, nullptr) {
 }
@@ -43,7 +43,7 @@ bool AssetImage::assignImage(std::shared_ptr<Image> assigningImage) {
             //Check if pixel count is same as byte count (8 bit indexed)
             if (imagePixelsCount == static_cast<size_t>(size())) {
                 //Create buffer, read asset into it and load to image
-                std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount);
+                std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(imagePixelsCount);
                 if (readAll(buffer.get(), imagePixelsCount)) {
                     result = assigningImage->loadFromIndexed8(buffer.get());
                     error = assigningImage->getError();
@@ -60,7 +60,7 @@ bool AssetImage::assignImage(std::shared_ptr<Image> assigningImage) {
             }
 
             //Create buffer, read asset into it and load to image
-            std::unique_ptr<byteArray> buffer = Utils::createBuffer(imagePixelsCount * 2);
+            std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(imagePixelsCount * 2);
             if (readAll(buffer.get(), imagePixelsCount * 2)) {
                 result = assigningImage->loadFromRGB565(buffer.get());
                 error = assigningImage->getError();

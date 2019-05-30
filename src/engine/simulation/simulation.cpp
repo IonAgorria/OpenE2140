@@ -66,7 +66,7 @@ World* Simulation::getWorld() const {
     return world.get();
 }
 
-entity_id Simulation::nextEntityID() {
+entity_id_t Simulation::nextEntityID() {
     lastEntityID++;
     return lastEntityID;
 }

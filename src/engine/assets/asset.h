@@ -16,7 +16,7 @@ private:
     /**
      * Path of this assets inside manager
      */
-    const asset_path path;
+    const asset_path_t path;
 
     /**
      * Pointer for file containing data
@@ -47,7 +47,7 @@ public:
      * @param fileOffset where asset data start in file
      * @param fileSize of asset data in file, 0<= for unknown/until end
      */
-    Asset(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    Asset(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * Asset destructor
@@ -62,7 +62,7 @@ public:
     /**
      * @return this asset path
      */
-    const asset_path& getPath() const;
+    const asset_path_t& getPath() const;
 
     /**
      * @return this asset file

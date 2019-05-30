@@ -39,7 +39,7 @@ private:
     /**
      * Contains all assets in this manager
      */
-    std::unordered_map<asset_path, std::unique_ptr<Asset>> assets;
+    std::unordered_map<asset_path_t, std::unique_ptr<Asset>> assets;
 
     /**
      * Number of assets loaded
@@ -78,7 +78,7 @@ public:
      *
      * @return assets
      */
-    const std::unordered_map<asset_path, std::unique_ptr<Asset>>& getAssets() const;
+    const std::unordered_map<asset_path_t, std::unique_ptr<Asset>>& getAssets() const;
 
     /**
      * Adds asset to manager in specified path
@@ -94,14 +94,14 @@ public:
      * @param asset to remove
      * @return true if removed
      */
-    bool removeAsset(const asset_path& path);
+    bool removeAsset(const asset_path_t& path);
 
     /**
      * Gets the loaded asset
      *
      * @return asset
      */
-    Asset* getAsset(const asset_path& path);
+    Asset* getAsset(const asset_path_t& path);
 
     /**
      * Gets the loaded asset with specified cast
@@ -109,7 +109,7 @@ public:
      * @return asset
      */
     template <typename T>
-    T* getAsset(const asset_path& path) {
+    T* getAsset(const asset_path_t& path) {
         Asset* asset = Utils::getPointerFromUnorderedMap(assets, path);
         return dynamic_cast<T*>(asset);
     }
@@ -119,7 +119,7 @@ public:
      *
      * @return image
      */
-    std::shared_ptr<Image> getImage(const asset_path& path);
+    std::shared_ptr<Image> getImage(const asset_path_t& path);
 
     /**
      * @return the count of assets loaded

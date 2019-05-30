@@ -13,7 +13,7 @@ struct SimulationParameters {
     /** Initial simulation seed for randomness */
     long seed = 0;
     /** World asset path to load */
-    asset_path world = "";
+    asset_path_t world = "";
     /** Players in this simulation */
     //TODO const std::vector<Player> players;
 };

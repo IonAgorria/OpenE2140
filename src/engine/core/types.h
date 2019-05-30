@@ -6,41 +6,41 @@
 
 #include <stdint.h>
 /** Byte type */
-using byte = uint8_t;
-using byteArray = byte[];
+using byte_t = uint8_t;
+using byte_array_t = byte_t[];
 
 #include <string>
 /** Asset path */
-using asset_path = std::string;
+using asset_path_t = std::string;
 
 /** Window ID */
-using window_id = unsigned int;
+using window_id_t = unsigned int;
 
 /** Entity ID */
-using entity_id = unsigned long;
+using entity_id_t = unsigned long;
 
 /** Entity type */
-struct entity_type {
+struct entity_type_t {
     unsigned int kind;
     unsigned int id;
 };
 
 /** Entity direction */
-using entity_direction = unsigned int;
+using entity_direction_t = unsigned int;
 
 /** Player ID */
-using player_id = unsigned int;
+using player_id_t = unsigned int;
 
 /** Player ID */
-using team_id = unsigned int;
+using team_id_t = unsigned int;
 
 /** Money type */
-using money = signed long;
+using money_t = signed long;
 
 /**
  * Size struct with shorts
  */
-struct SSize16 {
+struct size_16_t {
     unsigned short width;
     unsigned short height;
 };

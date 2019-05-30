@@ -5,7 +5,7 @@
 #include "io/file.h"
 #include "asset.h"
 
-Asset::Asset(const asset_path& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
+Asset::Asset(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
         path(Utils::toInternalPath(Utils::toUpper(path))),
         file(file), fileOffset(fileOffset), fileSize(fileSize),
         position(0) {
@@ -21,7 +21,7 @@ Asset::Asset(const asset_path& path, const std::shared_ptr<File> file, long file
     }
 }
 
-const asset_path& Asset::getPath() const {
+const asset_path_t& Asset::getPath() const {
     return path;
 }
 
@@ -109,7 +109,7 @@ bool Asset::readAll(void* buffer, size_t size) {
 
 bool Asset::match(const std::string& string) {
     size_t size = string.size();
-    std::unique_ptr<byteArray> tmp = Utils::createBuffer(size);
+    std::unique_ptr<byte_array_t> tmp = Utils::createBuffer(size);
     size_t amount = read(tmp.get(), size);
     if (!error.empty()) {
         error = string + " " + error;

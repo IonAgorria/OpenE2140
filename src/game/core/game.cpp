@@ -58,7 +58,7 @@ void Game::run() {
     //TODO
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
-    parameters->world = "LEVEL/DATA/LEVEL01.DAT";
+    parameters->world = "LEVEL/DATA/LEVEL01";
     setupSimulation(parameters);
     if (hasError()) {
         return;

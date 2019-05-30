@@ -70,13 +70,13 @@ void AssetProcessorDatPal::processIntermediates() {
                 assetPathBase, asset->getFile(), asset->offset() + readSize, asset->size() - readSize, imageSize, assetPalette
         );
         if (!manager->addAsset(std::move(assetImage))) {
-            error = "Couldn't create asset from processed asset\n" + error;
+            error = "Couldn't create asset from processed asset\n" + manager->getError();
             return;
         }
 
         //Remove the old assets
         if (!manager->removeAsset(assetPath) || !manager->removeAsset(imagePath)) {
-            error = "Couldn't remove processed asset\n" + error;
+            error = "Couldn't remove processed asset\n" + manager->getError();
             return;
         }
     }

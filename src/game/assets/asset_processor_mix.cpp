@@ -43,13 +43,12 @@ void AssetProcessorMIX::processIntermediates() {
     //Iterate mix paths
     for (asset_path assetPath : assets) {
         Asset* asset = manager->getAsset(assetPath);
-        if (!asset) continue;
         processIntermediateMIX(asset);
         if (!error.empty()) return;
 
         //Remove the old asset
         if (!manager->removeAsset(assetPath)) {
-            error = "Couldn't remove processed asset\n" + error;
+            error = "Couldn't remove processed asset\n" + manager->getError();
         }
         if (!error.empty()) return;
     }

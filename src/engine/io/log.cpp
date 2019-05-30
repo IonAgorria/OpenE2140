@@ -36,6 +36,10 @@ log_ptr Log::get(const std::string& name) {
     return logger;
 }
 
+log_ptr Log::get() {
+    return  Log::get(MAIN_LOG);
+}
+
 void Log::set_default_level(log_ptr logger) {
     logger->set_level(Utils::isDebug() ? spdlog::level::debug : spdlog::level::info);
 }

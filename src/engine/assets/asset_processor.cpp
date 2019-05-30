@@ -50,7 +50,7 @@ int IAssetProcessor::scanContainerDir(const std::string& path, const std::string
                 if (manager->addAsset(std::move(asset))) {
                     count++;
                 } else {
-                    error = "scanContainerDir couldn't add asset\n" + error;
+                    error = "scanContainerDir couldn't add asset\n" + manager->getError();
                     return -1;
                 }
             } else {

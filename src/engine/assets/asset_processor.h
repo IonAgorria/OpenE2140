@@ -4,7 +4,6 @@
 #ifndef OPENE2140_IASSETPROCESSOR_H
 #define OPENE2140_IASSETPROCESSOR_H
 
-#include <string>
 #include "engine/core/error_possible.h"
 
 class AssetManager;

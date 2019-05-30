@@ -29,6 +29,12 @@ public:
      * @return log
      */
     static log_ptr get(const std::string& name);
+    /**
+     * Creates or return's default log pointer
+     *
+     * @return log
+     */
+    static log_ptr get();
 
     /**
      * Set's the level of a single logger with default value

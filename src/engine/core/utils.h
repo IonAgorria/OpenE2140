@@ -100,13 +100,22 @@ public:
     }
 
     /**
-     * Returns if a and b starts in same way
+     * Returns if a and starts with b
      *
      * @param string to check
      * @param start to compare
      * @return
      */
     static bool startsWith(const std::string& string, const std::string& start);
+
+    /**
+     * Returns if a ends with b
+     *
+     * @param string to check
+     * @param end to compare
+     * @return
+     */
+    static bool endsWith(const std::string& string, const std::string& end);
 
     /**
      * Set custom signal handlers

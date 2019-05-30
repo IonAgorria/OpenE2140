@@ -25,6 +25,17 @@ struct entity_type {
     unsigned int id;
 };
 
+/** Entity direction */
+using entity_direction = unsigned int;
+
+/** Player ID */
+using player_id = unsigned int;
+
+/** Player ID */
+using team_id = unsigned int;
+
+/** Money type */
+using money = signed long;
 
 /**
  * Size struct with shorts

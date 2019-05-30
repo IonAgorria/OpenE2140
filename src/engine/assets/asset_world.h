@@ -4,6 +4,7 @@
 #ifndef OPENE2140_ASSETPALETTE_H
 #define OPENE2140_ASSETPALETTE_H
 
+#include <src/engine/simulation/enviroment/world_prototypes.h>
 #include "asset.h"
 
 /**
@@ -31,6 +32,26 @@ public:
      * @return string version of this asset
      */
     std::string toString() const override;
+
+    /**
+     * @return name of this world
+     */
+    virtual std::string name() const = 0;
+
+    /**
+     * @return asset to use as tileset
+     */
+    virtual asset_path tileset() const = 0;
+
+    /**
+     * @return players data
+     */
+    virtual void players(std::vector<PlayerPrototype>& entities) const = 0;
+
+    /**
+     * @return entities data
+     */
+    virtual void entities(std::vector<EntityPrototype>& entities) const = 0;
 };
 
 #endif //OPENE2140_ASSETPALETTE_H

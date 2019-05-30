@@ -71,11 +71,18 @@ std::string Utils::checkAnyError(const log_ptr log) {
 }
 
 bool Utils::startsWith(const std::string& string, const std::string& start) {
-    size_t stringSize = string.size();
     size_t startSize = start.size();
     if (startSize == 0) return true;
-    if (stringSize < startSize) return false;
-    return strncmp(string.c_str(), start.c_str(), startSize) == 0;
+    if (string.size() < startSize) return false;
+    return string.find(start, 0) == 0;
+}
+
+bool Utils::endsWith(const std::string& string, const std::string& end) {
+    size_t endSize = end.size();
+    if (endSize == 0) return true;
+    size_t startPos = string.size() - endSize;
+    if (startPos < 0) return false;
+    return string.find(end, startPos) == startPos;
 }
 
 void Utils::setSignalHandler(sighandler signalHandler, std::terminate_handler terminateHandler) {

@@ -15,7 +15,7 @@
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {
     log = Log::get("Simulation");
-    if (!parameters || parameters->world.empty()) {
+    if (!this->parameters || this->parameters->world.empty()) {
         error = "Parameters not set";
     }
     AssetWorld* assetWorld = engine->getAssetManager()->getAsset<AssetWorld>(this->parameters->world);
@@ -24,6 +24,7 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
         return;
     }
     world = std::make_unique<World>(assetWorld);
+    log->debug("World name: '" + assetWorld->name() + "'");
 }
 
 Simulation::~Simulation() {

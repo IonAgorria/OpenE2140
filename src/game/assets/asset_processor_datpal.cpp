@@ -11,7 +11,7 @@
 #include "asset_processor_datpal.h"
 
 void AssetProcessorDatPal::processIntermediates() {
-    std::forward_list<Asset*> assets;
+    std::forward_list<Asset*> assetsPAL;
 
     //Iterate all assets
     for (const std::pair<const asset_path_t, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
@@ -25,11 +25,11 @@ void AssetProcessorDatPal::processIntermediates() {
 
         //Handle special extensions
         if (ext == ".PAL") {
-            assets.push_front(pair.second.get());
+            assetsPAL.push_front(pair.second.get());
         }
     }
 
-    for (Asset* asset : assets) {
+    for (Asset* asset : assetsPAL) {
         std::string assetPath = asset->getPath();
         std::string::size_type assetSize = assetPath.size();
         asset_path_t assetPathBase = assetPath.substr(0, assetSize - 4);

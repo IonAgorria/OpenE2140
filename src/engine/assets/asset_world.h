@@ -1,10 +1,10 @@
 //
 // Created by Ion Agorria on 29/04/18
 //
-#ifndef OPENE2140_ASSETPALETTE_H
-#define OPENE2140_ASSETPALETTE_H
+#ifndef OPENE2140_ASSET_WORLD_H
+#define OPENE2140_ASSET_WORLD_H
 
-#include <src/engine/simulation/enviroment/world_prototypes.h>
+#include "simulation/enviroment/world_prototypes.h"
 #include "asset.h"
 
 /**
@@ -14,19 +14,9 @@ class AssetWorld : public Asset {
 private:
 public:
     /**
-     * Constructor for asset
-     *
-     * @param path where this asset is located
-     * @param file to use when accessing data
-     * @param fileOffset where asset data start in file
-     * @param fileSize of asset data in file, 0 for unknown/until end
+     * Constructor
      */
     AssetWorld(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
-
-    /**
-     * Asset destructor
-     */
-    virtual ~AssetWorld() = default;
 
     /**
      * @return string version of this asset
@@ -36,22 +26,22 @@ public:
     /**
      * @return name of this world
      */
-    virtual std::string name() const = 0;
+    virtual std::string name();
 
     /**
-     * @return asset to use as tileset
+     * @return asset to use as tileset or null
      */
-    virtual asset_path_t tileset() const = 0;
+    virtual asset_path_t tileset();
 
     /**
-     * @return players data
+     * Writes players data to provided vector
      */
-    virtual void players(std::vector<PlayerPrototype>& entities) const = 0;
+    virtual void players(std::vector<PlayerPrototype>& entities);
 
     /**
-     * @return entities data
+     * Writes entities data to provided vector
      */
-    virtual void entities(std::vector<EntityPrototype>& entities) const = 0;
+    virtual void entities(std::vector<EntityPrototype>& entities);
 };
 
-#endif //OPENE2140_ASSETPALETTE_H
+#endif //OPENE2140_ASSET_WORLD_H

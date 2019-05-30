@@ -4,8 +4,12 @@
 
 #include <forward_list>
 #include "assets/asset_manager.h"
-#include "assets/asset.h"
+#include "asset_world_level.h"
 #include "asset_processor_level.h"
+
+AssetWorldLevel::AssetWorldLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
+        AssetWorld(path, file, fileOffset, fileSize) {
+}
 
 void AssetProcessorLevel::processIntermediates() {
     std::unordered_map<asset_path_t,Asset*> assets;
@@ -21,13 +25,24 @@ void AssetProcessorLevel::processIntermediates() {
     }
 
     for (std::pair<asset_path_t,Asset*> pair : assets) {
+        Asset* asset = pair.second;
+
         //Get INI of level if available
+        //TODO use INI asset to read mission description
         std::string::size_type assetSize = pair.first.size();
         asset_path_t assetPathBase = pair.first.substr(0, assetSize - 4);
         Asset* ini = manager->getAsset(assetPathBase + ".INI");
 
-        //Process it
-        processLevel(pair.second, ini);
+        //Create palette asset and store it
+        std::unique_ptr<AssetWorldLevel> assetWorld = std::make_unique<AssetWorldLevel>(
+                assetPathBase, asset->getFile(), asset->offset(), asset->size()
+        );
+
+        //Add asset
+        if (!manager->addAsset(std::move(assetWorld))) {
+            error = "Couldn't create asset from processed asset\n" + manager->getError();
+            return;
+        }
 
         //Remove the old assets
         if (!manager->removeAsset(pair.first)) {
@@ -39,15 +54,4 @@ void AssetProcessorLevel::processIntermediates() {
             return;
         }
     }
-}
-
-void AssetProcessorLevel::processLevel(Asset* level, Asset* ini) {
-    size_t size = 32;
-    std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(size);
-    level->read(buffer.get(), size);
-    Log::get()->debug(buffer.get());
-    if (ini) {
-
-    }
-
 }

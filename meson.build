@@ -85,6 +85,7 @@ opene2140_src = [
     'src/game/assets/asset_processor_level.cpp',
     'src/game/assets/asset_processor_wd.cpp',
     'src/game/assets/asset_processor_mix.cpp',
+    'src/game/assets/asset_world_level.cpp',
     'src/game/io/ui_event_listener.cpp',
     'src/game/core/game.cpp',
     'src/game/core/main.cpp',

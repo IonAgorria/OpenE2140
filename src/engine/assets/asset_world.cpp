@@ -10,3 +10,19 @@ AssetWorld::AssetWorld(const asset_path_t& path, const std::shared_ptr<File> fil
 std::string AssetWorld::toString() const {
     return "AssetWorld(" + toStringContent() + ")";
 }
+
+std::string AssetWorld::name() {
+    return "";
+}
+
+asset_path_t AssetWorld::tileset() {
+    return nullptr;
+}
+
+void AssetWorld::players(std::vector<PlayerPrototype>& entities) {
+    return;
+}
+
+void AssetWorld::entities(std::vector<EntityPrototype>& entities) {
+    return;
+}

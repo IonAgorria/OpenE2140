@@ -13,13 +13,13 @@
 #include "game/assets/asset_processor_datpal.h"
 #include "game/assets/asset_processor_level.h"
 #include "game/assets/asset_processor_mix.h"
-#include "game/io/ui_event_listener.h"
+#include "game/io/event_listener_camera.h"
 #include "game.h"
 
 void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
-    eventHandler->addEventListener(std::make_unique<UIEventListener>(this_ptr));
+    eventHandler->addEventListener(std::make_unique<EventListenerCamera>(this_ptr));
 
     //Call setup
     Engine::setupEventHandler();
@@ -58,7 +58,7 @@ void Game::run() {
     //TODO
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
-    parameters->world = "LEVEL/DATA/LEVEL110";
+    parameters->world = "LEVEL/DATA/LEVEL01";
     setupSimulation(parameters);
     if (hasError()) {
         return;

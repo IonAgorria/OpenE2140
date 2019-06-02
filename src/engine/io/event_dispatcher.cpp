@@ -4,6 +4,17 @@
 #include "graphics/window.h"
 #include "event_dispatcher.h"
 
+bool EventDispatcher::update() {
+    bool handled = false;
+    for (std::unique_ptr<IEventListener>& listener : listeners) {
+        handled = listener->update();
+        if (handled) {
+            break;
+        }
+    }
+    return handled;
+}
+
 bool EventDispatcher::windowChanged(Window* window) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {

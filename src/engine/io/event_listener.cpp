@@ -5,6 +5,10 @@
 #include "graphics/window.h"
 #include "event_listener.h"
 
+bool IEventListener::update() {
+    return false;
+}
+
 bool IEventListener::windowChanged(Window* window) {
     return false;
 }

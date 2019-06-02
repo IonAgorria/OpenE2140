@@ -17,6 +17,8 @@ protected:
      */
     std::vector<std::unique_ptr<IEventListener>> listeners;
 public:
+    bool update() override;
+
     bool windowChanged(Window* window) override;
 
     bool windowFocus(Window* window, bool focus) override;

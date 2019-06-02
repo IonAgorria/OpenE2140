@@ -59,6 +59,66 @@ public:
     bool operator!=(const Vector2& vector2) const;
 
     /**
+     * Adds vector values to this vector
+     *
+     * @param vector2
+     */
+    void operator+=(const Vector2& vector2);
+
+    /**
+     * Subtract vector values to this vector
+     *
+     * @param vector2
+     */
+    void operator-=(Vector2 const &vector2);
+
+    /**
+     * Multiply vector values with this vector values
+     *
+     * @param vector2
+     */
+    void operator*=(Vector2 const &vector2);
+
+    /**
+     * Divides vector values with this vector values
+     *
+     * @param vector2
+     */
+    void operator/=(Vector2 const &vector2);
+
+    /**
+     * Adds vector values to this vector
+     *
+     * @param vector2
+     * @return resulting vector
+     */
+    Vector2 operator+(Vector2 const &vector2);
+
+    /**
+     * Subtract vector values to this vector
+     *
+     * @param vector2
+     * @return resulting vector
+     */
+    Vector2 operator-(Vector2 const &vector2);
+
+    /**
+     * Multiply vector values with this vector values
+     *
+     * @param vector2
+     * @return resulting vector
+     */
+    Vector2 operator*(Vector2 const &vector2);
+
+    /**
+     * Divides vector values with this vector values
+     *
+     * @param vector2
+     * @return resulting vector
+     */
+    Vector2 operator/(Vector2 const &vector2);
+
+    /**
      * @return true if vector is not zero
      */
     operator bool() const;

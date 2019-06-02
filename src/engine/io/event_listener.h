@@ -19,6 +19,13 @@ public:
     virtual ~IEventListener() = default;
 
     /**
+     * Called when event listener is updated
+     *
+     * @return true if handled to stop propagation
+     */
+    virtual bool update();
+
+    /**
      * Called when window is changed (resized or made visible)
      *
      * @param window causing the event

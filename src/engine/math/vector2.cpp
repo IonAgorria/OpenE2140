@@ -34,6 +34,54 @@ bool Vector2::operator!=(const Vector2& vector2) const {
         || y != vector2.y;
 }
 
+void Vector2::operator+=(Vector2 const &vector2) {
+    this->x += vector2.x;
+    this->y += vector2.y;
+}
+
+void Vector2::operator-=(Vector2 const &vector2) {
+    this->x -= vector2.x;
+    this->y -= vector2.y;
+}
+
+void Vector2::operator*=(Vector2 const &vector2) {
+    this->x *= vector2.x;
+    this->y *= vector2.y;
+}
+
+void Vector2::operator/=(Vector2 const &vector2) {
+    this->x /= vector2.x;
+    this->y /= vector2.y;
+}
+
+Vector2 Vector2::operator+(Vector2 const &vector2) {
+    return Vector2(
+            this->x + vector2.x,
+            this->y + vector2.y
+    );
+}
+
+Vector2 Vector2::operator-(Vector2 const &vector2) {
+    return Vector2(
+            this->x - vector2.x,
+            this->y - vector2.y
+    );
+}
+
+Vector2 Vector2::operator*(Vector2 const &vector2) {
+    return Vector2(
+            this->x * vector2.x,
+            this->y * vector2.y
+    );
+}
+
+Vector2 Vector2::operator/(Vector2 const &vector2) {
+    return Vector2(
+            this->x / vector2.x,
+            this->y / vector2.y
+    );
+}
+
 Vector2::operator bool() const {
     return 0 != x && 0 != y;
 }

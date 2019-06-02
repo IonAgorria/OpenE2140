@@ -45,6 +45,9 @@ Renderer::Renderer() {
     //Set blending func
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //Set initial camera
+    changeCamera(0, 0);
 }
 
 Renderer::~Renderer() {

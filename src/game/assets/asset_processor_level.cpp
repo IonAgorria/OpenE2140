@@ -7,10 +7,6 @@
 #include "asset_processor_level.h"
 #include "asset_world_level.h"
 
-AssetWorldLevel::AssetWorldLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
-        AssetWorld(path, file, fileOffset, fileSize) {
-}
-
 void AssetProcessorLevel::processIntermediates() {
     std::unordered_map<asset_path_t,Asset*> assets;
 

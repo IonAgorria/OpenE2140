@@ -110,7 +110,7 @@ void EventHandler::poll() {
 
 bool EventHandler::windowChanged(Window* window) {
     Vector2 size = window->updateSize();
-    log->debug("Window changed {0}x{1}", size.x, size.y);
+    log->debug("Window changed: {0}x{1}", size.x, size.y);
     Renderer* renderer = engine->getRenderer();
     if (renderer) {
         renderer->changeViewport(0, 0, size.x, size.y);

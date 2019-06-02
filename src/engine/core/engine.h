@@ -8,6 +8,7 @@
 #include "simulation/simulation_parameters.h"
 #include "engine/core/error_possible.h"
 #include "io/log.h"
+#include "math/vector2.h"
 
 //Forward declarations
 class AssetManager;
@@ -27,6 +28,11 @@ protected:
      * Log for game
      */
     log_ptr log;
+
+    /**
+     * Camera where player is looking
+     */
+    Vector2 camera;
 
     /**
      * Event handler to receive window events
@@ -168,6 +174,16 @@ public:
      * @return Simulation
      */
     Simulation* getSimulation();
+
+    /**
+     * @return camera
+     */
+    Vector2& getCamera();
+
+    /**
+     * @return key code for provided bind
+     */
+    int getKeyBind(const std::string& name);
 };
 
 #endif //OPENE2140_ENGINE_H

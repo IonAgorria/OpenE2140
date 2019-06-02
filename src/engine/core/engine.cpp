@@ -156,6 +156,9 @@ void Engine::update() {
     //Poll input
     eventHandler->poll();
 
+    //Update event handlers
+    eventHandler->update();
+
     //Update simulation
     if (simulation) {
         simulation->update();
@@ -168,13 +171,18 @@ void Engine::draw() {
 
     //Draw the simulation if any
     if (simulation) {
+        renderer->changeCamera(camera.x, camera.y);
         simulation->draw(renderer->getViewport());
     }
 
     //Draw/update UI
     if (menu) {
+        renderer->changeCamera(0, 0);
         menu->draw();
     }
+
+    //Flush renderer
+    renderer->flush();
 
     //Update window
     float elapsed = std::max(0.001f, timer->elapsed());
@@ -226,10 +234,19 @@ Renderer* Engine::getRenderer() {
     return renderer.get();
 }
 
+AssetManager* Engine::getAssetManager() {
+    return assetManager.get();
+}
+
 Simulation* Engine::getSimulation() {
     return simulation.get();
 }
 
-AssetManager* Engine::getAssetManager() {
-    return assetManager.get();
+Vector2& Engine::getCamera() {
+    return camera;
+}
+
+int Engine::getKeyBind(const std::string& name) {
+    //TODO there should be a configurable keybinds and falling back to default if not set
+    return EventHandler::getCodeFromName(name);
 }

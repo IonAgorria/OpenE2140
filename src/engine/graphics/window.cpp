@@ -163,5 +163,7 @@ void Window::clear() {
 }
 
 void Window::swap() {
-    SDL_GL_SwapWindow(windowHandle);
+    if (this->check()) {
+        SDL_GL_SwapWindow(windowHandle);
+    }
 }

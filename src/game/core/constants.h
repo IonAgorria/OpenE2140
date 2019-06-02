@@ -1,0 +1,9 @@
+//
+// Created by Ion Agorria on 2/06/19
+//
+#ifndef OPENE2140_CONSTANTS_H
+#define OPENE2140_CONSTANTS_H
+
+#define MONEY_PER_CONTAINER 200
+
+#endif //OPENE2140_CONSTANTS_H

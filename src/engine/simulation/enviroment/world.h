@@ -6,17 +6,17 @@
 
 #include "core/common.h"
 #include "math/rectangle.h"
-#include "assets/asset.h"
 #include "tile.h"
 
 class Renderer;
 class Image;
-class AssetWorld;
+class AssetLevel;
+class Simulation;
 
 /**
  * Contains the world data such as tiles
  */
-class World {
+class World: public IErrorPossible {
 private:
     /**
      * Log for object
@@ -28,15 +28,20 @@ private:
      */
     Rectangle worldRectangle;
 
-    /**ŧ
-     * Images to be drawn
+    /**
+     * Images in tileset
      */
-    std::vector<std::shared_ptr<Image>> tileImages;
+    std::unordered_map<unsigned int, std::shared_ptr<Image>> tilesetImages;
+
+    /**
+     * Images to be drawn for each tile
+     */
+    std::vector<std::shared_ptr<Image>> tilesImages;
 
     /**
      * Tiles information
      */
-    std::vector<Tile> tiles;
+    std::vector<std::unique_ptr<Tile>> tiles;
 
     /**
      * Tile image size
@@ -57,7 +62,7 @@ public:
     /**
      * World constructor
      */
-    World(AssetWorld* assetWorld);
+    World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::shared_ptr<Image>>& tilesetImages);
 
     /**
      * World destructor

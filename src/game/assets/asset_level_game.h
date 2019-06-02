@@ -1,20 +1,20 @@
 //
 // Created by Ion Agorria on 29/04/18
 //
-#ifndef OPENE2140_ASSET_WORLD_LEVEL_H
-#define OPENE2140_ASSET_WORLD_LEVEL_H
+#ifndef OPENE2140_ASSET_LEVEL_GAME_H
+#define OPENE2140_ASSET_LEVEL_GAME_H
 
-#include "engine/assets/asset_world.h"
+#include "game/core/constants.h"
+#include "engine/assets/asset_level.h"
 
+#define TILESET_MAX 252
 #define LEVEL_SIZE_MAX 128
-#define MONEY_PER_TILE 4000
-
-struct TilePrototype;
+#define MONEY_PER_TILE 30 * MONEY_PER_CONTAINER //Each tile provides 30 containers
 
 /**
  * World information asset
  */
-class AssetWorldLevel : public AssetWorld {
+class AssetLevelGame : public AssetLevel {
 private:
     /**
      * Stores the dimensions of this world
@@ -26,7 +26,7 @@ public:
     /**
      * Constructor
      */
-    AssetWorldLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetLevelGame(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     std::string toString() const override;
 
@@ -34,7 +34,9 @@ public:
 
     std::string name() override;
 
-    asset_path_t tileset() override;
+    asset_path_t tileset(size_t index) override;
+
+    size_t tilesetSize() override;
 
     void tiles(std::vector<TilePrototype>& tiles) override;
 
@@ -43,4 +45,4 @@ public:
     void entities(std::vector<EntityPrototype>& entities) override;
 };
 
-#endif //OPENE2140_ASSET_WORLD_LEVEL_H
+#endif //OPENE2140_ASSET_LEVEL_GAME_H

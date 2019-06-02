@@ -5,7 +5,7 @@
 #include <forward_list>
 #include "assets/asset_manager.h"
 #include "asset_processor_level.h"
-#include "asset_world_level.h"
+#include "asset_level_game.h"
 
 void AssetProcessorLevel::processIntermediates() {
     std::unordered_map<asset_path_t,Asset*> assets;
@@ -30,7 +30,7 @@ void AssetProcessorLevel::processIntermediates() {
         Asset* ini = manager->getAsset(assetPathBase + ".INI");
 
         //Create palette asset and store it
-        std::unique_ptr<AssetWorldLevel> assetWorld = std::make_unique<AssetWorldLevel>(
+        std::unique_ptr<AssetLevelGame> assetWorld = std::make_unique<AssetLevelGame>(
                 assetPathBase, asset->getFile(), asset->offset(), asset->size()
         );
 

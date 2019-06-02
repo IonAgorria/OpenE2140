@@ -1,8 +1,8 @@
 //
 // Created by Ion Agorria on 29/04/18
 //
-#ifndef OPENE2140_ASSET_WORLD_H
-#define OPENE2140_ASSET_WORLD_H
+#ifndef OPENE2140_ASSET_LEVEL_H
+#define OPENE2140_ASSET_LEVEL_H
 
 #include "simulation/enviroment/world_prototypes.h"
 #include "asset.h"
@@ -11,13 +11,13 @@
 /**
  * World information asset
  */
-class AssetWorld : public Asset {
+class AssetLevel : public Asset {
 private:
 public:
     /**
      * Constructor
      */
-    AssetWorld(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
      * @return string version of this asset
@@ -39,7 +39,12 @@ public:
     /**
      * @return asset to use as tileset or null
      */
-    virtual asset_path_t tileset();
+    virtual asset_path_t tileset(size_t index);
+
+    /**
+     * @return tileset size
+     */
+    virtual size_t tilesetSize();
 
     /**
      * Writes tiles data to provided vector
@@ -57,4 +62,4 @@ public:
     virtual void entities(std::vector<EntityPrototype>& entities);
 };
 
-#endif //OPENE2140_ASSET_WORLD_H
+#endif //OPENE2140_ASSET_LEVEL_H

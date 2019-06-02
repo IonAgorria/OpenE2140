@@ -6,6 +6,7 @@
 
 #include "core/common.h"
 #include "simulation_parameters.h"
+#include "assets/asset_manager.h"
 #include "io/log.h"
 
 class Engine;
@@ -100,6 +101,17 @@ public:
      * Removes entity from simulation
      */
     void removeEntity(std::shared_ptr<Entity> entity);
+
+    /*
+     * AssetManager proxy
+     */
+
+    /**
+     * Gets the loaded image from an asset
+     *
+     * @return image
+     */
+    std::shared_ptr<Image> getImage(const asset_path_t& path);
 };
 
 #endif //OPENE2140_SIMULATION_H

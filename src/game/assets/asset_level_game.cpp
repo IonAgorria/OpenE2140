@@ -2,10 +2,30 @@
 // Created by Ion Agorria on 30/05/19
 //
 
-#include "asset_world_level.h"
+#include "asset_level_game.h"
 
-AssetWorldLevel::AssetWorldLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize)
-                                : AssetWorld(path, file, fileOffset, fileSize) {
+/*
+      r.BaseStream.Position = position + 49195L;
+      this.Units = Helper.ReadObjects<Unit>(r);
+      r.BaseStream.Position = position + 55337L;
+      this.Buildings = Helper.ReadObjects<Building>(r);
+      r.BaseStream.Position = position + 57897L;
+      this.Trees = Helper.ReadObjects<Tree>(r);
+
+      r.BaseStream.Position = position + 63063L;
+      this.Players = Helper.ReadObjects<Player>(r, 6, true);
+
+      r.BaseStream.Position = position + 77391L;
+      this.Triggers = Helper.ReadObjects<Trigger>(r, 10, new Func<BinaryReader, Trigger>(Trigger.FromBinaryReader));
+
+      r.BaseStream.Position = position + 94907L;
+      this.UnknownObjects = Helper.ReadObjects<UnknownObject>(r, 32);
+      r.BaseStream.Position = position + 94907L;
+
+ */
+
+AssetLevelGame::AssetLevelGame(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
+                                AssetLevel(path, file, fileOffset, fileSize) {
     //Read basic data
     seek(0xF627, true);
     unsigned int w, h;
@@ -16,15 +36,15 @@ AssetWorldLevel::AssetWorldLevel(const asset_path_t& path, const std::shared_ptr
     levelSize.set(w, h);
 }
 
-std::string AssetWorldLevel::toString() const {
-    return "AssetWorldLevel(" + toStringContent() + ")";
+std::string AssetLevelGame::toString() const {
+    return "AssetLevelGame(" + toStringContent() + ")";
 }
 
-void AssetWorldLevel::dimensions(Vector2& size) {
+void AssetLevelGame::dimensions(Vector2& size) {
     size.set(levelSize);
 }
 
-std::string AssetWorldLevel::name() {
+std::string AssetLevelGame::name() {
     seek(0, true);
     std::string name;
     unsigned char c;
@@ -44,17 +64,24 @@ std::string AssetWorldLevel::name() {
     return name;
 }
 
-asset_path_t AssetWorldLevel::tileset() {
+asset_path_t AssetLevelGame::tileset(size_t index) {
+    if (index >= TILESET_MAX) {
+        return "";
+    }
     seek(0xF653, true);
     unsigned int id;
     if (!readAll(id)) {
         error = "Error reading tileset\n" + error;
         return nullptr;
     }
-    return "MIX/SPRT" + std::to_string(id);
+    return "MIX/SPRT" + std::to_string(id) + "/" + std::to_string(index);
 }
 
-void AssetWorldLevel::tiles(std::vector<TilePrototype>& tiles) {
+size_t AssetLevelGame::tilesetSize() {
+    return TILESET_MAX;
+}
+
+void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
     for (int y = 0; y < levelSize.y; ++y) {
         for (int x = 0; x < levelSize.x; ++x) {
             int i = (x + levelSize.x * y);
@@ -107,16 +134,16 @@ void AssetWorldLevel::tiles(std::vector<TilePrototype>& tiles) {
     }
 }
 
-void AssetWorldLevel::entities(std::vector<EntityPrototype>& entities) {
+void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
     seek(0xC02B, true);
 }
 
-void AssetWorldLevel::players(std::vector<PlayerPrototype>& players) {
+void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
     seek(0xF657, true);
     for (int i = 0; i < 6; ++i) {
         byte_t index;
         if (!readAll(index)) {
-            error = "Error reading tiles terrain\n" + error;
+            error = "Error reading player index\n" + error;
             return;
         }
         PlayerPrototype player;

@@ -92,7 +92,7 @@ public:
      * @param vector2
      * @return resulting vector
      */
-    Vector2 operator+(Vector2 const &vector2);
+    Vector2 operator+(Vector2 const &vector2) const;
 
     /**
      * Subtract vector values to this vector
@@ -100,7 +100,7 @@ public:
      * @param vector2
      * @return resulting vector
      */
-    Vector2 operator-(Vector2 const &vector2);
+    Vector2 operator-(Vector2 const &vector2) const;
 
     /**
      * Multiply vector values with this vector values
@@ -108,7 +108,7 @@ public:
      * @param vector2
      * @return resulting vector
      */
-    Vector2 operator*(Vector2 const &vector2);
+    Vector2 operator*(Vector2 const &vector2) const;
 
     /**
      * Divides vector values with this vector values
@@ -116,7 +116,7 @@ public:
      * @param vector2
      * @return resulting vector
      */
-    Vector2 operator/(Vector2 const &vector2);
+    Vector2 operator/(Vector2 const &vector2) const;
 
     /**
      * @return true if vector is not zero

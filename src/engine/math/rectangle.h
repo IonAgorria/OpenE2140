@@ -130,6 +130,14 @@ public:
     void setCenter(const Vector2& center);
 
     /**
+     * Sets rectangle center and size
+     *
+     * @param center of rectangle
+     * @param size of rectangle
+     */
+    void setCenter(const Vector2& center, const Vector2& size);
+
+    /**
      * Sets rectangle center on the vector
      *
      * @param vector to change
@@ -143,7 +151,7 @@ public:
      * @param y position
      * @return true if position is inside
      */
-    bool isInside(int x, int y);
+    bool isInside(int x, int y) const;
 
     /**
      * Checks if a vector is inside this rectangle
@@ -151,7 +159,7 @@ public:
      * @param vector position
      * @return true if position is inside
      */
-    bool isInside(const Vector2& vector);
+    bool isInside(const Vector2& vector) const;
 
     /**
      * Checks if a rectangle is inside this rectangle
@@ -159,7 +167,7 @@ public:
      * @param rectangle to check
      * @return true if rectangle is inside
      */
-    bool isInside(const Rectangle& rectangle);
+    bool isInside(const Rectangle& rectangle) const;
 
     /**
      * Checks if a rectangle is overlaps this rectangle
@@ -167,7 +175,7 @@ public:
      * @param rectangle to check
      * @return true if rectangle is overlapping
      */
-    bool isOverlap(const Rectangle& rectangle);
+    bool isOverlap(const Rectangle& rectangle) const;
 
     /**
      * Get intersection rectangle between provided and this rectangle
@@ -176,7 +184,7 @@ public:
      * @param result where to store intersection rectangle
      * @return if intersection occurred
      */
-    bool getIntersectRectangle(const Rectangle& rectangle, Rectangle& result);
+    bool getIntersectRectangle(const Rectangle& rectangle, Rectangle& result) const;
 
     /**
      * Get intersection line between 2 points and this rectangle
@@ -185,7 +193,7 @@ public:
      * @param end of line to check, intersected line end is stored here after
      * @return if intersection occurred
      */
-    bool getIntersectLine(Vector2& start, Vector2& end);
+    bool getIntersectLine(Vector2& start, Vector2& end) const;
 };
 
 

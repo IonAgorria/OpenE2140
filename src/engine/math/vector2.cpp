@@ -54,28 +54,28 @@ void Vector2::operator/=(Vector2 const &vector2) {
     this->y /= vector2.y;
 }
 
-Vector2 Vector2::operator+(Vector2 const &vector2) {
+Vector2 Vector2::operator+(Vector2 const &vector2) const {
     return Vector2(
             this->x + vector2.x,
             this->y + vector2.y
     );
 }
 
-Vector2 Vector2::operator-(Vector2 const &vector2) {
+Vector2 Vector2::operator-(Vector2 const &vector2) const {
     return Vector2(
             this->x - vector2.x,
             this->y - vector2.y
     );
 }
 
-Vector2 Vector2::operator*(Vector2 const &vector2) {
+Vector2 Vector2::operator*(Vector2 const &vector2) const {
     return Vector2(
             this->x * vector2.x,
             this->y * vector2.y
     );
 }
 
-Vector2 Vector2::operator/(Vector2 const &vector2) {
+Vector2 Vector2::operator/(Vector2 const &vector2) const {
     return Vector2(
             this->x / vector2.x,
             this->y / vector2.y

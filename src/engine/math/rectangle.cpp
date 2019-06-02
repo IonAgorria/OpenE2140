@@ -103,22 +103,29 @@ void Rectangle::setCenter(const Vector2& center) {
     this->y = center.y - h / 2;
 }
 
+void Rectangle::setCenter(const Vector2& center, const Vector2& size) {
+    this->w = size.x;
+    this->h = size.y;
+    this->x = center.x - w / 2;
+    this->y = center.y - h / 2;
+}
+
 void Rectangle::getCenter(Vector2& vector) const {
     vector.x = x + w / 2;
     vector.y = y + h / 2;
 }
 
-bool Rectangle::isInside(int px, int py) {
+bool Rectangle::isInside(int px, int py) const {
     return x <= px && px <= x + w
         && y <= py && py <= y + h;
 }
 
-bool Rectangle::isInside(const Vector2& v) {
+bool Rectangle::isInside(const Vector2& v) const {
     return x <= v.x && v.x <= x + w
         && y <= v.y && v.y <= y + h;
 }
 
-bool Rectangle::isInside(const Rectangle& rectangle) {
+bool Rectangle::isInside(const Rectangle& rectangle) const {
     float xmin = rectangle.x;
     float xmax = xmin + rectangle.w;
 
@@ -129,16 +136,16 @@ bool Rectangle::isInside(const Rectangle& rectangle) {
         && ymin > y && ymin < y + h && ymax > y && ymax < y + h;
 }
 
-bool Rectangle::isOverlap(const Rectangle& rectangle) {
+bool Rectangle::isOverlap(const Rectangle& rectangle) const {
     return x < rectangle.x + rectangle.w && rectangle.x < x + w
         && y < rectangle.y + rectangle.h && rectangle.y < y + h;
 
 }
 
-bool Rectangle::getIntersectRectangle(const Rectangle& rectangle, Rectangle& result) {
+bool Rectangle::getIntersectRectangle(const Rectangle& rectangle, Rectangle& result) const {
     return SDL_IntersectRect(this, &rectangle, &result) == SDL_TRUE;
 }
 
-bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) {
+bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) const {
     return SDL_IntersectRectAndLine(this, &start.x, &start.y, &end.x, &end.y);
 }

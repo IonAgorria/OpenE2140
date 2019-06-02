@@ -6,12 +6,13 @@
 
 #include "core/common.h"
 #include "core/error_possible.h"
+#include "core/to_string.h"
 
 /**
  * Base asset containing any data for game
  */
 class File;
-class Asset : public IErrorPossible {
+class Asset : public IErrorPossible, public IToString {
 private:
     /**
      * Path of this assets inside manager
@@ -142,15 +143,9 @@ public:
      */
     bool match(const std::string& string);
 
-    /**
-     * @return string version of this asset
-     */
-    virtual std::string toString() const;
+    std::string toString() const override;
 
-    /**
-     * @return string content of this asset
-     */
-    virtual std::string toStringContent() const;
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_ASSET_H

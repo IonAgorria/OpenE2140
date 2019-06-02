@@ -38,6 +38,9 @@ void Entity::removedFromSimulation() {
     id = 0;
 }
 
+void Entity::update() {
+}
+
 Image* Entity::draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette) {
     return nullptr;
 }

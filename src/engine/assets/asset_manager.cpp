@@ -40,6 +40,10 @@ bool AssetManager::addAsset(std::unique_ptr<Asset> asset) {
         error = "Asset to add is null";
         return false;
     }
+    if (asset->hasError()) {
+        error = "Asset to add has error set:\n" + asset->getError();
+        return false;
+    }
     const std::string& path = asset->getPath();
     if (assets[path]) {
         error = "Asset already present: '" + path + "'";

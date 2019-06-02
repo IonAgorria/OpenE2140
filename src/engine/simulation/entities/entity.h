@@ -5,6 +5,7 @@
 #define OPENE2140_ENTITY_H
 
 #include "core/common.h"
+#include "core/to_string.h"
 #include "math/rectangle.h"
 #include "graphics/image.h"
 
@@ -13,7 +14,7 @@ class Simulation;
 /**
  * Base entity in game
  */
-class Entity {
+class Entity: public IToString {
 protected:
     /**
      * Unique ID for entity
@@ -69,14 +70,9 @@ public:
     virtual void removedFromSimulation();
 
     /**
-     * @return string version of this entity
+     * Updates the entity state
      */
-    virtual std::string toString() const;
-
-    /**
-     * @return string content of this entity
-     */
-    virtual std::string toStringContent() const;
+    virtual void update();
 
     /**
      * Called when this entity is going to be drawn
@@ -88,6 +84,10 @@ public:
      * @return the image to be used when drawing this entity
      */
     virtual Image* draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette);
+
+    std::string toString() const override;
+
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_ENTITY_H

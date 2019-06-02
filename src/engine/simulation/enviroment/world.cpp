@@ -6,6 +6,23 @@
 #include "world.h"
 
 World::World(AssetWorld* assetWorld) {
+    log = Log::get("World");
+    log->debug("Name: '" + assetWorld->name() + "'");
+
+    //Set dimensions
+    Vector2 size;
+    assetWorld->dimensions(size);
+    worldRectangle.set(Vector2(), size);
+    log->debug("Size: '" + size.toString() + "'");
+
+    //Load tiles
+    std::vector<TilePrototype> tilePrototypes;
+    assetWorld->tiles(tilePrototypes);
+    tilePrototypes.resize(tilePrototypes.size());
+    for (int i = 0; i < tilePrototypes.size(); ++i) {
+        TilePrototype prototype = tilePrototypes.at(i);
+        tiles.at(i).setPrototype(prototype);
+    }
 }
 
 World::~World() {
@@ -14,7 +31,7 @@ World::~World() {
 void World::update() {
     size_t size = tiles.size();
     for (size_t i = 0; i < size; ++i) {
-        Tile& tile = *tiles[i];
+        Tile& tile = tiles[i];
 
         //Update image for tile
         if (tile.isImageDirty) {
@@ -63,7 +80,7 @@ Tile* World::getTile(unsigned long index) {
     if (index < 0 || index >= tiles.size()) {
         return nullptr;
     }
-    return tiles.at(index).get();
+    return &tiles.at(index);
 }
 
 Tile* World::getTile(unsigned long x, unsigned long y) {

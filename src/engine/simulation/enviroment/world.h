@@ -19,9 +19,14 @@ class AssetWorld;
 class World {
 private:
     /**
+     * Log for object
+     */
+    log_ptr log;
+
+    /**
      * Rectangle containing this world, position is always 0, 0
      */
-     const Rectangle worldRectangle;
+    Rectangle worldRectangle;
 
     /**ŧ
      * Images to be drawn
@@ -31,7 +36,7 @@ private:
     /**
      * Tiles information
      */
-    std::vector<std::unique_ptr<Tile>> tiles;
+    std::vector<Tile> tiles;
 
     /**
      * Tile image size
@@ -66,8 +71,6 @@ public:
 
     /**
      * Updates the world state
-     *
-     * @return true if success
      */
     void update();
 

@@ -6,6 +6,7 @@
 
 #include "simulation/enviroment/world_prototypes.h"
 #include "asset.h"
+#include "math/rectangle.h"
 
 /**
  * World information asset
@@ -24,6 +25,13 @@ public:
     std::string toString() const override;
 
     /**
+     * Dimensions of this world
+     *
+     * @param size
+     */
+    virtual void dimensions(Vector2& size);
+
+    /**
      * @return name of this world
      */
     virtual std::string name();
@@ -34,9 +42,14 @@ public:
     virtual asset_path_t tileset();
 
     /**
+     * Writes tiles data to provided vector
+     */
+    virtual void tiles(std::vector<TilePrototype>& tiles);
+
+    /**
      * Writes players data to provided vector
      */
-    virtual void players(std::vector<PlayerPrototype>& entities);
+    virtual void players(std::vector<PlayerPrototype>& players);
 
     /**
      * Writes entities data to provided vector

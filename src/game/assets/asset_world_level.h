@@ -6,37 +6,40 @@
 
 #include "engine/assets/asset_world.h"
 
+#define LEVEL_SIZE_MAX 128
+#define MONEY_PER_TILE 4000
+
+struct TilePrototype;
+
 /**
  * World information asset
  */
 class AssetWorldLevel : public AssetWorld {
 private:
+    /**
+     * Stores the dimensions of this world
+     * Since level data sections are length fixed its convenient to know what size to expect being useful
+     */
+    Vector2 levelSize;
+
 public:
+    /**
+     * Constructor
+     */
     AssetWorldLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
-    /**
-     * @return string version of this asset
-     */
     std::string toString() const override;
 
-    /**
-     * @return name of this world
-     */
+    void dimensions(Vector2& size) override;
+
     std::string name() override;
 
-    /**
-     * @return asset to use as tileset
-     */
     asset_path_t tileset() override;
 
-    /**
-     * @return players data
-     */
-    void players(std::vector<PlayerPrototype>& entities) override;
+    void tiles(std::vector<TilePrototype>& tiles) override;
 
-    /**
-     * @return entities data
-     */
+    void players(std::vector<PlayerPrototype>& players) override;
+
     void entities(std::vector<EntityPrototype>& entities) override;
 };
 

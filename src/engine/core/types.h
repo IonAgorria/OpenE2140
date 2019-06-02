@@ -21,8 +21,8 @@ using entity_id_t = unsigned long;
 
 /** Entity type */
 struct entity_type_t {
-    unsigned int kind;
-    unsigned int id;
+    unsigned int kind = 0;
+    unsigned int id = 0;
 };
 
 /** Entity direction */

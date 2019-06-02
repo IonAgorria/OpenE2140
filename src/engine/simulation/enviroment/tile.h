@@ -5,32 +5,19 @@
 #define OPENE2140_TILE_H
 
 #include "core/common.h"
+#include "world_prototypes.h"
 
 class Entity;
+
 /**
  * Stores each tile information
  */
-class Tile {
+class Tile: public TilePrototype {
 public:
     /**
      * Flag for tile image being dirty
      */
     bool isImageDirty = true;
-
-    /**
-     * Flag for water
-     */
-    bool isWater = false;
-
-    /**
-     * Flag for passable
-     */
-    bool isPassable = false;
-
-    /**
-     * Flag for immutable (is not affected by explosions or other stuff
-     */
-    bool isImmutable = false;
 
     /**
      * Entities inside this tile
@@ -43,19 +30,24 @@ public:
      //TODO
 
     /**
-     * Tile constructor
+     * Constructor
      */
     Tile();
 
     /**
-     * Tile destructor
+     * Destructor
      */
-    ~Tile() = default;
+    virtual ~Tile() = default;
 
     /**
      * Disable copy/move
      */
     NON_COPYABLE_NOR_MOVABLE(Tile)
+
+    /**
+     * Set data from prototype
+     */
+    void setPrototype(TilePrototype prototype);
 
     /**
      * Set tile as reactor crate

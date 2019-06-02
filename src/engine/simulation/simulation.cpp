@@ -24,7 +24,6 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
         return;
     }
     world = std::make_unique<World>(assetWorld);
-    log->debug("World name: '" + assetWorld->name() + "'");
 }
 
 Simulation::~Simulation() {
@@ -40,6 +39,9 @@ Simulation::~Simulation() {
 
 void Simulation::update() {
     world->update();
+    for (std::shared_ptr<Entity>& entity : entities) {
+        entity->update();
+    }
 }
 
 void Simulation::draw(const Rectangle& rectangle) {

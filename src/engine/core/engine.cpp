@@ -9,6 +9,7 @@
 #include "graphics/window.h"
 #include "gui/guimenu.h"
 #include "simulation/simulation.h"
+#include "simulation/enviroment/world.h"
 #include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"
@@ -171,8 +172,10 @@ void Engine::draw() {
 
     //Draw the simulation if any
     if (simulation) {
+        Rectangle viewport = renderer->getViewport();
+        viewport.setPosition(camera);
         renderer->changeCamera(camera.x, camera.y);
-        simulation->draw(renderer->getViewport());
+        simulation->draw(viewport);
     }
 
     //Draw/update UI
@@ -244,6 +247,21 @@ Simulation* Engine::getSimulation() {
 
 Vector2& Engine::getCamera() {
     return camera;
+}
+
+void Engine::updateCamera(const Vector2& newCamera) {
+    this->camera.set(newCamera);
+
+    //Limit camera movement by world bounds
+    if (camera.x < 0) camera.x = 0;
+    if (camera.y < 0) camera.y = 0;
+    if (simulation && renderer) {
+        Rectangle viewport = renderer->getViewport();
+        Rectangle worldRectangle = simulation->getWorld()->getRectangle();
+        Vector2 max(worldRectangle.w - viewport.w, worldRectangle.h - viewport.h);
+        if (max.x < camera.x) camera.x = max.x;
+        if (max.y < camera.y) camera.y = max.y;
+    }
 }
 
 int Engine::getKeyBind(const std::string& name) {

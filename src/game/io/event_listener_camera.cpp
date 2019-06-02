@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 28/04/19
 //
 
+#include "game/core/constants.h"
 #include "game/core/game.h"
 #include "event_listener_camera.h"
 #include "graphics/renderer.h"
@@ -21,7 +22,9 @@ EventListenerCamera::~EventListenerCamera() {
 }
 
 bool EventListenerCamera::update() {
-    game->getCamera() += keyMovement + mouseMovement;
+    //Nothing to do
+    if (keyMovement.zero() && mouseMovement.zero()) return false;
+    game->updateCamera(game->getCamera() + keyMovement + mouseMovement);
     return false;
 }
 
@@ -33,23 +36,23 @@ bool EventListenerCamera::mouseMove(Window* window, int x, int y) {
 bool EventListenerCamera::keyChange(Window* window, int code, bool press) {
     if (press) {
         if (code == keyUp) {
-            keyMovement.y = -10;
+            keyMovement.y = -CAMERA_SPEED;
         } else if (code == keyLeft) {
-            keyMovement.x = -10;
+            keyMovement.x = -CAMERA_SPEED;
         } else if (code == keyDown) {
-            keyMovement.y = 10;
+            keyMovement.y =  CAMERA_SPEED;
         } else if (code == keyRight) {
-            keyMovement.x = 10;
+            keyMovement.x =  CAMERA_SPEED;
         }
     } else {
         //Only unset if keyMovement matches the correct value
-        if (code == keyUp && keyMovement.y == -10) {
+        if (code == keyUp && keyMovement.y < 0) {
             keyMovement.y = 0;
-        } else if (code == keyLeft && keyMovement.x == -10) {
+        } else if (code == keyLeft && keyMovement.x < 0) {
             keyMovement.x = 0;
-        } else if (code == keyDown && keyMovement.y == 10) {
+        } else if (code == keyDown && keyMovement.y > 0) {
             keyMovement.y = 0;
-        } else if (code == keyRight && keyMovement.x == 10) {
+        } else if (code == keyRight && keyMovement.x > 0) {
             keyMovement.x = 0;
         }
     }

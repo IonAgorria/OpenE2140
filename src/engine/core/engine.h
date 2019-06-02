@@ -181,6 +181,13 @@ public:
     Vector2& getCamera();
 
     /**
+     * Updates the engine camera
+     *
+     * @param camera to set
+     */
+    void updateCamera(const Vector2& camera);
+
+    /**
      * @return key code for provided bind
      */
     int getKeyBind(const std::string& name);

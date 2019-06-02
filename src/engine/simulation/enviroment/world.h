@@ -24,6 +24,11 @@ private:
     log_ptr log;
 
     /**
+     * Size of world in tiles
+     */
+    Vector2 worldSize;
+
+    /**
      * Rectangle containing this world, position is always 0, 0
      */
     Rectangle worldRectangle;
@@ -46,7 +51,7 @@ private:
     /**
      * Tile image size
      */
-    const int tileSize = 64;
+    const int tileSize = 64; //TODO move this to asset level method and override in game, as its game specific
 
     /**
      * Tile image size half
@@ -83,9 +88,19 @@ public:
      * Draws the world using provided view
      *
      * @param renderer to use for drawing
-     * @param view window
+     * @param rectangle the rectangle to draw
      */
     void draw(Renderer* renderer, const Rectangle& rectangle);
+
+    /**
+     * @return size of this world in tiles
+     */
+    const Vector2& getSize();
+
+    /**
+     * @return rectangle containing this world
+     */
+    const Rectangle& getRectangle();
 
     /**
      * Tile in specified tile index

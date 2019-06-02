@@ -13,7 +13,8 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::share
     //Set dimensions
     Vector2 size;
     assetLevel->dimensions(size);
-    worldRectangle.set(Vector2(), size);
+    worldSize.set(size);
+    worldRectangle.set(0, 0, size.x * tileSize, size.y * tileSize);
     log->debug("Size: '" + size.toString() + "'");
 
     //Load tiles
@@ -47,10 +48,10 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     //Do pixel to tile conversions
     int drawStartX = rectangle.x % tileSize;
     int drawStartY = rectangle.y % tileSize;
-    int tileStartX = std::max(worldRectangle.x, rectangle.x / tileSize);
-    int tileStartY = std::max(worldRectangle.y, rectangle.y / tileSize);
-    int tileEndX = std::min(worldRectangle.w, (rectangle.x + rectangle.w) / tileSize + 1);
-    int tileEndY = std::min(worldRectangle.h, (rectangle.y + rectangle.h) / tileSize + 1);
+    int tileStartX = std::max(0, rectangle.x / tileSize - 1);
+    int tileStartY = std::max(0, rectangle.y / tileSize - 1);
+    int tileEndX = std::min(worldSize.x, (rectangle.x + rectangle.w) / tileSize + 2);
+    int tileEndY = std::min(worldSize.y, (rectangle.y + rectangle.h) / tileSize + 2);
 
     //Create rectangle for drawing operations
     int drawTileSize = tileSize * scaling;
@@ -58,7 +59,7 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     for (int y = tileStartY; y < tileEndY; y++) {
         for (int x = tileStartX; x < tileEndX; x++) {
             //Get current image of tile and draw it
-            int index = x + worldRectangle.w * y;
+            int index = x + worldSize.x * y;
             std::shared_ptr<Image> image = tilesImages.at(index);
             if (!image) {
                 continue;
@@ -76,6 +77,13 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     }
 }
 
+const Vector2& World::getSize() {
+    return worldSize;
+}
+
+const Rectangle& World::getRectangle() {
+    return worldRectangle;
+}
 
 Tile* World::getTile(unsigned long index) {
     if (index < 0 || index >= tiles.size()) {
@@ -85,7 +93,7 @@ Tile* World::getTile(unsigned long index) {
 }
 
 Tile* World::getTile(unsigned long x, unsigned long y) {
-    return getTile(x + worldRectangle.w * y);
+    return getTile(x + worldSize.x * y);
 }
 
 Tile* World::getTile(const Vector2& position) {

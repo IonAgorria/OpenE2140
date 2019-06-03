@@ -37,6 +37,11 @@ private:
     std::vector<std::unique_ptr<IAssetProcessor>> processors;
 
     /**
+     * Asset containers
+     */
+    std::unordered_map<std::string, bool> assetContainers;
+
+    /**
      * Contains all assets in this manager
      */
     std::unordered_map<asset_path_t, std::unique_ptr<Asset>> assets;
@@ -45,6 +50,15 @@ private:
      * Number of assets loaded
      */
     int assetsCount;
+
+    /**
+     * Loads the assets data in the container from files into memory
+     *
+     * @param assetRoots paths to search the container
+     * @param containerName name of container to load
+     * @param required generates error if missing
+     */
+    void loadAssetContainer(const std::vector<std::string>& assetRoots, const std::string& containerName, bool required);
 
     /**
      * Processes the images
@@ -139,13 +153,17 @@ public:
     void clearAssets();
 
     /**
-     * Loads the assets data from files into memory
+     * Registers asset container name
      *
-     * @param assetsRoot directory to use as assets root
-     * @param containerNames names of container to scan in assets root
-     * @param required flag to throw error if container is not found
+     * @param containerName name of container to load
+     * @param required if required then engine generates an error indicating the absence of container
      */
-    void loadAssets(const std::vector<std::string>& assetRoots, const std::string& containerName, bool required);
+    void registerAssetContainer(const std::string& containerName, bool required);
+
+    /**
+     * Loads the assets data from files into memory
+     */
+    void loadAssets();
 
     /**
      * Processes intermediate assets

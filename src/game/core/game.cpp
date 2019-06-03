@@ -33,12 +33,10 @@ void Game::setupAssetManager() {
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorMIX>());
 
     //Load assets
-    std::vector<std::string> assetRoots;
-    AssetManager::getAssetRoots(assetRoots);
-    assetManager->loadAssets(assetRoots, "PIRO", true);
-    assetManager->loadAssets(assetRoots, "MIX", true);
-    assetManager->loadAssets(assetRoots, "LEVEL", true);
-    assetManager->loadAssets(assetRoots, "LEVEL2", false);
+    assetManager->registerAssetContainer("PIRO", true);
+    assetManager->registerAssetContainer("MIX", true);
+    assetManager->registerAssetContainer("LEVEL", true);
+    assetManager->registerAssetContainer("LEVEL2", false);
     error = assetManager->getError();
     if (hasError()) {
         error = "Error initializing asset manager\n" + error;

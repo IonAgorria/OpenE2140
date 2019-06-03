@@ -96,7 +96,37 @@ void AssetManager::getAssetRoots(std::vector<std::string>& roots) {
     roots.emplace_back(Utils::getParentPath(Utils::getInstallPath()) + assetsRoot); //Parent of installation directory
 }
 
-void AssetManager::loadAssets(const std::vector<std::string>& assetRoots, const std::string& containerName, bool required) {
+void AssetManager::registerAssetContainer(const std::string& containerName, bool required) {
+    assetContainers[containerName] = required;
+}
+
+void AssetManager::loadAssets() {
+    //Clear any old assets
+    clearAssets();
+
+    //Load roots
+    std::vector<std::string> roots;
+    getAssetRoots(roots);
+
+    //Load each registered containers
+    for (std::pair<std::string,bool> pair : assetContainers) {
+        loadAssetContainer(roots, pair.first, pair.second);
+        if (hasError()) break;
+    }
+
+    //Process the assets
+    processIntermediates();
+    if (!error.empty()) return;
+
+    //Refresh the assets
+    refreshAssets();
+    if (!error.empty()) return;
+
+    //Print loaded assets
+    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assetManager->getAssets()) log->debug(pair.first);
+}
+
+void AssetManager::loadAssetContainer(const std::vector<std::string>& assetRoots, const std::string& containerName, bool required) {
     log->debug("Loading from '{0}'", containerName);
     //Scan assets from containers by checking different paths that might contain assets
     bool found = false;

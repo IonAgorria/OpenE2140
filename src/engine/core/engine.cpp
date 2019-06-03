@@ -203,16 +203,9 @@ void Engine::setupRenderer() {
 }
 
 void Engine::setupAssetManager() {
-    //Process the assets
-    assetManager->processIntermediates();
+    //Load the assets
+    assetManager->loadAssets();
     if (!error.empty()) return;
-
-    //Refresh the assets
-    assetManager->refreshAssets();
-    if (!error.empty()) return;
-
-    //Print loaded assets
-    //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assetManager->getAssets()) log->debug(pair.first);
 
     log->debug("Loaded {0} assets", assetManager->getAssetsCount());
 }

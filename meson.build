@@ -87,6 +87,7 @@ opene2140_src = [
     'src/game/assets/asset_processor_mix.cpp',
     'src/game/assets/asset_level_game.cpp',
     'src/game/io/event_listener_camera.cpp',
+    'src/game/io/event_listener_debug.cpp',
     'src/game/core/game.cpp',
     'src/game/core/main.cpp',
 ]

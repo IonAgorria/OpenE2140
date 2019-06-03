@@ -160,15 +160,12 @@ bool Image::loadTextureR8(const byte_t* pixels) {
 bool Image::loadTextureRGBA(const byte_t* pixels) {
     bindTexture();
 
-    //Flip image
-    std::unique_ptr<byte_array_t> flipped = Utils::bufferFlipY(pixels, rectangle.w * 4, rectangle.h);
-
     //Required to properly load the data
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glPixelStorei(GL_PACK_ALIGNMENT, 4);
 
     //Load it
-    glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RGBA, GL_UNSIGNED_BYTE, flipped.get());
+    glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     error = Utils::checkGLError();
     return error.empty();
 }

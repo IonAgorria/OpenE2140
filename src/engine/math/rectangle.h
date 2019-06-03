@@ -35,6 +35,13 @@ public:
     Rectangle(const Rectangle& rectangle);
 
     /**
+     * Constructs a new rectangle
+     *
+     * @param v value for all components
+     */
+    Rectangle(int v);
+
+    /**
      * Constructs a new zero rectangle
      */
     Rectangle();
@@ -54,6 +61,66 @@ public:
      * @return if not equal
      */
     bool operator!=(const Rectangle& rectangle) const;
+
+    /**
+     * Adds rectangle values to this rectangle
+     *
+     * @param rectangle
+     */
+    void operator+=(Rectangle const &rectangle);
+
+    /**
+     * Subtract rectangle values to this rectangle
+     *
+     * @param rectangle
+     */
+    void operator-=(Rectangle const &rectangle);
+
+    /**
+     * Multiply rectangle values with this rectangle values
+     *
+     * @param rectangle
+     */
+    void operator*=(Rectangle const &rectangle);
+
+    /**
+     * Divides rectangle values with this rectangle values
+     *
+     * @param rectangle
+     */
+    void operator/=(Rectangle const &rectangle);
+
+    /**
+     * Adds rectangle values to this rectangle
+     *
+     * @param rectangle
+     * @return resulting rectangle
+     */
+    Rectangle operator+(Rectangle const &rectangle) const;
+
+    /**
+     * Subtract rectangle values to this rectangle
+     *
+     * @param rectangle
+     * @return resulting rectangle
+     */
+    Rectangle operator-(Rectangle const &rectangle) const;
+
+    /**
+     * Multiply rectangle values with this rectangle values
+     *
+     * @param rectangle
+     * @return resulting rectangle
+     */
+    Rectangle operator*(Rectangle const &rectangle) const;
+
+    /**
+     * Divides rectangle values with this rectangle values
+     *
+     * @param rectangle
+     * @return resulting rectangle
+     */
+    Rectangle operator/(Rectangle const &rectangle) const;
 
     /**
      * @return true if rectangle has area

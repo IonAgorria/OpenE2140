@@ -24,6 +24,13 @@ Rectangle::Rectangle(const Rectangle& rectangle) {
     this->h = rectangle.h;
 }
 
+Rectangle::Rectangle(int v) {
+    this->x = v;
+    this->y = v;
+    this->w = v;
+    this->h = v;
+}
+
 Rectangle::Rectangle() {
     this->x = 0;
     this->y = 0;
@@ -33,16 +40,80 @@ Rectangle::Rectangle() {
 
 bool Rectangle::operator==(const Rectangle& rectangle) const {
     return x == rectangle.x
-        && y == rectangle.y
-        && w == rectangle.w
-        && h == rectangle.h;
+           && y == rectangle.y
+           && w == rectangle.w
+           && h == rectangle.h;
 }
 
 bool Rectangle::operator!=(const Rectangle& rectangle) const {
     return x != rectangle.x
-        || y != rectangle.y
-        || w != rectangle.w
-        || h != rectangle.h;
+           || y != rectangle.y
+           || w != rectangle.w
+           || h != rectangle.h;
+}
+
+void Rectangle::operator+=(Rectangle const &rectangle) {
+    this->x += rectangle.x;
+    this->y += rectangle.y;
+    this->w += rectangle.w;
+    this->h += rectangle.h;
+}
+
+void Rectangle::operator-=(Rectangle const &rectangle) {
+    this->x -= rectangle.x;
+    this->y -= rectangle.y;
+    this->w -= rectangle.w;
+    this->h -= rectangle.h;
+}
+
+void Rectangle::operator*=(Rectangle const &rectangle) {
+    this->x *= rectangle.x;
+    this->y *= rectangle.y;
+    this->w *= rectangle.w;
+    this->h *= rectangle.h;
+}
+
+void Rectangle::operator/=(Rectangle const &rectangle) {
+    this->x /= rectangle.x;
+    this->y /= rectangle.y;
+    this->w /= rectangle.w;
+    this->h /= rectangle.h;
+}
+
+Rectangle Rectangle::operator+(Rectangle const &rectangle) const {
+    return Rectangle(
+            this->x + rectangle.x,
+            this->y + rectangle.y,
+            this->w + rectangle.w,
+            this->h + rectangle.h
+    );
+}
+
+Rectangle Rectangle::operator-(Rectangle const &rectangle) const {
+    return Rectangle(
+            this->x - rectangle.x,
+            this->y - rectangle.y,
+            this->w - rectangle.w,
+            this->h - rectangle.h
+    );
+}
+
+Rectangle Rectangle::operator*(Rectangle const &rectangle) const {
+    return Rectangle(
+            this->x * rectangle.x,
+            this->y * rectangle.y,
+            this->w * rectangle.w,
+            this->h * rectangle.h
+    );
+}
+
+Rectangle Rectangle::operator/(Rectangle const &rectangle) const {
+    return Rectangle(
+            this->x / rectangle.x,
+            this->y / rectangle.y,
+            this->w / rectangle.w,
+            this->h / rectangle.h
+    );
 }
 
 Rectangle::operator bool() const {

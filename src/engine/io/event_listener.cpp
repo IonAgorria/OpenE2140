@@ -29,6 +29,6 @@ bool IEventListener::mouseMove(Window* window, int x, int y) {
     return false;
 }
 
-bool IEventListener::keyChange(Window* window, int code, bool press) {
+bool IEventListener::keyChange(Window* window, input_key_t& key, bool press) {
     return false;
 }

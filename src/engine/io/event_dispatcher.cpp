@@ -70,10 +70,10 @@ bool EventDispatcher::mouseMove(Window* window, int x, int y) {
     return handled;
 }
 
-bool EventDispatcher::keyChange(Window* window, int code, bool press) {
+bool EventDispatcher::keyChange(Window* window, input_key_t& key, bool press) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->keyChange(window, code, press);
+        handled = listener->keyChange(window, key, press);
         if (handled) {
             break;
         }

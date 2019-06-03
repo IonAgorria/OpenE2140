@@ -5,6 +5,7 @@
 #define OPENE2140_EVENT_LISTENER_H
 
 #include <string>
+#include "core/types.h"
 
 class Window;
 
@@ -80,12 +81,12 @@ public:
      * Called when key change occurs
      *
      * @param window causing the event
-     * @param code of key
+     * @param key data
      * @param name of key
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool keyChange(Window* window, int code, bool press);
+    virtual bool keyChange(Window* window, input_key_t& key, bool press);
 };
 
 #endif //OPENE2140_EVENT_LISTENER_H

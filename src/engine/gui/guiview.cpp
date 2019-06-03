@@ -110,10 +110,10 @@ bool GUIView::mouseMove(int x, int y) {
     return handled;
 }
 
-bool GUIView::keyChange(int code, bool press) {
+bool GUIView::keyChange(input_key_t& key, bool press) {
     bool handled = false;
     for (std::unique_ptr<GUIView>& view : views) {
-        handled = view->keyChange(code, press);
+        handled = view->keyChange(key, press);
         if (handled) {
             break;
         }

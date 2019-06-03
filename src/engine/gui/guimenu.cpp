@@ -23,6 +23,6 @@ bool GUIMenu::mouseMove(Window* window, int x, int y) {
     return GUIView::mouseMove(x, y);
 }
 
-bool GUIMenu::keyChange(Window* window, int code, bool press) {
-    return GUIView::keyChange(code, press);
+bool GUIMenu::keyChange(Window* window, input_key_t& key, bool press) {
+    return GUIView::keyChange(key, press);
 }

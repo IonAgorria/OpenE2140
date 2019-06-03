@@ -11,7 +11,7 @@
 class Game;
 
 /**
- * Handles UI events
+ * Handles camera events
  */
 class EventListenerCamera: public IEventListener {
 private:
@@ -33,10 +33,10 @@ private:
     /*
      * Key values
      */
-    int keyUp = 0;
-    int keyDown = 0;
-    int keyLeft = 0;
-    int keyRight = 0;
+    unsigned int keyUp = 0;
+    unsigned int keyDown = 0;
+    unsigned int keyLeft = 0;
+    unsigned int keyRight = 0;
 public:
     /**
      * Event handler constructor
@@ -57,7 +57,7 @@ public:
 
     bool mouseMove(Window* window, int x, int y) override;
 
-    bool keyChange(Window* window, int code, bool press) override;
+    bool keyChange(Window* window, input_key_t& key, bool press) override;
 };
 
 #endif //OPENE2140_EVENT_LISTENER_CAMERA_H

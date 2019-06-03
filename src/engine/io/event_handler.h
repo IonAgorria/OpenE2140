@@ -83,7 +83,7 @@ public:
 
     bool mouseMove(Window* window, int x, int y) override;
 
-    bool keyChange(Window* window, int code, bool press) override;
+    bool keyChange(Window* window, input_key_t& key, bool press) override;
 };
 
 

@@ -14,12 +14,14 @@
 #include "game/assets/asset_processor_level.h"
 #include "game/assets/asset_processor_mix.h"
 #include "game/io/event_listener_camera.h"
+#include "game/io/event_listener_debug.h"
 #include "game.h"
 
 void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
     eventHandler->addEventListener(std::make_unique<EventListenerCamera>(this_ptr));
+    eventHandler->addEventListener(std::make_unique<EventListenerDebug>(this_ptr));
 
     //Call setup
     Engine::setupEventHandler();

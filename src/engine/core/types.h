@@ -41,8 +41,19 @@ using money_t = signed long;
  * Size struct with shorts
  */
 struct size_16_t {
-    unsigned short width;
-    unsigned short height;
+    unsigned short width = 0;
+    unsigned short height = 0;
+};
+
+/**
+ * Struct for key input data
+ */
+struct input_key_t {
+    unsigned int code = 0;
+    bool shift = false;
+    bool ctrl = false;
+    bool alt = false;
+    bool meta = false;
 };
 
 #endif //OPENE2140_TYPES_H

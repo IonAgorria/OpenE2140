@@ -33,26 +33,26 @@ bool EventListenerCamera::mouseMove(Window* window, int x, int y) {
     return false;
 }
 
-bool EventListenerCamera::keyChange(Window* window, int code, bool press) {
+bool EventListenerCamera::keyChange(Window* window, input_key_t& key, bool press) {
     if (press) {
-        if (code == keyUp) {
+        if (key.code == keyUp) {
             keyMovement.y = -CAMERA_SPEED;
-        } else if (code == keyLeft) {
+        } else if (key.code == keyLeft) {
             keyMovement.x = -CAMERA_SPEED;
-        } else if (code == keyDown) {
+        } else if (key.code == keyDown) {
             keyMovement.y =  CAMERA_SPEED;
-        } else if (code == keyRight) {
+        } else if (key.code == keyRight) {
             keyMovement.x =  CAMERA_SPEED;
         }
     } else {
         //Only unset if keyMovement matches the correct value
-        if (code == keyUp && keyMovement.y < 0) {
+        if (key.code == keyUp && keyMovement.y < 0) {
             keyMovement.y = 0;
-        } else if (code == keyLeft && keyMovement.x < 0) {
+        } else if (key.code == keyLeft && keyMovement.x < 0) {
             keyMovement.x = 0;
-        } else if (code == keyDown && keyMovement.y > 0) {
+        } else if (key.code == keyDown && keyMovement.y > 0) {
             keyMovement.y = 0;
-        } else if (code == keyRight && keyMovement.x > 0) {
+        } else if (key.code == keyRight && keyMovement.x > 0) {
             keyMovement.x = 0;
         }
     }

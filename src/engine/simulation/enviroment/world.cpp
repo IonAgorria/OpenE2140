@@ -46,8 +46,8 @@ void World::update() {
 
 void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     //Do pixel to tile conversions
-    int drawStartX = rectangle.x % tileSize;
-    int drawStartY = rectangle.y % tileSize;
+    int drawStartX = rectangle.x % tileSize + tileSizeHalf;
+    int drawStartY = rectangle.y % tileSize + tileSizeHalf;
     int tileStartX = std::max(0, rectangle.x / tileSize - 1);
     int tileStartY = std::max(0, rectangle.y / tileSize - 1);
     int tileEndX = std::min(worldSize.x, (rectangle.x + rectangle.w) / tileSize + 2);

@@ -246,8 +246,6 @@ void Engine::updateCamera(const Vector2& newCamera) {
     this->camera.set(newCamera);
 
     //Limit camera movement by world bounds
-    if (camera.x < 0) camera.x = 0;
-    if (camera.y < 0) camera.y = 0;
     if (simulation && renderer) {
         Rectangle viewport = renderer->getViewport();
         Rectangle worldRectangle = simulation->getWorld()->getRectangle();
@@ -255,6 +253,10 @@ void Engine::updateCamera(const Vector2& newCamera) {
         if (max.x < camera.x) camera.x = max.x;
         if (max.y < camera.y) camera.y = max.y;
     }
+
+    //Never let to be less than 0
+    if (camera.x < 0) camera.x = 0;
+    if (camera.y < 0) camera.y = 0;
 }
 
 int Engine::getKeyBind(const std::string& name) {

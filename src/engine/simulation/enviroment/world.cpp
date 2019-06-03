@@ -52,8 +52,6 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     int tileStartY = std::max(0, rectangle.y / tileSize - 1);
     int tileEndX = std::min(worldSize.x, (rectangle.x + rectangle.w) / tileSize + 2);
     int tileEndY = std::min(worldSize.y, (rectangle.y + rectangle.h) / tileSize + 2);
-
-    //Create rectangle for drawing operations
     int drawTileSize = tileSize * scaling;
     //Iterate each tile inside rectangle
     for (int y = tileStartY; y < tileEndY; y++) {

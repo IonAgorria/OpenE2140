@@ -84,10 +84,12 @@ size_t AssetLevelGame::tilesetSize() {
 void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
     for (int y = 0; y < levelSize.y; ++y) {
         for (int x = 0; x < levelSize.x; ++x) {
-            int i = (x + levelSize.x * y);
+            //This is not a typo, tiles are set this way
+            int i = y + LEVEL_SIZE_MAX * x;
+
             //Get tile index
             byte_t tile_index;
-            seek(0x8020 + i, true);
+            seek(0x801F + i, true);
             if (!readAll(tile_index)) {
                 error = "Error reading tile terrain\n" + error;
                 return;
@@ -95,7 +97,7 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
 
             //Get tile flags
             unsigned short tile_flags;
-            seek(0x0020 + (i * 2), true);
+            seek(0x001F + (i * 2), true);
             if (!readAll(tile_flags)) {
                 error = "Error reading tile flags\n" + error;
                 return;
@@ -105,26 +107,26 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
             TilePrototype tile;
             tile.index = tile_index;
             switch (tile_flags) {
-                case 0x0100: //Free
+                case 0x0001: //Free
                     tile.isPassable = true;
                     break;
-                case 0x0200: //Water
+                case 0x0002: //Water
                     tile.isWater = true;
                     tile.isImmutable = true;
                     break;
-                case 0x0800: //Shore
+                case 0x0008: //Shore
                     tile.isPassable = true;
                     tile.isShore = true;
                     tile.isImmutable = true;
                     break;
-                case 0x1100: //Blocked
+                case 0x0011: //Blocked
                     tile.isImmutable = true;
                     break;
-                case 0x2100: //Ore
+                case 0x0021: //Ore
                     tile.isPassable = true;
                     tile.ore = MONEY_PER_TILE;
                     break;
-                case 0x4100: //Sand
+                case 0x0041: //Sand
                     tile.isPassable = true;
                     tile.isSand = true;
                     break;

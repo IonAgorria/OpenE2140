@@ -50,6 +50,8 @@ struct size_16_t {
  */
 struct input_key_t {
     unsigned int code = 0;
+    bool press = false;
+    bool repeat = false;
     bool shift = false;
     bool ctrl = false;
     bool alt = false;

@@ -125,7 +125,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool keyChange(input_key_t& key, bool press);
+    virtual bool keyChange(input_key_t& key);
 };
 
 #endif //OPENE2140_GUIVIEW_H

@@ -70,8 +70,15 @@ void EventHandler::poll() {
             case SDL_KEYDOWN:
             case SDL_KEYUP: {
                 input_key_t key;
+                auto mod = event.key.keysym.mod;
                 key.code = event.key.keysym.sym;
-                keyChange(window, key, event.key.state == SDL_PRESSED);
+                key.press = event.key.state == SDL_PRESSED;
+                key.repeat = event.key.repeat != 0;
+                key.shift = mod & KMOD_SHIFT;
+                key.ctrl = mod & KMOD_CTRL;
+                key.meta = mod & KMOD_GUI;
+                key.alt = mod & KMOD_ALT;
+                keyChange(window, key);
                 break;
             }
             case SDL_WINDOWEVENT: {
@@ -139,9 +146,9 @@ bool EventHandler::mouseMove(Window* window, int x, int y) {
     return EventDispatcher::mouseMove(window, x, y);
 }
 
-bool EventHandler::keyChange(Window* window, input_key_t& key, bool press) {
-    log->debug("Key change: {0} '{1}' {2}", key.code, getNameFromCode(key.code), press ? "press" : "release");
-    return EventDispatcher::keyChange(window, key, press);
+bool EventHandler::keyChange(Window* window, input_key_t& key) {
+    log->debug("Key change: {0} '{1}' {2}", key.code, getNameFromCode(key.code), key.press ? "press" : "release");
+    return EventDispatcher::keyChange(window, key);
 }
 
 int EventHandler::getCodeFromName(const std::string& name) {

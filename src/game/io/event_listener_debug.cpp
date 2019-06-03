@@ -17,11 +17,14 @@ EventListenerDebug::~EventListenerDebug() {
     }
 }
 
-bool EventListenerDebug::keyChange(Window* window, input_key_t& key, bool press) {
-    if (press) {
+bool EventListenerDebug::keyChange(Window* window, input_key_t& key) {
+    if (key.press && !key.repeat) {
         if (key.code == keyAssetsReload) {
-            //game->getAssetManager()->loadAssets();
-            game->getAssetManager()->refreshAssets();
+            if (key.shift) {
+                game->getAssetManager()->loadAssets();
+            } else {
+                game->getAssetManager()->refreshAssets();
+            }
         }
     }
     return false;

@@ -86,7 +86,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool keyChange(Window* window, input_key_t& key, bool press);
+    virtual bool keyChange(Window* window, input_key_t& key);
 };
 
 #endif //OPENE2140_EVENT_LISTENER_H

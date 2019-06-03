@@ -13,8 +13,18 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::share
     //Set dimensions
     Vector2 size;
     assetLevel->dimensions(size);
-    worldSize.set(size);
-    worldRectangle.set(0, 0, size.x * tileSize, size.y * tileSize);
+    realRectangle.set(Vector2(0), size);
+    if (Utils::isDebug()) {
+        tileRectangle.set(realRectangle);
+    } else {
+        tileRectangle.set(
+                std::max(realRectangle.x, 1),
+                std::max(realRectangle.y, 1),
+                std::max(0, realRectangle.w - 1),
+                std::max(0, realRectangle.h - 1)
+        );
+    }
+    worldRectangle.set(tileRectangle * Rectangle(tileSize));
     log->debug("Size: '" + size.toString() + "'");
 
     //Load tiles
@@ -46,25 +56,25 @@ void World::update() {
 
 void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     //Do pixel to tile conversions
-    int drawStartX = rectangle.x % tileSize + tileSizeHalf;
-    int drawStartY = rectangle.y % tileSize + tileSizeHalf;
-    int tileStartX = std::max(0, rectangle.x / tileSize - 1);
-    int tileStartY = std::max(0, rectangle.y / tileSize - 1);
-    int tileEndX = std::min(worldSize.x, (rectangle.x + rectangle.w) / tileSize + 2);
-    int tileEndY = std::min(worldSize.y, (rectangle.y + rectangle.h) / tileSize + 2);
+    int viewX = rectangle.x + tileSizeHalf;
+    int viewY = rectangle.y + tileSizeHalf;
+    int tileStartX = std::max(tileRectangle.x, viewX / tileSize - 1);
+    int tileStartY = std::max(tileRectangle.y, viewY / tileSize - 1);
+    int tileEndX = std::min(tileRectangle.w, (viewX + rectangle.w) / tileSize + 1);
+    int tileEndY = std::min(tileRectangle.h, (viewY + rectangle.h) / tileSize + 1);
     int drawTileSize = tileSize * scaling;
     //Iterate each tile inside rectangle
-    for (int y = tileStartY; y < tileEndY; y++) {
-        for (int x = tileStartX; x < tileEndX; x++) {
+    for (int y = tileStartY; y < tileEndY; ++y) {
+        for (int x = tileStartX; x < tileEndX; ++x) {
             //Get current image of tile and draw it
-            int index = x + worldSize.x * y;
+            int index = x + realRectangle.w * y;
             std::shared_ptr<Image> image = tilesImages.at(index);
             if (!image) {
                 continue;
             }
             renderer->draw(
-                drawStartX + (x * drawTileSize),
-                drawStartY + (y * drawTileSize),
+                tileSizeHalf + (x * drawTileSize),
+                tileSizeHalf + (y * drawTileSize),
                 drawTileSize,
                 drawTileSize,
                 0,
@@ -75,11 +85,15 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     }
 }
 
-const Vector2& World::getSize() {
-    return worldSize;
+const Rectangle& World::getRealRectangle() {
+    return realRectangle;
 }
 
-const Rectangle& World::getRectangle() {
+const Rectangle& World::getTileRectangle() {
+    return tileRectangle;
+}
+
+const Rectangle& World::getWorldRectangle() {
     return worldRectangle;
 }
 
@@ -91,7 +105,7 @@ Tile* World::getTile(unsigned long index) {
 }
 
 Tile* World::getTile(unsigned long x, unsigned long y) {
-    return getTile(x + worldSize.x * y);
+    return getTile(x + realRectangle.w * y);
 }
 
 Tile* World::getTile(const Vector2& position) {

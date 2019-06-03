@@ -248,8 +248,13 @@ void Engine::updateCamera(const Vector2& newCamera) {
     //Limit camera movement by world bounds
     if (simulation && renderer) {
         Rectangle viewport = renderer->getViewport();
-        Rectangle worldRectangle = simulation->getWorld()->getRectangle();
-        Vector2 max(worldRectangle.w - viewport.w, worldRectangle.h - viewport.h);
+        Rectangle worldRectangle = simulation->getWorld()->getWorldRectangle();
+        Vector2 max(
+            worldRectangle.w - viewport.w,
+            worldRectangle.h - viewport.h
+        );
+        if (camera.x < worldRectangle.x) camera.x = worldRectangle.x;
+        if (camera.y < worldRectangle.y) camera.y = worldRectangle.y;
         if (max.x < camera.x) camera.x = max.x;
         if (max.y < camera.y) camera.y = max.y;
     }

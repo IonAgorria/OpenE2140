@@ -24,12 +24,17 @@ private:
     log_ptr log;
 
     /**
-     * Size of world in tiles
+     * Real size of world in tiles
      */
-    Vector2 worldSize;
+    Rectangle realRectangle;
 
     /**
-     * Rectangle containing this world, position is always 0, 0
+     * Rectangle containing this world in tiles
+     */
+    Rectangle tileRectangle;
+
+    /**
+     * Rectangle containing this world
      */
     Rectangle worldRectangle;
 
@@ -93,14 +98,19 @@ public:
     void draw(Renderer* renderer, const Rectangle& rectangle);
 
     /**
-     * @return size of this world in tiles
+     * @return real sized rectangle of this world in tiles
      */
-    const Vector2& getSize();
+    const Rectangle& getRealRectangle();
 
     /**
-     * @return rectangle containing this world
+     * @return cropped rectangle containing this world in tiles
      */
-    const Rectangle& getRectangle();
+    const Rectangle& getTileRectangle();
+
+    /**
+     * @return cropped rectangle containing this world
+     */
+    const Rectangle& getWorldRectangle();
 
     /**
      * Tile in specified tile index

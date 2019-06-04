@@ -13,6 +13,12 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::share
     //Set dimensions
     Vector2 size;
     assetLevel->dimensions(size);
+    error = assetLevel->getError();
+    if (hasError()) {
+        error = "Error at getting level dimensions\n" + error;
+        log->error(error);
+        return;
+    }
     realRectangle.set(Vector2(0), size);
     if (Utils::isDebug()) {
         tileRectangle.set(realRectangle);
@@ -30,6 +36,12 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::share
     //Load tiles
     std::vector<TilePrototype> tilePrototypes;
     assetLevel->tiles(tilePrototypes);
+    error = assetLevel->getError();
+    if (hasError()) {
+        error = "Error at getting level tiles\n" + error;
+        log->error(error);
+        return;
+    }
     for (size_t i = 0; i < tilePrototypes.size(); ++i) {
         TilePrototype prototype = tilePrototypes.at(i);
         std::unique_ptr<Tile> tile = std::make_unique<Tile>();

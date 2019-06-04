@@ -21,7 +21,9 @@ void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
     eventHandler->addEventListener(std::make_unique<EventListenerCamera>(this_ptr));
-    eventHandler->addEventListener(std::make_unique<EventListenerDebug>(this_ptr));
+    if (Utils::isDebug()) {
+        eventHandler->addEventListener(std::make_unique<EventListenerDebug>(this_ptr));
+    }
 
     //Call setup
     Engine::setupEventHandler();
@@ -41,7 +43,6 @@ void Game::setupAssetManager() {
     assetManager->registerAssetContainer("LEVEL2", false);
     error = assetManager->getError();
     if (hasError()) {
-        error = "Error initializing asset manager\n" + error;
         return;
     }
 
@@ -56,9 +57,12 @@ void Game::run() {
     }
 
     //TODO
+    //camera.set(100, 100);
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
     parameters->world = "LEVEL/DATA/LEVEL02";
+    //parameters->world = "LEVEL/DATA/LEVEL63";
+    //parameters->world = "LEVEL/DATA/LEVEL334";
     setupSimulation(parameters);
     if (hasError()) {
         return;

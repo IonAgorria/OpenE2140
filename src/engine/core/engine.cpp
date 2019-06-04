@@ -205,6 +205,7 @@ void Engine::setupRenderer() {
 void Engine::setupAssetManager() {
     //Load the assets
     assetManager->loadAssets();
+    error = assetManager->getError();
     if (!error.empty()) return;
 
     log->debug("Loaded {0} assets", assetManager->getAssetsCount());
@@ -213,9 +214,6 @@ void Engine::setupAssetManager() {
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
     error = simulation->getError();
-    if (hasError()) {
-        error = "Error initializing simulation\n" + error;
-    }
 }
 
 EventHandler* Engine::getEventHandler() {

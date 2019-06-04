@@ -107,6 +107,9 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
             TilePrototype tile;
             tile.index = tile_index;
             switch (tile_flags) {
+                default: //Unknown
+                    error = "Unknown tile flags " + std::to_string(tile_flags) + " detected at " + std::to_string(tile_index);
+                    return;
                 case 0x0001: //Free
                     tile.isPassable = true;
                     break;
@@ -129,6 +132,9 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
                 case 0x0041: //Sand
                     tile.isPassable = true;
                     tile.isSand = true;
+                    break;
+                case 0x0061: //Unknown
+                    tile.isPassable = true;
                     break;
             }
             tiles.emplace_back(tile);

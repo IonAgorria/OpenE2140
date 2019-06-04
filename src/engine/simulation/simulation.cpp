@@ -17,6 +17,7 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     log = Log::get("Simulation");
     if (!this->parameters || this->parameters->world.empty()) {
         error = "Parameters not set";
+        return;
     }
 
     //Load asset
@@ -40,6 +41,10 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
 
     //Create world
     world = std::make_unique<World>(assetLevel, tilesetImages);
+    error = world->getError();
+    if (hasError()) {
+        return;
+    }
 
     //Load players
     std::vector<PlayerPrototype> players;

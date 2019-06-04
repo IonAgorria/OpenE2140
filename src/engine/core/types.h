@@ -29,10 +29,7 @@ struct entity_type_t {
 using entity_direction_t = unsigned int;
 
 /** Player ID */
-using player_id_t = unsigned int;
-
-/** Player ID */
-using team_id_t = unsigned int;
+using player_id_t = unsigned long;
 
 /** Money type */
 using money_t = signed long;

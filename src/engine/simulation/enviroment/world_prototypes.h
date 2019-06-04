@@ -51,19 +51,19 @@ struct TilePrototype {
  */
 struct PlayerPrototype {
     /**
-     * Player ID
+     * Player ID, each player has a bit
      */
     player_id_t id = 0;
+
+    /**
+     * Player enemies mask, those which are enemies are marked as 1 in their bit position (determined at id)
+     */
+    player_id_t enemies = 0;
 
     /**
      * Player initial money amount
      */
     money_t money = 0;
-
-    /**
-     * Player alliances mask
-     */
-    player_id_t alliances = 0;
 };
 
 /**

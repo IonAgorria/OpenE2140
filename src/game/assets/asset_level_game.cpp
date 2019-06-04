@@ -149,13 +149,46 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
 void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
     seek(0xF657, true);
     for (int i = 0; i < 6; ++i) {
+        //Read index
         byte_t index;
         if (!readAll(index)) {
             error = "Error reading player index\n" + error;
             return;
         }
+        //Skip some data
+        seek(0x4BC);
+        //Skip 2 unknown ints
+        seek(4 * 2);
+        //Read side
+        unsigned int side;
+        if (!readAll(side)) {
+            error = "Error reading player side\n" + error;
+            return;
+        }
+        //Read enemies
+        unsigned int enemies;
+        if (!readAll(enemies)) {
+            error = "Error reading player enemies\n" + error;
+            return;
+        }
+        //Skip some data
+        seek(0x2B);
+        //Read money
+        unsigned int money;
+        if (!readAll(money)) {
+            error = "Error reading player attitude\n" + error;
+            return;
+        }
+        //Skip 2 unknown ints
+        seek(4 * 2);
+        //Skip some data
+        seek(0x450);
+
+        //Create prototype
         PlayerPrototype player;
-        player.id = index;
+        player.id = side;
+        player.enemies = enemies;
+        player.money = money;
         players.emplace_back(player);
     }
 }

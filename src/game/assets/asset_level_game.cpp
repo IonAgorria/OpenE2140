@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 30/05/19
 //
 
+#include "engine/io/log.h"
 #include "asset_level_game.h"
 
 /*
@@ -149,45 +150,70 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
 void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
     seek(0xF657, true);
     for (int i = 0; i < 6; ++i) {
+        /*
+        byte_t unknown;
+        std::string t = "I " + std::to_string(i) + "\n";
+        for (int j = 0; j < 1 + 0x4BC + 8 + 4 + 1 + 0x2E + 4 + 8 + 0x450; ++j) {
+            if (!readAll(unknown)) {
+                error = "Error reading player\n" + error;
+                return;
+            }
+            t += std::to_string(j) + " " + std::to_string(unknown) + "\n";
+        }
+        Log::get()->debug(t);
+        */
         //Read index
-        byte_t index;
+        byte_t index = 0;
         if (!readAll(index)) {
             error = "Error reading player index\n" + error;
+            return;
+        }
+        if (index != i) {
+            error = "Player index " + std::to_string(index) +  " doesn`t match current index " + std::to_string(i) + "\n" + error;
             return;
         }
         //Skip some data
         seek(0x4BC);
         //Skip 2 unknown ints
-        seek(4 * 2);
+        seek(8);
         //Read side
-        unsigned int side;
-        if (!readAll(side)) {
-            error = "Error reading player side\n" + error;
+        unsigned int id = 0;
+        if (!readAll(id)) {
+            error = "Error reading player id\n" + error;
             return;
         }
         //Read enemies
-        unsigned int enemies;
+        unsigned int enemies = 0;
         if (!readAll(enemies)) {
             error = "Error reading player enemies\n" + error;
             return;
         }
         //Skip some data
-        seek(0x2B);
+        seek(3);
+        //Read faction
+        unsigned int faction = 0;
+        if (!readAll(faction)) {
+            error = "Error reading player faction\n" + error;
+            return;
+        }
+        //Skip some data
+        seek(0x24);
         //Read money
         unsigned int money;
         if (!readAll(money)) {
-            error = "Error reading player attitude\n" + error;
+            error = "Error reading player money\n" + error;
             return;
         }
         //Skip 2 unknown ints
-        seek(4 * 2);
+        seek(8);
         //Skip some data
         seek(0x450);
 
         //Create prototype
         PlayerPrototype player;
-        player.id = side;
+        player.id = id;
         player.enemies = enemies;
+        player.faction = faction;
         player.money = money;
         players.emplace_back(player);
     }

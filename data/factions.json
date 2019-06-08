@@ -1,5 +1,6 @@
 [
     {
+        "id": 0,
         "name": "ed",
         "tecnologies": [
             {
@@ -30,6 +31,7 @@
         ]
     },
     {
+        "id": 1,
         "name": "ucs",
         "tecnologies": [
             {
@@ -58,5 +60,5 @@
                 "plasma_weapons": 5000
             }
         ]
-    },
+    }
 ]

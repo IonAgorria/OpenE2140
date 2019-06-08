@@ -64,6 +64,11 @@ struct PlayerPrototype {
      * Player initial money amount
      */
     money_t money = 0;
+
+    /**
+     * Player faction
+     */
+    unsigned int faction = 0;
 };
 
 /**

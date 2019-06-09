@@ -21,7 +21,9 @@ using entity_id_t = unsigned long;
 
 /** Entity type */
 struct entity_type_t {
+    /** Kind of this entity */
     unsigned int kind = 0;
+    /** Unique id inside the current kind domain */
     unsigned int id = 0;
 };
 

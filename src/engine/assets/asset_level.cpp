@@ -19,11 +19,15 @@ std::string AssetLevel::name() {
     return "";
 }
 
-asset_path_t AssetLevel::tileset(size_t index) {
+asset_path_t AssetLevel::tilePath(size_t index) {
     return "";
 }
 
 size_t AssetLevel::tilesetSize() {
+    return 0;
+}
+
+unsigned int AssetLevel::tilesetIndex() {
     return 0;
 }
 

@@ -4,6 +4,7 @@
 #ifndef OPENE2140_WORLD_PROTOTYPES_H
 #define OPENE2140_WORLD_PROTOTYPES_H
 
+#include <src/engine/math/vector2.h>
 #include "core/common.h"
 
 /**
@@ -86,9 +87,24 @@ struct EntityPrototype {
     entity_direction_t direction = 0;
 
     /**
+     * Position of entity
+     */
+    Vector2 position;
+
+    /**
      * Player which entity belongs
      */
     player_id_t player = 0;
+
+    /**
+     * Entity exists initially?
+     */
+    bool exists = true;
+
+    /**
+     * Entity is disabled?
+     */
+    bool disabled = false;
 };
 
 #endif //OPENE2140_WORLD_PROTOTYPES_H

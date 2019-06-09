@@ -5,26 +5,6 @@
 #include "engine/io/log.h"
 #include "asset_level_game.h"
 
-/*
-      r.BaseStream.Position = position + 49195L;
-      this.Units = Helper.ReadObjects<Unit>(r);
-      r.BaseStream.Position = position + 55337L;
-      this.Buildings = Helper.ReadObjects<Building>(r);
-      r.BaseStream.Position = position + 57897L;
-      this.Trees = Helper.ReadObjects<Tree>(r);
-
-      r.BaseStream.Position = position + 63063L;
-      this.Players = Helper.ReadObjects<Player>(r, 6, true);
-
-      r.BaseStream.Position = position + 77391L;
-      this.Triggers = Helper.ReadObjects<Trigger>(r, 10, new Func<BinaryReader, Trigger>(Trigger.FromBinaryReader));
-
-      r.BaseStream.Position = position + 94907L;
-      this.UnknownObjects = Helper.ReadObjects<UnknownObject>(r, 32);
-      r.BaseStream.Position = position + 94907L;
-
- */
-
 AssetLevelGame::AssetLevelGame(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize) :
                                 AssetLevel(path, file, fileOffset, fileSize) {
     //Read basic data
@@ -35,6 +15,13 @@ AssetLevelGame::AssetLevelGame(const asset_path_t& path, const std::shared_ptr<F
         return;
     }
     levelSize.set(w, h);
+    seek(0xF653, true);
+    unsigned int tileset;
+    if (!readAll(tileset)) {
+        error = "Error reading tileset\n" + error;
+        return;
+    }
+    levelTilesetIndex = tileset;
 }
 
 std::string AssetLevelGame::toString() const {
@@ -47,7 +34,7 @@ void AssetLevelGame::dimensions(Vector2& size) {
 
 std::string AssetLevelGame::name() {
     seek(0, true);
-    std::string name;
+    std::string name = "";
     unsigned char c;
     for (int i = 0; i < 32; ++i) {
         if (!readAll(c)) {
@@ -65,21 +52,19 @@ std::string AssetLevelGame::name() {
     return name;
 }
 
-asset_path_t AssetLevelGame::tileset(size_t index) {
+asset_path_t AssetLevelGame::tilePath(size_t index) {
     if (index >= TILESET_MAX) {
         return "";
     }
-    seek(0xF653, true);
-    unsigned int id;
-    if (!readAll(id)) {
-        error = "Error reading tileset\n" + error;
-        return nullptr;
-    }
-    return "MIX/SPRT" + std::to_string(id) + "/" + std::to_string(index);
+    return "MIX/SPRT" + std::to_string(levelTilesetIndex) + "/" + std::to_string(index);
 }
 
 size_t AssetLevelGame::tilesetSize() {
     return TILESET_MAX;
+}
+
+unsigned int AssetLevelGame::tilesetIndex() {
+    return levelTilesetIndex;
 }
 
 void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
@@ -89,7 +74,7 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
             int i = y + LEVEL_SIZE_MAX * x;
 
             //Get tile index
-            byte_t tile_index;
+            byte_t tile_index = 0;
             seek(0x801F + i, true);
             if (!readAll(tile_index)) {
                 error = "Error reading tile terrain\n" + error;
@@ -97,7 +82,7 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
             }
 
             //Get tile flags
-            unsigned short tile_flags;
+            unsigned short tile_flags = 0;
             seek(0x001F + (i * 2), true);
             if (!readAll(tile_flags)) {
                 error = "Error reading tile flags\n" + error;
@@ -144,12 +129,185 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
 }
 
 void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
+    //Load unit entities
     seek(0xC02B, true);
+    for (unsigned int i = 1; i <= ENTITIES_PER_SECTION; ++i) {
+        //Read index
+        byte_t index = 0;
+        if (!readAll(index)) {
+            error = "Error reading entity index\n" + error;
+            return;
+        }
+        //Read player
+        byte_t player = 0;
+        if (!readAll(player)) {
+            error = "Error reading entity player\n" + error;
+            return;
+        }
+        //Read type
+        byte_t type = 0;
+        if (!readAll(type)) {
+            error = "Error reading entity type\n" + error;
+            return;
+        }
+        //Read unknown1
+        byte_t unknown1 = 0;
+        if (!readAll(unknown1)) {
+            error = "Error reading entity unknown1\n" + error;
+            return;
+        }
+        //Read x
+        unsigned short x = 0;
+        if (!readAll(x)) {
+            error = "Error reading entity x\n" + error;
+            return;
+        }
+        //Read y
+        unsigned short y = 0;
+        if (!readAll(y)) {
+            error = "Error reading entity y\n" + error;
+            return;
+        }
+        //Read flags
+        unsigned short flags = 0;
+        if (!readAll(flags)) {
+            error = "Error reading entity flags\n" + error;
+            return;
+        }
+        //Read unknown2
+        byte_t unknown2 = 0;
+        if (!readAll(unknown2)) {
+            error = "Error reading entity unknown2\n" + error;
+            return;
+        }
+        //Read disabled
+        byte_t disabled = 0;
+        if (!readAll(disabled)) {
+            error = "Error reading entity disabled\n" + error;
+            return;
+        }
+        //Skip this entity if index doesn't match
+        if (index != i) {
+            continue;
+        }
+
+        //Create entity
+        EntityPrototype entity;
+        entity.player = player;
+        entity.type.id = type;
+        entity.type.kind = ENTITY_KIND_UNIT;
+        entity.position.set(x, y);
+        entity.direction = index % 16; //TODO convert this into game direction
+        entity.exists = flags != 0;
+        entity.disabled = disabled != 0;
+        entities.emplace_back(entity);
+    }
+
+    //Load building entities
+    seek(0xD829, true);
+    for (unsigned int i = 1; i <= ENTITIES_PER_SECTION; ++i) {
+        //Read index
+        byte_t index = 0;
+        if (!readAll(index)) {
+            error = "Error reading entity index\n" + error;
+            return;
+        }
+        //Read player
+        byte_t player = 0;
+        if (!readAll(player)) {
+            error = "Error reading entity player\n" + error;
+            return;
+        }
+        //Read type
+        unsigned short type = 0;
+        if (!readAll(type)) {
+            error = "Error reading entity type\n" + error;
+            return;
+        }
+        //Read x
+        unsigned short x = 0;
+        if (!readAll(x)) {
+            error = "Error reading entity x\n" + error;
+            return;
+        }
+        //Read y
+        unsigned short y = 0;
+        if (!readAll(y)) {
+            error = "Error reading entity y\n" + error;
+            return;
+        }
+        //Read flags
+        unsigned short flags = 0;
+        if (!readAll(flags)) {
+            error = "Error reading entity flags\n" + error;
+            return;
+        }
+        //Skip this entity if index doesn't match
+        if (index != i) {
+            continue;
+        }
+
+        //Create entity
+        EntityPrototype entity;
+        entity.player = player;
+        entity.type.id = type;
+        entity.type.kind = ENTITY_KIND_BUILDING;
+        entity.position.set(x, y);
+        entity.direction = 0;
+        entity.exists = flags != 0;
+        entities.emplace_back(entity);
+    }
+
+    //Load level objects entities
+    seek(0xE229, true);
+    for (unsigned int i = 1; i <= ENTITIES_PER_SECTION; ++i) {
+        //Read index
+        byte_t index = 0;
+        if (!readAll(index)) {
+            error = "Error reading entity index\n" + error;
+            return;
+        }
+        //Read unknown1
+        unsigned short unknown1 = 0;
+        if (!readAll(unknown1)) {
+            error = "Error reading entity unknown1\n" + error;
+            return;
+        }
+        //Read x
+        unsigned short x = 0;
+        if (!readAll(x)) {
+            error = "Error reading entity x\n" + error;
+            return;
+        }
+        //Read y
+        unsigned short y = 0;
+        if (!readAll(y)) {
+            error = "Error reading entity y\n" + error;
+            return;
+        }
+        //Read type
+        unsigned short type = 0;
+        if (!readAll(type)) {
+            error = "Error reading entity type\n" + error;
+            return;
+        }
+        //Skip this entity if index doesn't match
+        if (index != i) {
+            continue;
+        }
+
+        //Create entity
+        EntityPrototype entity;
+        entity.type.id = type;
+        entity.type.kind = ENTITY_KIND_OBJECT;
+        entity.position.set(x, y);
+        entities.emplace_back(entity);
+    }
 }
 
 void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
     seek(0xF657, true);
-    for (int i = 0; i < 6; ++i) {
+    for (unsigned int i = 0; i < PLAYERS_MAX; ++i) {
         /*
         byte_t unknown;
         std::string t = "I " + std::to_string(i) + "\n";

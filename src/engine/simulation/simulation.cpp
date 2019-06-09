@@ -32,11 +32,14 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     std::unordered_map<unsigned int, std::shared_ptr<Image>> tilesetImages;
     size_t tilesetSize = assetLevel->tilesetSize();
     for (size_t i = 0; i < tilesetSize; ++i) {
-        asset_path_t path = assetLevel->tileset(i);
+        asset_path_t path = assetLevel->tilePath(i);
         if (!path.empty()) {
             tilesetImages[i] = getImage(path);
         }
-
+    }
+    error = assetLevel->getError();
+    if (hasError()) {
+        return;
     }
 
     //Create world
@@ -47,8 +50,20 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     }
 
     //Load players
-    std::vector<PlayerPrototype> players;
-    assetLevel->players(players);
+    std::vector<PlayerPrototype> levelPlayers;
+    assetLevel->players(levelPlayers);
+    error = assetLevel->getError();
+    if (hasError()) {
+        return;
+    }
+
+    //Load entities
+    std::vector<EntityPrototype> levelEntities;
+    assetLevel->entities(levelEntities);
+    error = assetLevel->getError();
+    if (hasError()) {
+        return;
+    }
 }
 
 Simulation::~Simulation() {

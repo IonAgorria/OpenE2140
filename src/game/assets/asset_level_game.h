@@ -9,6 +9,8 @@
 
 #define TILESET_MAX 252
 #define LEVEL_SIZE_MAX 128
+#define PLAYERS_MAX 6
+#define ENTITIES_PER_SECTION 256
 #define MONEY_PER_TILE 30 * MONEY_PER_CONTAINER //Each tile provides 30 containers
 
 /**
@@ -22,6 +24,11 @@ private:
      */
     Vector2 levelSize;
 
+    /**
+     * Tileset index used by this level
+     */
+    unsigned int levelTilesetIndex;
+
 public:
     /**
      * Constructor
@@ -34,9 +41,11 @@ public:
 
     std::string name() override;
 
-    asset_path_t tileset(size_t index) override;
+    asset_path_t tilePath(size_t index) override;
 
     size_t tilesetSize() override;
+
+    unsigned int tilesetIndex() override;
 
     void tiles(std::vector<TilePrototype>& tiles) override;
 

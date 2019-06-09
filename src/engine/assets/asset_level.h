@@ -39,12 +39,17 @@ public:
     /**
      * @return asset to use as tileset or null
      */
-    virtual asset_path_t tileset(size_t index);
+    virtual asset_path_t tilePath(size_t index);
 
     /**
      * @return tileset size
      */
     virtual size_t tilesetSize();
+
+    /**
+     * @return tileset index
+     */
+    virtual unsigned int tilesetIndex();
 
     /**
      * Writes tiles data to provided vector

@@ -74,7 +74,7 @@ The following game assets must be present in WD file or directory form:
 - Building construction and deployment
 - Factories build queue
 - Player colors/teams
-- Ordenes mas complejas como reparar, patrulla, coger/dejar minerales etc
+- Complex orders such as patrol, ore transport, unit transport
 - Minimap to show units, buildings and ore
 - Map trees, rocks and water
 - Saving/loading

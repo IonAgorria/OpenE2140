@@ -2,24 +2,416 @@
     {
         "id": 0,
         "name": "construction_center",
-        "faction": null,
+        "type": "mcu",
+        "faction": "ed",
         "required_building": "construction_factory",
-        "required_tecnology": null,
-        "price": 0,
+        "required_technology": "nuclear_engine",
+        "price": 2500,
+        "health": 1500,
         "armor": "heavy",
-        "health": 0,
         "sprites": {
-            "default": {"directions": [0, 8]},
-            "deploy_small": {"assets": [9, 15]},
-            "deploy_big": {"assets": [22, 16]}
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 1,
+        "name": "production_center",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "construction_factory",
+        "required_technology": "nuclear_engine",
+        "price": 2500,
+        "health": 1500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 2,
+        "name": "tech_house",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 1500,
+        "health": 1000,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 3,
+        "name": "heavy_tech",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 1450,
+        "health": 1000,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 4,
+        "name": "bio_center",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 1000,
+        "health": 700,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 5,
+        "name": "robot_factory",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 1000,
+        "health": 700,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 6,
+        "name": "water_base",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": "nuclear_reactor",
+        "price": 1200,
+        "health": 900,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 8,
+        "name": "research_center",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 1500,
+        "health": 800,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 9,
+        "name": "bcc",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "research_center",
+        "required_technology": "nuclear_weapons",
+        "price": 2000,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 10,
+        "name": "pb_control",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "research_center",
+        "required_technology": "plasma_weapons",
+        "price": 1800,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 11,
+        "name": "teleport",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "heavy_factory",
+        "required_technology": "teleportation",
+        "price": 2150,
+        "health": 200,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 12,
+        "name": "shelter",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": "nuclear_reactor",
+        "price": 800,
+        "health": 2000,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 13,
+        "name": "defend_tower",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "bio_center",
+        "required_technology": null,
+        "price": 400,
+        "health": 150,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 14,
+        "name": "little_eye",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "robot_factory",
+        "required_technology": null,
+        "price": 400,
+        "health": 150,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 15,
+        "name": "heavy_defend_tower",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "tech_house",
+        "required_technology": "heavy_rockets",
+        "price": 600,
+        "health": 300,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 16,
+        "name": "big_eye",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_technology": "heavy_rockets",
+        "price": 600,
+        "health": 300,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 17,
+        "name": "pillbox",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "tech_house",
+        "required_technology": "nuclear_reactor",
+        "price": 800,
+        "health": 900,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 18,
+        "name": "power_plant",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 2000,
+        "health": 600,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 19,
+        "name": "refinery",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 1000,
+        "health": 800,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 20,
+        "name": "air_base",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 1300,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 21,
+        "name": "pb_cannon",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "pb_control",
+        "required_technology": "plasma_weapons",
+        "price": 1500,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 22,
+        "name": "silo",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "bcc",
+        "required_technology": "nuclear_weapons",
+        "price": 1000,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 23,
+        "name": "mine",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "power_plant",
+        "required_technology": null,
+        "price": 800,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 24,
+        "name": "civilian_building_1",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 0,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 25,
+        "name": "civilian_building_2",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 0,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 26,
+        "name": "civilian_building_3",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 0,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 27,
+        "name": "civilian_building_4",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 0,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 28,
+        "name": "civilian_building_5",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 0,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 29,
+        "name": "civilian_building_6",
+        "type": "mcu",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_technology": null,
+        "price": 0,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
         }
     },
     {
         "id": 30,
         "name": "silver_one",
+        "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
-        "required_tecnology": "none",
+        "required_technology": "none",
         "price": 50,
         "armor": "light",
         "health": 28,
@@ -36,9 +428,10 @@
     {
         "id": 31,
         "name": "silver_r",
+        "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
-        "required_tecnology": "rocket_engine",
+        "required_technology": "rocket_engine",
         "price": 75,
         "armor": "light",
         "health": 28,
@@ -55,9 +448,10 @@
     {
         "id": 32,
         "name": "silver_max",
+        "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
-        "required_tecnology": "light_plasma_cannon",
+        "required_technology": "light_plasma_cannon",
         "price": 100,
         "armor": "light",
         "health": 28,
@@ -75,9 +469,10 @@
     {
         "id":33,
         "name": "silver_t",
+        "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 70,
         "armor": "medium",
         "health": 40,
@@ -91,9 +486,10 @@
     {
         "id": 34,
         "name": "a01_android",
+        "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 50,
         "armor": null,
         "health": 28,
@@ -117,9 +513,10 @@
     {
         "id": 35,
         "name": "a02_android",
+        "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
-        "required_tecnology": "rocket_engine",
+        "required_technology": "rocket_engine",
         "price": 50,
         "armor": null,
         "health": 28,
@@ -136,9 +533,10 @@
     {
         "id": 36,
         "name": "a03_android",
+        "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
-        "required_tecnology": "ion_cannon",
+        "required_technology": "ion_cannon",
         "price": 100,
         "armor": null,
         "health": 28,
@@ -149,46 +547,50 @@
                 "total_ammo": 10,
                 "reload_ammo": 5,
                 "reload_time": 2,
-                "damage": 0
+                "damage": 80
             }
         ]
     },
     {
         "id": 37,
         "name": "a04_android",
+        "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
-        "required_tecnology": "ai_mine",
+        "required_technology": "ai_mine",
         "price": 100,
         "armor": null,
         "health": 28
     },
     {
         "id": 38,
-        "name": "civil_1",
+        "name": "civilian_1",
+        "type": "person",
         "faction": null,
         "required_building": null,
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 0,
         "armor": null,
         "health": 30
     },
     {
         "id": 39,
-        "name": "civil_2",
+        "name": "civilian_2",
+        "type": "person",
         "faction": null,
         "required_building": null,
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 0,
         "armor": null,
         "health": 30
     },
     {
         "id": 40,
-        "name": "civil_3",
+        "name": "civilian_3",
+        "type": "person",
         "faction": null,
         "required_building": null,
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 0,
         "armor": null,
         "health": 30
@@ -198,7 +600,7 @@
         "name": "t100",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 130,
         "armor": "light",
         "health": 80,
@@ -217,7 +619,7 @@
         "name": "raptor_es",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 250,
         "armor": "medium",
         "health": 200,
@@ -236,7 +638,7 @@
         "name": "raptor_ad",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "rocket_engine",
+        "required_technology": "rocket_engine",
         "price": 300,
         "armor": "medium",
         "health": 200,
@@ -257,7 +659,7 @@
         "name": "st01b_tank",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 300,
         "armor": "light",
         "health": 200,
@@ -281,7 +683,7 @@
         "name": "st02_tank",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "rocket_engine",
+        "required_technology": "rocket_engine",
         "price": 350,
         "armor": "light",
         "health": 200,
@@ -305,7 +707,7 @@
         "name": "tiger_assault",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "rocket_engine",
+        "required_technology": "rocket_engine",
         "price": 700,
         "armor": "heavy",
         "health": 400,
@@ -334,20 +736,24 @@
         "name": "tiger_hellmaker",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 500,
         "armor": "heavy",
         "health": 500,
         "weapons": [
             {
+                "name": "left",
                 "type": "napalm",
+                "group": 0,
                 "total_ammo": 1,
                 "reload_ammo": 1,
                 "reload_time": 1,
                 "damage": 7
             },
             {
+                "name": "right",
                 "type": "napalm",
+                "group": 0,
                 "total_ammo": 1,
                 "reload_ammo": 1,
                 "reload_time": 1,
@@ -365,7 +771,7 @@
         "name": "mt_200",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "nuclear_engine",
+        "required_technology": "nuclear_engine",
         "price": 500,
         "armor": "medium",
         "health": 300,
@@ -389,7 +795,7 @@
         "name": "mt_201l",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "light_laser_cannon",
+        "required_technology": "light_laser_cannon",
         "price": 800,
         "armor": "heavy",
         "health": 300,
@@ -413,7 +819,7 @@
         "name": "spider",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "light_plasma_cannon",
+        "required_technology": "light_plasma_cannon",
         "price": 1500,
         "armor": "heavy",
         "health": 400,
@@ -443,7 +849,7 @@
         "name": "spider_ii",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "heavy_rockets",
+        "required_technology": "heavy_rockets",
         "price": 1700,
         "armor": "heavy",
         "health": 400,
@@ -473,7 +879,7 @@
         "name": "ht_30_lr",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "light_laser_cannon",
+        "required_technology": "light_laser_cannon",
         "price": 1500,
         "armor": "heavy",
         "health": 600,
@@ -516,7 +922,7 @@
         "name": "ht_33_r",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "heavy_rockets",
+        "required_technology": "heavy_rockets",
         "price": 1200,
         "armor": "heavy",
         "health": 600,
@@ -540,7 +946,7 @@
         "name": "ht_34_j",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "ion_cannon",
+        "required_technology": "ion_cannon",
         "price": 1200,
         "armor": "heavy",
         "health": 600,
@@ -553,7 +959,7 @@
                         "total_ammo": 1,
                         "reload_ammo": 1,
                         "reload_time": 2,
-                        "damage": 0
+                        "damage": 130
                     }
                 ]
             }
@@ -562,9 +968,10 @@
     {
         "id": 55,
         "name": "atm_500",
+        "type": "unit_transport",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 400,
         "armor": "medium",
         "health": 200,
@@ -585,12 +992,14 @@
     {
         "id": 56,
         "name": "wtp_100",
+        "type": "unit_transport",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "nuclear_engine",
+        "required_technology": "nuclear_engine",
         "price": 600,
         "armor": "medium",
         "health": 300,
+        "movement": "amphibian",
         "capacity": {
             "light": 6,
             "heavy": 1
@@ -599,9 +1008,10 @@
     {
         "id": 57,
         "name": "tur",
+        "type": "unit_transport",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 300,
         "armor": "light",
         "health": 200,
@@ -612,9 +1022,10 @@
     {
         "id": 58,
         "name": "bio",
+        "type": "unit_transport",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "high_medicine",
+        "required_technology": "high_medicine",
         "price": 1000,
         "armor": "light",
         "health": 200,
@@ -627,7 +1038,7 @@
         "name": "btti",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 200,
         "armor": "light",
         "health": 150
@@ -637,7 +1048,7 @@
         "name": "hellbike",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 200,
         "armor": "light",
         "health": 120,
@@ -653,9 +1064,10 @@
     {
         "id": 61,
         "name": "bantha",
+        "type": "ore_transport",
         "faction": null,
         "required_building": "construction_factory",
-        "required_tecnology": null,
+        "required_technology": null,
         "price": 400,
         "armor": "medium",
         "health": 400
@@ -663,9 +1075,10 @@
     {
         "id": 62,
         "name": "hcr-m",
+        "type": "repairer",
         "faction": null,
         "required_building": "construction_factory",
-        "required_tecnology": "fast_repairing",
+        "required_technology": "fast_repairing",
         "price": 800,
         "armor": "medium",
         "health": 200
@@ -673,9 +1086,10 @@
     {
         "id": 63,
         "name": "miner",
+        "type": "ground_miner",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "ai_miner",
+        "required_technology": "ai_miner",
         "price": 700,
         "armor": "medium",
         "health": 300,
@@ -696,9 +1110,10 @@
     {
         "id": 64,
         "name": "miner_bt",
+        "type": "ground_miner",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "ai_mine",
+        "required_technology": "ai_mine",
         "price": 700,
         "armor": "heavy",
         "health": 300,
@@ -721,30 +1136,47 @@
         "name": "screamer",
         "faction": "ed",
         "required_building": "tech_house",
-        "required_tecnology": "teleportation",
+        "required_technology": "teleportation",
         "price": 900,
         "armor": "medium",
-        "health": 300
+        "health": 300,
+        "weapons": [
+            {
+                "type": "radar",
+                "range": 6
+            },
+            {
+                "type": "screamer",
+                "range": 6
+            }
+        ]
     },
     {
         "id": 66,
         "name": "shadow",
         "faction": "ucs",
         "required_building": "heavy_tech",
-        "required_tecnology": "teleportation",
+        "required_technology": "teleportation",
         "price": 2100,
         "armor": "medium",
-        "health": 200
+        "health": 200,
+        "weapons": [
+            {
+                "type": "shadow",
+                "range": 4
+            }
+        ]
     },
     {
         "id": 67,
         "name": "shark",
         "faction": "ed",
         "required_building": "water_base",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 300,
         "armor": "medium",
         "health": 200,
+        "movement": "water",
         "weapons": [
             {
                 "type": "torpedo",
@@ -758,12 +1190,14 @@
     {
         "id": 68,
         "name": "wtrn",
+        "type": "unit_transport",
         "faction": "ed",
         "required_building": "water_base",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 500,
         "armor": "medium",
         "health": 400,
+        "movement": "water",
         "capacity": {
             "light": 6,
             "heavy": 1
@@ -774,10 +1208,11 @@
         "name": "kt30",
         "faction": "ed",
         "required_building": "water_base",
-        "required_tecnology": "heavy_rockets",
+        "required_technology": "heavy_rockets",
         "price": 2000,
         "armor": "heavy",
         "health": 800,
+        "movement": "water",
         "turrets": [
             {
                 "position": [0, 10],
@@ -810,10 +1245,11 @@
         "name": "russ_3",
         "faction": "ucs",
         "required_building": "water_base",
-        "required_tecnology": "engine",
+        "required_technology": "engine",
         "price": 500,
         "armor": "medium",
         "health": 200,
+        "movement": "water",
         "weapons": [
             {
                 "type": "torpedo",
@@ -827,21 +1263,24 @@
     {
         "id": 71,
         "name": "ttre_400",
+        "type": "water_miner",
         "faction": "ucs",
         "required_building": "water_base",
-        "required_tecnology": "ai_mine",
+        "required_technology": "ai_mine",
         "price": 700,
         "armor": "medium",
-        "health": 260
+        "health": 260,
+        "movement": "water"
     },
     {
         "id": 72,
         "name": "thunder",
         "faction": "ed",
-        "required_tecnology": "flying",
+        "required_technology": "flying",
         "price": 700,
         "armor": "light",
         "health": 40,
+        "movement": "air",
         "weapons": [
             {
                 "type": "rocket",
@@ -855,20 +1294,23 @@
     {
         "id": 73,
         "name": "hat",
+        "type": "unit_transport",
         "faction": "ed",
-        "required_tecnology": "flying",
+        "required_technology": "flying",
         "price": 1000,
         "armor": "medium",
-        "health": 200
+        "health": 200,
+        "movement": "air"
     },
     {
         "id": 74,
         "name": "storm",
         "faction": "ed",
-        "required_tecnology": "flying",
+        "required_technology": "flying",
         "price": 500,
         "armor": "light",
         "health": 40,
+        "movement": "air",
         "weapons": [
             {
                 "type": "mg",
@@ -884,10 +1326,11 @@
         "name": "gargoil",
         "faction": "ucs",
         "required_building": "air_base",
-        "required_tecnology": "flying",
+        "required_technology": "flying",
         "price": 600,
         "armor": "medium",
         "health": 60,
+        "movement": "air",
         "weapons": [
             {
                 "type": "mg",
@@ -903,9 +1346,10 @@
         "name": "hellwind",
         "faction": "ucs",
         "required_building": "air_base",
-        "required_tecnology": "plasma_bomb",
+        "required_technology": "plasma_bomb",
         "price": 1000,
         "armor": "heavy",
+        "movement": "air",
         "health": 150
     },
     {
@@ -913,24 +1357,26 @@
         "name": "heavy_lifter",
         "faction": null,
         "required_building": "air_base",
-        "required_tecnology": "flying",
+        "required_technology": "flying",
         "price": 800,
         "armor": "medium",
-        "health": 300
+        "health": 300,
+        "movement": "air"
     },
     {
-        "skip": true,
         "id": 78,
         "name": "vtol_harrier",
         "faction": "ed",
         "required_building": "air_base",
-        "TODO_required_tecnology": null,
-        "TODO_price": 0,
+        "TODO_required_technology": null,
+        "price": 900,
         "armor": "medium",
         "health": 50,
+        "movement": "air",
         "weapons": [
             {
                 "type": "heavy_rocket",
+                "group": 0,
                 "total_ammo": 1,
                 "reload_ammo": 1,
                 "reload_time": 5,
@@ -938,6 +1384,7 @@
             },
             {
                 "type": "heavy_rocket",
+                "group": 0,
                 "total_ammo": 1,
                 "reload_ammo": 1,
                 "reload_time": 5,
@@ -946,18 +1393,19 @@
         ]
     },
     {
-        "skip":  true,
         "id": 79,
         "name": "gargoil_new",
         "faction": "ucs",
         "required_building": "air_base",
-        "TODO_required_tecnology": null,
-        "TODO_price": 0,
+        "TODO_required_technology": null,
+        "price": 900,
         "armor": "medium",
         "health": 50,
+        "movement": "air",
         "weapons": [
             {
                 "type": "heavy_rocket",
+                "group": 0,
                 "total_ammo": 1,
                 "reload_ammo": 1,
                 "reload_time": 5,
@@ -965,6 +1413,7 @@
             },
             {
                 "type": "heavy_rocket",
+                "group": 0,
                 "total_ammo": 1,
                 "reload_ammo": 1,
                 "reload_time": 5,
@@ -973,24 +1422,23 @@
         ]
     },
     {
-        "skip":  true,
         "id": 80,
         "name": "heavy_bomber",
         "faction": "ed",
         "required_building": "air_base",
-        "TODO_required_tecnology": null,
-        "TODO_price": 0,
+        "TODO_required_technology": null,
+        "price": 2300,
         "armor": "medium",
-        "health": 300
+        "health": 300,
+        "movement": "air"
     },
     {
-        "skip":  true,
         "id": 81,
         "name": "heavy_tank",
         "faction": "ed",
         "required_building": "tech_house",
-        "TODO_required_tecnology": null,
-        "price": 700,
+        "TODO_required_technology": null,
+        "price": 1200,
         "armor": "medium",
         "health": 300,
         "turrets": [
@@ -1020,5 +1468,79 @@
                 ]
             }
         ]
+    },
+    {
+        "id": 82,
+        "name": "big_mech",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "TODO_required_technology": null,
+        "price": 1500,
+        "armor": "heavy",
+        "health": 800,
+        "weapons": [
+            {
+                "name": "left",
+                "type": "rocket",
+                "group": 0,
+                "total_ammo": 8,
+                "reload_ammo": 8,
+                "reload_time": 8,
+                "damage": 20
+            },
+            {
+                "name": "right",
+                "type": "rocket",
+                "group": 1,
+                "total_ammo": 8,
+                "reload_ammo": 8,
+                "reload_time": 8,
+                "damage": 20
+            }
+        ]
+    },
+    {
+        "id": 83,
+        "name": "goliat",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "TODO_required_technology": null,
+        "price": 600,
+        "armor": "heavy",
+        "health": 150,
+        "weapons": [
+            {
+                "type": "bomb",
+                "damage": 300
+            }
+        ]
+    },
+    {
+        "id": 84,
+        "name": "sdi_defence",
+        "type": "mcu",
+        "faction": "ucs",
+        "required_building": "pb_control",
+        "required_technology": "plasma_weapons",
+        "price": 2000,
+        "health": 500,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
+    },
+    {
+        "id": 85,
+        "name": "watch_tower",
+        "type": "mcu",
+        "faction": "ed",
+        "required_building": "bcc",
+        "required_technology": "nuclear_weapons",
+        "price": 1200,
+        "health": 300,
+        "armor": "heavy",
+        "sprites": {
+            "default": {"directions": [0, 8]}
+        }
     }
 ]

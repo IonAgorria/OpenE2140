@@ -2,7 +2,7 @@
     {
         "id": 0,
         "name": "ed",
-        "tecnologies": [
+        "technologies": [
             {
                 "nuclear_reactor": 50,
                 "engine": 50,
@@ -33,7 +33,7 @@
     {
         "id": 1,
         "name": "ucs",
-        "tecnologies": [
+        "technologies": [
             {
                 "nuclear_reactor": 50,
                 "engine": 50,

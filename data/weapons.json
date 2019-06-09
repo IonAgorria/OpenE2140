@@ -22,10 +22,31 @@
   {
     "name": "laser",
     "type": "line",
-    "line": [255, 0, 0, 128]
+    "line": {"r": 255, "g": 0, "b": 0, "a": 128, "width": 2}
+  },
+  {
+    "name": "sdi_laser",
+    "type": "line",
+    "line": {"r": 0, "g": 255, "b": 0, "a": 255, "width": 1}
   },
   {
     "name": "ion",
     "type": "projectile"
+  },
+  {
+    "name": "bomb",
+    "type": "bomb"
+  },
+  {
+    "name": "screamer",
+    "type": "field"
+  },
+  {
+    "name": "radar",
+    "type": "field"
+  },
+  {
+    "name": "shadow",
+    "type": "field"
   }
 ]

@@ -42,10 +42,10 @@
   {
     "name": "exit_robot_factory",
     "sprites_path": "MIX/SPRB0/",
-    "sprites": [
+    "sprites": {
       "exit_0": {"asset": 58},
       "exit_1": {"asset": 89}
-    ]
+    }
   },
   {
     "name": "nuclear_reactor",

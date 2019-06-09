@@ -1,8 +1,8 @@
 [
     {
         "id": 0,
-        "name": "construction_center_ed",
-        "type": "construction_center",
+        "name": "construction_center",
+        "type": "construction_factory",
         "faction": "ed",
         "layout": [
             [-1, -1, 3, 2],
@@ -31,8 +31,8 @@
     },
     {
         "id": 1,
-        "name": "production_center_ucs",
-        "type": "construction_center",
+        "name": "production_center",
+        "type": "construction_factory",
         "faction": "ucs",
         "layout": [
             [-1, -1, 2, 2],
@@ -110,7 +110,7 @@
         "required_tecnology": null,
         "consumed_energy": 400,
         "price": 1450,
-        "health": 100
+        "health": 100,
         "produces": [
             "t100",
             "raptor_es",
@@ -203,6 +203,26 @@
         }
     },
     {
+        "id": 6,
+        "name": "water_base",
+        "faction": null,
+        "required_building": "heavy_factory",
+        "required_tecnology": "nuclear_reactor",
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "consumed_energy": 300,
+        "price": 1200,
+        "health": 900,
+        "produces": [
+            "shark",
+            "wtrn",
+            "kt30",
+            "russ_3",
+            "ttre_300"
+        ]
+    },
+    {
         "id": 8,
         "name": "research_center",
         "faction": null,
@@ -246,6 +266,19 @@
         "consumed_energy": 200,
         "price": 1800,
         "health": 500
+    },
+    {
+        "id": 11,
+        "name": "teleport",
+        "faction": "ucs",
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": "teleportation",
+        "consumed_energy": 700,
+        "price": 2150,
+        "health": 200
     },
     {
         "id": 12,
@@ -476,36 +509,163 @@
         }
     },
     {
-        "id": null,
-        "name": "water_base",
+        "id": 24,
+        "name": "civilian_1",
+        "type": "civilian",
         "faction": null,
-        "required_building": "heavy_factory",
-        "required_tecnology": "nuclear_reactor",
         "layout": [
-            [-1, -1, 2, 2]
+            [-1, -1, 3, 2]
         ],
-        "consumed_energy": 300,
-        "price": 1200,
-        "health": 900,
-        "produces": [
-            "shark",
-            "wtrn",
-            "kt30",
-            "russ_3",
-            "ttre_300"
-        ]
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 0,
+        "health": 500,
+        "capacity": {
+            "light": 4
+        },
+        "sprites": {
+            "default": {"asset": 90},
+            "damaged": {"asset": 91}
+        }
     },
     {
-        "id": null,
-        "name": "teleport",
-        "faction": "ucs",
+        "id": 25,
+        "name": "civilian_2",
+        "type": "civilian",
+        "faction": null,
         "layout": [
             [-1, -1, 2, 2]
         ],
         "required_building": null,
-        "required_tecnology": "teleportation",
-        "consumed_energy": 700,
-        "price": 2150,
-        "health": 200
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 0,
+        "health": 500,
+        "capacity": {
+            "light": 4
+        },
+        "sprites": {
+            "default": {"asset": 92},
+            "damaged": {"asset": 93}
+        }
+    },
+    {
+        "id": 26,
+        "name": "civilian_3",
+        "type": "civilian",
+        "faction": null,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 0,
+        "health": 500,
+        "capacity": {
+            "light": 4
+        },
+        "sprites": {
+            "default": {"asset": 94},
+            "damaged": {"asset": 95}
+        }
+    },
+    {
+        "id": 276,
+        "name": "civilian_4",
+        "type": "civilian",
+        "faction": null,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 0,
+        "health": 500,
+        "capacity": {
+            "light": 4
+        },
+        "sprites": {
+            "default": {"asset": 96},
+            "damaged": {"asset": 97}
+        }
+    },
+    {
+        "id": 28,
+        "name": "civilian_5",
+        "type": "civilian",
+        "faction": null,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 0,
+        "health": 500,
+        "capacity": {
+            "light": 4
+        },
+        "sprites": {
+            "default": {"asset": 98},
+            "damaged": {"asset": 99}
+        }
+    },
+    {
+        "id": 29,
+        "name": "civilian_6",
+        "type": "civilian",
+        "faction": null,
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 0,
+        "price": 0,
+        "health": 500,
+        "capacity": {
+            "light": 4
+        },
+        "sprites": {
+            "default": {"asset": 100},
+            "damaged": {"asset": 101}
+        }
+    },
+    {
+        "id": 84,
+        "name": "sdi_defence",
+        "faction": "ed",
+        "layout": [
+            [-1, -1, 2, 2]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 1000,
+        "price": 0,
+        "health": 500,
+        "sprites": {
+            "default": {"asset": 102},
+            "damaged": {"asset": 103}
+        }
+    },
+    {
+        "id": 85,
+        "name": "watch_tower",
+        "faction": "ed",
+        "layout": [
+            [0, 0, 1, 1]
+        ],
+        "required_building": null,
+        "required_tecnology": null,
+        "consumed_energy": 300,
+        "price": 0,
+        "health": 300,
+        "sprites": {
+            "default": {"asset": 104},
+            "damaged": {"asset": 105}
+        }
     }
 ]

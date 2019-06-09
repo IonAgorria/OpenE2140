@@ -1,10 +1,9 @@
-
 [
     {
         "id": 0,
-        "name": "mcu",
+        "name": "construction_center",
         "faction": null,
-        "required_building": "construction_center",
+        "required_building": "construction_factory",
         "required_tecnology": null,
         "price": 0,
         "armor": "heavy",
@@ -165,6 +164,36 @@
         "health": 28
     },
     {
+        "id": 38,
+        "name": "civil_1",
+        "faction": null,
+        "required_building": null,
+        "required_tecnology": null,
+        "price": 0,
+        "armor": null,
+        "health": 30
+    },
+    {
+        "id": 39,
+        "name": "civil_2",
+        "faction": null,
+        "required_building": null,
+        "required_tecnology": null,
+        "price": 0,
+        "armor": null,
+        "health": 30
+    },
+    {
+        "id": 40,
+        "name": "civil_3",
+        "faction": null,
+        "required_building": null,
+        "required_tecnology": null,
+        "price": 0,
+        "armor": null,
+        "health": 30
+    },
+    {
         "id": 41,
         "name": "t100",
         "faction": "ucs",
@@ -272,6 +301,35 @@
         ]
     },
     {
+        "id": 46,
+        "name": "tiger_assault",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_tecnology": "rocket_engine",
+        "price": 700,
+        "armor": "heavy",
+        "health": 400,
+        "weapons": [
+            {
+                "name": "left",
+                "type": "rocket",
+                "group": 0,
+                "damage": 15
+            },
+            {
+                "name": "right",
+                "type": "rocket",
+                "group": 0,
+                "damage": 15
+            }
+        ],
+        "objects": {
+            "legs": {
+                "type": "tiger_legs"
+            }
+        }
+    },
+    {
         "id": 47,
         "name": "tiger_hellmaker",
         "faction": "ucs",
@@ -351,100 +409,7 @@
         ]
     },
     {
-        "id": 55,
-        "name": "atm_500",
-        "faction": "ucs",
-        "required_building": "heavy_tech",
-        "required_tecnology": null,
-        "price": 400,
-        "armor": "medium",
-        "health": 200,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "mg",
-                        "reload_ammo": 5,
-                        "reload_time": 2,
-                        "damage": 7
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": 57,
-        "name": "tur",
-        "faction": "ed",
-        "required_building": "tech_house",
-        "required_tecnology": null,
-        "price": 300,
-        "armor": "light",
-        "health": 200,
-        "capacity": {
-            "light": 6
-        }
-    },
-    {
-        "id": 59,
-        "name": "btti",
-        "faction": "ed",
-        "required_building": "tech_house",
-        "required_tecnology": null,
-        "price": 200,
-        "armor": "light",
-        "health": 150
-    },
-    {
-        "id": 60,
-        "name": "hellbike",
-        "faction": "ucs",
-        "required_building": "heavy_tech",
-        "required_tecnology": null,
-        "price": 200,
-        "armor": "light",
-        "health": 120,
-        "weapons": [
-            {
-                "type": "napalm",
-                "total_ammo": 2,
-                "reload_time": 1,
-                "damage": 3
-            }
-        ]
-    },
-    {
-        "id": 0,
-        "name": "tiger_assault",
-        "faction": "ucs",
-        "required_building": "heavy_tech",
-        "required_tecnology": "rocket_engine",
-        "price": 700,
-        "armor": "heavy",
-        "health": 400,
-        "weapons": [
-            {
-                "name": "left",
-                "type": "rocket",
-                "group": 0,
-                "damage": 15
-            },
-            {
-                "name": "right",
-                "type": "rocket",
-                "group": 0,
-                "damage": 15
-            }
-        ],
-        "objects": {
-            "legs": {
-                "type": "tiger_legs"
-            }
-        }
-    },
-    {
-        "id": 0,
+        "id": 50,
         "name": "spider",
         "faction": "ucs",
         "required_building": "heavy_tech",
@@ -474,7 +439,7 @@
         ]
     },
     {
-        "id": 0,
+        "id": 51,
         "name": "spider_ii",
         "faction": "ucs",
         "required_building": "heavy_tech",
@@ -504,112 +469,7 @@
         ]
     },
     {
-        "id": 0,
-        "name": "miner_bt",
-        "faction": "ucs",
-        "required_building": "heavy_tech",
-        "required_tecnology": "ai_mine",
-        "price": 700,
-        "armor": "heavy",
-        "health": 300,
-        "turrets": [
-            {
-                "weapons": [
-                    {
-                        "type": "mg",
-                        "total_ammo": 5,
-                        "reload_ammo": 5,
-                        "reload_time": 1,
-                        "damage": 1
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": 0,
-        "name": "shadow",
-        "faction": "ucs",
-        "required_building": "heavy_tech",
-        "required_tecnology": "teleportation",
-        "price": 2100,
-        "armor": "medium",
-        "health": 200
-    },
-    {
-        "id": 0,
-        "name": "wtp_100",
-        "faction": "ucs",
-        "required_building": "heavy_tech",
-        "required_tecnology": "nuclear_engine",
-        "price": 600,
-        "armor": "medium",
-        "health": 300,
-        "capacity": {
-            "light": 6,
-            "heavy": 1
-        }
-    },
-    {
-        "id": 0,
-        "name": "russ_3",
-        "faction": "ucs",
-        "required_building": "water_base",
-        "required_tecnology": "engine",
-        "price": 500,
-        "armor": "medium",
-        "health": 200,
-        "weapons": [
-            {
-                "type": "torpedo",
-                "total_ammo": 2,
-                "reload_ammo": 1,
-                "reload_time": 1,
-                "damage": 90
-            }
-        ]
-    },
-    {
-        "id": 0,
-        "name": "ttre_400",
-        "faction": "ucs",
-        "required_building": "water_base",
-        "required_tecnology": "ai_mine",
-        "price": 700,
-        "armor": "medium",
-        "health": 300
-    },
-    {
-        "id": 0,
-        "name": "gargoil",
-        "faction": "ucs",
-        "required_building": "air_base",
-        "required_tecnology": "flying",
-        "price": 600,
-        "armor": "medium",
-        "health": 60,
-        "weapons": [
-            {
-                "type": "mg",
-                "total_ammo": 5,
-                "reload_ammo": 5,
-                "reload_time": 2,
-                "damage": 2
-            }
-        ]
-    },
-    {
-        "id": 0,
-        "name": "hellwind",
-        "faction": "ucs",
-        "required_building": "air_base",
-        "required_tecnology": "plasma_bomb",
-        "price": 1000,
-        "armor": "heavy",
-        "health": 150
-    },
-    {
-        "id": 0,
+        "id": 52,
         "name": "ht_30_lr",
         "faction": "ed",
         "required_building": "tech_house",
@@ -652,7 +512,7 @@
         ]
     },
     {
-        "id": 0,
+        "id": 53,
         "name": "ht_33_r",
         "faction": "ed",
         "required_building": "tech_house",
@@ -676,7 +536,7 @@
         ]
     },
     {
-        "id": 0,
+        "id": 54,
         "name": "ht_34_j",
         "faction": "ed",
         "required_building": "tech_house",
@@ -700,7 +560,57 @@
         ]
     },
     {
-        "id": 0,
+        "id": 55,
+        "name": "atm_500",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_tecnology": null,
+        "price": 400,
+        "armor": "medium",
+        "health": 200,
+        "turrets": [
+            {
+                "position": [0, 0],
+                "weapons": [
+                    {
+                        "type": "mg",
+                        "reload_ammo": 5,
+                        "reload_time": 2,
+                        "damage": 7
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 56,
+        "name": "wtp_100",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_tecnology": "nuclear_engine",
+        "price": 600,
+        "armor": "medium",
+        "health": 300,
+        "capacity": {
+            "light": 6,
+            "heavy": 1
+        }
+    },
+    {
+        "id": 57,
+        "name": "tur",
+        "faction": "ed",
+        "required_building": "tech_house",
+        "required_tecnology": null,
+        "price": 300,
+        "armor": "light",
+        "health": 200,
+        "capacity": {
+            "light": 6
+        }
+    },
+    {
+        "id": 58,
         "name": "bio",
         "faction": "ed",
         "required_building": "tech_house",
@@ -713,7 +623,55 @@
         }
     },
     {
-        "id": 0,
+        "id": 59,
+        "name": "btti",
+        "faction": "ed",
+        "required_building": "tech_house",
+        "required_tecnology": null,
+        "price": 200,
+        "armor": "light",
+        "health": 150
+    },
+    {
+        "id": 60,
+        "name": "hellbike",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_tecnology": null,
+        "price": 200,
+        "armor": "light",
+        "health": 120,
+        "weapons": [
+            {
+                "type": "napalm",
+                "total_ammo": 2,
+                "reload_time": 1,
+                "damage": 3
+            }
+        ]
+    },
+    {
+        "id": 61,
+        "name": "bantha",
+        "faction": null,
+        "required_building": "construction_factory",
+        "required_tecnology": null,
+        "price": 400,
+        "armor": "medium",
+        "health": 400
+    },
+    {
+        "id": 62,
+        "name": "hcr-m",
+        "faction": null,
+        "required_building": "construction_factory",
+        "required_tecnology": "fast_repairing",
+        "price": 800,
+        "armor": "medium",
+        "health": 200
+    },
+    {
+        "id": 63,
         "name": "miner",
         "faction": "ed",
         "required_building": "tech_house",
@@ -736,7 +694,30 @@
         ]
     },
     {
-        "id": 0,
+        "id": 64,
+        "name": "miner_bt",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_tecnology": "ai_mine",
+        "price": 700,
+        "armor": "heavy",
+        "health": 300,
+        "turrets": [
+            {
+                "weapons": [
+                    {
+                        "type": "mg",
+                        "total_ammo": 5,
+                        "reload_ammo": 5,
+                        "reload_time": 1,
+                        "damage": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 65,
         "name": "screamer",
         "faction": "ed",
         "required_building": "tech_house",
@@ -746,7 +727,17 @@
         "health": 300
     },
     {
-        "id": 0,
+        "id": 66,
+        "name": "shadow",
+        "faction": "ucs",
+        "required_building": "heavy_tech",
+        "required_tecnology": "teleportation",
+        "price": 2100,
+        "armor": "medium",
+        "health": 200
+    },
+    {
+        "id": 67,
         "name": "shark",
         "faction": "ed",
         "required_building": "water_base",
@@ -765,7 +756,7 @@
         ]
     },
     {
-        "id": 0,
+        "id": 68,
         "name": "wtrn",
         "faction": "ed",
         "required_building": "water_base",
@@ -779,7 +770,7 @@
         }
     },
     {
-        "id": 0,
+        "id": 69,
         "name": "kt30",
         "faction": "ed",
         "required_building": "water_base",
@@ -815,25 +806,36 @@
         ]
     },
     {
-        "id": 0,
-        "name": "storm",
-        "faction": "ed",
-        "required_tecnology": "flying",
+        "id": 70,
+        "name": "russ_3",
+        "faction": "ucs",
+        "required_building": "water_base",
+        "required_tecnology": "engine",
         "price": 500,
-        "armor": "light",
-        "health": 40,
+        "armor": "medium",
+        "health": 200,
         "weapons": [
             {
-                "type": "mg",
-                "total_ammo": 5,
-                "reload_ammo": 5,
-                "reload_time": 2,
-                "damage": 2
+                "type": "torpedo",
+                "total_ammo": 2,
+                "reload_ammo": 1,
+                "reload_time": 1,
+                "damage": 90
             }
         ]
     },
     {
-        "id": 0,
+        "id": 71,
+        "name": "ttre_400",
+        "faction": "ucs",
+        "required_building": "water_base",
+        "required_tecnology": "ai_mine",
+        "price": 700,
+        "armor": "medium",
+        "health": 260
+    },
+    {
+        "id": 72,
         "name": "thunder",
         "faction": "ed",
         "required_tecnology": "flying",
@@ -851,7 +853,7 @@
         ]
     },
     {
-        "id": 0,
+        "id": 73,
         "name": "hat",
         "faction": "ed",
         "required_tecnology": "flying",
@@ -860,17 +862,54 @@
         "health": 200
     },
     {
-        "id": 0,
-        "name": "bantha",
-        "faction": null,
-        "required_building": "construction_center",
-        "required_tecnology": null,
-        "price": 400,
-        "armor": "medium",
-        "health": 400
+        "id": 74,
+        "name": "storm",
+        "faction": "ed",
+        "required_tecnology": "flying",
+        "price": 500,
+        "armor": "light",
+        "health": 40,
+        "weapons": [
+            {
+                "type": "mg",
+                "total_ammo": 5,
+                "reload_ammo": 5,
+                "reload_time": 2,
+                "damage": 2
+            }
+        ]
     },
     {
-        "id": 0,
+        "id": 75,
+        "name": "gargoil",
+        "faction": "ucs",
+        "required_building": "air_base",
+        "required_tecnology": "flying",
+        "price": 600,
+        "armor": "medium",
+        "health": 60,
+        "weapons": [
+            {
+                "type": "mg",
+                "total_ammo": 5,
+                "reload_ammo": 5,
+                "reload_time": 2,
+                "damage": 2
+            }
+        ]
+    },
+    {
+        "id": 76,
+        "name": "hellwind",
+        "faction": "ucs",
+        "required_building": "air_base",
+        "required_tecnology": "plasma_bomb",
+        "price": 1000,
+        "armor": "heavy",
+        "health": 150
+    },
+    {
+        "id": 77,
         "name": "heavy_lifter",
         "faction": null,
         "required_building": "air_base",
@@ -880,13 +919,106 @@
         "health": 300
     },
     {
-        "id": 0,
-        "name": "hcr-m",
-        "faction": null,
-        "required_building": "construction_center",
-        "required_tecnology": "fast_repairing",
-        "price": 800,
+        "skip": true,
+        "id": 78,
+        "name": "vtol_harrier",
+        "faction": "ed",
+        "required_building": "air_base",
+        "TODO_required_tecnology": null,
+        "TODO_price": 0,
         "armor": "medium",
-        "health": 200
+        "health": 50,
+        "weapons": [
+            {
+                "type": "heavy_rocket",
+                "total_ammo": 1,
+                "reload_ammo": 1,
+                "reload_time": 5,
+                "damage": 80
+            },
+            {
+                "type": "heavy_rocket",
+                "total_ammo": 1,
+                "reload_ammo": 1,
+                "reload_time": 5,
+                "damage": 80
+            }
+        ]
+    },
+    {
+        "skip":  true,
+        "id": 79,
+        "name": "gargoil_new",
+        "faction": "ucs",
+        "required_building": "air_base",
+        "TODO_required_tecnology": null,
+        "TODO_price": 0,
+        "armor": "medium",
+        "health": 50,
+        "weapons": [
+            {
+                "type": "heavy_rocket",
+                "total_ammo": 1,
+                "reload_ammo": 1,
+                "reload_time": 5,
+                "damage": 80
+            },
+            {
+                "type": "heavy_rocket",
+                "total_ammo": 1,
+                "reload_ammo": 1,
+                "reload_time": 5,
+                "damage": 80
+            }
+        ]
+    },
+    {
+        "skip":  true,
+        "id": 80,
+        "name": "heavy_bomber",
+        "faction": "ed",
+        "required_building": "air_base",
+        "TODO_required_tecnology": null,
+        "TODO_price": 0,
+        "armor": "medium",
+        "health": 300
+    },
+    {
+        "skip":  true,
+        "id": 81,
+        "name": "heavy_tank",
+        "faction": "ed",
+        "required_building": "tech_house",
+        "TODO_required_tecnology": null,
+        "price": 700,
+        "armor": "medium",
+        "health": 300,
+        "turrets": [
+            {
+                "weapons": [
+                    {
+                        "type": "cannon",
+                        "total_ammo": 2,
+                        "reload_ammo": 2,
+                        "reload_time": 3,
+                        "damage": 25
+                    },
+                    {
+                        "type": "cannon",
+                        "total_ammo": 2,
+                        "reload_ammo": 2,
+                        "reload_time": 3,
+                        "damage": 25
+                    },
+                    {
+                        "type": "cannon",
+                        "total_ammo": 2,
+                        "reload_ammo": 2,
+                        "reload_time": 3,
+                        "damage": 25
+                    }
+                ]
+            }
+        ]
     }
 ]

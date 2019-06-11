@@ -6,7 +6,7 @@
 #include "core/engine.h"
 #include "graphics/renderer.h"
 #include "entities/entity.h"
-#include "enviroment/world.h"
+#include "world.h"
 #include "assets/asset.h"
 #include "assets/asset_level.h"
 #include "assets/asset_manager.h"

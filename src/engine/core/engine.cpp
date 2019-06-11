@@ -9,7 +9,7 @@
 #include "graphics/window.h"
 #include "gui/guimenu.h"
 #include "simulation/simulation.h"
-#include "simulation/enviroment/world.h"
+#include "src/engine/simulation/world.h"
 #include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"

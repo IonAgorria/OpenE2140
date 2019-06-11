@@ -308,18 +308,6 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
 void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
     seek(0xF657, true);
     for (unsigned int i = 0; i < PLAYERS_MAX; ++i) {
-        /*
-        byte_t unknown;
-        std::string t = "I " + std::to_string(i) + "\n";
-        for (int j = 0; j < 1 + 0x4BC + 8 + 4 + 1 + 0x2E + 4 + 8 + 0x450; ++j) {
-            if (!readAll(unknown)) {
-                error = "Error reading player\n" + error;
-                return;
-            }
-            t += std::to_string(j) + " " + std::to_string(unknown) + "\n";
-        }
-        Log::get()->debug(t);
-        */
         //Read index
         byte_t index = 0;
         if (!readAll(index)) {

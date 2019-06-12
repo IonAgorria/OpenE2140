@@ -1,9 +1,9 @@
 //
 // Created by Ion Agorria on 2018/06/03
 //
-#include "entity.h"
-#include "simulation/simulation.h"
 #include "core/utils.h"
+#include "simulation/simulation.h"
+#include "entity.h"
 
 Entity::Entity() {
 }
@@ -16,11 +16,12 @@ Entity::~Entity() {
 }
 
 std::string Entity::toString() const {
-    return type_name + "(" + toStringContent() + ")";
+    return type_name() + "(" + toStringContent() + ")";
 }
 
 std::string Entity::toStringContent() const {
-    return " Position: " + position.toString()
+    return " ID: " + std::to_string(id) +
+           " Position: " + position.toString()
         ;
 }
 
@@ -31,14 +32,17 @@ const Vector2& Entity::getPosition() {
 void Entity::addedToSimulation(Simulation* sim) {
     simulation = sim;
     id = simulation->nextEntityID();
+    componentsSimulationChanged();
 }
 
 void Entity::removedFromSimulation() {
+    componentsSimulationChanged();
     simulation = nullptr;
     id = 0;
 }
 
 void Entity::update() {
+    componentsUpdate();
 }
 
 Image* Entity::draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette) {

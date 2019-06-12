@@ -33,8 +33,12 @@
       NON_COPYABLE(T) \
       NON_MOVABLE(T)
 
-/** Stores type name */
+/** Returns type name */
 #define TYPE_NAME(T) \
-    const std::string type_name = std::string(#T);
+    const std::string type_name() const { return std::string(#T); };
+
+/** Returns type name and overrides any previous type name */
+#define TYPE_NAME_OVERRIDE(T) \
+    const std::string type_name() const override { return std::string(#T); };
 
 #endif //OPENE2140_MACROS_H

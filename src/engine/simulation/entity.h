@@ -4,6 +4,7 @@
 #ifndef OPENE2140_ENTITY_H
 #define OPENE2140_ENTITY_H
 
+#include "component.h"
 #include "core/common.h"
 #include "core/to_string.h"
 #include "math/rectangle.h"
@@ -12,7 +13,7 @@
 class Simulation;
 
 /**
- * Base entity in game
+ * Base entity in game, this is the common interface between world and entities
  */
 class Entity: public IToString {
 protected:
@@ -36,9 +37,11 @@ protected:
      */
     std::vector<std::shared_ptr<Image>> images;
 
+    /**
+     * Add components method forwarding so extended entities can override them
+     */
+    COMPONENT_METHODS(COMPONENT_METHOD_FORWARD_VIRTUAL)
 public:
-    TYPE_NAME(Entity)
-
     /**
      * Entity constructor
      */
@@ -55,6 +58,11 @@ public:
     NON_COPYABLE(Entity)
 
     /**
+     * Type name
+     */
+    virtual TYPE_NAME(Entity)
+
+    /**
      * @return entity position
      */
     const Vector2& getPosition();
@@ -62,17 +70,17 @@ public:
     /**
      * Called when entity is added to simulation
      */
-    virtual void addedToSimulation(Simulation* simulation);
+    void addedToSimulation(Simulation* simulation);
 
     /**
      * Called when entity is added to simulation
      */
-    virtual void removedFromSimulation();
+    void removedFromSimulation();
 
     /**
      * Updates the entity state
      */
-    virtual void update();
+    void update();
 
     /**
      * Called when this entity is going to be drawn
@@ -89,5 +97,14 @@ public:
 
     std::string toStringContent() const override;
 };
+
+/**
+ * Macro for common entity class definition with provided components
+ */
+#define CLASS_ENTITY(T_ENTITY, ...) \
+class T_ENTITY: public ComponentBinder<Entity, ##__VA_ARGS__> { \
+public: \
+    /** Update type name */ \
+    TYPE_NAME_OVERRIDE(T_ENTITY)
 
 #endif //OPENE2140_ENTITY_H

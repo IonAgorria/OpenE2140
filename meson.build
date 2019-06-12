@@ -1,5 +1,5 @@
-#Set project with C++14
-project('OpenE2140', 'c', 'cpp', default_options : ['c_std=c11', 'cpp_std=c++14'])
+#Set project with C++17
+project('OpenE2140', 'c', 'cpp', default_options : ['c_std=c11', 'cpp_std=c++17'])
 
 #Vars
 opene2140_deps = []
@@ -78,7 +78,7 @@ opene2140_src = [
     'src/engine/assets/asset_palette.cpp',
     'src/engine/assets/asset_level.cpp',
     'src/engine/simulation/simulation.cpp',
-    'src/engine/simulation/entities/entity.cpp',
+    'src/engine/simulation/entity.cpp',
     'src/engine/simulation/tile.cpp',
     'src/engine/simulation/world.cpp',
     'src/game/assets/asset_processor_datpal.cpp',
@@ -117,4 +117,5 @@ opene2140_exe = executable(
     include_directories: opene2140_incs,
     dependencies: opene2140_deps,
     install: true,
+    override_options : ['c_std=c11', 'cpp_std=c++17']
 )

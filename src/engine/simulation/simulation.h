@@ -5,14 +5,33 @@
 #define OPENE2140_SIMULATION_H
 
 #include "core/common.h"
+#include "entity.h"
 #include "simulation_parameters.h"
 #include "assets/asset_manager.h"
 #include "io/log.h"
 
 class Engine;
 class World;
-class Entity;
 class Renderer;
+
+//TEST
+#include "component.h"
+
+CLASS_COMPONENT(Entity, CompA)
+};
+CLASS_COMPONENT(Entity, CompB)
+};
+CLASS_COMPONENT(Entity, CompC)
+};
+
+CLASS_ENTITY(EntA, CompA, CompB)
+};
+CLASS_ENTITY(EntB, CompC, CompA)
+};
+CLASS_ENTITY(EntC, CompA)
+};
+CLASS_ENTITY(EntD)
+};
 
 /**
  * Contains everything inside the running game

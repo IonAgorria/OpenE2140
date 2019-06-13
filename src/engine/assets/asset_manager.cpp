@@ -13,7 +13,7 @@
 
 //Rect pack
 #define STB_RECT_PACK_IMPLEMENTATION
-#define STBRP_LARGE_RECTS
+//#define STBRP_LARGE_RECTS
 #include "stb_rect_pack.h"
 
 AssetManager::AssetManager(std::shared_ptr<Engine> game): game(game) {

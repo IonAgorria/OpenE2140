@@ -14,25 +14,6 @@ class Engine;
 class World;
 class Renderer;
 
-//TEST
-#include "component.h"
-
-CLASS_COMPONENT(Entity, CompA)
-};
-CLASS_COMPONENT(Entity, CompB)
-};
-CLASS_COMPONENT(Entity, CompC)
-};
-
-CLASS_ENTITY(EntA, CompA, CompB)
-};
-CLASS_ENTITY(EntB, CompC, CompA)
-};
-CLASS_ENTITY(EntC, CompA)
-};
-CLASS_ENTITY(EntD)
-};
-
 /**
  * Contains everything inside the running game
  */

@@ -12,36 +12,6 @@
 #include "assets/asset_manager.h"
 #include "simulation.h"
 
-void CompA::construction() {
-}
-void CompB::construction() {
-}
-void CompC::construction() {
-}
-CompA::~CompA() {
-}
-CompB::~CompB() {
-}
-CompC::~CompC() {
-}
-void CompA::simulationChanged() {
-}
-void CompB::simulationChanged() {
-}
-void CompC::simulationChanged() {
-}
-void CompA::update() {
-    Log::get()->debug("CALLED A "+type_name() + " BASE "+ (base->type_name()));
-    CompB* b = castBase<CompB>();
-    if (b) Log::get()->debug("GOT "+b->type_name());
-}
-void CompB::update() {
-    Log::get()->debug("CALLED B "+type_name() + " BASE "+ (base->type_name()));
-}
-void CompC::update() {
-    Log::get()->debug("CALLED C "+type_name());
-}
-
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {
     log = Log::get("Simulation");
@@ -94,11 +64,6 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     if (hasError()) {
         return;
     }
-
-    entities.emplace_back(std::move(std::make_shared<EntA>()));
-    entities.emplace_back(std::move(std::make_shared<EntB>()));
-    entities.emplace_back(std::move(std::make_shared<EntC>()));
-    entities.emplace_back(std::move(std::make_shared<EntD>()));
 }
 
 Simulation::~Simulation() {

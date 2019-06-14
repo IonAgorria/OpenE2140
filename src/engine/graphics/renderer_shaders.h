@@ -155,7 +155,7 @@ void main() {
         }
     } else {
         //Get the color from image texture
-        vColor = texture2D(uTextureImageRGBA, gs_TexCoord);
+        vColor = texture(uTextureImageRGBA, gs_TexCoord);
     }
     //Discard if alpha is lower than threshold
     //if (vColor.a < uAlphaThreshold) discard;

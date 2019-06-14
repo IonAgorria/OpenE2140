@@ -26,7 +26,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
     //Create file to be common between assets created from this container file
     std::shared_ptr<File> file = std::make_shared<File>();
     if (!file->fromPath(path + name + ".WD")) {
-        error = "Error opening file: '" + name + ".WD' '{1}'" + file->getError();
+        error = "Error opening file: '" + name + ".WD' '" + file->getError() + "'";
         return -1;
     }
     long fileSize = file->size();

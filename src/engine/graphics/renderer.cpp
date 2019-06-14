@@ -100,13 +100,17 @@ GLuint Renderer::loadShader(GLenum type, const char* code) {
 
     //Get info log
     int logSize;
+    std::string shaderLog;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
-    char buffer[logSize];
-    glGetShaderInfoLog(shader, logSize, &logSize, buffer);
-    std::string shaderLog(buffer);
+    if (0 < logSize) {
+        std::vector<GLchar> buffer;
+        buffer.resize(static_cast<size_t>(logSize));
+        glGetShaderInfoLog(shader, logSize, &logSize, buffer.data());
+        shaderLog = buffer.data();
+    }
     if (!shaderLog.empty()) {
-        if (Utils::toLower(shaderLog).find("error")) {
-            error = "Shader type " + std::to_string(type) + " compile error: " + shaderLog;
+        if (Utils::toLower(shaderLog).find("error") != std::string::npos) {
+            error = "Shader " + std::to_string(shader) + " type " + std::to_string(type) + " compile error: " + shaderLog;
             return 0;
         } else {
             log->debug("Shader type {0} compile log: {1}", type, shaderLog);

@@ -111,16 +111,16 @@ void AssetManager::loadAssets() {
     //Load each registered containers
     for (std::pair<std::string,bool> pair : assetContainers) {
         loadAssetContainer(roots, pair.first, pair.second);
-        if (hasError()) break;
+        if (hasError()) return;
     }
 
     //Process the assets
     processIntermediates();
-    if (!error.empty()) return;
+    if (hasError()) return;
 
     //Refresh the assets
     refreshAssets();
-    if (!error.empty()) return;
+    if (hasError()) return;
 
     //Print loaded assets
     //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assetManager->getAssets()) log->debug(pair.first);
@@ -131,27 +131,41 @@ void AssetManager::loadAssetContainer(const std::vector<std::string>& assetRoots
     //Scan assets from containers by checking different paths that might contain assets
     bool found = false;
     for (std::string path : assetRoots) {
+        if (found) {
+            break;
+        }
         for (std::unique_ptr<IAssetProcessor>& processor : processors) {
-            if (found || !error.empty()) break;
+            if (found) {
+                break;
+            }
             found |= processor->scanContainer(path, containerName);
-            error = processor->getError();
+            if (processor->hasError()) {
+                error += processor->getError() + "\n";
+            }
         }
     }
 
-    //Nothing was found
-    if (!found && required) {
-        std::string text = "Error loading game data for directory/file '" + containerName + "'\n";
-        if (error.empty()) {
-            text += "Check if game files are correctly set and are accessible inside following paths: \n";
-            for (std::string path : assetRoots) {
-                text += path + "\n";
+    if (!found) {
+        if (required) {
+            //Required is missing
+            std::string text = "Error loading game data for directory/file '" + containerName + "'\n";
+            if (error.empty()) {
+                text += "Check if game files are correctly set and are accessible inside following paths: \n";
+                for (std::string path : assetRoots) {
+                    text += path + "\n";
+                }
+            } else {
+                text += error;
             }
+            error = text;
+            return;
         } else {
-            text += error;
+            //Warn it but since its not required dismiss it
+            log->warn("Optional game data '" + containerName + "' is not available:\n" + error);
         }
-        error = text;
-        return;
     }
+    //Dismiss any error
+    error = "";
 }
 
 void AssetManager::processIntermediates() {

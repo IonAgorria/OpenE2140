@@ -131,14 +131,10 @@ void AssetManager::loadAssetContainer(const std::vector<std::string>& assetRoots
     //Scan assets from containers by checking different paths that might contain assets
     bool found = false;
     for (std::string path : assetRoots) {
-        if (found) {
-            break;
-        }
+        if (found) break;
         for (std::unique_ptr<IAssetProcessor>& processor : processors) {
-            if (found) {
-                break;
-            }
             found |= processor->scanContainer(path, containerName);
+            if (found) break;
             if (processor->hasError()) {
                 error += processor->getError() + "\n";
             }

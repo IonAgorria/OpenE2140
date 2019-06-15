@@ -118,7 +118,7 @@ public:
      * @param index of tile in world
      * @return tile if valid
      */
-    Tile* getTile(unsigned long index);
+    Tile* getTile(tile_index_t index);
 
     /**
      * Tile in specified tile position
@@ -126,7 +126,7 @@ public:
      * @param index of tile in world
      * @return tile if valid
      */
-    Tile* getTile(unsigned long x, unsigned long y);
+    Tile* getTile(unsigned int x, unsigned int y);
 
     /**
      * Tile in specified world position

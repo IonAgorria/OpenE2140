@@ -109,14 +109,14 @@ const Rectangle& World::getWorldRectangle() {
     return worldRectangle;
 }
 
-Tile* World::getTile(unsigned long index) {
+Tile* World::getTile(tile_index_t index) {
     if (index < 0 || index >= tiles.size()) {
         return nullptr;
     }
     return tiles.at(index).get();
 }
 
-Tile* World::getTile(unsigned long x, unsigned long y) {
+Tile* World::getTile(unsigned int x, unsigned int y) {
     return getTile(x + realRectangle.w * y);
 }
 
@@ -134,7 +134,7 @@ void World::toWorldPosition(const Vector2& position, Vector2& result) {
 
 std::shared_ptr<Image> World::calculateTileImage(Tile& tile) {
     tile.isImageDirty = false;
-    std::shared_ptr<Image> image = tilesetImages[tile.index];
+    std::shared_ptr<Image> image = tilesetImages[tile.tilesetIndex];
     //TODO check if tile has damage such as fire/weapon and select the image
     return image;
 }

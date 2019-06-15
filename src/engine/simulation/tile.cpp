@@ -7,7 +7,7 @@ Tile::Tile() {
 }
 
 void Tile::setPrototype(TilePrototype prototype) {
-    this->index = prototype.index;
+    this->tilesetIndex = prototype.tilesetIndex;
     this->isWater = prototype.isWater;
     this->isShore = prototype.isShore;
     this->isPassable = prototype.isPassable;

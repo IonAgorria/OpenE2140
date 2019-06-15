@@ -145,6 +145,13 @@ public:
     /**
      * Sets rectangle components
      *
+     * @param v value
+     */
+    void set(int v);
+
+    /**
+     * Sets rectangle components
+     *
      * @param x value
      * @param y value
      * @param width value

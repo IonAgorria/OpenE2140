@@ -74,9 +74,9 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
             int i = y + LEVEL_SIZE_MAX * x;
 
             //Get tile index
-            byte_t tile_index = 0;
+            byte_t tilesetIndex = 0;
             seek(0x801F + i, true);
-            if (!readAll(tile_index)) {
+            if (!readAll(tilesetIndex)) {
                 error = "Error reading tile terrain\n" + error;
                 return;
             }
@@ -91,10 +91,10 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
 
             //Setup tile
             TilePrototype tile;
-            tile.index = tile_index;
+            tile.tilesetIndex = tilesetIndex;
             switch (tile_flags) {
                 default: //Unknown
-                    error = "Unknown tile flags " + std::to_string(tile_flags) + " detected at " + std::to_string(tile_index);
+                    error = "Unknown tile flags " + std::to_string(tile_flags) + " detected at " + std::to_string(i);
                     return;
                 case 0x0001: //Free
                     tile.isPassable = true;

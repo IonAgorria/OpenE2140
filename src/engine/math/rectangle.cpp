@@ -132,6 +132,13 @@ std::string Rectangle::toString() const {
     return "R(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h) + ")";
 }
 
+void Rectangle::set(int v) {
+    this->x = v;
+    this->y = v;
+    this->w = v;
+    this->h = v;
+}
+
 void Rectangle::set(int x, int y, int width, int height) {
     this->x = x;
     this->y = y;
@@ -139,8 +146,7 @@ void Rectangle::set(int x, int y, int width, int height) {
     this->h = height;
 }
 
-void Rectangle::set(const Rectangle& rectangle)
-{
+void Rectangle::set(const Rectangle& rectangle) {
     this->x = rectangle.x;
     this->y = rectangle.y;
     this->w = rectangle.w;

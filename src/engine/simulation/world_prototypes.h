@@ -14,7 +14,7 @@ struct TilePrototype {
     /**
      * Index of tile to use in tileset
      */
-    unsigned int index = 0;
+    unsigned int tilesetIndex = 0;
 
     /**
      * Flag for water

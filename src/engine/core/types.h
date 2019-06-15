@@ -14,41 +14,44 @@ using byte_array_t = byte_t[];
 using asset_path_t = std::string;
 
 /** Window ID */
-using window_id_t = unsigned int;
+using window_id_t = uint32_t;
 
 /** Entity ID */
-using entity_id_t = unsigned long;
+using entity_id_t = uint64_t;
+
+/** Tile index */
+using tile_index_t = uint32_t;
 
 /** Entity type */
 struct entity_type_t {
     /** Kind of this entity */
-    unsigned int kind = 0;
+    uint32_t kind = 0;
     /** Unique id inside the current kind domain */
-    unsigned int id = 0;
+    uint32_t id = 0;
 };
 
 /** Entity direction */
-using entity_direction_t = unsigned int;
+using entity_direction_t = uint32_t;
 
 /** Player ID */
-using player_id_t = unsigned long;
+using player_id_t = uint64_t;
 
 /** Money type */
-using money_t = signed long;
+using money_t = int64_t;
 
 /**
  * Size struct with shorts
  */
 struct size_16_t {
-    unsigned short width = 0;
-    unsigned short height = 0;
+    uint16_t width = 0;
+    uint16_t height = 0;
 };
 
 /**
  * Struct for key input data
  */
 struct input_key_t {
-    unsigned int code = 0;
+    uint32_t code = 0;
     bool press = false;
     bool repeat = false;
     bool shift = false;

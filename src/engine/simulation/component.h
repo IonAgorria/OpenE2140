@@ -75,5 +75,12 @@ public: \
     /** Attempts to cast base dynamically */ \
     template<typename T> T* castBase() { return dynamic_cast<T*>(base); };
 
+/**
+ * Macro for base component class definition with empty constructor/destructor
+ */
+#define CLASS_COMPONENT_DEFAULT(T_COMPONENT) \
+    void T_COMPONENT::construction() {}; \
+    T_COMPONENT::~T_COMPONENT() = default;
+
 
 #endif //OPENE2140_COMPONENT_H

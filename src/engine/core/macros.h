@@ -41,4 +41,14 @@
 #define TYPE_NAME_OVERRIDE(T) \
     const std::string type_name() const override { return std::string(#T); };
 
+/**
+ * Sets a bit 0
+ */
+#define BIT_OFF(VAR, BITS) VAR &= ~(BITS)
+
+/**
+ * Sets a bit 1
+ */
+#define BIT_ON(VAR, BITS) VAR |= BITS
+
 #endif //OPENE2140_MACROS_H

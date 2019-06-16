@@ -20,6 +20,7 @@
 #include <vector>
 #include <string>
 
+//Constants
 /** Game version string */
 #define GAME_VERSION STR(GAME_VERSION_MAJOR) "." STR(GAME_VERSION_MINOR)
 /** Full title of this game */
@@ -36,5 +37,14 @@
 #define TEXTURE_UNIT_PALETTE_COLORS GL_TEXTURE2
 /** Texture unit for extra palette texture */
 #define TEXTURE_UNIT_PALETTE_EXTRA GL_TEXTURE3
+
+/** Flags for tile states */
+#define TILE_FLAG_PASSABLE               0b1
+#define TILE_FLAG_WATER                 0b10
+#define TILE_FLAG_SHORE                0b100
+#define TILE_FLAG_IMMUTABLE           0b1000 //Flag for immutable (is not affected by explosions or other stuff
+#define TILE_FLAG_SAND               0b10000
+#define TILE_FLAG_ENTITY_TERRAIN    0b100000 //Flag if contains an entity in ground/water
+#define TILE_FLAG_ENTITY_AIR       0b1000000 //Flag if contains entity in air
 
 #endif //OPENE2140_COMMON_H

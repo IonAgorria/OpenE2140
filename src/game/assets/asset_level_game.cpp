@@ -92,35 +92,37 @@ void AssetLevelGame::tiles(std::vector<TilePrototype>& tiles) {
             //Setup tile
             TilePrototype tile;
             tile.tilesetIndex = tilesetIndex;
+            tile.tileFlags = 0;
             switch (tile_flags) {
                 default: //Unknown
                     error = "Unknown tile flags " + std::to_string(tile_flags) + " detected at " + std::to_string(i);
                     return;
                 case 0x0001: //Free
-                    tile.isPassable = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_PASSABLE);
                     break;
                 case 0x0002: //Water
-                    tile.isWater = true;
-                    tile.isImmutable = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_PASSABLE);
+                    BIT_ON(tile.tileFlags, TILE_FLAG_WATER);
+                    BIT_ON(tile.tileFlags, TILE_FLAG_IMMUTABLE);
                     break;
                 case 0x0008: //Shore
-                    tile.isPassable = true;
-                    tile.isShore = true;
-                    tile.isImmutable = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_PASSABLE);
+                    BIT_ON(tile.tileFlags, TILE_FLAG_SHORE);
+                    BIT_ON(tile.tileFlags, TILE_FLAG_IMMUTABLE);
                     break;
                 case 0x0011: //Blocked
-                    tile.isImmutable = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_IMMUTABLE);
                     break;
                 case 0x0021: //Ore
-                    tile.isPassable = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_PASSABLE);
                     tile.ore = MONEY_PER_TILE;
                     break;
                 case 0x0041: //Sand
-                    tile.isPassable = true;
-                    tile.isSand = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_PASSABLE);
+                    BIT_ON(tile.tileFlags, TILE_FLAG_SAND);
                     break;
                 case 0x0061: //Unknown
-                    tile.isPassable = true;
+                    BIT_ON(tile.tileFlags, TILE_FLAG_PASSABLE);
                     break;
             }
             tiles.emplace_back(tile);

@@ -64,7 +64,7 @@ bool AssetManager::removeAsset(const asset_path_t& path) {
 }
 
 Asset* AssetManager::getAsset(const asset_path_t& path) {
-    return Utils::getPointerFromUnorderedMap(assets, path);
+    return assets[path].get();
 }
 
 std::shared_ptr<Image> AssetManager::getImage(const asset_path_t& path) {

@@ -44,14 +44,38 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::share
     }
     for (size_t i = 0; i < tilePrototypes.size(); ++i) {
         TilePrototype prototype = tilePrototypes.at(i);
-        std::unique_ptr<Tile> tile = std::make_unique<Tile>();
+        Vector2 pos(i % realRectangle.w, i / realRectangle.h);
+        std::unique_ptr<Tile> tile = std::make_unique<Tile>(i, pos);
         tile->setPrototype(prototype);
         tiles.emplace_back(std::move(tile));
     }
+
+    //Adjust tile images array to tiles size
     tilesImages.resize(tiles.size());
+
+    //Generate adjacent tiles now that all tiles are present
+    for (std::unique_ptr<Tile>& tile : tiles) {
+        Vector2 position = tile->position;
+        int mx = position.x;
+        int my = position.y;
+        for (int y = -1; y <= 1; y++) {
+            for (int x = -1; x <= 1; x++) {
+                if (x == 0 && y == 0) continue;
+                if (!realRectangle.isInside(mx + x, my + y)) continue;
+                Tile* other = getTile(mx + x, my + y);
+                if (!other) continue;
+                tile->adjacents.emplace_back(other);
+            }
+        }
+    }
 }
 
 World::~World() {
+    realRectangle.set(0);
+    tileRectangle.set(0);
+    worldRectangle.set(0);
+    tiles.clear();
+    tilesImages.clear();
 }
 
 void World::update() {

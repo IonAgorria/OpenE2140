@@ -124,8 +124,7 @@ public:
      */
     template <typename T>
     T* getAsset(const asset_path_t& path) {
-        Asset* asset = Utils::getPointerFromUnorderedMap(assets, path);
-        return dynamic_cast<T*>(asset);
+        return dynamic_cast<T*>(assets[path].get());
     }
 
     /**

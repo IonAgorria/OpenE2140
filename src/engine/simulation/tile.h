@@ -15,14 +15,29 @@ class Entity;
 class Tile: public TilePrototype {
 public:
     /**
+     * Tile index in the world
+     */
+    const tile_index_t index;
+
+    /**
+     * Tile position in the world
+     */
+    const Vector2 position;
+
+    /**
      * Flag for tile image being dirty
      */
     bool isImageDirty = true;
 
     /**
+     * Adjacent tiles to this tile
+     */
+    std::vector<Tile*> adjacents;
+
+    /**
      * Entities inside this tile
      */
-     std::vector<Entity*> entities;
+    std::vector<std::shared_ptr<Entity>> entities;
 
     /**
      * Type of damage on this tile (weapons, fire, reactor crate...)
@@ -32,7 +47,7 @@ public:
     /**
      * Constructor
      */
-    Tile();
+    Tile(tile_index_t index, Vector2& position);
 
     /**
      * Destructor

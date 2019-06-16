@@ -350,22 +350,6 @@ public:
     static std::unique_ptr<byte_array_t> bufferFlipY(const byte_array_t data, unsigned int width, unsigned int height);
 
     /**
-     * Returns the value pointer inside the map or nullptr if none found
-     *
-     * @tparam K key type of map
-     * @tparam V value type of map's unique pointers
-     * @param map containing the unique pointers
-     * @param key to access the value in map
-     * @return value pointer stored in key or nullptr if not found
-     */
-    template<typename K, typename V>
-    static V* getPointerFromUnorderedMap(const std::unordered_map<K, std::unique_ptr<V>>& map, const K& key) {
-        auto it = map.find(key);
-        if (it == map.end()) return nullptr;
-        return it->second.get();
-    }
-
-    /**
      * Moves unique pointer from vector, returns it and erases the vector position
      *
      * @tparam T type inside ptrs of vector

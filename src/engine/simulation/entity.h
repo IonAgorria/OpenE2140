@@ -10,6 +10,7 @@
 #include "math/rectangle.h"
 #include "graphics/image.h"
 
+class Tile;
 class Simulation;
 
 /**
@@ -31,6 +32,11 @@ protected:
      * Entity position
      */
     Vector2 position;
+
+    /**
+     * Tile or tiles which this entity is currently occupying
+     */
+    std::vector<Tile*> tiles;
 
     /**
      * Images used by this entity

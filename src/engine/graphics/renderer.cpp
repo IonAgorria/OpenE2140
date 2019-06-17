@@ -17,9 +17,19 @@ Renderer::Renderer() {
     initBuffers();
     if (!error.empty()) return;
 
-    //Get and check the texture size
+    //Get the max texture size allowed
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
     log->debug("GL_MAX_TEXTURE_SIZE: {0}", maxTextureSize);
+
+#if OPENE2140_IS_MACOS
+    //MacOS doesn't draw anything if max texture size is used so we reduce it by half
+    if (maxTextureSize / 2 > MINIMUM_TEXTURE_SIZE) {
+        log->debug("Workaround: Reduced max texture size by half");
+        maxTextureSize /= 2;
+    }
+#endif
+
+    //Check the texture size is not below minimum
     if (maxTextureSize < MINIMUM_TEXTURE_SIZE) {
         error = "Maximum texture size is too small: " + std::to_string(maxTextureSize);
         return;

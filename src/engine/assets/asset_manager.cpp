@@ -261,7 +261,7 @@ void AssetManager::processImages(
              || 0 > imageSize.y
              || textureSize < (unsigned) imageSize.x
              || textureSize < (unsigned) imageSize.y) {
-                error = "This asset image exceeds the maximum texture size allowed" + assetImage->getPath();
+                error = "This asset image exceeds the maximum texture size allowed " + assetImage->getPath() + " " + imageSize.toString();
                 return;
             }
             rect.id = index;

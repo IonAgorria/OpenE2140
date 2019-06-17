@@ -11,6 +11,7 @@
 #include "assets/asset_level.h"
 #include "assets/asset_manager.h"
 #include "simulation.h"
+//#include "pathfinder/pathfinder.h"
 
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {

@@ -27,7 +27,7 @@
 /** Game main log tag for global use when required */
 #define MAIN_LOG "Main"
 /** Minimum texture size (texture packer fails under this) */
-#define MINIMUM_TEXTURE_SIZE 256
+#define MINIMUM_TEXTURE_SIZE 512
 /** Texture unit for palette image texture */
 #define TEXTURE_UNIT_IMAGE_PALETTE GL_TEXTURE0
 /** Texture unit for RGBA image texture */

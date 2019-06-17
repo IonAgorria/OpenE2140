@@ -37,7 +37,8 @@
 #define TEXTURE_UNIT_PALETTE_COLORS GL_TEXTURE2
 /** Texture unit for extra palette texture */
 #define TEXTURE_UNIT_PALETTE_EXTRA GL_TEXTURE3
-
+/** Constant for infinity cost */
+#define PATHFINDER_INFINITY (static_cast<path_cost_t>(-1))
 /** Flags for tile states */
 #define TILE_FLAG_PASSABLE               0b1
 #define TILE_FLAG_WATER                 0b10

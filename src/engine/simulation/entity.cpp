@@ -22,7 +22,7 @@ std::string Entity::toString() const {
 std::string Entity::toStringContent() const {
     return " ID: " + std::to_string(id) +
            " Position: " + position.toString()
-        ;
+   ;
 }
 
 const Vector2& Entity::getPosition() {
@@ -47,5 +47,9 @@ void Entity::update() {
 
 Image* Entity::draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette) {
     return nullptr;
+}
+
+bool Entity::active() {
+    return id != 0 && simulation != nullptr;
 }
 

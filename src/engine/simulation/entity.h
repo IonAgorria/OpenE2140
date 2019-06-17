@@ -102,6 +102,11 @@ public:
     std::string toString() const override;
 
     std::string toStringContent() const override;
+
+    /**
+     * @return true if entity is considered active (has ID and is inside simulation)
+     */
+    bool active();
 };
 
 /**

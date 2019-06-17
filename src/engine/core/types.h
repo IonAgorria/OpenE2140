@@ -20,7 +20,7 @@ using window_id_t = uint32_t;
 using entity_id_t = uint64_t;
 
 /** Tile index */
-using tile_index_t = uint32_t;
+using tile_index_t = uint16_t;
 
 /** Entity type */
 struct entity_type_t {
@@ -42,7 +42,12 @@ using money_t = int64_t;
 /**
  * Type for tile flags
  */
-using tile_flags_t = uint32_t;
+using tile_flags_t = uint16_t;
+
+/**
+ * Type for cost of path
+ */
+using path_cost_t = uint16_t;
 
 /**
  * Size struct with shorts

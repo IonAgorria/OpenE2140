@@ -4,7 +4,7 @@
 #ifndef OPENE2140_WORLD_PROTOTYPES_H
 #define OPENE2140_WORLD_PROTOTYPES_H
 
-#include <src/engine/math/vector2.h>
+#include "math/vector2.h"
 #include "core/common.h"
 
 /**
@@ -17,34 +17,14 @@ struct TilePrototype {
     unsigned int tilesetIndex = 0;
 
     /**
-     * Flag for water
+     * Tile flags
      */
-    bool isWater = false;
-
-    /**
-     * Flag for shore
-     */
-    bool isShore = false;
-
-    /**
-     * Flag for passable/ground
-     */
-    bool isPassable = false;
-
-    /**
-     * Flag for immutable (is not affected by explosions or other stuff
-     */
-    bool isImmutable = false;
+    tile_flags_t tileFlags;
 
     /**
      * Contained ore in this tile
      */
     money_t ore = 0;
-
-    /**
-     * Flag for sand
-     */
-    bool isSand = false;
 };
 
 /**

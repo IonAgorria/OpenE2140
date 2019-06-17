@@ -40,6 +40,11 @@ using player_id_t = uint64_t;
 using money_t = int64_t;
 
 /**
+ * Type for tile flags
+ */
+using tile_flags_t = uint32_t;
+
+/**
  * Size struct with shorts
  */
 struct size_16_t {

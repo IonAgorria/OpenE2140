@@ -4,12 +4,15 @@
 #ifndef OPENE2140_PATH_REQUEST_H
 #define OPENE2140_PATH_REQUEST_H
 
-#include <src/engine/core/types.h>
+#include <map>
+#include <optional>
+#include "core/common.h"
 #include "math/vector2.h"
 #include "astar.h"
 
 class Tile;
 class Entity;
+class Simulation;
 
 /**
  * Contains the request for pathfinder, can contain one or several agents that want go to a single fixed destination or
@@ -18,14 +21,19 @@ class Entity;
 class PathRequest {
 protected:
     /**
-     * AStar pathfinder assigned to each agent
+     * Simulation which request was created for
      */
-    std::unordered_map<entity_id_t, std::unique_ptr<AStar>> astar;
+    Simulation* simulation;
+
+    /**
+     * Pathfinder assigned to each agent
+     */
+    std::map<entity_id_t, std::unique_ptr<AStar>> pathfinders;
 
     /**
      * Destination for this request
      */
-    Vector2 destination;
+    Tile* destination;
 
     /**
      * Target agent for this request if any
@@ -33,11 +41,11 @@ protected:
     std::shared_ptr<Entity> target;
 
     /**
-     * Stores map of Tile <-> Vertex for state keeping, also manages the ownership of vertex memory
+     * Stores vertexes for state keeping, also manages the ownership of vertex memory
      */
-    std::vector<std::unique_ptr<PathVertex>> vertexes;
-public:
+    std::vector<PathVertex> vertexes;
 
+public:
     /**
      * Constructor
      */
@@ -54,13 +62,59 @@ public:
     void initialize();
 
     /**
-     * Returns the common vertex for this request
-     *
-     * @param tile index of tile
-     * @param from the vertex which is coming or null if none
-     * @return vertex
+     * @return the common vertexes for this request
      */
-    PathVertex* getVertex(tile_index_t tile, PathVertex* from);
+    std::vector<PathVertex>& getVertexes();
+
+    /**
+     * Adds a new entity to this request
+     *
+     * @param entity
+     * @return if was added
+     */
+    bool addEntity(entity_id_t entity);
+
+    /**
+     * Removes a entity from this request
+     *
+     * @param entity
+     * @return if was removed
+     */
+    bool removeEntity(entity_id_t entity);
+
+    /**
+     * Returns the current status of pathfinder for the provided entity
+     * If path is available the provided vector will filled
+     *
+     * @param entity which requested the path
+     * @param path vector to write path if available
+     * @return path status
+     */
+    PathFinderStatus getResult(entity_id_t entity, std::vector<tile_index_t> path);
+
+    /**
+     * Sets the destination if is different from current destination
+     *
+     * @param newDestination
+     */
+    void setDestination(Tile* newDestination);
+
+    /**
+     * Sets target entity as destination
+     *
+     * @param entity
+     */
+    void setTarget(std::shared_ptr<Entity> entity);
+
+    /**
+     * @return true if all entities finished
+     */
+    bool empty();
+
+    /**
+     * Updates the entities and pathfinder stuff
+     */
+    void update();
 };
 
 #endif //OPENE2140_PATH_REQUEST_H

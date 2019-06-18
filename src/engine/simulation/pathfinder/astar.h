@@ -11,29 +11,21 @@
 #include "core/priority_queue.h"
 #include "path_state.h"
 #include "path_vertex.h"
+#include "astar_comparator.h"
 
-using path_cost_t = unsigned short;
-
+class PathRequest;
 class Tile;
-
-/**
- * Custom priority queue comparator
- */
-class AStarComparator {
-public:
-    bool operator()(PathVertex& v1, PathVertex& v2)
-    {
-        path_cost_t f1 = v1.g;// + h1;
-        path_cost_t f2 = v2.g;// + h2;
-        return f1 > f2;
-    }
-};
 
 /**
  * A* based pathfinder implementation
  */
 class AStar {
 protected:
+    /**
+     * The path request which spawned this pathfinder
+     */
+    PathRequest* request;
+
     /**
      * Current pathfinder state
      */
@@ -52,13 +44,18 @@ protected:
     /**
      * Priority queue of vertexes or open list
      */
-    PriorityQueue<PathVertex*> queue;
+    PriorityQueue<PathVertex*, AStarComparator> queue;
+
 public:
+    /**
+     * Calculated heuristic cost of each tile
+     */
+    std::vector<path_cost_t> heuristic;
 
     /**
      * Constructor
      */
-    AStar();
+    AStar(PathRequest* request);
 
     /**
      * Destructor
@@ -89,11 +86,11 @@ public:
     PathFinderStatus getStatus();
 
     /**
-     * Tells the pathfinder to visit the tile
+     * Tells the pathfinder to visit the vertex
      *
-     * @param tile to visit
+     * @param vertex to visit
      */
-    void visitTile(Tile* tile, PathVertex* from);
+    void visitTile(PathVertex& vertex, PathVertex* from);
 };
 
 #endif //OPENE2140_ASTAR_H

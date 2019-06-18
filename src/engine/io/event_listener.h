@@ -34,7 +34,7 @@ public:
      * @param height of window
      * @return true if handled to stop propagation
      */
-    virtual bool windowChanged(Window* window);
+    virtual bool eventWindowChanged(Window* window);
 
     /**
      * Called when window focus is changed
@@ -43,7 +43,7 @@ public:
      * @param state current focus state
      * @return true if handled to stop propagation
      */
-    virtual bool windowFocus(Window* window, bool state);
+    virtual bool eventWindowFocus(Window* window, bool state);
 
     /**
      * Called when mouse click occurs
@@ -55,7 +55,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool mouseClick(Window* window, int x, int y, int button, bool press);
+    virtual bool eventMouseClick(Window* window, int x, int y, int button, bool press);
 
     /**
      * Called when mouse wheel/scroll occurs
@@ -65,7 +65,7 @@ public:
      * @param y movement, toward user < 0 > away from the user
      * @return true if handled to stop propagation
      */
-    virtual bool mouseWheel(Window* window, int x, int y);
+    virtual bool eventMouseWheel(Window* window, int x, int y);
 
     /**
      * Called when mouse movement occurs
@@ -75,7 +75,7 @@ public:
      * @param y position
      * @return true if handled to stop propagation
      */
-    virtual bool mouseMove(Window* window, int x, int y);
+    virtual bool eventMouseMove(Window* window, int x, int y);
 
     /**
      * Called when key change occurs
@@ -86,7 +86,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool keyChange(Window* window, input_key_t& key);
+    virtual bool eventKeyChange(Window* window, input_key_t& key);
 };
 
 #endif //OPENE2140_EVENT_LISTENER_H

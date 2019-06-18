@@ -9,26 +9,26 @@ bool IEventListener::update() {
     return false;
 }
 
-bool IEventListener::windowChanged(Window* window) {
+bool IEventListener::eventWindowChanged(Window* window) {
     return false;
 }
 
-bool IEventListener::windowFocus(Window* window, bool state) {
+bool IEventListener::eventWindowFocus(Window* window, bool state) {
     return false;
 }
 
-bool IEventListener::mouseClick(Window* window, int x, int y, int button, bool press) {
+bool IEventListener::eventMouseClick(Window* window, int x, int y, int button, bool press) {
     return false;
 }
 
-bool IEventListener::mouseWheel(Window* window, int x, int y) {
+bool IEventListener::eventMouseWheel(Window* window, int x, int y) {
     return false;
 }
 
-bool IEventListener::mouseMove(Window* window, int x, int y) {
+bool IEventListener::eventMouseMove(Window* window, int x, int y) {
     return false;
 }
 
-bool IEventListener::keyChange(Window* window, input_key_t& key) {
+bool IEventListener::eventKeyChange(Window* window, input_key_t& key) {
     return false;
 }

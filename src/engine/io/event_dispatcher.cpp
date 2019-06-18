@@ -15,10 +15,10 @@ bool EventDispatcher::update() {
     return handled;
 }
 
-bool EventDispatcher::windowChanged(Window* window) {
+bool EventDispatcher::eventWindowChanged(Window* window) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->windowChanged(window);
+        handled = listener->eventWindowChanged(window);
         if (handled) {
             break;
         }
@@ -26,10 +26,10 @@ bool EventDispatcher::windowChanged(Window* window) {
     return handled;
 }
 
-bool EventDispatcher::windowFocus(Window* window, bool state) {
+bool EventDispatcher::eventWindowFocus(Window* window, bool state) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->windowFocus(window, state);
+        handled = listener->eventWindowFocus(window, state);
         if (handled) {
             break;
         }
@@ -37,10 +37,10 @@ bool EventDispatcher::windowFocus(Window* window, bool state) {
     return handled;
 }
 
-bool EventDispatcher::mouseClick(Window* window, int x, int y, int button, bool press) {
+bool EventDispatcher::eventMouseClick(Window* window, int x, int y, int button, bool press) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->mouseClick(window, x, y, button, press);
+        handled = listener->eventMouseClick(window, x, y, button, press);
         if (handled) {
             break;
         }
@@ -48,10 +48,10 @@ bool EventDispatcher::mouseClick(Window* window, int x, int y, int button, bool 
     return handled;
 }
 
-bool EventDispatcher::mouseWheel(Window* window, int x, int y) {
+bool EventDispatcher::eventMouseWheel(Window* window, int x, int y) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->mouseWheel(window, x, y);
+        handled = listener->eventMouseWheel(window, x, y);
         if (handled) {
             break;
         }
@@ -59,10 +59,10 @@ bool EventDispatcher::mouseWheel(Window* window, int x, int y) {
     return handled;
 }
 
-bool EventDispatcher::mouseMove(Window* window, int x, int y) {
+bool EventDispatcher::eventMouseMove(Window* window, int x, int y) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->mouseMove(window, x, y);
+        handled = listener->eventMouseMove(window, x, y);
         if (handled) {
             break;
         }
@@ -70,10 +70,10 @@ bool EventDispatcher::mouseMove(Window* window, int x, int y) {
     return handled;
 }
 
-bool EventDispatcher::keyChange(Window* window, input_key_t& key) {
+bool EventDispatcher::eventKeyChange(Window* window, input_key_t& key) {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->keyChange(window, key);
+        handled = listener->eventKeyChange(window, key);
         if (handled) {
             break;
         }

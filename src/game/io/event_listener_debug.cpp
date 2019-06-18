@@ -17,7 +17,7 @@ EventListenerDebug::~EventListenerDebug() {
     }
 }
 
-bool EventListenerDebug::keyChange(Window* window, input_key_t& key) {
+bool EventListenerDebug::eventKeyChange(Window* window, input_key_t& key) {
     if (key.press && !key.repeat) {
         if (key.code == keyAssetsReload) {
             if (key.shift) {

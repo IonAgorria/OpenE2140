@@ -28,12 +28,12 @@ bool EventListenerCamera::update() {
     return false;
 }
 
-bool EventListenerCamera::mouseMove(Window* window, int x, int y) {
+bool EventListenerCamera::eventMouseMove(Window* window, int x, int y) {
     //TODO
     return false;
 }
 
-bool EventListenerCamera::keyChange(Window* window, input_key_t& key) {
+bool EventListenerCamera::eventKeyChange(Window* window, input_key_t& key) {
     if (key.press && !key.repeat) {
         if (key.code == keyUp) {
             keyMovement.y = -CAMERA_SPEED;

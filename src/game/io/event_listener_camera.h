@@ -55,9 +55,9 @@ public:
 
     bool update() override;
 
-    bool mouseMove(Window* window, int x, int y) override;
+    bool eventMouseMove(Window* window, int x, int y) override;
 
-    bool keyChange(Window* window, input_key_t& key) override;
+    bool eventKeyChange(Window* window, input_key_t& key) override;
 };
 
 #endif //OPENE2140_EVENT_LISTENER_CAMERA_H

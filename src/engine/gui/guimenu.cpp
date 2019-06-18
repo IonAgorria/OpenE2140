@@ -11,18 +11,18 @@ GUIMenu::GUIMenu(std::shared_ptr<Engine> engine): engine(engine) {
 GUIMenu::~GUIMenu() {
 }
 
-bool GUIMenu::mouseClick(Window* window, int x, int y, int button, bool press) {
+bool GUIMenu::eventMouseClick(Window* window, int x, int y, int button, bool press) {
     return GUIView::mouseClick(x, y, button, press);
 }
 
-bool GUIMenu::mouseWheel(Window* window, int x, int y) {
+bool GUIMenu::eventMouseWheel(Window* window, int x, int y) {
     return GUIView::mouseWheel(x, y);
 }
 
-bool GUIMenu::mouseMove(Window* window, int x, int y) {
+bool GUIMenu::eventMouseMove(Window* window, int x, int y) {
     return GUIView::mouseMove(x, y);
 }
 
-bool GUIMenu::keyChange(Window* window, input_key_t& key) {
+bool GUIMenu::eventKeyChange(Window* window, input_key_t& key) {
     return GUIView::keyChange(key);
 }

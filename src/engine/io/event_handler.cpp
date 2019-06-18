@@ -42,7 +42,7 @@ void EventHandler::poll() {
         switch (event.type) {
             case SDL_MOUSEBUTTONDOWN:
             case SDL_MOUSEBUTTONUP: {
-                mouseClick(
+                eventMouseClick(
                         window,
                         event.button.x, event.button.y,
                         event.button.button,
@@ -52,7 +52,7 @@ void EventHandler::poll() {
             }
             case SDL_MOUSEWHEEL: {
                 bool normal = event.wheel.direction == SDL_MOUSEWHEEL_NORMAL;
-                mouseWheel(
+                eventMouseWheel(
                         window,
                         event.wheel.x * (normal ? 1 : -1),
                         event.wheel.y * (normal ? 1 : -1)
@@ -60,7 +60,7 @@ void EventHandler::poll() {
                 break;
             }
             case SDL_MOUSEMOTION: {
-                mouseMove(
+                eventMouseMove(
                         window,
                         event.motion.x,
                         event.motion.y
@@ -78,26 +78,26 @@ void EventHandler::poll() {
                 key.ctrl = (mod & KMOD_CTRL) != 0;
                 key.meta = (mod & KMOD_GUI) != 0;
                 key.alt = (mod & KMOD_ALT) != 0;
-                keyChange(window, key);
+                eventKeyChange(window, key);
                 break;
             }
             case SDL_WINDOWEVENT: {
                 switch (event.window.event) {
                     case SDL_WINDOWEVENT_SHOWN: {
-                        windowChanged(window);
+                        eventWindowChanged(window);
                         break;
                     }
                     case SDL_WINDOWEVENT_RESIZED:
                     case SDL_WINDOWEVENT_SIZE_CHANGED: {
-                        windowChanged(window);
+                        eventWindowChanged(window);
                         break;
                     }
                     case SDL_WINDOWEVENT_FOCUS_LOST: {
-                        windowFocus(window, false);
+                        eventWindowFocus(window, false);
                         break;
                     }
                     case SDL_WINDOWEVENT_FOCUS_GAINED: {
-                        windowFocus(window, true);
+                        eventWindowFocus(window, true);
                         break;
                     }
                     case SDL_WINDOWEVENT_CLOSE: {
@@ -121,7 +121,7 @@ void EventHandler::poll() {
     }
 }
 
-bool EventHandler::windowChanged(Window* window) {
+bool EventHandler::eventWindowChanged(Window* window) {
     Vector2 size = window->updateSize();
     log->debug("Window changed: {0}x{1}", size.x, size.y);
 
@@ -134,32 +134,32 @@ bool EventHandler::windowChanged(Window* window) {
     //Update camera
     engine->updateCamera(engine->getCamera());
 
-    return EventDispatcher::windowChanged(window);
+    return EventDispatcher::eventWindowChanged(window);
 }
 
-bool EventHandler::windowFocus(Window* window, bool state) {
+bool EventHandler::eventWindowFocus(Window* window, bool state) {
     log->debug("Window focus: {0}", state ? "gained" : "lost");
-    return EventDispatcher::windowFocus(window, state);
+    return EventDispatcher::eventWindowFocus(window, state);
 }
 
-bool EventHandler::mouseClick(Window* window, int x, int y, int button, bool press) {
+bool EventHandler::eventMouseClick(Window* window, int x, int y, int button, bool press) {
     log->debug("Mouse button: {0} at {1}x{2} {3}", button, x, y, press ? "press" : "release");
-    return EventDispatcher::mouseClick(window, x, y, button, press);
+    return EventDispatcher::eventMouseClick(window, x, y, button, press);
 }
 
-bool EventHandler::mouseWheel(Window* window, int x, int y) {
+bool EventHandler::eventMouseWheel(Window* window, int x, int y) {
     log->debug("Mouse wheel: {0} {1}", x, y);
-    return EventDispatcher::mouseWheel(window, x, y);
+    return EventDispatcher::eventMouseWheel(window, x, y);
 }
 
-bool EventHandler::mouseMove(Window* window, int x, int y) {
+bool EventHandler::eventMouseMove(Window* window, int x, int y) {
     //log->debug("Mouse motion: {0}x{1}", x, y);
-    return EventDispatcher::mouseMove(window, x, y);
+    return EventDispatcher::eventMouseMove(window, x, y);
 }
 
-bool EventHandler::keyChange(Window* window, input_key_t& key) {
+bool EventHandler::eventKeyChange(Window* window, input_key_t& key) {
     log->debug("Key change: {0} '{1}' {2}", key.code, getNameFromCode(key.code), key.press ? "press" : "release");
-    return EventDispatcher::keyChange(window, key);
+    return EventDispatcher::eventKeyChange(window, key);
 }
 
 input_key_code_t EventHandler::getCodeFromName(const std::string& name) {

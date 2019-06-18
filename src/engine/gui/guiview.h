@@ -46,7 +46,7 @@ public:
     /**
      * Return the view views
      */
-    const std::vector<std::unique_ptr<GUIView>> getViews() const;
+    const std::vector<std::unique_ptr<GUIView>>& getViews() const;
 
     /**
      * Adds view to this view

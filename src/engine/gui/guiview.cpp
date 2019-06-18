@@ -13,7 +13,7 @@ GUIView::~GUIView() {
     removeViews();
 }
 
-const std::vector<std::unique_ptr<GUIView>> GUIView::getViews() const {
+const std::vector<std::unique_ptr<GUIView>>& GUIView::getViews() const {
     return views;
 }
 

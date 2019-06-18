@@ -6,10 +6,10 @@
 
 #include <unordered_map>
 #include "core/common.h"
+#include "path_request.h"
 
 class Tile;
 class Player;
-class PathRequest;
 
 /**
  * Handles per player pathfinder requests and coordinates the ongoing requests by the agents
@@ -60,7 +60,7 @@ public:
      */
     PathHandler() = default;
 
-    request(std<Entity>)
+    //request(std<Entity>)
 };
 
 #endif //OPENE2140_PATH_HANDLER_H

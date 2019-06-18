@@ -61,7 +61,7 @@ struct size_16_t {
  * Struct for key input data
  */
 struct input_key_t {
-    uint32_t code = 0;
+    int32_t code = 0;
     bool press = false;
     bool repeat = false;
     bool shift = false;

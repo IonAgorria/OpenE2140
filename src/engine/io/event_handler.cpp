@@ -74,10 +74,10 @@ void EventHandler::poll() {
                 key.code = event.key.keysym.sym;
                 key.press = event.key.state == SDL_PRESSED;
                 key.repeat = event.key.repeat != 0;
-                key.shift = mod & KMOD_SHIFT;
-                key.ctrl = mod & KMOD_CTRL;
-                key.meta = mod & KMOD_GUI;
-                key.alt = mod & KMOD_ALT;
+                key.shift = static_cast<bool>(mod & KMOD_SHIFT);
+                key.ctrl = static_cast<bool>(mod & KMOD_CTRL);
+                key.meta = static_cast<bool>(mod & KMOD_GUI);
+                key.alt = static_cast<bool>(mod & KMOD_ALT);
                 keyChange(window, key);
                 break;
             }
@@ -98,6 +98,11 @@ void EventHandler::poll() {
                     }
                     case SDL_WINDOWEVENT_FOCUS_GAINED: {
                         windowFocus(window, true);
+                        break;
+                    }
+                    case SDL_WINDOWEVENT_CLOSE: {
+                        //NOTE: Seems that MacOS uses this event instead of SDL_QUIT when window is requested to close
+                        closing = true;
                         break;
                     }
                     default:

@@ -23,8 +23,8 @@ class AStarComparator {
 public:
     bool operator()(PathVertex& v1, PathVertex& v2)
     {
-        path_cost_t f1 = v1.g + h1;
-        path_cost_t f2 = v2.g + h2;
+        path_cost_t f1 = v1.g;// + h1;
+        path_cost_t f2 = v2.g;// + h2;
         return f1 > f2;
     }
 };
@@ -76,7 +76,7 @@ public:
      * @param newStarts
      * @param newGoal
      */
-    void plan(std::vector<Tile*>& newStarts, Tile* newGoal);
+    void plan(Tile* newStart, Tile* newGoal);
 
     /**
      * Does the main computation of algorithm

@@ -46,7 +46,7 @@ public:
     /**
      * Destructor
      */
-    PathRequest() = default;
+    ~PathRequest() = default;
 
     /**
      * (re)initializes the internal states to clear state

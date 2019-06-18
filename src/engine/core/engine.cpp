@@ -262,7 +262,7 @@ void Engine::updateCamera(const Vector2& newCamera) {
     if (camera.y < 0) camera.y = 0;
 }
 
-int Engine::getKeyBind(const std::string& name) {
+input_key_code_t Engine::getKeyBind(const std::string& name) {
     //TODO there should be a configurable keybinds and falling back to default if not set
     return EventHandler::getCodeFromName(name);
 }

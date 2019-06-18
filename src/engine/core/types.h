@@ -58,10 +58,15 @@ struct size_16_t {
 };
 
 /**
+ * Type for key code
+ */
+using input_key_code_t = int32_t;
+
+/**
  * Struct for key input data
  */
 struct input_key_t {
-    int32_t code = 0;
+    input_key_code_t code = 0;
     bool press = false;
     bool repeat = false;
     bool shift = false;

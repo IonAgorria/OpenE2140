@@ -23,7 +23,7 @@ private:
     /*
      * Key values
      */
-    unsigned int keyAssetsReload = 0;
+    input_key_code_t keyAssetsReload = 0;
 public:
     /**
      * Event handler constructor

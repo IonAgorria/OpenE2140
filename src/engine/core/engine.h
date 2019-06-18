@@ -190,7 +190,7 @@ public:
     /**
      * @return key code for provided bind
      */
-    int getKeyBind(const std::string& name);
+    input_key_code_t getKeyBind(const std::string& name);
 };
 
 #endif //OPENE2140_ENGINE_H

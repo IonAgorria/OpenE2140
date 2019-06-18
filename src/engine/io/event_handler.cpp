@@ -74,10 +74,10 @@ void EventHandler::poll() {
                 key.code = event.key.keysym.sym;
                 key.press = event.key.state == SDL_PRESSED;
                 key.repeat = event.key.repeat != 0;
-                key.shift = static_cast<bool>(mod & KMOD_SHIFT);
-                key.ctrl = static_cast<bool>(mod & KMOD_CTRL);
-                key.meta = static_cast<bool>(mod & KMOD_GUI);
-                key.alt = static_cast<bool>(mod & KMOD_ALT);
+                key.shift = (mod & KMOD_SHIFT) != 0;
+                key.ctrl = (mod & KMOD_CTRL) != 0;
+                key.meta = (mod & KMOD_GUI) != 0;
+                key.alt = (mod & KMOD_ALT) != 0;
                 keyChange(window, key);
                 break;
             }
@@ -162,11 +162,11 @@ bool EventHandler::keyChange(Window* window, input_key_t& key) {
     return EventDispatcher::keyChange(window, key);
 }
 
-int EventHandler::getCodeFromName(const std::string& name) {
+input_key_code_t EventHandler::getCodeFromName(const std::string& name) {
     SDL_Keycode code = SDL_GetKeyFromName(name.c_str());
     return code == SDLK_UNKNOWN ? 0 : code;
 }
 
-std::string EventHandler::getNameFromCode(const int code) {
+std::string EventHandler::getNameFromCode(const input_key_code_t code) {
     return std::string(SDL_GetKeyName(code));
 }

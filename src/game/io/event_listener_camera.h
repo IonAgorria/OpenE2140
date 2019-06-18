@@ -33,10 +33,10 @@ private:
     /*
      * Key values
      */
-    unsigned int keyUp = 0;
-    unsigned int keyDown = 0;
-    unsigned int keyLeft = 0;
-    unsigned int keyRight = 0;
+    input_key_code_t keyUp = 0;
+    input_key_code_t keyDown = 0;
+    input_key_code_t keyLeft = 0;
+    input_key_code_t keyRight = 0;
 public:
     /**
      * Event handler constructor

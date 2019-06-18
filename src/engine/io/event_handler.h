@@ -61,13 +61,13 @@ public:
      * @param name key name to get code from
      * @return code for key
      */
-    static int getCodeFromName(const std::string& name);
+    static input_key_code_t getCodeFromName(const std::string& name);
 
     /**
      * @param code key code to get name from
      * @return name for key
      */
-    static std::string getNameFromCode(const int code);
+    static std::string getNameFromCode(const input_key_code_t code);
 
     /*
      * EventDispatcher overrides

@@ -133,6 +133,10 @@ const Rectangle& World::getWorldRectangle() {
     return worldRectangle;
 }
 
+std::vector<std::unique_ptr<Tile>>& World::getTiles() {
+    return tiles;
+}
+
 Tile* World::getTile(tile_index_t index) {
     if (index < 0 || index >= tiles.size()) {
         return nullptr;

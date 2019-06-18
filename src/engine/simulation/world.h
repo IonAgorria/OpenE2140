@@ -113,6 +113,11 @@ public:
     const Rectangle& getWorldRectangle();
 
     /**
+     * @return tiles in this world
+     */
+    std::vector<std::unique_ptr<Tile>>& getTiles();
+
+    /**
      * Tile in specified tile index
      *
      * @param index of tile in world

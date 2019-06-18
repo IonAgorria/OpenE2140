@@ -53,3 +53,10 @@ bool Entity::active() {
     return id != 0 && simulation != nullptr;
 }
 
+Tile* Entity::getTile() {
+    return tiles.empty() ? nullptr : tiles[0];
+}
+
+const std::vector<Tile*>& Entity::getTiles() {
+    return tiles;
+}

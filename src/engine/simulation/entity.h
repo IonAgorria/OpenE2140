@@ -99,14 +99,30 @@ public:
      */
     virtual Image* draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette);
 
-    std::string toString() const override;
-
-    std::string toStringContent() const override;
-
     /**
      * @return true if entity is considered active (has ID and is inside simulation)
      */
     bool active();
+
+    /**
+     * In case of none this method will return null
+     * In case of several tiles it will return the first tile in collection, which should be the center
+     * @return tile which this entity is occupying
+     */
+    Tile* getTile();
+
+    /**
+     * @return tile or tiles which this entity is occupying
+     */
+    const std::vector<Tile*>& getTiles();
+
+    /*
+     * IToString
+     */
+
+    std::string toString() const override;
+
+    std::string toStringContent() const override;
 };
 
 /**

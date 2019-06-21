@@ -29,6 +29,10 @@ const Vector2& Entity::getPosition() {
     return position;
 }
 
+const Rectangle& Entity::getBounds() {
+    return bounds;
+}
+
 void Entity::addedToSimulation(Simulation* sim) {
     simulation = sim;
     id = simulation->nextEntityID();
@@ -45,8 +49,7 @@ void Entity::update() {
     componentsUpdate();
 }
 
-Image* Entity::draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette) {
-    return nullptr;
+void Entity::draw(Renderer* renderer) {
 }
 
 bool Entity::active() {

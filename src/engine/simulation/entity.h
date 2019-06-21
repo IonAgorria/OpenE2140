@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ENTITY_H
 #define OPENE2140_ENTITY_H
 
-#include "component.h"
+#include "components/component.h"
 #include "core/common.h"
 #include "core/to_string.h"
 #include "math/rectangle.h"
@@ -12,6 +12,7 @@
 
 class Tile;
 class Simulation;
+class Renderer;
 
 /**
  * Base entity in game, this is the common interface between world and entities
@@ -21,7 +22,7 @@ protected:
     /**
      * Unique ID for entity
      */
-    long id = 0;
+    entity_id_t id = 0;
 
     /**
      * Simulation which this entity belongs
@@ -29,9 +30,14 @@ protected:
     Simulation* simulation;
 
     /**
-     * Entity position
+     * Entity center position
      */
     Vector2 position;
+
+    /**
+     * Entity bounding rectangle if any
+     */
+    Rectangle bounds;
 
     /**
      * Tile or tiles which this entity is currently occupying
@@ -74,6 +80,11 @@ public:
     const Vector2& getPosition();
 
     /**
+     * @return entity bounds
+     */
+    const Rectangle& getBounds();
+
+    /**
      * Called when entity is added to simulation
      */
     void addedToSimulation(Simulation* simulation);
@@ -89,15 +100,11 @@ public:
     void update();
 
     /**
-     * Called when this entity is going to be drawn
+     * Called when this entity is requested to draw
      *
-     * @param drawPosition center to draw the image
-     * @param drawSize size of rectangle to draw
-     * @param drawAngle angle of image when drawing
-     * @param palette extra palette for this entity to draw custom colors
-     * @return the image to be used when drawing this entity
+     * @param renderer to use for drawing
      */
-    virtual Image* draw(Vector2& drawPosition, Vector2& drawSize, float& drawAngle, Palette* palette);
+    void draw(Renderer* renderer);
 
     /**
      * @return true if entity is considered active (has ID and is inside simulation)

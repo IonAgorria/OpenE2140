@@ -6,7 +6,7 @@
 #include "core/engine.h"
 #include "graphics/renderer.h"
 #include "entity.h"
-#include "world.h"
+#include "src/engine/simulation/world/world.h"
 #include "assets/asset.h"
 #include "assets/asset_level.h"
 #include "assets/asset_manager.h"
@@ -90,16 +90,10 @@ void Simulation::draw(const Rectangle& rectangle) {
     world->draw(renderer, rectangle);
 
     //Draw entities
-    Vector2 position;
-    Vector2 size;
-    Rectangle imageRectangle;
-    float angle = 0;
-    Palette* extraPalette = nullptr;
     for (std::shared_ptr<Entity>& entity : entities) {
-        Image* image = entity->draw(position, size, angle, extraPalette);
-        imageRectangle.setCenter(position, size);
-        if (image && rectangle.isOverlap(imageRectangle)) {
-            renderer->draw(position.x, position.y, size.x, size.y, angle, *image, extraPalette);
+        const Rectangle& bounds = entity->getBounds();
+        if (rectangle.isOverlap(bounds)) {
+            entity->draw(renderer);
         }
     }
 }

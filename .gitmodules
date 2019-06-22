@@ -8,3 +8,6 @@
 [submodule "lib/cnl"]
 	path = lib/cnl
 	url = https://github.com/johnmcfarlane/cnl
+[submodule "lib/json"]
+	path = lib/json
+	url = https://github.com/nlohmann/json

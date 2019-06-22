@@ -4,13 +4,13 @@
 #include <unordered_map>
 #include <forward_list>
 
-#include "io/file.h"
-#include "assets/asset_manager.h"
-#include "assets/asset.h"
-#include "assets/asset_palette.h"
-#include "assets/asset_image.h"
-#include "core/utils.h"
-#include "math/vector2.h"
+#include "engine/io/file.h"
+#include "engine/assets/asset_manager.h"
+#include "engine/assets/asset.h"
+#include "engine/assets/asset_palette.h"
+#include "engine/assets/asset_image.h"
+#include "engine/core/utils.h"
+#include "engine/math/vector2.h"
 #include "asset_processor_mix.h"
 
 void AssetProcessorMIX::processIntermediates() {

@@ -2,9 +2,9 @@
 // Created by Ion Agorria on 20/05/18
 //
 #include <SDL_events.h>
-#include "src/engine/core/engine.h"
-#include "graphics/renderer.h"
-#include "graphics/window.h"
+#include "engine/core/engine.h"
+#include "engine/graphics/renderer.h"
+#include "engine/graphics/window.h"
 #include "event_dispatcher.h"
 #include "event_handler.h"
 

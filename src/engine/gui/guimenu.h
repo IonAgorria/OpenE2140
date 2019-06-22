@@ -4,8 +4,10 @@
 #ifndef OPENE2140_GUIMENU_H
 #define OPENE2140_GUIMENU_H
 
-#include "io/event_listener.h"
+#include "engine/io/event_listener.h"
 #include "guiview.h"
+
+class Engine;
 
 /**
  * A menu contains the different UI elements and current state one at a time including their transitions

@@ -2,14 +2,14 @@
 // Created by Ion Agorria on 1/11/18
 //
 #include <SDL.h>
-#include "core/common.h"
-#include "assets/asset_manager.h"
-#include "graphics/palette.h"
-#include "graphics/renderer.h"
-#include "graphics/window.h"
-#include "gui/guimenu.h"
-#include "simulation/simulation.h"
-#include "src/engine/simulation/world.h"
+#include "engine/core/common.h"
+#include "engine/assets/asset_manager.h"
+#include "engine/graphics/palette.h"
+#include "engine/graphics/renderer.h"
+#include "engine/graphics/window.h"
+#include "engine/gui/guimenu.h"
+#include "engine/simulation/simulation.h"
+#include "engine/simulation/world/world.h"
 #include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"

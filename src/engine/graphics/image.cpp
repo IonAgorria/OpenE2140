@@ -3,7 +3,7 @@
 //
 #include <string>
 #include "SDL_surface.h"
-#include "core/utils.h"
+#include "engine/core/utils.h"
 #include "image.h"
 #include "palette.h"
 

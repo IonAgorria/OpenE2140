@@ -4,8 +4,8 @@
 #ifndef OPENE2140_GUIVIEW_H
 #define OPENE2140_GUIVIEW_H
 
-#include "math/rectangle.h"
-#include "core/common.h"
+#include "engine/math/rectangle.h"
+#include "engine/core/common.h"
 
 /**
  * Basic element for composing GUI

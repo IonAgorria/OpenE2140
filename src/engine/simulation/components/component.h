@@ -4,8 +4,8 @@
 #ifndef OPENE2140_COMPONENT_H
 #define OPENE2140_COMPONENT_H
 
-#include "core/to_string.h"
-#include "core/common.h"
+#include "engine/core/to_string.h"
+#include "engine/core/common.h"
 
 /**
  * This macro passes each component methods to provided macro

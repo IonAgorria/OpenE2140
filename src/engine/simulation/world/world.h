@@ -4,8 +4,8 @@
 #ifndef OPENE2140_WORLD_H
 #define OPENE2140_WORLD_H
 
-#include "core/common.h"
-#include "math/rectangle.h"
+#include "engine/core/common.h"
+#include "engine/math/rectangle.h"
 #include "tile.h"
 
 class Renderer;

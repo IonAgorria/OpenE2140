@@ -6,8 +6,8 @@
 
 #include <map>
 #include <optional>
-#include "core/common.h"
-#include "math/vector2.h"
+#include "engine/core/common.h"
+#include "engine/math/vector2.h"
 #include "astar.h"
 
 class Tile;

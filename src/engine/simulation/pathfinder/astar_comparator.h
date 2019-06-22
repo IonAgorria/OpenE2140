@@ -5,7 +5,7 @@
 #define OPENE2140_ASTAR_COMPARATOR_H
 
 class AStar;
-class PathVertex;
+struct PathVertex;
 
 /**
  * Custom priority queue comparator

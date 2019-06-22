@@ -5,10 +5,10 @@
 #define OPENE2140_ENTITY_H
 
 #include "components/component.h"
-#include "core/common.h"
-#include "core/to_string.h"
-#include "math/rectangle.h"
-#include "graphics/image.h"
+#include "engine/core/common.h"
+#include "engine/core/to_string.h"
+#include "engine/math/rectangle.h"
+#include "engine/graphics/image.h"
 
 class Tile;
 class Simulation;

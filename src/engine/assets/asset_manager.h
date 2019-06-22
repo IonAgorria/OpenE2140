@@ -6,10 +6,10 @@
 
 #include <map>
 #include <list>
-#include "core/error_possible.h"
-#include "core/utils.h"
-#include "math/vector2.h"
-#include "io/log.h"
+#include "engine/core/error_possible.h"
+#include "engine/core/utils.h"
+#include "engine/math/vector2.h"
+#include "engine/io/log.h"
 
 /**
  * Handles the loading of different assets

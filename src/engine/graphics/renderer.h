@@ -5,9 +5,9 @@
 #define OPENE2140_RENDERER_H
 
 #include <glm/matrix.hpp>
-#include "core/macros.h"
-#include "core/error_possible.h"
-#include "io/log.h"
+#include "engine/core/macros.h"
+#include "engine/core/error_possible.h"
+#include "src/engine/io/log.h"
 #include "image.h"
 
 #define MAX_BATCH_VERTICES 10240

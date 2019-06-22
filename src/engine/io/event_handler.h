@@ -4,8 +4,8 @@
 #ifndef OPENE2140_EVENTHANDLER_H
 #define OPENE2140_EVENTHANDLER_H
 
-#include "core/common.h"
-#include "io/log.h"
+#include "engine/core/common.h"
+#include "engine/io/log.h"
 #include "event_dispatcher.h"
 
 class Engine;

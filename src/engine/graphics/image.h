@@ -4,9 +4,9 @@
 #ifndef OPENE2140_IMAGE_H
 #define OPENE2140_IMAGE_H
 
-#include "core/common.h"
-#include "core/error_possible.h"
-#include "math/rectangle.h"
+#include "engine/core/common.h"
+#include "engine/core/error_possible.h"
+#include "engine/math/rectangle.h"
 
 /**
  * Image instance used for window drawing in abstract way

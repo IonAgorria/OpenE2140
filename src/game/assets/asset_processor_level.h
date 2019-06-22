@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSET_PROCESSOR_LEVEL_H
 #define OPENE2140_ASSET_PROCESSOR_LEVEL_H
 
-#include "assets/asset_processor.h"
+#include "engine/assets/asset_processor.h"
 
 /**
  * Decodes the level assets

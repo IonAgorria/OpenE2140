@@ -1,8 +1,8 @@
 //
 // Created by Ion Agorria on 2018/06/03
 //
-#include "core/utils.h"
-#include "simulation/simulation.h"
+#include "engine/core/utils.h"
+#include "engine/simulation/simulation.h"
 #include "entity.h"
 
 Entity::Entity() {

@@ -4,8 +4,8 @@
 #ifndef OPENE2140_WORLD_PROTOTYPES_H
 #define OPENE2140_WORLD_PROTOTYPES_H
 
-#include "math/vector2.h"
-#include "core/common.h"
+#include "engine/math/vector2.h"
+#include "engine/core/common.h"
 
 /**
  * Stores each initial tile data in the world

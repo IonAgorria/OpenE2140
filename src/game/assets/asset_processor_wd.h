@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSET_PROCESSOR_WD_H
 #define OPENE2140_ASSET_PROCESSOR_WD_H
 
-#include "assets/asset_processor.h"
+#include "engine/assets/asset_processor.h"
 
 /**
  * Handles the reading of WD archives into readable assets

@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSETPALETTE_H
 #define OPENE2140_ASSETPALETTE_H
 
-#include "graphics/palette.h"
+#include "engine/graphics/palette.h"
 #include "asset.h"
 
 /** Palette color count */

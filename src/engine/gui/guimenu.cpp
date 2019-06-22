@@ -2,7 +2,7 @@
 // Created by Ion Agorria on 11/05/19
 //
 
-#include "core/engine.h"
+#include "engine/core/engine.h"
 #include "guimenu.h"
 
 GUIMenu::GUIMenu(std::shared_ptr<Engine> engine): engine(engine) {

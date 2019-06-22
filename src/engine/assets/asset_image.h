@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSETIMAGE_H
 #define OPENE2140_ASSETIMAGE_H
 
-#include "math/vector2.h"
+#include "engine/math/vector2.h"
 #include "asset.h"
 
 /**

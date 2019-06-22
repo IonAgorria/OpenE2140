@@ -2,11 +2,11 @@
 // Created by Ion Agorria on 28/04/19
 //
 
+#include "engine/graphics/renderer.h"
+#include "engine/math/vector2.h"
 #include "game/core/constants.h"
 #include "game/core/game.h"
 #include "event_listener_camera.h"
-#include "graphics/renderer.h"
-#include "math/vector2.h"
 
 EventListenerCamera::EventListenerCamera(std::shared_ptr<Game> game): game(game) {
     keyUp = game->getKeyBind("W");

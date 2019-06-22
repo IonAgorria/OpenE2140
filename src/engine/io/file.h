@@ -4,9 +4,9 @@
 #ifndef OPENE2140_FILE_H
 #define OPENE2140_FILE_H
 
-#include "core/common.h"
-#include "core/error_possible.h"
-#include "SDL_rwops.h"
+#include <engine/core/common.h>
+#include <engine/core/error_possible.h>
+#include <SDL_rwops.h>
 
 /**
  * Implements simple file I/O abstraction using real files or memory

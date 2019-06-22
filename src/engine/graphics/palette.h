@@ -5,8 +5,8 @@
 #define OPENE2140_PALETTE_H
 
 #include <unordered_map>
-#include "core/common.h"
-#include "core/error_possible.h"
+#include "engine/core/common.h"
+#include "engine/core/error_possible.h"
 #include "color.h"
 
 /**

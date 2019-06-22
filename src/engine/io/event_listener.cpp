@@ -2,7 +2,7 @@
 // Created by Ion Agorria on 28/04/19
 //
 
-#include "graphics/window.h"
+#include "engine/graphics/window.h"
 #include "event_listener.h"
 
 bool IEventListener::update() {

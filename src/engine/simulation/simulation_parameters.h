@@ -4,7 +4,7 @@
 #ifndef OPENE2140_SIMULATION_PARAMETERS_H
 #define OPENE2140_SIMULATION_PARAMETERS_H
 
-#include "core/common.h"
+#include "engine/core/common.h"
 
 /**
  * Basic simulation startup parameters

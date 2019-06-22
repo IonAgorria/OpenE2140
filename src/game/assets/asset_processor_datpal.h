@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ASSET_PROCESSOR_DATPAL_H
 #define OPENE2140_ASSET_PROCESSOR_DATPAL_H
 
-#include "assets/asset_processor.h"
+#include "engine/assets/asset_processor.h"
 
 /**
  * Handles the processing of .PAL/.DAT assets for standalone image assets

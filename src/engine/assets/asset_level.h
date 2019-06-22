@@ -4,9 +4,9 @@
 #ifndef OPENE2140_ASSET_LEVEL_H
 #define OPENE2140_ASSET_LEVEL_H
 
-#include "src/engine/simulation/world_prototypes.h"
+#include "engine/simulation/world/world_prototypes.h"
+#include "engine/math/rectangle.h"
 #include "asset.h"
-#include "math/rectangle.h"
 
 /**
  * World information asset

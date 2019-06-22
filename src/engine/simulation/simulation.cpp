@@ -3,15 +3,15 @@
 //
 
 #include "engine/core/utils.h"
-#include "core/engine.h"
-#include "graphics/renderer.h"
+#include "engine/core/engine.h"
+#include "engine/graphics/renderer.h"
 #include "entity.h"
-#include "src/engine/simulation/world/world.h"
-#include "assets/asset.h"
-#include "assets/asset_level.h"
-#include "assets/asset_manager.h"
+#include "engine/simulation/world/world.h"
+#include "engine/assets/asset.h"
+#include "engine/assets/asset_level.h"
+#include "engine/assets/asset_manager.h"
 #include "simulation.h"
-//#include "pathfinder/pathfinder.h"
+#include "pathfinder/path_handler.h"
 
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {

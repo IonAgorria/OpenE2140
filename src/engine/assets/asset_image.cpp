@@ -1,10 +1,10 @@
 //
 // Created by Ion Agorria on 21/04/18
 //
-#include "core/utils.h"
-#include "graphics/image.h"
+#include "engine/core/utils.h"
+#include "engine/graphics/image.h"
+#include "engine/graphics/color.h"
 #include "asset_palette.h"
-#include "graphics/color.h"
 #include "asset_image.h"
 
 AssetImage::AssetImage(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize,

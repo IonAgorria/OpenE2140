@@ -10,7 +10,7 @@
 #include <csignal>
 #include <list>
 #include "common.h"
-#include "io/log.h"
+#include "engine/io/log.h"
 
 #define DIALOG_MAX_WIDTH 150
 

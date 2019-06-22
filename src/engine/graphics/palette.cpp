@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 29/04/18
 //
-#include "core/utils.h"
+#include "engine/core/utils.h"
 #include "palette.h"
 
 Palette::Palette(unsigned int size, bool extra): extra(extra) {

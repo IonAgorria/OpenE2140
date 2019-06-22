@@ -104,7 +104,6 @@ opene2140_incs = include_directories(
     '.',
     #Source headers
     'src',
-    'src/engine',
     #Lib headers
     'lib/spdlog/include',
     'lib/cnl/include',

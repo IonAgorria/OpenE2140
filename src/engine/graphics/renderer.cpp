@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "core/utils.h"
+#include "engine/core/utils.h"
 #include "palette.h"
 #include "renderer.h"
 #include "renderer_shaders.h"

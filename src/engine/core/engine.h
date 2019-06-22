@@ -5,10 +5,10 @@
 #define OPENE2140_ENGINE_H
 
 #include "engine/core/common.h"
-#include "simulation/simulation_parameters.h"
+#include "engine/simulation/simulation_parameters.h"
 #include "engine/core/error_possible.h"
-#include "io/log.h"
-#include "math/vector2.h"
+#include "engine/io/log.h"
+#include "engine/math/vector2.h"
 
 //Forward declarations
 class AssetManager;

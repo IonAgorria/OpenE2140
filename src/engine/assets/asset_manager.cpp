@@ -1,13 +1,13 @@
 //
 // Created by Ion Agorria on 8/04/18
 //
-#include "core/common.h"
-#include "core/utils.h"
-#include "io/log.h"
+#include "engine/core/common.h"
+#include "engine/core/utils.h"
+#include "engine/io/log.h"
 #include "asset_palette.h"
 #include "asset_image.h"
-#include "graphics/renderer.h"
-#include "src/engine/core/engine.h"
+#include "engine/graphics/renderer.h"
+#include "engine/core/engine.h"
 #include "asset_manager.h"
 #include "asset_processor.h"
 

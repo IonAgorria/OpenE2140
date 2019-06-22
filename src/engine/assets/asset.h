@@ -4,9 +4,9 @@
 #ifndef OPENE2140_ASSET_H
 #define OPENE2140_ASSET_H
 
-#include "core/common.h"
-#include "core/error_possible.h"
-#include "core/to_string.h"
+#include "engine/core/common.h"
+#include "engine/core/error_possible.h"
+#include "engine/core/to_string.h"
 
 /**
  * Base asset containing any data for game

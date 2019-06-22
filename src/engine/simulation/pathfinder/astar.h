@@ -7,8 +7,8 @@
 #include <unordered_map>
 #include <memory>
 
-#include "core/common.h"
-#include "core/priority_queue.h"
+#include "engine/core/common.h"
+#include "engine/core/priority_queue.h"
 #include "path_state.h"
 #include "path_vertex.h"
 #include "astar_comparator.h"

@@ -2,9 +2,9 @@
 // Created by Ion Agorria on 22/03/18
 //
 #include <SDL_events.h>
-#include "core/common.h"
-#include "core/utils.h"
-#include "io/log.h"
+#include "engine/core/common.h"
+#include "engine/core/utils.h"
+#include "engine/io/log.h"
 #include "window.h"
 
 Window::Window() {

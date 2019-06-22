@@ -3,11 +3,11 @@
 //
 
 #include <forward_list>
-#include "io/file.h"
-#include "assets/asset_manager.h"
-#include "assets/asset.h"
-#include "assets/asset_palette.h"
-#include "assets/asset_image.h"
+#include "engine/io/file.h"
+#include "engine/assets/asset_manager.h"
+#include "engine/assets/asset.h"
+#include "engine/assets/asset_palette.h"
+#include "engine/assets/asset_image.h"
 #include "asset_processor_datpal.h"
 
 void AssetProcessorDatPal::processIntermediates() {

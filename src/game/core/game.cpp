@@ -6,7 +6,7 @@
 #include "engine/graphics/palette.h"
 #include "engine/graphics/renderer.h"
 #include "engine/graphics/window.h"
-#include "src/engine/io/event_handler.h"
+#include "engine/io/event_handler.h"
 #include "engine/simulation/simulation.h"
 #include "engine/core/utils.h"
 #include "game/assets/asset_processor_wd.h"

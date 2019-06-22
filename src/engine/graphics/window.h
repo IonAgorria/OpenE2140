@@ -6,10 +6,10 @@
 
 #include <SDL_video.h>
 #include <SDL_render.h>
-#include "core/common.h"
-#include "core/error_possible.h"
-#include "io/log.h"
-#include "math/vector2.h"
+#include "engine/core/common.h"
+#include "engine/core/error_possible.h"
+#include "engine/io/log.h"
+#include "engine/math/vector2.h"
 
 /**
  * Window class, each one contains a handle for a window.

@@ -4,7 +4,7 @@
 #ifndef OPENE2140_TILE_H
 #define OPENE2140_TILE_H
 
-#include "core/common.h"
+#include "engine/core/common.h"
 #include "world_prototypes.h"
 
 class Entity;

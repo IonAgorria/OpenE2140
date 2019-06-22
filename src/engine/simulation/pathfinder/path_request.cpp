@@ -1,10 +1,10 @@
 //
 // Created by Ion Agorria on 14/06/19
 //
-#include "simulation/simulation.h"
-#include "simulation/world.h"
-#include "simulation/entity.h"
-#include "simulation/tile.h"
+#include "engine/simulation/simulation.h"
+#include "engine/simulation/world/world.h"
+#include "engine/simulation/entity.h"
+#include "engine/simulation/world/tile.h"
 #include "path_request.h"
 
 PathRequest::PathRequest() {

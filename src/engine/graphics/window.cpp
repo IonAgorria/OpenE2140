@@ -9,7 +9,7 @@
 
 Window::Window() {
     log = Log::get("Window");
-    size = Vector2(DEFAULT_RESOLUTION_WIDTH, DEFAULT_RESOLUTION_HEIGHT);
+    size = Vector2(WINDOW_DEFAULT_RESOLUTION);
 
     //Create window
     log->debug("Creating window");

@@ -12,8 +12,8 @@
 //Includes
 #include "macros.h"
 #include "types.h"
-#include "config.h"
-#include "config_placeholder.h"
+#include "build_config.h"
+#include "build_config_placeholder.h"
 
 //Includes for common stuff
 #include <memory>
@@ -27,6 +27,14 @@
 #define GAME_TITLE GAME_NAME " " GAME_VERSION
 /** Game main log tag for global use when required */
 #define MAIN_LOG "Main"
+/** File to dump when crashing */
+#define GAME_DUMP_FILE "dump.bin"
+/** File to store log output */
+#define GAME_LOG_FILE "log.txt"
+/** Default window resolution */
+#define WINDOW_DEFAULT_RESOLUTION 1024, 768
+/** Directory name containing assets */
+#define GAME_ASSETS_DIR "assets"
 /** Minimum texture size (texture packer fails under this) */
 #define MINIMUM_TEXTURE_SIZE 512
 /** Texture unit for palette image texture */

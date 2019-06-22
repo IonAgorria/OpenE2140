@@ -36,15 +36,10 @@ endif
 
 #Create configuration
 opene2140_cfg = configuration_data()
-opene2140_cfg.set('OPENE2140_CONFIG_PLACEHOLDER_H', '"OpenE2140"', description: 'Disables placeholder config')
+opene2140_cfg.set('OPENE2140_BUILD_CONFIG_PLACEHOLDER_H', '"OpenE2140"', description: 'Disables placeholder build config')
 opene2140_cfg.set('GAME_NAME', '"OpenE2140"', description: 'Engine name')
 opene2140_cfg.set('GAME_VERSION_MAJOR', 0, description: 'Engine version major digit')
 opene2140_cfg.set('GAME_VERSION_MINOR', 3, description: 'Engine version minor digit')
-opene2140_cfg.set('GAME_DUMP_FILE', '"dump.bin"', description: 'File to dump when crashing')
-opene2140_cfg.set('GAME_LOG_FILE', '"log.txt"', description: 'File to store log output')
-opene2140_cfg.set('DEFAULT_RESOLUTION_WIDTH', 800, description: 'Default resolution width')
-opene2140_cfg.set('DEFAULT_RESOLUTION_HEIGHT', 600, description: 'Default resolution height')
-opene2140_cfg.set('GAME_ASSETS_DIR', '"assets"', description: 'Directory name containing assets')
 
 #Variable config
 opene2140_cfg.set('OPENE2140_USE_BOOST', boost_dep.found() ? 'true' : 'false', description: 'Enables the use of Boost library')
@@ -52,7 +47,7 @@ opene2140_cfg.set('OPENE2140_IS_MACOS', opene2140_is_macos ? 'true' : 'false', d
 opene2140_cfg.set('OPENE2140_IS_WINDOWS', opene2140_is_windows ? 'true' : 'false', description: 'True if being building on windows')
 
 #Save the config to header file
-configure_file(output: 'config.h', configuration: opene2140_cfg)
+configure_file(output: 'build_config.h', configuration: opene2140_cfg)
 
 #Set source files
 opene2140_src = [

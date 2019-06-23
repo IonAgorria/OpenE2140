@@ -38,13 +38,13 @@
 /**
  * Assigns provided components to Base and creates a new class
  */
-template<typename Base, typename ... Components>
+template<typename Base, typename Derived, typename ... Components>
 class ComponentBinder: public Base, public Components... {
 public:
     /**
      * Constructor that calls base and each component with pointer to this class
      */
-    ComponentBinder(): Base(), Components(static_cast<Base*>(this))... {};
+    ComponentBinder(): Base(), Components(static_cast<Derived*>(this))... {};
 
     /*
      * Mass forward methods
@@ -54,6 +54,10 @@ public:
 
 /**
  * Macro for base component class definition
+ *
+ * T_BASE is the class type that will specify this component base pointer
+ * If the class this component is attached to is not convertible to T_BASE a compilation error will occur due to static casting
+ * T_COMPONENT name of this component type
  */
 #define CLASS_COMPONENT(T_BASE, T_COMPONENT) \
 class T_COMPONENT { \

@@ -140,9 +140,12 @@ public:
 
 /**
  * Macro for common entity class definition with provided components
+ *
+ * T_ENTITY specifies the class type name
+ * The rest of args are the component classes to be attached into this class
  */
 #define CLASS_ENTITY(T_ENTITY, ...) \
-class T_ENTITY: public ComponentBinder<Entity, ##__VA_ARGS__> { \
+class T_ENTITY: public ComponentBinder<Entity, T_ENTITY, ##__VA_ARGS__> { \
 public: \
     /** Update type name */ \
     TYPE_NAME_OVERRIDE(T_ENTITY)

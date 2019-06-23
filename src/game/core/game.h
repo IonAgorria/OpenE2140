@@ -23,7 +23,7 @@ protected:
      * Sets a tile as reactor crate
      * TODO move this to some world or powerplant specific class
      */
-    void Game::setReactorCrate(Tile& tile);
+    void setReactorCrate(Tile& tile);
 };
 
 #endif //OPENE2140_GAME_H

@@ -102,6 +102,11 @@ public:
      */
     void removeEntity(std::shared_ptr<Entity> entity);
 
+    /**
+     * @return current renderer
+     */
+    Renderer* getRenderer();
+
     /*
      * AssetManager proxy
      */

@@ -33,13 +33,19 @@ const Rectangle& Entity::getBounds() {
     return bounds;
 }
 
+Simulation* Entity::getSimulation() {
+    return simulation;
+}
+
 void Entity::addedToSimulation(Simulation* sim) {
     simulation = sim;
     id = simulation->nextEntityID();
+    active = true;
     componentsSimulationChanged();
 }
 
 void Entity::removedFromSimulation() {
+    active = false;
     componentsSimulationChanged();
     simulation = nullptr;
     id = 0;
@@ -49,11 +55,12 @@ void Entity::update() {
     componentsUpdate();
 }
 
-void Entity::draw(Renderer* renderer) {
+void Entity::draw() {
+    componentsDraw();
 }
 
-bool Entity::active() {
-    return id != 0 && simulation != nullptr;
+bool Entity::isActive() {
+    return active;
 }
 
 Tile* Entity::getTile() {

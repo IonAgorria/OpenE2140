@@ -51,9 +51,9 @@ protected:
     std::vector<Tile*> tiles;
 
     /**
-     * Images used by this entity
+     * Flag for active state
      */
-    std::vector<std::shared_ptr<Image>> images;
+    bool active;
 
     /**
      * Add components method forwarding so extended entities can override them
@@ -91,6 +91,11 @@ public:
     const Rectangle& getBounds();
 
     /**
+     * @return entity simulation if any
+     */
+    Simulation* getSimulation();
+
+    /**
      * Called when entity is added to simulation
      */
     void addedToSimulation(Simulation* simulation);
@@ -107,15 +112,13 @@ public:
 
     /**
      * Called when this entity is requested to draw
-     *
-     * @param renderer to use for drawing
      */
-    void draw(Renderer* renderer);
+    void draw();
 
     /**
      * @return true if entity is considered active (has ID and is inside simulation)
      */
-    bool active();
+    bool isActive();
 
     /**
      * In case of none this method will return null
@@ -145,7 +148,7 @@ public:
  * The rest of args are the component classes to be attached into this class
  */
 #define CLASS_ENTITY(T_ENTITY, ...) \
-class T_ENTITY: public ComponentBinder<Entity, T_ENTITY, ##__VA_ARGS__> { \
+class T_ENTITY: public ComponentBinder<Entity, T_ENTITY ,##__VA_ARGS__> { \
 public: \
     /** Update type name */ \
     TYPE_NAME_OVERRIDE(T_ENTITY)

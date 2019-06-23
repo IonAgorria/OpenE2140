@@ -77,7 +77,7 @@ void PathRequest::update() {
     //If it has a target attempt to get the tile to handle any possible changes
     if (target) {
         bool valid = false;
-        if (target->active()) {
+        if (target->isActive()) {
             Tile* tile = target->getTile();
             if (tile) {
                 setDestination(tile);

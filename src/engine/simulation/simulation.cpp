@@ -93,7 +93,7 @@ void Simulation::draw(const Rectangle& rectangle) {
     for (std::shared_ptr<Entity>& entity : entities) {
         const Rectangle& bounds = entity->getBounds();
         if (rectangle.isOverlap(bounds)) {
-            entity->draw(renderer);
+            entity->draw();
         }
     }
 }
@@ -119,6 +119,10 @@ void Simulation::addEntity(std::shared_ptr<Entity> entity) {
 void Simulation::removeEntity(std::shared_ptr<Entity> entity) {
     Utils::eraseElementFromVector(entities, entity);
     entity->removedFromSimulation();
+}
+
+Renderer* Simulation::getRenderer() {
+    return engine->getRenderer();
 }
 
 std::shared_ptr<Image> Simulation::getImage(const asset_path_t& path) {

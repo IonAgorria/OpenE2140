@@ -29,7 +29,7 @@ private:
     /**
      * Game which assets belong to
      */
-    std::shared_ptr<Engine> game;
+    std::shared_ptr<Engine> engine;
 
     /**
      * Asset processors
@@ -68,7 +68,7 @@ public:
     /**
      * Constructs loader
      */
-    AssetManager(std::shared_ptr<Engine> game);
+    AssetManager(std::shared_ptr<Engine> engine);
 
     /**
      * Destructs loader and cleans any loaded assets

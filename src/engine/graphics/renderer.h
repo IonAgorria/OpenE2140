@@ -7,7 +7,7 @@
 #include <glm/matrix.hpp>
 #include "engine/core/macros.h"
 #include "engine/core/error_possible.h"
-#include "src/engine/io/log.h"
+#include "engine/io/log.h"
 #include "image.h"
 
 #define MAX_BATCH_VERTICES 10240

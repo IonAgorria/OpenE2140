@@ -7,7 +7,7 @@
 #include "engine/graphics/renderer.h"
 #include "engine/graphics/palette.h"
 #include "engine/simulation/simulation.h"
-#include "engine/simulation/entity.h"
+#include "engine/simulation/entities/entity.h"
 #include "engine/simulation/components/component.h"
 
 class Image;

@@ -4,7 +4,7 @@
 #ifndef OPENE2140_PLAYER_COMPONENT_H
 #define OPENE2140_PLAYER_COMPONENT_H
 
-#include "src/engine/simulation/components/component.h"
+#include "engine/simulation/components/component.h"
 
 class Entity;
 class Player;

@@ -75,7 +75,7 @@ opene2140_src = [
     'src/engine/assets/asset_palette.cpp',
     'src/engine/assets/asset_level.cpp',
     'src/engine/simulation/simulation.cpp',
-    'src/engine/simulation/entity.cpp',
+    'src/engine/simulation/entities/entity.cpp',
     'src/engine/simulation/world/tile.cpp',
     'src/engine/simulation/world/world.cpp',
     'src/engine/simulation/pathfinder/path_handler.cpp',

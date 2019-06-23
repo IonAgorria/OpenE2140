@@ -4,8 +4,8 @@
 #ifndef OPENE2140_EVENT_LISTENER_CAMERA_H
 #define OPENE2140_EVENT_LISTENER_CAMERA_H
 
-#include <src/engine/core/common.h>
-#include <src/engine/io/event_handler.h>
+#include "engine/core/common.h"
+#include "engine/io/event_handler.h"
 #include "engine/io/event_listener.h"
 
 class Game;

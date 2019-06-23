@@ -5,7 +5,7 @@
 #include "engine/core/utils.h"
 #include "engine/core/engine.h"
 #include "engine/graphics/renderer.h"
-#include "entity.h"
+#include "engine/simulation/entities/entity.h"
 #include "engine/simulation/world/world.h"
 #include "engine/assets/asset.h"
 #include "engine/assets/asset_level.h"

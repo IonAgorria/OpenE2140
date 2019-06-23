@@ -1,8 +1,8 @@
 //
 // Created by Ion Agorria on 21/04/19
 //
-#ifndef OPENE2140_IASSETPROCESSOR_H
-#define OPENE2140_IASSETPROCESSOR_H
+#ifndef OPENE2140_ASSET_PROCESSOR_H
+#define OPENE2140_ASSET_PROCESSOR_H
 
 #include "engine/core/error_possible.h"
 
@@ -52,4 +52,4 @@ public:
     virtual void processIntermediates();
 };
 
-#endif //OPENE2140_IASSETPROCESSOR_H
+#endif //OPENE2140_ASSET_PROCESSOR_H

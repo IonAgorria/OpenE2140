@@ -16,7 +16,7 @@
 //#define STBRP_LARGE_RECTS
 #include "stb_rect_pack.h"
 
-AssetManager::AssetManager(std::shared_ptr<Engine> game): game(game) {
+AssetManager::AssetManager(std::shared_ptr<Engine> engine): engine(engine) {
     log = Log::get("Assets");
 }
 
@@ -174,7 +174,7 @@ void AssetManager::processIntermediates() {
 }
 
 void AssetManager::refreshAssets() {
-    Renderer* renderer = game->getRenderer();
+    Renderer* renderer = engine->getRenderer();
     if (!renderer) {
         error = "Renderer is not available";
         return;

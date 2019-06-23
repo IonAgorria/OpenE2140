@@ -5,7 +5,7 @@
 #define OPENE2140_SIMULATION_H
 
 #include "engine/core/common.h"
-#include "entity.h"
+#include "engine/simulation/entities/entity.h"
 #include "simulation_parameters.h"
 #include "engine/assets/asset_manager.h"
 #include "engine/io/log.h"

@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ENTITY_H
 #define OPENE2140_ENTITY_H
 
-#include "components/component.h"
+#include "engine/simulation/components/component.h"
 #include "engine/core/common.h"
 #include "engine/core/to_string.h"
 #include "engine/math/rectangle.h"

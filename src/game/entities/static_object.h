@@ -6,7 +6,7 @@
 
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/image_component.h"
-#include "engine/simulation/entity.h"
+#include "engine/simulation/entities/entity.h"
 
 /**
  * Static object with simple image

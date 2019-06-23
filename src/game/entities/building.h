@@ -7,7 +7,7 @@
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/player_component.h"
 #include "game/components/player_palette_component.h"
-#include "engine/simulation/entity.h"
+#include "engine/simulation/entities/entity.h"
 
 /**
  * Building entity

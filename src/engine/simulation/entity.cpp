@@ -39,6 +39,7 @@ Simulation* Entity::getSimulation() {
 
 void Entity::addedToSimulation(Simulation* sim) {
     simulation = sim;
+    renderer = simulation->getRenderer();
     id = simulation->nextEntityID();
     active = true;
     componentsSimulationChanged();
@@ -47,6 +48,7 @@ void Entity::addedToSimulation(Simulation* sim) {
 void Entity::removedFromSimulation() {
     active = false;
     componentsSimulationChanged();
+    renderer = nullptr;
     simulation = nullptr;
     id = 0;
 }
@@ -56,7 +58,6 @@ void Entity::update() {
 }
 
 void Entity::draw() {
-    componentsDraw();
 }
 
 bool Entity::isActive() {

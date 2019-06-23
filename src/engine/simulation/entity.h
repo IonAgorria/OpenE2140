@@ -36,6 +36,11 @@ protected:
     Simulation* simulation;
 
     /**
+     * Renderer to use when drawing this entity
+     */
+    Renderer* renderer;
+
+    /**
      * Entity center position
      */
     Vector2 position;
@@ -113,7 +118,7 @@ public:
     /**
      * Called when this entity is requested to draw
      */
-    void draw();
+    virtual void draw();
 
     /**
      * @return true if entity is considered active (has ID and is inside simulation)

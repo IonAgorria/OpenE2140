@@ -13,6 +13,9 @@ using byte_array_t = byte_t[];
 /** Asset path */
 using asset_path_t = std::string;
 
+/** Number type */
+using number_t = float; //TODO change this to fixed point
+
 /** Window ID */
 using window_id_t = uint32_t;
 

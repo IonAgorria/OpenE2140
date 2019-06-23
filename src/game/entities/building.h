@@ -6,16 +6,20 @@
 
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/player_component.h"
-#include "engine/simulation/components/image_component.h"
-#include "game/components/building_component.h"
+#include "game/components/player_palette_component.h"
 #include "engine/simulation/entity.h"
 
 /**
- * Adds player data to entity and handles palette changes
+ * Building entity
  */
-CLASS_ENTITY(Building, PlayerComponent, ImageComponent, BuildingComponent)
+CLASS_ENTITY(Entity, Building,
+        PlayerComponent,
+        PlayerPaletteComponent<Building>
+)
 public:
     Building();
+
+    void draw() override;
 };
 
 #endif //OPENE2140_BUILDING_H

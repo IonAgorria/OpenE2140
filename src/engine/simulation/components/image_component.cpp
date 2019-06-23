@@ -12,5 +12,10 @@ void ImageComponent::simulationChanged() {
 void ImageComponent::update() {
 }
 
-void ImageComponent::draw() {
+void ImageComponent::draw(Renderer* renderer) {
+    if (image) {
+        Vector2 position = base->getPosition();
+        position += imageOffset;
+        renderer->draw(position, imageSize, imageDirection, *image, nullptr);
+    }
 }

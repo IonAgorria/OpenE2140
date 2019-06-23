@@ -3,17 +3,8 @@
 //
 #include "building.h"
 
-Building::Building() {
+Building::Building() {;
 }
 
-/*
- *
-
-    //Load player color
-    PlayerComponent* playerComponent = castBase<PlayerComponent>();
-    if (playerComponent) {
-    Player* player = playerComponent->getPlayer();
-    if (player) {
-
-    }
- */
+void Building::draw() {
+}

@@ -12,7 +12,6 @@
  */
 #define COMPONENT_METHODS(MACRO_METHOD) \
     MACRO_METHOD(componentsUpdate, update) \
-    MACRO_METHOD(componentsDraw, draw) \
     MACRO_METHOD(componentsSimulationChanged, simulationChanged)
 
 /**
@@ -53,7 +52,28 @@ public:
 };
 
 /**
- * Macro for base component class definition
+ * Macro for component body definition without component methods or class
+ *
+ * T_BASE is the class type that will specify this component base pointer
+ * If the class this component is attached to is not convertible to T_BASE a compilation error will occur due to static casting
+ * T_COMPONENT name of this component type
+ */
+#define CLASS_COMPONENT_BODY(T_BASE, T_COMPONENT) \
+protected: \
+    /** Internal pointer to itself with base type */ \
+    T_BASE* base; \
+public: \
+    /** Constructs the component and receives pointer to base which belongs to */ \
+    T_COMPONENT(T_BASE* base): base(base) { construction(); }; \
+    /** Set type name */ \
+    TYPE_NAME(T_COMPONENT) \
+    /** Disable copy and move */ \
+    NON_COPYABLE_NOR_MOVABLE(T_COMPONENT) \
+    /** Attempts to cast base dynamically */ \
+    template<typename T> T* castBase() { return dynamic_cast<T*>(base); };
+
+/**
+ * Macro for component class definition with component methods
  *
  * T_BASE is the class type that will specify this component base pointer
  * If the class this component is attached to is not convertible to T_BASE a compilation error will occur due to static casting
@@ -61,27 +81,16 @@ public:
  */
 #define CLASS_COMPONENT(T_BASE, T_COMPONENT) \
 class T_COMPONENT { \
-protected: \
-    /** Internal pointer to itself with base type */ \
-    T_BASE* base; \
-public: \
-    /** Constructs the component and receives pointer to base which belongs to */ \
-    T_COMPONENT(T_BASE* base): base(base) { construction(); }; \
-    /** Destructor */ \
-    virtual ~T_COMPONENT(); \
-    /** Set type name */ \
-    TYPE_NAME(T_COMPONENT) \
-    /** Disable copy and move */ \
-    NON_COPYABLE_NOR_MOVABLE(T_COMPONENT) \
-    /** Creates declarations of component methods */ \
-    COMPONENT_METHODS(COMPONENT_METHOD_DECLARATION) \
+    CLASS_COMPONENT_BODY(T_BASE, T_COMPONENT) \
     /** Called on construction */ \
     void construction(); \
-    /** Attempts to cast base dynamically */ \
-    template<typename T> T* castBase() { return dynamic_cast<T*>(base); };
+    /** Destructor */ \
+    virtual ~T_COMPONENT(); \
+    /** Creates declarations of component methods */ \
+    COMPONENT_METHODS(COMPONENT_METHOD_DECLARATION) \
 
 /**
- * Macro for base component class definition with empty constructor/destructor
+ * Macro for component class definition with empty constructor/destructor
  */
 #define CLASS_COMPONENT_DEFAULT(T_COMPONENT) \
     void T_COMPONENT::construction() {}; \

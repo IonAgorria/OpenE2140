@@ -8,6 +8,7 @@
 #include "engine/graphics/window.h"
 #include "engine/io/event_handler.h"
 #include "engine/simulation/simulation.h"
+#include "engine/simulation/world/tile.h"
 #include "engine/core/utils.h"
 #include "game/assets/asset_processor_wd.h"
 #include "game/assets/asset_processor_datpal.h"
@@ -78,4 +79,11 @@ void Game::run() {
         update();
         draw();
     }
+}
+
+void Game::setReactorCrate(Tile& tile) {
+    BIT_OFF(tile.tileFlags, TILE_FLAG_PASSABLE);
+    BIT_ON(tile.tileFlags, TILE_FLAG_IMMUTABLE);
+    tile.isImageDirty = true;
+    //TODO set damage type and destroy any entity inside
 }

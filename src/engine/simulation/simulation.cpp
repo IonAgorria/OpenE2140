@@ -86,7 +86,7 @@ void Simulation::update() {
 }
 
 void Simulation::draw(const Rectangle& rectangle) {
-    Renderer* renderer = engine->getRenderer();
+    Renderer* renderer = getRenderer();
     world->draw(renderer, rectangle);
 
     //Draw entities

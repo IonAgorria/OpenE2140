@@ -63,11 +63,6 @@ public:
      * Set data from prototype
      */
     void setPrototype(TilePrototype prototype);
-
-    /**
-     * Set tile as reactor crate
-     */
-     void setReactorCrate();
 };
 
 #endif //OPENE2140_TILE_H

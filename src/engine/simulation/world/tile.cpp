@@ -12,9 +12,3 @@ void Tile::setPrototype(TilePrototype prototype) {
     this->ore = prototype.ore;
 }
 
-void Tile::setReactorCrate() {
-    BIT_OFF(tileFlags, TILE_FLAG_PASSABLE);
-    BIT_ON(tileFlags, TILE_FLAG_IMMUTABLE);
-    isImageDirty = true;
-    //TODO set damage type and destroy any entity inside
-}

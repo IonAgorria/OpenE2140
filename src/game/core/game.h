@@ -6,6 +6,8 @@
 
 #include "engine/core/engine.h"
 
+class Tile;
+
 /**
  * Contain's game specific code
  */
@@ -16,6 +18,12 @@ protected:
     void setupEventHandler() override;
 
     void setupAssetManager() override;
+
+    /**
+     * Sets a tile as reactor crate
+     * TODO move this to some world or powerplant specific class
+     */
+    void Game::setReactorCrate(Tile& tile);
 };
 
 #endif //OPENE2140_GAME_H

@@ -236,7 +236,7 @@ void Renderer::initBuffers() {
     if (!error.empty()) return;
 }
 
-void Renderer::draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra) {
+void Renderer::prepare(const Image& image, const Palette* paletteExtra) {
     //Get palette
     std::shared_ptr<Palette> palette = image.getPalette();
 
@@ -282,6 +282,10 @@ void Renderer::draw(const float x, const float y, const float width, const float
             lastTextureImageRGBA = bindedTexture;
         }
     }
+}
+
+void Renderer::draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra) {
+    prepare(image, paletteExtra);
 
     //Increment the vertices count
     verticesCount++;
@@ -292,6 +296,51 @@ void Renderer::draw(const float x, const float y, const float width, const float
     //Size
     vertices[verticesIndex++] = width / 2.0f;
     vertices[verticesIndex++] = height / 2.0f;
+    //Angle
+    vertices[verticesIndex++] = angle;
+    //Texture UV
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v2;
+}
+
+void Renderer::draw(const Vector2& position, const Vector2& size, const float angle, const Image& image, const Palette* paletteExtra) {
+    prepare(image, paletteExtra);
+
+    //Increment the vertices count
+    verticesCount++;
+
+    //Position
+    vertices[verticesIndex++] = position.x;
+    vertices[verticesIndex++] = position.y;
+    //Size
+    vertices[verticesIndex++] = size.x / 2.0f;
+    vertices[verticesIndex++] = size.y / 2.0f;
+    //Angle
+    vertices[verticesIndex++] = angle;
+    //Texture UV
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v2;
+}
+
+void Renderer::draw(const Rectangle& rectangle, const float angle, const Image& image, const Palette* paletteExtra) {
+    prepare(image, paletteExtra);
+
+    //Increment the vertices count
+    verticesCount++;
+    //Get size
+    float w = rectangle.w / 2.0f;
+    float h = rectangle.h / 2.0f;
+
+    //Position
+    vertices[verticesIndex++] = rectangle.x + w;
+    vertices[verticesIndex++] = rectangle.y + h;
+    //Size
+    vertices[verticesIndex++] = w;
+    vertices[verticesIndex++] = h;
     //Angle
     vertices[verticesIndex++] = angle;
     //Texture UV

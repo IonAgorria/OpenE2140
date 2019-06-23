@@ -147,6 +147,14 @@ private:
      * Viewport rectangle
      */
     Rectangle viewport;
+
+    /**
+     * Prepares the internal states to draw the provided objects
+     *
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void prepare(const Image& image, const Palette* paletteExtra);
 public:
     /**
      * Constructs loader
@@ -203,6 +211,29 @@ public:
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
     void draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra);
+
+    /**
+     * Draws the provided data
+     *
+     * @param x position of drawn image
+     * @param y position of drawn image
+     * @param width size of drawn image
+     * @param height size of drawn image
+     * @param angle angle of drawn image
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void draw(const Vector2& position, const Vector2& size, const float angle, const Image& image, const Palette* paletteExtra);
+
+    /**
+     * Draws the provided data
+     *
+     * @param rectangle rectangle of drawn image
+     * @param angle angle of drawn image
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void draw(const Rectangle& rectangle, const float angle, const Image& image, const Palette* paletteExtra);
 
     /**
      * Create and load a OpenGL shader.

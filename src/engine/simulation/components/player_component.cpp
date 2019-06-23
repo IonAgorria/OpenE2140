@@ -11,6 +11,9 @@ void PlayerComponent::simulationChanged() {
 void PlayerComponent::update() {
 }
 
+void PlayerComponent::draw() {
+}
+
 Player* PlayerComponent::getPlayer() {
     return player;
 }

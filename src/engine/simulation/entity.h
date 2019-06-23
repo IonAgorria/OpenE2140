@@ -13,6 +13,7 @@
 class Tile;
 class Simulation;
 class Renderer;
+class EntityConfig;
 
 /**
  * Base entity in game, this is the common interface between world and entities
@@ -23,6 +24,11 @@ protected:
      * Unique ID for entity
      */
     entity_id_t id = 0;
+
+    /**
+     * This entity config such as type and stats
+     */
+    const EntityConfig* config;
 
     /**
      * Simulation which this entity belongs

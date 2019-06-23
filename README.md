@@ -8,13 +8,21 @@ that are not available in original game.
 
 NOTE: The project is still under heavy development and not much happens yet.
 
-## Libraries
+## Requirements and libraries
+For compiling:
+- Meson
+- C++17 capable compiler
+
 This project includes these libraries as git submodules or bundled:
 - spdlog (git submodule) - Adds log file and console handling and formatting
 - stb (git submodule) - Contains various libs
+- cnl (git submodule) - Fixed point library
+- json (git submodule) - JSON library for reading and writting JSON strings
 
 This project requires to have the following libraries installed:
 - LibSDL 2.0 - Handles graphics, input and basic filesystem
+- GLEW - Hadles the set up of OpenGL context
+- glm - Library containing utilies for OpenGL related operations
 
 This projects uses optional libraries to enhance some functionalities:
 - Boost 1.66 or newer - Allows to list directories and generate readable stacktraces in platform independent manner
@@ -84,5 +92,5 @@ The following game assets must be present in WD file or directory form:
 - Multiplayer
 
 ## Mentions
-- WD and DAT+PAL decoding is based on tools made in Pascal. Source and compiled exe available on http://www.ctpax-x.org/?goto=files&show=17
-- MIX files, levels, sprites and tiles decoding is based on work done by "mnn" on http://www.gamedev.net/topic/582821-sprite-formats-used-in-old-games/
+- WD and DAT+PAL decoding is based on tools made in Pascal. Source and compiled exe available at http://www.ctpax-x.org/?goto=files&show=17
+- MIX files, levels, sprites and tiles decoding is based on work done by "mnn" at http://www.gamedev.net/topic/582821-sprite-formats-used-in-old-games/

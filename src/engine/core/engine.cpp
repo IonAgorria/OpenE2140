@@ -10,6 +10,7 @@
 #include "engine/gui/guimenu.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/world/world.h"
+#include "engine/simulation/entities/entity_manager.h"
 #include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"
@@ -148,6 +149,13 @@ void Engine::run() {
     if (hasError()) {
         return;
     }
+
+    //Initialize entity manager
+    entityManager = std::make_unique<EntityManager>(this_ptr);
+    setupEntityManager();
+    if (hasError()) {
+        return;
+    }
 }
 
 void Engine::update() {
@@ -211,6 +219,9 @@ void Engine::setupAssetManager() {
     log->debug("Loaded {0} assets", assetManager->getAssetsCount());
 }
 
+void Engine::setupEntityManager() {
+}
+
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
     error = simulation->getError();
@@ -230,6 +241,10 @@ Renderer* Engine::getRenderer() {
 
 AssetManager* Engine::getAssetManager() {
     return assetManager.get();
+}
+
+EntityManager* Engine::getEntityManager() {
+    return entityManager.get();
 }
 
 Simulation* Engine::getSimulation() {

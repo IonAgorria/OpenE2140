@@ -12,6 +12,7 @@
 
 //Forward declarations
 class AssetManager;
+class EntityManager;
 class Window;
 class EventHandler;
 class Renderer;
@@ -53,6 +54,11 @@ protected:
      * Manager for asset fetching
      */
     std::unique_ptr<AssetManager> assetManager;
+
+    /**
+     * Manager for entity management
+     */
+    std::unique_ptr<EntityManager> entityManager;
 
     /**
      * Stores the simulation state
@@ -108,6 +114,11 @@ protected:
      * Called from engine to setup AssetManager
      */
     virtual void setupAssetManager();
+
+    /**
+     * Called from engine to setup EntityManager
+     */
+    virtual void setupEntityManager();
 
     /**
      * Called from engine to setup Simulation

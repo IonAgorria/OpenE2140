@@ -10,7 +10,7 @@ class EntityManager;
 /**
  * Processor for asset manager loading process
  */
-class IEntityManager: public IErrorPossible {
+class IEntityFactory: public IErrorPossible {
 protected:
     /**
      * Entity manager which this belongs to
@@ -21,12 +21,14 @@ public:
     /**
      * Destructor
      */
-    virtual ~IEntityManager() = default;
+    virtual ~IEntityFactory() = default;
 
     /**
      * Assigns the current manager
      */
-    void setManager(EntityManager* current);
+    void setManager(EntityManager* current) {
+        manager = current;
+    }
 };
 
 #endif //OPENE2140_ENTITY_FACTORY_H

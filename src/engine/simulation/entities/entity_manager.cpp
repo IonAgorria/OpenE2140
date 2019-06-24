@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 23/06/19
 //
 
+#include "entity_factory.h"
 #include "entity_manager.h"
 
 EntityManager::EntityManager(std::shared_ptr<Engine> engine): engine(engine) {
@@ -10,7 +11,6 @@ EntityManager::EntityManager(std::shared_ptr<Engine> engine): engine(engine) {
 
 EntityManager::~EntityManager() {
     log->debug("Closing");
-    clearAssets();
     factories.clear();
 }
 

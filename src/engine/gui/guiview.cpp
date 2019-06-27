@@ -30,7 +30,7 @@ std::unique_ptr<GUIView> GUIView::removeView(GUIView* view) {
             result->moved(nullptr);
         }
     }
-    return std::move(result);
+    return result;
 }
 
 void GUIView::removeViews() {

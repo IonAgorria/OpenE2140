@@ -182,6 +182,11 @@ public:
     AssetManager* getAssetManager();
 
     /**
+     * @return EntityManager
+     */
+    EntityManager* getEntityManager();
+
+    /**
      * @return Simulation
      */
     Simulation* getSimulation();

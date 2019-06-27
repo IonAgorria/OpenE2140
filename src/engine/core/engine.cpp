@@ -220,6 +220,10 @@ void Engine::setupAssetManager() {
 }
 
 void Engine::setupEntityManager() {
+    //Load the entity manager
+    entityManager->load();
+    error = entityManager->getError();
+    if (!error.empty()) return;
 }
 
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {

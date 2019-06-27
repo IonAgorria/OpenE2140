@@ -19,6 +19,8 @@ protected:
 
     void setupAssetManager() override;
 
+    void setupEntityManager() override;
+
     /**
      * Sets a tile as reactor crate
      * TODO move this to some world or powerplant specific class

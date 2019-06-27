@@ -16,5 +16,28 @@ EntityManager::~EntityManager() {
 
 void EntityManager::addEntityFactory(std::unique_ptr<IEntityFactory> factory) {
     factory->setManager(this);
-    factories.push_back(std::move(factory));
+    entity_kind_t kind = factory->getKind();
+    factories[kind] = std::move(factory);
+}
+
+void EntityManager::clear() {
+    //Send clear to each registered factories
+    for (std::unordered_map<entity_kind_t, std::unique_ptr<IEntityFactory>>::iterator pair = factories.begin(); pair != factories.end(); ++pair) {
+        pair->second->clear();
+    }
+}
+
+void EntityManager::load() {
+    //Clear
+    clear();
+
+    //Load each registered factories
+    for (std::unordered_map<entity_kind_t, std::unique_ptr<IEntityFactory>>::iterator pair = factories.begin(); pair != factories.end(); ++pair) {
+        pair->second->load();
+    }
+}
+
+std::shared_ptr<Entity> EntityManager::makeEntity(entity_type_t type) {
+    std::unique_ptr<IEntityFactory>& factory = factories[type.kind];
+    return factory ? factory->makeEntity(type.id) : std::shared_ptr<Entity>();
 }

@@ -61,10 +61,12 @@ The following game assets must be present in WD file or directory form:
 
 ## Completed
 - World/map code and drawing of map tiles
+- Basic entity implementation
 
 ## Roadmap
+- Code for json config load and save
+- Loading entity config and use it in factory
 - Writting game data
-- Basic entity implementation
 - Entity drawing
 - Static map entities (using SPRO*)
 - Entity selection

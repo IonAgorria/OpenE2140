@@ -25,12 +25,16 @@ using entity_id_t = uint64_t;
 /** Tile index */
 using tile_index_t = uint16_t;
 
-/** Entity type */
+/** Entity type kind id */
+using entity_kind_t = uint32_t;
+
+/** Unique id inside the kind domain */
+using entity_type_id_t = uint32_t;
+
+/** Entity type id (kind + type id inside kind) */
 struct entity_type_t {
-    /** Kind of this entity */
-    uint32_t kind = 0;
-    /** Unique id inside the current kind domain */
-    uint32_t id = 0;
+    entity_kind_t kind = 0;
+    entity_type_id_t id = 0;
 };
 
 /** Entity direction */

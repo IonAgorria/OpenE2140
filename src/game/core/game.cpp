@@ -51,6 +51,14 @@ void Game::setupAssetManager() {
     Engine::setupAssetManager();
 }
 
+void Game::setupEntityManager() {
+    //Register factories
+    //TODO
+
+    //Call setup
+    Engine::setupEntityManager();
+}
+
 void Game::run() {
     Engine::run();
     if (hasError()) {

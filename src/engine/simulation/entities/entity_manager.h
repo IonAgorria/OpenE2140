@@ -27,15 +27,15 @@ private:
     std::shared_ptr<Engine> engine;
 
     /**
-     * Asset processors
+     * Entity factories for each kind
      */
-    std::vector<std::unique_ptr<IEntityFactory>> factories;
+    std::unordered_map<entity_kind_t, std::unique_ptr<IEntityFactory>> factories;
 
 public:
     /**
      * Constructs loader
      */
-    EntityManager(std::shared_ptr<Engine> game);
+    EntityManager(std::shared_ptr<Engine> entity);
 
     /**
      * Destructs loader and cleans any loaded assets
@@ -53,6 +53,24 @@ public:
      * @param factory to register
      */
     void addEntityFactory(std::unique_ptr<IEntityFactory> factory);
+
+    /**
+     * Clears loaded configs
+     */
+    void clear();
+
+    /**
+     * Loads config for entities
+     */
+    void load();
+
+    /**
+     * Creates a new entity from provided type using the factories
+     *
+     * @param type to create
+     * @return entity created, might point to null if none was build
+     */
+    std::shared_ptr<Entity> makeEntity(entity_type_t type);
 };
 
 #endif //OPENE2140_ENTITY_MANAGER_H

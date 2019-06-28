@@ -3,6 +3,7 @@
 //
 #include "engine/core/common.h"
 #include "engine/assets/asset_manager.h"
+#include "engine/simulation/entities/entity_manager.h"
 #include "engine/graphics/palette.h"
 #include "engine/graphics/renderer.h"
 #include "engine/graphics/window.h"
@@ -14,6 +15,7 @@
 #include "game/assets/asset_processor_datpal.h"
 #include "game/assets/asset_processor_level.h"
 #include "game/assets/asset_processor_mix.h"
+#include "game/entities/building.h"
 #include "game/io/event_listener_camera.h"
 #include "game/io/event_listener_debug.h"
 #include "game.h"
@@ -53,7 +55,7 @@ void Game::setupAssetManager() {
 
 void Game::setupEntityManager() {
     //Register factories
-    //TODO
+    entityManager->addEntityFactory(std::make_unique<BuildingFactory>());
 
     //Call setup
     Engine::setupEntityManager();

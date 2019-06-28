@@ -10,6 +10,7 @@
 
 class IEntityFactory;
 class Engine;
+class Entity;
 
 /**
  * Handles the entity config loading, storage and entity instantiation using config

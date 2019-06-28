@@ -94,6 +94,9 @@ void Engine::close() {
     if (window) {
         window.reset();
     }
+    if (entityManager) {
+        entityManager.reset();
+    }
     if (assetManager) {
         assetManager.reset();
     }

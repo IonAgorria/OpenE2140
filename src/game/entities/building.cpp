@@ -3,8 +3,12 @@
 //
 #include "building.h"
 
-Building::Building() {;
+Building::Building() {
 }
 
 void Building::draw() {
+}
+
+std::shared_ptr<Entity> BuildingFactory::makeEntity(entity_type_id_t id) {
+    return std::shared_ptr<Entity>();
 }

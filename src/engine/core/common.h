@@ -35,6 +35,8 @@
 #define WINDOW_DEFAULT_RESOLUTION 1024, 768
 /** Directory name containing assets */
 #define GAME_ASSETS_DIR "assets"
+/** Directory name containing data */
+#define GAME_DATA_DIR "data"
 /** Minimum texture size (texture packer fails under this) */
 #define MINIMUM_TEXTURE_SIZE 512
 /** Texture unit for palette image texture */

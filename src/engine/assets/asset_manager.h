@@ -140,13 +140,6 @@ public:
     int getAssetsCount();
 
     /**
-     * Sets the asset roots available
-     *
-     * @param roots
-     */
-    static void getAssetRoots(std::vector<std::string>& roots);
-
-    /**
      * Clears all loaded assets from manager
      */
     void clearAssets();

@@ -89,13 +89,6 @@ void AssetManager::clearAssets() {
     assetsCount = 0;
 }
 
-void AssetManager::getAssetRoots(std::vector<std::string>& roots) {
-    std::string assetsRoot(std::string(GAME_ASSETS_DIR) + DIR_SEP);
-    roots.emplace_back(assetsRoot);                                                 //Current directory
-    roots.emplace_back(Utils::getInstallPath() + assetsRoot);                       //Installation directory
-    roots.emplace_back(Utils::getParentPath(Utils::getInstallPath()) + assetsRoot); //Parent of installation directory
-}
-
 void AssetManager::registerAssetContainer(const std::string& containerName, bool required) {
     assetContainers[containerName] = required;
 }
@@ -106,7 +99,7 @@ void AssetManager::loadAssets() {
 
     //Load roots
     std::vector<std::string> roots;
-    getAssetRoots(roots);
+    Utils::getRootPaths(GAME_ASSETS_DIR, roots);
 
     //Load each registered containers
     for (std::pair<std::string,bool> pair : assetContainers) {

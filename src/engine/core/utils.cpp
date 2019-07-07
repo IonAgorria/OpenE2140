@@ -338,7 +338,7 @@ std::string Utils::getParentPath(const std::string& path) {
                 return std::string(path, 0, pos + 1);
             }
             pos--;
-        };
+        }
     }
     return path;
 }
@@ -462,4 +462,10 @@ std::unique_ptr<byte_array_t> Utils::bufferFlipY(const byte_array_t data, unsign
         memcpy(tmp.get() + i * width, data + (height - i - 1) * width, width);
     }
     return tmp;
+}
+
+void Utils::getRootPaths(const std::string& dir_name, std::vector<std::string>& roots) {
+    roots.emplace_back(dir_name + DIR_SEP);                                                 //Current directory
+    roots.emplace_back(Utils::getInstallPath() + dir_name + DIR_SEP);                       //Installation directory
+    roots.emplace_back(Utils::getParentPath(Utils::getInstallPath()) + dir_name + DIR_SEP); //Parent of installation directory
 }

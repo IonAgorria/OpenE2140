@@ -389,6 +389,13 @@ public:
         }
         return false;
     }
+
+    /**
+     * Fills the provided roots with paths
+     *
+     * @param roots
+     */
+    static void getRootPaths(const std::string& dir_name, std::vector<std::string>& roots);
 };
 
 #endif //OPENE2140_UTILS_H

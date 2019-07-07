@@ -28,11 +28,16 @@ public:
  * Building factory
  */
 class BuildingFactory: public IEntityFactory {
-    entity_kind_t getKind() {
+    entity_kind_t getKind() override {
         return ENTITY_KIND_BUILDING;
     }
 
-    std::shared_ptr<Entity> makeEntity(entity_type_id_t id);
+    /**
+     * Creates a new entity from provided type id
+     * @param id
+     * @return
+     */
+    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) override;
 };
 
 #endif //OPENE2140_BUILDING_H

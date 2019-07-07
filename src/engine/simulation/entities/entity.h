@@ -86,19 +86,29 @@ public:
     virtual TYPE_NAME(Entity)
 
     /**
+     * Does the entity setup after object creation
+     */
+    void setup(EntityConfig* newConfig);
+
+    /**
      * @return entity position
      */
-    const Vector2& getPosition();
+    const Vector2& getPosition() const;
 
     /**
      * @return entity bounds
      */
-    const Rectangle& getBounds();
+    const Rectangle& getBounds() const;
+
+    /**
+     * @return entity config if any
+     */
+    const EntityConfig* getConfig() const;
 
     /**
      * @return entity simulation if any
      */
-    Simulation* getSimulation();
+    Simulation* getSimulation() const;
 
     /**
      * Called when entity is added to simulation

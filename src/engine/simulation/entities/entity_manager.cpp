@@ -39,5 +39,12 @@ void EntityManager::load() {
 
 std::shared_ptr<Entity> EntityManager::makeEntity(entity_type_t type) {
     std::unique_ptr<IEntityFactory>& factory = factories[type.kind];
-    return factory ? factory->makeEntity(type.id) : std::shared_ptr<Entity>();
+    std::shared_ptr<Entity> entity;
+    if (factory) {
+        entity = factory->makeEntity(type.id);
+        if (factory->hasError()) {
+            log->warn("Error when making new entity with type {0}:{1}:\n{2}", type.kind, type.id, factory->getError());
+        }
+    }
+    return entity;
 }

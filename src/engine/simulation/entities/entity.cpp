@@ -15,25 +15,23 @@ Entity::~Entity() {
     }
 }
 
-std::string Entity::toString() const {
-    return type_name() + "(" + toStringContent() + ")";
+void Entity::setup(EntityConfig* newConfig) {
+    config = newConfig;
 }
 
-std::string Entity::toStringContent() const {
-    return " ID: " + std::to_string(id) +
-           " Position: " + position.toString()
-   ;
-}
-
-const Vector2& Entity::getPosition() {
+const Vector2& Entity::getPosition() const {
     return position;
 }
 
-const Rectangle& Entity::getBounds() {
+const Rectangle& Entity::getBounds() const {
     return bounds;
 }
 
-Simulation* Entity::getSimulation() {
+const EntityConfig* Entity::getConfig() const {
+    return config;
+}
+
+Simulation* Entity::getSimulation() const {
     return simulation;
 }
 
@@ -70,4 +68,14 @@ Tile* Entity::getTile() {
 
 const std::vector<Tile*>& Entity::getTiles() {
     return tiles;
+}
+
+std::string Entity::toString() const {
+    return type_name() + "(" + toStringContent() + ")";
+}
+
+std::string Entity::toStringContent() const {
+    return " ID: " + std::to_string(id) +
+           " Position: " + position.toString()
+            ;
 }

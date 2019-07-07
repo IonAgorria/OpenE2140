@@ -6,6 +6,7 @@
 
 #include "engine/core/common.h"
 #include "engine/core/error_possible.h"
+#include "entity_config.h"
 
 class EntityManager;
 class Entity;
@@ -20,6 +21,19 @@ protected:
      */
     EntityManager* manager;
 
+    /**
+     * Loaded configs for entity types which this factory instances
+     */
+    std::vector<std::unique_ptr<EntityConfig>> configs;
+
+    /**
+     * Instantiation of entity by the factory implementation
+     *
+     * @param id
+     * @return
+     */
+    virtual std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) = 0;
+
 public:
     /**
      * Destructor
@@ -29,19 +43,17 @@ public:
     /**
      * Assigns the current manager
      */
-    void setManager(EntityManager* current) {
-        manager = current;
-    }
+    void setManager(EntityManager* current);
 
     /**
      * Called when manager clears
      */
-    virtual void clear() {};
+    virtual void clear();
 
     /**
      * Called when manager loads
      */
-    virtual void load() {};
+    virtual void load();
 
     /**
      * @return the entity kind which this factory produces entities
@@ -54,7 +66,7 @@ public:
      * @param id type of entity in this factory kind domain
      * @return entity created
      */
-     virtual std::shared_ptr<Entity> makeEntity(entity_type_id_t id) = 0;
+    std::shared_ptr<Entity> makeEntity(entity_type_id_t id);
 };
 
 #endif //OPENE2140_ENTITY_FACTORY_H

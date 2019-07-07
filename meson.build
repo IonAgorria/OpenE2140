@@ -77,6 +77,7 @@ opene2140_src = [
     'src/engine/simulation/simulation.cpp',
     'src/engine/simulation/entities/entity.cpp',
     'src/engine/simulation/entities/entity_manager.cpp',
+    'src/engine/simulation/entities/entity_factory.cpp',
     'src/engine/simulation/world/tile.cpp',
     'src/engine/simulation/world/world.cpp',
     'src/engine/simulation/pathfinder/path_handler.cpp',

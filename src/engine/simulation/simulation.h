@@ -93,6 +93,11 @@ public:
     entity_id_t nextEntityID();
 
     /**
+     * Creates a new entity and adds to simulation
+     */
+    void createEntity(entity_type_t entityType);
+
+    /**
      * Adds entity to simulation
      */
     void addEntity(std::shared_ptr<Entity> entity);

@@ -10,6 +10,7 @@
 #include "engine/assets/asset.h"
 #include "engine/assets/asset_level.h"
 #include "engine/assets/asset_manager.h"
+#include "engine/simulation/entities/entity_manager.h"
 #include "simulation.h"
 #include "pathfinder/path_handler.h"
 
@@ -57,6 +58,7 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     if (hasError()) {
         return;
     }
+    //TODO use levelPlayers
 
     //Load entities
     std::vector<EntityPrototype> levelEntities;
@@ -64,6 +66,9 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     error = assetLevel->getError();
     if (hasError()) {
         return;
+    }
+    for (EntityPrototype& entityPrototype : levelEntities) {
+        createEntity(entityPrototype.type);
     }
 }
 
@@ -111,8 +116,15 @@ entity_id_t Simulation::nextEntityID() {
     return lastEntityID;
 }
 
+void Simulation::createEntity(entity_type_t entityType) {
+    std::shared_ptr<Entity> entity = engine->getEntityManager()->makeEntity(entityType);
+    if (entity) {
+        addEntity(entity);
+    }
+}
+
 void Simulation::addEntity(std::shared_ptr<Entity> entity) {
-    entities.emplace_back(std::move(entity));
+    entities.emplace_back(entity);
     entity->addedToSimulation(this);
 }
 

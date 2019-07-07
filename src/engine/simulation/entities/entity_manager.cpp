@@ -33,7 +33,13 @@ void EntityManager::load() {
 
     //Load each registered factories
     for (std::unordered_map<entity_kind_t, std::unique_ptr<IEntityFactory>>::iterator pair = factories.begin(); pair != factories.end(); ++pair) {
-        pair->second->load();
+        std::unique_ptr<IEntityFactory>& factory = pair->second;
+        factory->load();
+        error = factory->getError();
+        if (hasError()) {
+            log->error("Error loading factory with kind {0}:\n{1}", pair->first, error);
+            return;
+        }
     }
 }
 

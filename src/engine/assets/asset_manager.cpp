@@ -99,7 +99,7 @@ void AssetManager::loadAssets() {
 
     //Load roots
     std::vector<std::string> roots;
-    Utils::getRootPaths(GAME_ASSETS_DIR, roots);
+    Utils::getRootPaths(std::string(GAME_ASSETS_DIR) + DIR_SEP, roots);
 
     //Load each registered containers
     for (std::pair<std::string,bool> pair : assetContainers) {

@@ -67,6 +67,7 @@ opene2140_src = [
     'src/engine/io/log.cpp',
     'src/engine/io/file.cpp',
     'src/engine/io/timer.cpp',
+    'src/engine/io/config.cpp',
     'src/engine/io/event_handler.cpp',
     'src/engine/io/event_listener.cpp',
     'src/engine/io/event_dispatcher.cpp',

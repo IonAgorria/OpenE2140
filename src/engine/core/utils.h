@@ -393,9 +393,10 @@ public:
     /**
      * Fills the provided roots with paths
      *
+     * @param name
      * @param roots
      */
-    static void getRootPaths(const std::string& dir_name, std::vector<std::string>& roots);
+    static void getRootPaths(const std::string& name, std::vector<std::string>& roots);
 };
 
 #endif //OPENE2140_UTILS_H

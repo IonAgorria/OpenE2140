@@ -34,6 +34,11 @@ protected:
      */
     virtual std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) = 0;
 
+    /**
+     * Attempts to load a config
+     */
+    void loadConfig(const std::string& path);
+
 public:
     /**
      * Destructor
@@ -54,6 +59,16 @@ public:
      * Called when manager loads
      */
     virtual void load();
+
+    /**
+     * Called when loading a entity config
+     */
+    virtual void loadEntityConfig(config_data_t& data);
+
+    /**
+     * @return the file path containing the configs to use in this factory
+     */
+    virtual const std::string getConfigPath() = 0;
 
     /**
      * @return the entity kind which this factory produces entities

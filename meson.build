@@ -111,7 +111,6 @@ opene2140_incs = include_directories(
     'lib/spdlog/include',
     'lib/cnl/include',
     'lib/stb',
-    'lib/json/include',
 )
 
 #Include extra files

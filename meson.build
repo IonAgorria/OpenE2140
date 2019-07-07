@@ -22,6 +22,10 @@ opene2140_deps += [glew_dep]
 glm_dep = dependency('glm')
 opene2140_deps += [glm_dep]
 
+#Load json
+json_dep = dependency('nlohmann_json')
+opene2140_deps += [json_dep]
+
 #Load boost libs
 boost_dep = dependency('boost',
     modules: ['system', 'filesystem'],

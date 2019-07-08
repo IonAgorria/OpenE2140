@@ -17,7 +17,7 @@ void Config::read() {
     if (hasError()) return;
 
     //Read the content of file
-    size_t fileSize = file->size();
+    size_t fileSize = file->size() + 1;
     std::unique_ptr<byte_array_t> content = Utils::createBuffer(fileSize);
     file->read(content.get(), fileSize);
     file->close();

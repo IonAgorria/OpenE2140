@@ -12,6 +12,7 @@
  */
 #define COMPONENT_METHODS(MACRO_METHOD) \
     MACRO_METHOD(componentsUpdate, update) \
+    MACRO_METHOD(componentsSetup, setup) \
     MACRO_METHOD(componentsSimulationChanged, simulationChanged)
 
 /**

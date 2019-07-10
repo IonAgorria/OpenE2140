@@ -6,6 +6,9 @@
 
 CLASS_COMPONENT_DEFAULT(ImageComponent)
 
+void ImageComponent::setup() {
+}
+
 void ImageComponent::simulationChanged() {
 }
 

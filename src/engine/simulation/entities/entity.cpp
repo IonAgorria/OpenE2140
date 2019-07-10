@@ -17,6 +17,7 @@ Entity::~Entity() {
 
 void Entity::setup(EntityConfig* newConfig) {
     config = newConfig;
+    componentsSetup();
 }
 
 const Vector2& Entity::getPosition() const {

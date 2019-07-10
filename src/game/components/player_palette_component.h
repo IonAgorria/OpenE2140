@@ -23,6 +23,8 @@ public:
 
     void construction() {}
 
+    void setup() {}
+
     void simulationChanged() {
         //Load player color
         Player* player = base->getPlayer();

@@ -5,6 +5,9 @@
 
 CLASS_COMPONENT_DEFAULT(PlayerComponent)
 
+void PlayerComponent::setup() {
+}
+
 void PlayerComponent::simulationChanged() {
 }
 

@@ -40,15 +40,31 @@ void IEntityFactory::loadConfig(const std::string& path) {
     }
 
     //Check if type is correct
-    if (config.data.type() != nlohmann::detail::value_t::array) {
+    if (!config.data.is_array()) {
         error = "Config doesn't contain array as root";
         return;
     }
 
-
+    //Load each entity config
+    for (nlohmann::json& data : config.data) {
+        loadEntityConfig(data);
+    }
 }
 
 void IEntityFactory::loadEntityConfig(config_data_t& data) {
+    //Get ID
+    if (!data["id"].is_number_integer()) return;
+    entity_type_id_t id = data["id"].get<entity_type_id_t>();
+    //Allocate new empty if not enough configs are present
+    if (configs.size() < id + 1) {
+        configs.resize(id + 1);
+    }
+    //Create config and set it in configs
+    std::unique_ptr<EntityConfig> config = std::make_unique<EntityConfig>();
+    config->kind = getKind();
+    config->id = id;
+    config->update(data);
+    configs[id].swap(config);
 }
 
 void IEntityFactory::setManager(EntityManager* current) {

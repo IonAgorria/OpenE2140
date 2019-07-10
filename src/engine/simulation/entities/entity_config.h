@@ -9,9 +9,12 @@
 #include "engine/io/config.h"
 
 /**
- * Entity config containing the entity stats, type and such data
+ * Base entity config containing the entity stats, type and such data
  */
-class EntityConfig: public entity_type_t {
+class EntityConfig: public entity_type_t, public config_data_t {
+public:
+    EntityConfig() = default;
+    ~EntityConfig() = default;
 };
 
 #endif //OPENE2140_ENTITY_CONFIG_H

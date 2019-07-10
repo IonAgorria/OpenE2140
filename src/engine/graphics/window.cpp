@@ -74,7 +74,10 @@ Window::Window() {
 
     //Set parameters
     glClearColor(0.5, 0.5, 0.5, 1.0);
-    SDL_GL_SetSwapInterval(1); //VSync TODO put this as configurable param
+    //VSync TODO put this as configurable param
+    if (0 != SDL_GL_SetSwapInterval(1)) {
+        log->warn("VSync setting failed");
+    }
 
     //Check errors
     error = Utils::checkAnyError();

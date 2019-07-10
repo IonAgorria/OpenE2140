@@ -29,6 +29,13 @@ Renderer::Renderer() {
     }
 #endif
 
+#if MAXIMUM_TEXTURE_SIZE
+    //Clamp the texture size so the packing doesn't use too much memory
+    if (maxTextureSize > MAXIMUM_TEXTURE_SIZE) {
+        maxTextureSize = MAXIMUM_TEXTURE_SIZE;
+    }
+#endif
+
     //Check the texture size is not below minimum
     if (maxTextureSize < MINIMUM_TEXTURE_SIZE) {
         error = "Maximum texture size is too small: " + std::to_string(maxTextureSize);

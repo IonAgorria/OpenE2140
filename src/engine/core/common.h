@@ -39,6 +39,8 @@
 #define GAME_DATA_DIR "data"
 /** Minimum texture size (texture packer fails under this) */
 #define MINIMUM_TEXTURE_SIZE 512
+/** Maximum texture size */
+#define MAXIMUM_TEXTURE_SIZE 0
 /** Texture unit for palette image texture */
 #define TEXTURE_UNIT_IMAGE_PALETTE GL_TEXTURE0
 /** Texture unit for RGBA image texture */

@@ -1,51 +1,63 @@
 [
   {
+    "id": 0,
     "name": "mg",
     "type": "direct"
   },
   {
+    "id": 1,
     "name": "cannon",
     "type": "direct"
   },
   {
+    "id": 2,
     "name": "rocket",
     "type": "missile"
   },
   {
+    "id": 3,
     "name": "heavy_rocket",
     "type": "missile"
   },
   {
+    "id": 4,
     "name": "plasma",
     "type": "projectile"
   },
   {
+    "id": 5,
     "name": "laser",
     "type": "line",
     "line": {"r": 255, "g": 0, "b": 0, "a": 128, "width": 2}
   },
   {
+    "id": 6,
     "name": "sdi_laser",
     "type": "line",
     "line": {"r": 0, "g": 255, "b": 0, "a": 255, "width": 1}
   },
   {
+    "id": 7,
     "name": "ion",
     "type": "projectile"
   },
   {
+    "id": 8,
     "name": "bomb",
     "type": "bomb"
   },
   {
+    "id": 9,
     "name": "screamer",
     "type": "field"
   },
   {
+    "id": 10,
     "name": "radar",
     "type": "field"
   },
   {
+    "id": 11,
     "name": "shadow",
     "type": "field"
   }

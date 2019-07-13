@@ -19,9 +19,19 @@ protected:
 
 public:
     /**
+     * Constructor
+     */
+    IAssetProcessor() = default;
+
+    /**
      * Destructor
      */
     virtual ~IAssetProcessor() = default;
+
+    /**
+     * Disable copy
+     */
+    NON_COPYABLE(IAssetProcessor)
 
     /**
      * Assigns the current manager for processor

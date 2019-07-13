@@ -11,11 +11,15 @@
 #include "engine/io/file.h"
 
 using config_data_t = nlohmann::json;
+using config_key_t = nlohmann::json::object_t::key_type;
+
+class File;
+class Vector2;
+class Rectangle;
 
 /**
  * Handles the reading and storing of game configuration files
  */
-class File;
 class Config : public IErrorPossible, public IToString {
 protected:
     /**
@@ -55,6 +59,24 @@ public:
      * Writes the config state from memory into file
      */
     void write();
+
+    /**
+     * Reads vector2 from config data entry
+     *
+     * @param section to read from
+     * @param vector to write
+     * @return if successful
+     */
+    bool getVector2(config_data_t& section, Vector2& vector);
+
+    /**
+     * Reads rectangle from config data entry
+     *
+     * @param section to read from
+     * @param vector to write
+     * @return if successful
+     */
+    bool getRectangle(config_data_t& section, Rectangle& rectangle);
 
     /**
      * Disable copy/move

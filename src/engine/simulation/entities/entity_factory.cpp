@@ -54,16 +54,15 @@ void IEntityFactory::loadConfig(const std::string& path) {
 void IEntityFactory::loadEntityConfig(config_data_t& data) {
     //Get ID
     if (!data["id"].is_number_integer()) return;
-    entity_type_id_t id = data["id"].get<entity_type_id_t>();
-    //Allocate new empty if not enough configs are present
+    entity_type_id_t id = data.value("id", 0);
+    //Allocate new empty if not enough are present
     if (configs.size() < id + 1) {
         configs.resize(id + 1);
     }
     //Create config and set it in configs
-    std::unique_ptr<EntityConfig> config = std::make_unique<EntityConfig>();
+    std::unique_ptr<EntityConfig> config = std::make_unique<EntityConfig>(data);
     config->kind = getKind();
     config->id = id;
-    config->update(data);
     configs[id].swap(config);
 }
 

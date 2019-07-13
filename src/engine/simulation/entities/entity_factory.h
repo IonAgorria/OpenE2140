@@ -41,9 +41,19 @@ protected:
 
 public:
     /**
+     * Constructor
+     */
+    IEntityFactory() = default;
+
+    /**
      * Destructor
      */
     virtual ~IEntityFactory() = default;
+
+    /**
+     * Disable copy
+     */
+    NON_COPYABLE(IEntityFactory)
 
     /**
      * Assigns the current manager

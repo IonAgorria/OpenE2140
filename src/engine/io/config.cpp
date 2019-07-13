@@ -3,6 +3,8 @@
 //
 #include "engine/core/utils.h"
 #include "engine/io/file.h"
+#include "engine/math/vector2.h"
+#include "engine/math/rectangle.h"
 #include "config.h"
 
 Config::Config(const std::string& path): path(path) {
@@ -41,6 +43,28 @@ void Config::write() {
     //Write the content to file
     file->write(content.c_str(), content.size());
     file->close();
+}
+
+bool Config::getVector2(config_data_t& section, Vector2& vector) {
+    if (!section.is_array()) return false;
+    if (section.size() < 2) return false;
+    vector.set(
+        section[0].get<int>(),
+        section[1].get<int>()
+    );
+    return true;
+}
+
+bool Config::getRectangle(config_data_t& section, Rectangle& rectangle) {
+    if (!section.is_array()) return false;
+    if (section.size() < 4) return false;
+    rectangle.set(
+        section[0].get<int>(),
+        section[1].get<int>(),
+        section[2].get<int>(),
+        section[3].get<int>()
+    );
+    return true;
 }
 
 std::string Config::toString() const {

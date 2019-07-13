@@ -30,7 +30,7 @@ private:
     /**
      * Entity factories for each kind
      */
-    std::unordered_map<entity_kind_t, std::unique_ptr<IEntityFactory>> factories;
+    std::vector<std::unique_ptr<IEntityFactory>> factories;
 
 public:
     /**

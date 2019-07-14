@@ -1,7 +1,7 @@
 [
   {
     "id": 0,
-    "name": "exit_ed",
+    "code": "exit_ed",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 76},
@@ -14,7 +14,7 @@
   },
   {
     "id": 1,
-    "name": "exit_ucs",
+    "code": "exit_ucs",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 82},
@@ -27,7 +27,7 @@
   },
   {
     "id": 2,
-    "name": "exit_water",
+    "code": "exit_water",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": {"asset": 88},
@@ -36,7 +36,7 @@
   },
   {
     "id": 3,
-    "name": "exit_bio_center",
+    "code": "exit_bio_center",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 37},
@@ -45,7 +45,7 @@
   },
   {
     "id": 4,
-    "name": "exit_robot_factory",
+    "code": "exit_robot_factory",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 58},
@@ -54,7 +54,7 @@
   },
   {
     "id": 5,
-    "name": "nuclear_reactor",
+    "code": "nuclear_reactor",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": {"asset": 2},
@@ -63,7 +63,7 @@
   },
   {
     "id": 6,
-    "name": "tiger_legs",
+    "code": "tiger_legs",
     "sprites_path": "MIX/SPRU0/",
     "sprites": {
       "default_0": {"assets": [37, 45]},

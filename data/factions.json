@@ -1,7 +1,7 @@
 [
     {
         "id": 0,
-        "name": "ed",
+        "code": "ed",
         "technologies": [
             {
                 "nuclear_reactor": 50,
@@ -32,7 +32,7 @@
     },
     {
         "id": 1,
-        "name": "ucs",
+        "code": "ucs",
         "technologies": [
             {
                 "nuclear_reactor": 50,

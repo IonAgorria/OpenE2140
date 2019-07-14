@@ -1,7 +1,7 @@
 [
     {
         "id": 0,
-        "name": "construction_center",
+        "code": "construction_center",
         "type": "construction_factory",
         "faction": "ed",
         "layout": [
@@ -44,7 +44,7 @@
     },
     {
         "id": 1,
-        "name": "production_center",
+        "code": "production_center",
         "type": "construction_factory",
         "faction": "ucs",
         "layout": [
@@ -71,7 +71,7 @@
     },
     {
         "id": 2,
-        "name": "tech_house",
+        "code": "tech_house",
         "type": "heavy_factory",
         "faction": "ed",
         "layout": [
@@ -110,7 +110,7 @@
     },
     {
         "id": 3,
-        "name": "heavy_tech",
+        "code": "heavy_tech",
         "type": "heavy_factory",
         "faction": "ucs",
         "layout": [
@@ -153,7 +153,7 @@
     },
     {
         "id": 4,
-        "name": "bio_center",
+        "code": "bio_center",
         "type": "light_factory",
         "faction": "ed",
         "layout": [
@@ -180,7 +180,7 @@
     },
     {
         "id": 5,
-        "name": "robot_factory",
+        "code": "robot_factory",
         "type": "light_factory",
         "faction": "ucs",
         "layout": [
@@ -211,7 +211,7 @@
     },
     {
         "id": 6,
-        "name": "water_base",
+        "code": "water_base",
         "faction": null,
         "layout": [
             [-1, -1, 2, 2]
@@ -228,7 +228,7 @@
     },
     {
         "id": 8,
-        "name": "research_center",
+        "code": "research_center",
         "faction": null,
         "layout": [
             [-1, -1, 2, 2]
@@ -245,7 +245,7 @@
     },
     {
         "id": 9,
-        "name": "bcc",
+        "code": "bcc",
         "type": "superweapon_control",
         "faction": "ed",
         "layout": [
@@ -259,7 +259,7 @@
     },
     {
         "id": 10,
-        "name": "pb_control",
+        "code": "pb_control",
         "type": "superweapon_control",
         "faction": "ucs",
         "layout": [
@@ -273,7 +273,7 @@
     },
     {
         "id": 11,
-        "name": "teleport",
+        "code": "teleport",
         "faction": "ucs",
         "layout": [
             [-1, -1, 2, 2]
@@ -283,7 +283,7 @@
     },
     {
         "id": 12,
-        "name": "shelter",
+        "code": "shelter",
         "faction": null,
         "layout": [
             [0, -1, 1, 1]
@@ -305,7 +305,7 @@
     },
     {
         "id": 13,
-        "name": "defend_tower",
+        "code": "defend_tower",
         "type": "light_tower",
         "faction": "ed",
         "layout": [
@@ -323,7 +323,7 @@
     },
     {
         "id": 14,
-        "name": "little_eye",
+        "code": "little_eye",
         "type": "light_tower",
         "layout": [
             [0, 0, 1, 1]
@@ -341,7 +341,7 @@
     },
     {
         "id": 15,
-        "name": "heavy_defend_tower",
+        "code": "heavy_defend_tower",
         "type": "heavy_tower",
         "faction": "ed",
         "layout": [
@@ -359,7 +359,7 @@
     },
     {
         "id": 16,
-        "name": "big_eye",
+        "code": "big_eye",
         "type": "heavy_tower",
         "layout": [
             [0, 0, 1, 1]
@@ -377,7 +377,7 @@
     },
     {
         "id": 17,
-        "name": "pillbox",
+        "code": "pillbox",
         "type": "light_tower",
         "faction": "ed",
         "layout": [
@@ -388,7 +388,7 @@
     },
     {
         "id": 18,
-        "name": "power_plant",
+        "code": "power_plant",
         "faction": null,
         "layout": [
             [-1, -1, 2, 2]
@@ -415,7 +415,7 @@
     },
     {
         "id": 19,
-        "name": "refinery",
+        "code": "refinery",
         "faction": null,
         "layout": [
             [-1, -1, 2, 2],
@@ -429,7 +429,7 @@
     },
     {
         "id": 20,
-        "name": "air_base",
+        "code": "air_base",
         "faction": null,
         "layout": [
             [-1, -1, 2, 2]
@@ -439,7 +439,7 @@
     },
     {
         "id": 21,
-        "name": "pb_cannon",
+        "code": "pb_cannon",
         "type": "superweapon",
         "faction": "ucs",
         "layout": [
@@ -450,7 +450,7 @@
     },
     {
         "id": 22,
-        "name": "silo",
+        "code": "silo",
         "type": "superweapon",
         "faction": "ed",
         "layout": [
@@ -461,7 +461,7 @@
     },
     {
         "id": 23,
-        "name": "mine",
+        "code": "mine",
         "faction": null,
         "layout": [
             [-1, -1, 2, 2],
@@ -475,7 +475,7 @@
     },
     {
         "id": 24,
-        "name": "civilian_building_1",
+        "code": "civilian_building_1",
         "type": "civilian",
         "faction": null,
         "layout": [
@@ -493,7 +493,7 @@
     },
     {
         "id": 25,
-        "name": "civilian_building_2",
+        "code": "civilian_building_2",
         "type": "civilian",
         "faction": null,
         "layout": [
@@ -511,7 +511,7 @@
     },
     {
         "id": 26,
-        "name": "civilian_building_3",
+        "code": "civilian_building_3",
         "type": "civilian",
         "faction": null,
         "layout": [
@@ -529,7 +529,7 @@
     },
     {
         "id": 27,
-        "name": "civilian_building_4",
+        "code": "civilian_building_4",
         "type": "civilian",
         "faction": null,
         "layout": [
@@ -547,7 +547,7 @@
     },
     {
         "id": 28,
-        "name": "civilian_building_5",
+        "code": "civilian_building_5",
         "type": "civilian",
         "faction": null,
         "layout": [
@@ -565,7 +565,7 @@
     },
     {
         "id": 29,
-        "name": "civilian_building_6",
+        "code": "civilian_building_6",
         "type": "civilian",
         "faction": null,
         "layout": [
@@ -583,7 +583,7 @@
     },
     {
         "id": 84,
-        "name": "sdi_defence",
+        "code": "sdi_defence",
         "faction": "ucs",
         "layout": [
             [-1, -1, 2, 2]
@@ -603,7 +603,7 @@
     },
     {
         "id": 85,
-        "name": "watch_tower",
+        "code": "watch_tower",
         "faction": "ed",
         "layout": [
             [0, 0, 1, 1]

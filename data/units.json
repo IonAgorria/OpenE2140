@@ -1,7 +1,7 @@
 [
     {
         "id": 0,
-        "name": "construction_center",
+        "code": "construction_center",
         "type": "mcu",
         "faction": "ed",
         "required_building": "construction_factory",
@@ -15,7 +15,7 @@
     },
     {
         "id": 1,
-        "name": "production_center",
+        "code": "production_center",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "construction_factory",
@@ -29,7 +29,7 @@
     },
     {
         "id": 2,
-        "name": "tech_house",
+        "code": "tech_house",
         "type": "mcu",
         "faction": "ed",
         "required_building": "power_plant",
@@ -43,7 +43,7 @@
     },
     {
         "id": 3,
-        "name": "heavy_tech",
+        "code": "heavy_tech",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "power_plant",
@@ -57,7 +57,7 @@
     },
     {
         "id": 4,
-        "name": "bio_center",
+        "code": "bio_center",
         "type": "mcu",
         "faction": "ed",
         "required_building": "power_plant",
@@ -71,7 +71,7 @@
     },
     {
         "id": 5,
-        "name": "robot_factory",
+        "code": "robot_factory",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "power_plant",
@@ -85,7 +85,7 @@
     },
     {
         "id": 6,
-        "name": "water_base",
+        "code": "water_base",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -99,7 +99,7 @@
     },
     {
         "id": 8,
-        "name": "research_center",
+        "code": "research_center",
         "type": "mcu",
         "faction": null,
         "required_building": "power_plant",
@@ -113,7 +113,7 @@
     },
     {
         "id": 9,
-        "name": "bcc",
+        "code": "bcc",
         "type": "mcu",
         "faction": "ed",
         "required_building": "research_center",
@@ -127,7 +127,7 @@
     },
     {
         "id": 10,
-        "name": "pb_control",
+        "code": "pb_control",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "research_center",
@@ -141,7 +141,7 @@
     },
     {
         "id": 11,
-        "name": "teleport",
+        "code": "teleport",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "heavy_factory",
@@ -155,7 +155,7 @@
     },
     {
         "id": 12,
-        "name": "shelter",
+        "code": "shelter",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -169,7 +169,7 @@
     },
     {
         "id": 13,
-        "name": "defend_tower",
+        "code": "defend_tower",
         "type": "mcu",
         "faction": "ed",
         "required_building": "bio_center",
@@ -183,7 +183,7 @@
     },
     {
         "id": 14,
-        "name": "little_eye",
+        "code": "little_eye",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "robot_factory",
@@ -197,7 +197,7 @@
     },
     {
         "id": 15,
-        "name": "heavy_defend_tower",
+        "code": "heavy_defend_tower",
         "type": "mcu",
         "faction": "ed",
         "required_building": "tech_house",
@@ -211,7 +211,7 @@
     },
     {
         "id": 16,
-        "name": "big_eye",
+        "code": "big_eye",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "heavy_tech",
@@ -225,7 +225,7 @@
     },
     {
         "id": 17,
-        "name": "pillbox",
+        "code": "pillbox",
         "type": "mcu",
         "faction": "ed",
         "required_building": "tech_house",
@@ -239,7 +239,7 @@
     },
     {
         "id": 18,
-        "name": "power_plant",
+        "code": "power_plant",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -253,7 +253,7 @@
     },
     {
         "id": 19,
-        "name": "refinery",
+        "code": "refinery",
         "type": "mcu",
         "faction": null,
         "required_building": "power_plant",
@@ -267,7 +267,7 @@
     },
     {
         "id": 20,
-        "name": "air_base",
+        "code": "air_base",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -281,7 +281,7 @@
     },
     {
         "id": 21,
-        "name": "pb_cannon",
+        "code": "pb_cannon",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "pb_control",
@@ -295,7 +295,7 @@
     },
     {
         "id": 22,
-        "name": "silo",
+        "code": "silo",
         "type": "mcu",
         "faction": "ed",
         "required_building": "bcc",
@@ -309,7 +309,7 @@
     },
     {
         "id": 23,
-        "name": "mine",
+        "code": "mine",
         "type": "mcu",
         "faction": null,
         "required_building": "power_plant",
@@ -323,7 +323,7 @@
     },
     {
         "id": 24,
-        "name": "civilian_building_1",
+        "code": "civilian_building_1",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -337,7 +337,7 @@
     },
     {
         "id": 25,
-        "name": "civilian_building_2",
+        "code": "civilian_building_2",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -351,7 +351,7 @@
     },
     {
         "id": 26,
-        "name": "civilian_building_3",
+        "code": "civilian_building_3",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -365,7 +365,7 @@
     },
     {
         "id": 27,
-        "name": "civilian_building_4",
+        "code": "civilian_building_4",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -379,7 +379,7 @@
     },
     {
         "id": 28,
-        "name": "civilian_building_5",
+        "code": "civilian_building_5",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -393,7 +393,7 @@
     },
     {
         "id": 29,
-        "name": "civilian_building_6",
+        "code": "civilian_building_6",
         "type": "mcu",
         "faction": null,
         "required_building": "heavy_factory",
@@ -407,7 +407,7 @@
     },
     {
         "id": 30,
-        "name": "silver_one",
+        "code": "silver_one",
         "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
@@ -427,7 +427,7 @@
     },
     {
         "id": 31,
-        "name": "silver_r",
+        "code": "silver_r",
         "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
@@ -447,7 +447,7 @@
     },
     {
         "id": 32,
-        "name": "silver_max",
+        "code": "silver_max",
         "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
@@ -468,7 +468,7 @@
     },
     {
         "id":33,
-        "name": "silver_t",
+        "code": "silver_t",
         "type": "person",
         "faction": "ucs",
         "required_building": "robot_factory",
@@ -485,7 +485,7 @@
     },
     {
         "id": 34,
-        "name": "a01_android",
+        "code": "a01_android",
         "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
@@ -512,7 +512,7 @@
     },
     {
         "id": 35,
-        "name": "a02_android",
+        "code": "a02_android",
         "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
@@ -532,7 +532,7 @@
     },
     {
         "id": 36,
-        "name": "a03_android",
+        "code": "a03_android",
         "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
@@ -553,7 +553,7 @@
     },
     {
         "id": 37,
-        "name": "a04_android",
+        "code": "a04_android",
         "type": "person",
         "faction": "ed",
         "required_building": "bio_center",
@@ -564,7 +564,7 @@
     },
     {
         "id": 38,
-        "name": "civilian_1",
+        "code": "civilian_1",
         "type": "person",
         "faction": null,
         "required_building": null,
@@ -575,7 +575,7 @@
     },
     {
         "id": 39,
-        "name": "civilian_2",
+        "code": "civilian_2",
         "type": "person",
         "faction": null,
         "required_building": null,
@@ -586,7 +586,7 @@
     },
     {
         "id": 40,
-        "name": "civilian_3",
+        "code": "civilian_3",
         "type": "person",
         "faction": null,
         "required_building": null,
@@ -597,7 +597,7 @@
     },
     {
         "id": 41,
-        "name": "t100",
+        "code": "t100",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": null,
@@ -616,7 +616,7 @@
     },
     {
         "id": 42,
-        "name": "raptor_es",
+        "code": "raptor_es",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "engine",
@@ -635,7 +635,7 @@
     },
     {
         "id": 43,
-        "name": "raptor_ad",
+        "code": "raptor_ad",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "rocket_engine",
@@ -656,7 +656,7 @@
     },
     {
         "id": 44,
-        "name": "st01b_tank",
+        "code": "st01b_tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "engine",
@@ -680,7 +680,7 @@
     },
     {
         "id": 45,
-        "name": "st02_tank",
+        "code": "st02_tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "rocket_engine",
@@ -704,7 +704,7 @@
     },
     {
         "id": 46,
-        "name": "tiger_assault",
+        "code": "tiger_assault",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "rocket_engine",
@@ -713,13 +713,13 @@
         "health": 400,
         "weapons": [
             {
-                "name": "left",
+                "code": "left",
                 "type": "rocket",
                 "group": 0,
                 "damage": 15
             },
             {
-                "name": "right",
+                "code": "right",
                 "type": "rocket",
                 "group": 0,
                 "damage": 15
@@ -733,7 +733,7 @@
     },
     {
         "id": 47,
-        "name": "tiger_hellmaker",
+        "code": "tiger_hellmaker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "engine",
@@ -742,7 +742,7 @@
         "health": 500,
         "weapons": [
             {
-                "name": "left",
+                "code": "left",
                 "type": "napalm",
                 "group": 0,
                 "total_ammo": 1,
@@ -751,7 +751,7 @@
                 "damage": 7
             },
             {
-                "name": "right",
+                "code": "right",
                 "type": "napalm",
                 "group": 0,
                 "total_ammo": 1,
@@ -768,7 +768,7 @@
     },
     {
         "id": 48,
-        "name": "mt_200",
+        "code": "mt_200",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "nuclear_engine",
@@ -792,7 +792,7 @@
     },
     {
         "id": 49,
-        "name": "mt_201l",
+        "code": "mt_201l",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "light_laser_cannon",
@@ -816,7 +816,7 @@
     },
     {
         "id": 50,
-        "name": "spider",
+        "code": "spider",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "light_plasma_cannon",
@@ -825,7 +825,7 @@
         "health": 400,
         "weapons": [
             {
-                "name": "left",
+                "code": "left",
                 "type": "plasma",
                 "group": 0,
                 "total_ammo": 12,
@@ -834,7 +834,7 @@
                 "damage": 15
             },
             {
-                "name": "right",
+                "code": "right",
                 "type": "plasma",
                 "group": 0,
                 "total_ammo": 12,
@@ -846,7 +846,7 @@
     },
     {
         "id": 51,
-        "name": "spider_ii",
+        "code": "spider_ii",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "heavy_rockets",
@@ -855,7 +855,7 @@
         "health": 400,
         "weapons": [
             {
-                "name": "left",
+                "code": "left",
                 "type": "heavy_rocket",
                 "group": 0,
                 "total_ammo": 2,
@@ -864,7 +864,7 @@
                 "damage": 15
             },
             {
-                "name": "right",
+                "code": "right",
                 "type": "heavy_rocket",
                 "group": 1,
                 "total_ammo": 2,
@@ -876,7 +876,7 @@
     },
     {
         "id": 52,
-        "name": "ht_30_lr",
+        "code": "ht_30_lr",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "light_laser_cannon",
@@ -919,7 +919,7 @@
     },
     {
         "id": 53,
-        "name": "ht_33_r",
+        "code": "ht_33_r",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "heavy_rockets",
@@ -943,7 +943,7 @@
     },
     {
         "id": 54,
-        "name": "ht_34_j",
+        "code": "ht_34_j",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "ion_cannon",
@@ -967,7 +967,7 @@
     },
     {
         "id": 55,
-        "name": "atm_500",
+        "code": "atm_500",
         "type": "unit_transport",
         "faction": "ucs",
         "required_building": "heavy_tech",
@@ -991,7 +991,7 @@
     },
     {
         "id": 56,
-        "name": "wtp_100",
+        "code": "wtp_100",
         "type": "unit_transport",
         "faction": "ucs",
         "required_building": "heavy_tech",
@@ -1007,7 +1007,7 @@
     },
     {
         "id": 57,
-        "name": "tur",
+        "code": "tur",
         "type": "unit_transport",
         "faction": "ed",
         "required_building": "tech_house",
@@ -1021,7 +1021,7 @@
     },
     {
         "id": 58,
-        "name": "bio",
+        "code": "bio",
         "type": "unit_transport",
         "faction": "ed",
         "required_building": "tech_house",
@@ -1035,7 +1035,7 @@
     },
     {
         "id": 59,
-        "name": "btti",
+        "code": "btti",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": null,
@@ -1045,7 +1045,7 @@
     },
     {
         "id": 60,
-        "name": "hellbike",
+        "code": "hellbike",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": null,
@@ -1063,7 +1063,7 @@
     },
     {
         "id": 61,
-        "name": "bantha",
+        "code": "bantha",
         "type": "ore_transport",
         "faction": null,
         "required_building": "construction_factory",
@@ -1074,7 +1074,7 @@
     },
     {
         "id": 62,
-        "name": "hcr-m",
+        "code": "hcr-m",
         "type": "repairer",
         "faction": null,
         "required_building": "construction_factory",
@@ -1085,7 +1085,7 @@
     },
     {
         "id": 63,
-        "name": "miner",
+        "code": "miner",
         "type": "ground_miner",
         "faction": "ed",
         "required_building": "tech_house",
@@ -1109,7 +1109,7 @@
     },
     {
         "id": 64,
-        "name": "miner_bt",
+        "code": "miner_bt",
         "type": "ground_miner",
         "faction": "ucs",
         "required_building": "heavy_tech",
@@ -1133,7 +1133,7 @@
     },
     {
         "id": 65,
-        "name": "screamer",
+        "code": "screamer",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "teleportation",
@@ -1153,7 +1153,7 @@
     },
     {
         "id": 66,
-        "name": "shadow",
+        "code": "shadow",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "teleportation",
@@ -1169,7 +1169,7 @@
     },
     {
         "id": 67,
-        "name": "shark",
+        "code": "shark",
         "faction": "ed",
         "required_building": "water_base",
         "required_technology": "engine",
@@ -1189,7 +1189,7 @@
     },
     {
         "id": 68,
-        "name": "wtrn",
+        "code": "wtrn",
         "type": "unit_transport",
         "faction": "ed",
         "required_building": "water_base",
@@ -1205,7 +1205,7 @@
     },
     {
         "id": 69,
-        "name": "kt30",
+        "code": "kt30",
         "faction": "ed",
         "required_building": "water_base",
         "required_technology": "heavy_rockets",
@@ -1242,7 +1242,7 @@
     },
     {
         "id": 70,
-        "name": "russ_3",
+        "code": "russ_3",
         "faction": "ucs",
         "required_building": "water_base",
         "required_technology": "engine",
@@ -1262,7 +1262,7 @@
     },
     {
         "id": 71,
-        "name": "ttre_400",
+        "code": "ttre_400",
         "type": "water_miner",
         "faction": "ucs",
         "required_building": "water_base",
@@ -1274,7 +1274,7 @@
     },
     {
         "id": 72,
-        "name": "thunder",
+        "code": "thunder",
         "faction": "ed",
         "required_technology": "flying",
         "price": 700,
@@ -1293,7 +1293,7 @@
     },
     {
         "id": 73,
-        "name": "hat",
+        "code": "hat",
         "type": "unit_transport",
         "faction": "ed",
         "required_technology": "flying",
@@ -1304,7 +1304,7 @@
     },
     {
         "id": 74,
-        "name": "storm",
+        "code": "storm",
         "faction": "ed",
         "required_technology": "flying",
         "price": 500,
@@ -1323,7 +1323,7 @@
     },
     {
         "id": 75,
-        "name": "gargoil",
+        "code": "gargoil",
         "faction": "ucs",
         "required_building": "air_base",
         "required_technology": "flying",
@@ -1343,7 +1343,7 @@
     },
     {
         "id": 76,
-        "name": "hellwind",
+        "code": "hellwind",
         "faction": "ucs",
         "required_building": "air_base",
         "required_technology": "plasma_bomb",
@@ -1354,7 +1354,7 @@
     },
     {
         "id": 77,
-        "name": "heavy_lifter",
+        "code": "heavy_lifter",
         "faction": null,
         "required_building": "air_base",
         "required_technology": "flying",
@@ -1365,7 +1365,7 @@
     },
     {
         "id": 78,
-        "name": "vtol_harrier",
+        "code": "vtol_harrier",
         "faction": "ed",
         "required_building": "air_base",
         "TODO_required_technology": null,
@@ -1394,7 +1394,7 @@
     },
     {
         "id": 79,
-        "name": "gargoil_new",
+        "code": "gargoil_new",
         "faction": "ucs",
         "required_building": "air_base",
         "TODO_required_technology": null,
@@ -1423,7 +1423,7 @@
     },
     {
         "id": 80,
-        "name": "heavy_bomber",
+        "code": "heavy_bomber",
         "faction": "ed",
         "required_building": "air_base",
         "TODO_required_technology": null,
@@ -1434,7 +1434,7 @@
     },
     {
         "id": 81,
-        "name": "heavy_tank",
+        "code": "heavy_tank",
         "faction": "ed",
         "required_building": "tech_house",
         "TODO_required_technology": null,
@@ -1471,7 +1471,7 @@
     },
     {
         "id": 82,
-        "name": "big_mech",
+        "code": "big_mech",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "TODO_required_technology": null,
@@ -1480,7 +1480,7 @@
         "health": 800,
         "weapons": [
             {
-                "name": "left",
+                "code": "left",
                 "type": "rocket",
                 "group": 0,
                 "total_ammo": 8,
@@ -1489,7 +1489,7 @@
                 "damage": 20
             },
             {
-                "name": "right",
+                "code": "right",
                 "type": "rocket",
                 "group": 1,
                 "total_ammo": 8,
@@ -1501,7 +1501,7 @@
     },
     {
         "id": 83,
-        "name": "goliat",
+        "code": "goliat",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "TODO_required_technology": null,
@@ -1517,7 +1517,7 @@
     },
     {
         "id": 84,
-        "name": "sdi_defence",
+        "code": "sdi_defence",
         "type": "mcu",
         "faction": "ucs",
         "required_building": "pb_control",
@@ -1531,7 +1531,7 @@
     },
     {
         "id": 85,
-        "name": "watch_tower",
+        "code": "watch_tower",
         "type": "mcu",
         "faction": "ed",
         "required_building": "bcc",

@@ -6,11 +6,13 @@
 #include "engine/simulation/simulation.h"
 #include "world.h"
 
-World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::shared_ptr<Image>>& tilesetImages)
+World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& tilesetImages)
             : tilesetImages(std::move(tilesetImages)) {
     log = Log::get("World");
 
     //Set dimensions
+    tileSize = assetLevel->tileSize();
+    tileSizeHalf = tileSize / 2;
     Vector2 size;
     assetLevel->dimensions(size);
     error = assetLevel->getError();
@@ -104,7 +106,7 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
         for (int x = tileStartX; x < tileEndX; ++x) {
             //Get current image of tile and draw it
             int index = x + realRectangle.w * y;
-            std::shared_ptr<Image> image = tilesImages.at(index);
+            Image* image = tilesImages.at(index);
             if (!image) {
                 continue;
             }
@@ -160,9 +162,9 @@ void World::toWorldPosition(const Vector2& position, Vector2& result) {
     result.set(position.x * (tileSize + tileSizeHalf), position.y * (tileSize + tileSizeHalf));
 }
 
-std::shared_ptr<Image> World::calculateTileImage(Tile& tile) {
+Image* World::calculateTileImage(Tile& tile) {
     tile.isImageDirty = false;
-    std::shared_ptr<Image> image = tilesetImages[tile.tilesetIndex];
+    Image* image = tilesetImages[tile.tilesetIndex];
     //TODO check if tile has damage such as fire/weapon and select the image
     return image;
 }

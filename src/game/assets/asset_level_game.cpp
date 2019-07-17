@@ -32,6 +32,10 @@ void AssetLevelGame::dimensions(Vector2& size) {
     size.set(levelSize);
 }
 
+unsigned int AssetLevelGame::tileSize() {
+    return 64;
+}
+
 std::string AssetLevelGame::name() {
     seek(0, true);
     std::string name = "";

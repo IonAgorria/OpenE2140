@@ -41,12 +41,12 @@ private:
     /**
      * Images in tileset
      */
-    std::unordered_map<unsigned int, std::shared_ptr<Image>> tilesetImages;
+    std::unordered_map<unsigned int, Image*> tilesetImages;
 
     /**
      * Images to be drawn for each tile
      */
-    std::vector<std::shared_ptr<Image>> tilesImages;
+    std::vector<Image*> tilesImages;
 
     /**
      * Tiles information
@@ -56,12 +56,12 @@ private:
     /**
      * Tile image size
      */
-    const int tileSize = 64; //TODO move this to asset level method and override in game, as its game specific
+    int tileSize;
 
     /**
      * Tile image size half
      */
-    const int tileSizeHalf = tileSize / 2;
+    int tileSizeHalf;
 
     /**
      * World scaling
@@ -72,7 +72,7 @@ public:
     /**
      * World constructor
      */
-    World(AssetLevel* assetLevel, std::unordered_map<unsigned int, std::shared_ptr<Image>>& tilesetImages);
+    World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& tilesetImages);
 
     /**
      * World destructor
@@ -164,7 +164,7 @@ public:
      * @param tile
      * @return
      */
-    std::shared_ptr<Image> calculateTileImage(Tile& tile);
+    Image* calculateTileImage(Tile& tile);
 };
 
 

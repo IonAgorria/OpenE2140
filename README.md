@@ -64,11 +64,9 @@ The following game assets must be present in WD file or directory form:
 - Basic entity implementation
 
 ## Roadmap
-- Code for json config load and save
-- Loading entity config and use it in factory
-- Writting game data
 - Entity drawing
 - Static map entities (using SPRO*)
+- Writing game data (sprites of units, weapons and other missing data)
 - Entity selection
 - Mobile units
 - Move order
@@ -77,8 +75,12 @@ The following game assets must be present in WD file or directory form:
 - Rectangle and circular collisions for buildings/units 
 - Basic ingame GUI
 - Menu GUI
-- Weapons
+- Weapons:
+    - Weapon data loading into Weapon(Config?) at simulation startup
+    - Usage of weapon data when weapon is instanced
 - Turrets
+    - Turret(s) containing component
+    - Tracking the current target with turret
 - Attack order
 - Add ingame menu for viewing player stuff
 - Building construction and deployment

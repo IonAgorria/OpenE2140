@@ -31,7 +31,7 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
     log->debug("Name: '" + assetLevel->name() + "'");
 
     //Load tileset
-    std::unordered_map<unsigned int, std::shared_ptr<Image>> tilesetImages;
+    std::unordered_map<unsigned int, Image*> tilesetImages;
     size_t tilesetSize = assetLevel->tilesetSize();
     for (size_t i = 0; i < tilesetSize; ++i) {
         asset_path_t path = assetLevel->tilePath(i);
@@ -137,6 +137,7 @@ Renderer* Simulation::getRenderer() {
     return engine->getRenderer();
 }
 
-std::shared_ptr<Image> Simulation::getImage(const asset_path_t& path) {
-    return engine->getAssetManager()->getImage(path);
+Image* Simulation::getImage(const asset_path_t& path) {
+    std::shared_ptr<Image> image = engine->getAssetManager()->getImage(path);
+    return image ? image.get() : nullptr;
 }

@@ -21,7 +21,7 @@ protected:
     /**
      * Image to draw
      */
-    std::shared_ptr<Image> image;
+    Image* image;
 
     /**
      * Image offset from entity center;

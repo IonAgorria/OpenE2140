@@ -32,6 +32,11 @@ public:
     virtual void dimensions(Vector2& size);
 
     /**
+     * @return size of tiles in world
+     */
+    virtual unsigned int tileSize();
+
+    /**
      * @return name of this world
      */
     virtual std::string name();

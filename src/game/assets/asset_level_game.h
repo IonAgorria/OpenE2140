@@ -41,6 +41,8 @@ public:
 
     std::string name() override;
 
+    unsigned int tileSize() override;
+
     asset_path_t tilePath(size_t index) override;
 
     size_t tilesetSize() override;

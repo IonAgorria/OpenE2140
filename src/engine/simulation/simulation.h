@@ -121,7 +121,7 @@ public:
      *
      * @return image
      */
-    std::shared_ptr<Image> getImage(const asset_path_t& path);
+    Image* getImage(const asset_path_t& path);
 };
 
 #endif //OPENE2140_SIMULATION_H

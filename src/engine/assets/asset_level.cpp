@@ -15,6 +15,10 @@ void AssetLevel::dimensions(Vector2& size) {
     size.set(0, 0);
 }
 
+unsigned int AssetLevel::tileSize() {
+    return 0;
+}
+
 std::string AssetLevel::name() {
     return "";
 }

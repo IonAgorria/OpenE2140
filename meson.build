@@ -88,6 +88,7 @@ opene2140_src = [
     'src/engine/simulation/pathfinder/path_handler.cpp',
     'src/engine/simulation/pathfinder/path_request.cpp',
     'src/engine/simulation/pathfinder/astar.cpp',
+    'src/engine/simulation/components/faction_component.cpp',
     'src/engine/simulation/components/player_component.cpp',
     'src/engine/simulation/components/image_component.cpp',
     'src/game/assets/asset_processor_datpal.cpp',

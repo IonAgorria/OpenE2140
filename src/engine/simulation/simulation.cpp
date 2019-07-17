@@ -13,6 +13,7 @@
 #include "engine/simulation/entities/entity_manager.h"
 #include "simulation.h"
 #include "pathfinder/path_handler.h"
+#include "engine/simulation/faction.h"
 
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {
@@ -135,6 +136,28 @@ void Simulation::removeEntity(std::shared_ptr<Entity> entity) {
 
 Renderer* Simulation::getRenderer() {
     return engine->getRenderer();
+}
+
+void Simulation::addFaction(std::unique_ptr<Faction> faction) {
+    faction_id_t id = faction->id;
+    //Allocate new empty if not enough are present
+    if (factions.size() < static_cast<faction_id_t>(id + 1)) {
+        factions.resize(id + 1);
+    }
+    factions[id].swap(faction);
+}
+
+Faction* Simulation::getFaction(faction_id_t id) {
+    return id < factions.size() ? factions[id].get() : nullptr;
+}
+
+Faction* Simulation::getFaction(const std::string& code) {
+    for (std::unique_ptr<Faction>& faction : factions) {
+        if (faction && faction->code == code) {
+            return faction.get();
+        }
+    }
+    return nullptr;
 }
 
 Image* Simulation::getImage(const asset_path_t& path) {

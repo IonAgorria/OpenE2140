@@ -10,6 +10,7 @@
 #include "engine/assets/asset_manager.h"
 #include "engine/io/log.h"
 
+class Faction;
 class Engine;
 class World;
 class Renderer;
@@ -43,6 +44,11 @@ private:
      * World for this simulation
      */
     std::unique_ptr<World> world;
+
+    /**
+     * Factions for this simulation
+     */
+    std::vector<std::unique_ptr<Faction>> factions;
 
     /**
      * Last used entity id
@@ -108,9 +114,32 @@ public:
     void removeEntity(std::shared_ptr<Entity> entity);
 
     /**
+     * Adds a new faction to simulation
+     *
+     * @param faction to add
+     */
+    void addFaction(std::unique_ptr<Faction> faction);
+
+    /**
      * @return current renderer
      */
     Renderer* getRenderer();
+
+    /**
+     * Obtain the faction from ID
+     *
+     * @param id of faction
+     * @return faction or null if none found
+     */
+    Faction* getFaction(faction_id_t id);
+
+    /**
+     * Obtain the faction from code
+     *
+     * @param code of faction
+     * @return faction or null if none found
+     */
+    Faction* getFaction(const std::string& code);
 
     /*
      * AssetManager proxy

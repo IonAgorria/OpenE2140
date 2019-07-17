@@ -22,6 +22,9 @@ using window_id_t = uint32_t;
 /** Entity ID */
 using entity_id_t = uint64_t;
 
+/** Faction ID */
+using faction_id_t = uint16_t;
+
 /** Tile index */
 using tile_index_t = uint16_t;
 

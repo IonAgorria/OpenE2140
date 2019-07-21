@@ -20,20 +20,22 @@ int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
     //Register signal and terminate handler
     Utils::setSignalHandler(Utils::handleHaltAndCatchFire, Utils::handleTerminate);
 
-    //Cache the paths
-    Utils::getInstallPath();
-    Utils::getUserPath();
-
     //Parse args
     for(int i=1; i < argc; i++) {
         std::string arg = argv[i];
         std::transform(BEGIN_END(arg), arg.begin(), ::tolower);
         if (arg.compare("-debug") == 0 || arg.compare("-d") == 0) {
-            Utils::setDebug(true);
+            Utils::setFlag(FLAG_DEBUG, true);
+        } else if (arg.compare("-parent") == 0) {
+            Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
         } else {
             std::cout << "Unknown arg " << arg << "\n";
         }
     }
+
+    //Cache the paths
+    Utils::getInstallPath();
+    Utils::getUserPath();
 
     //Initialize log
     log_ptr log = Log::get(MAIN_LOG);

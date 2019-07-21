@@ -51,4 +51,9 @@
  */
 #define BIT_ON(VAR, BITS) VAR |= BITS
 
+/**
+ * True if bit is set
+ */
+#define BIT_STATE(VAR, BITS) ((VAR & BITS) != 0)
+
 #endif //OPENE2140_MACROS_H

@@ -41,7 +41,7 @@ log_ptr Log::get() {
 }
 
 void Log::set_default_level(log_ptr logger) {
-    logger->set_level(Utils::isDebug() ? spdlog::level::debug : spdlog::level::info);
+    logger->set_level(Utils::isFlag(FLAG_DEBUG) ? spdlog::level::debug : spdlog::level::info);
 }
 
 void Log::closeAll() {

@@ -19,19 +19,23 @@
 #endif
 
 //Default static variable values
-bool Utils::debug = false;
+unsigned int Utils::flags = 0;
 std::unique_ptr<std::string> Utils::installPath; //Default null pointer
 std::unique_ptr<std::string> Utils::userPath; //Default null pointer
 std::unique_ptr<std::string> Utils::dumpPath; //Default null pointer
 std::terminate_handler Utils::originalTerminateHandler = nullptr;
 std::string Utils::lastException;
 
-void Utils::setDebug(bool value) {
-    debug = value;
+void Utils::setFlag(unsigned int flag, bool value) {
+    if (value) {
+        BIT_ON(flags, flag);
+    } else {
+        BIT_OFF(flags, flag);
+    }
 }
 
-bool Utils::isDebug() {
-    return debug;
+bool Utils::isFlag(unsigned int flag) {
+    return BIT_STATE(flags, flag);
 }
 
 std::string Utils::checkSDLError(const log_ptr log) {
@@ -303,6 +307,11 @@ const std::string& Utils::getInstallPath() {
             //Path is valid so store it in cache
             installPath->assign(path);
             SDL_free(path);
+            //Set install path to parent
+            if (Utils::isFlag(FLAG_INSTALLATION_PARENT)) {
+                std::string parent = Utils::getParentPath(*installPath);
+                *installPath = parent;
+            }
         }
     }
     return *installPath;
@@ -467,5 +476,4 @@ std::unique_ptr<byte_array_t> Utils::bufferFlipY(const byte_array_t data, unsign
 void Utils::getRootPaths(const std::string& name, std::vector<std::string>& roots) {
     roots.emplace_back(Utils::getInstallPath() + name);                       //Installation directory
     roots.emplace_back(name);                                                 //Current directory
-    roots.emplace_back(Utils::getParentPath(Utils::getInstallPath()) + name); //Parent of installation directory
 }

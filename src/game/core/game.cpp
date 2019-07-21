@@ -24,7 +24,7 @@ void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
     eventHandler->addEventListener(std::make_unique<EventListenerCamera>(this_ptr));
-    if (Utils::isDebug()) {
+    if (Utils::isFlag(FLAG_DEBUG)) {
         eventHandler->addEventListener(std::make_unique<EventListenerDebug>(this_ptr));
     }
 

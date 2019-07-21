@@ -22,7 +22,7 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& t
         return;
     }
     realRectangle.set(Vector2(0), size);
-    if (Utils::isDebug()) {
+    if (Utils::isFlag(FLAG_DEBUG)) {
         tileRectangle.set(realRectangle);
     } else {
         tileRectangle.set(

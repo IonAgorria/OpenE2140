@@ -12,22 +12,7 @@ void IEntityFactory::clear() {
 }
 
 void IEntityFactory::load() {
-    //Load roots
-    std::vector<std::string> roots;
-    Utils::getRootPaths(getConfigPath(), roots);
-    bool loaded = false;
-    for (const std::string& path : roots) {
-        loadConfig(path);
-        if (hasError()) {
-            continue;
-        }
-        loaded = true;
-        break;
-    }
-
-    if (!loaded) {
-        error = error + "\nCouldn't load any config";
-    }
+    loadConfig(Utils::getInstallPath() + getConfigPath());
 }
 
 void IEntityFactory::loadConfig(const std::string& path) {

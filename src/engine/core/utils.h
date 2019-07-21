@@ -21,8 +21,8 @@ typedef void (*sighandler) (int);
  */
 class Utils {
 private:
-    /** Debug flag */
-    static bool debug;
+    /** Program flags */
+    static unsigned int flags;
     /** Cached install path */
     static std::unique_ptr<std::string> installPath;
     /** Cached user path */
@@ -39,12 +39,12 @@ public:
      *
      * @param value to set
      */
-    static void setDebug(bool value);
+    static void setFlag(unsigned int flag, bool value);
 
     /**
      * @return if debug mode is on
      */
-    static bool isDebug();
+    static bool isFlag(unsigned int flag);
 
     /**
      * Checks if SDL has any error

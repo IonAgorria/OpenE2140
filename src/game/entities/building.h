@@ -6,6 +6,7 @@
 
 #include "engine/simulation/entities/entity_factory.h"
 #include "engine/simulation/components/component.h"
+#include "engine/simulation/components/faction_component.h"
 #include "engine/simulation/components/player_component.h"
 #include "game/components/player_palette_component.h"
 #include "game/core/constants.h"
@@ -15,6 +16,7 @@
  * Building entity
  */
 CLASS_ENTITY(Entity, Building,
+        FactionComponent,
         PlayerComponent,
         PlayerPaletteComponent<Building>
 )
@@ -36,7 +38,9 @@ class BuildingFactory: public IEntityFactory {
         return ENTITY_KIND_BUILDING;
     }
 
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) override;
+    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) override {
+        return std::make_shared<Building>();
+    }
 };
 
 #endif //OPENE2140_BUILDING_H

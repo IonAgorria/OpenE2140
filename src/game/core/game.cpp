@@ -9,6 +9,7 @@
 #include "engine/graphics/window.h"
 #include "engine/io/event_handler.h"
 #include "engine/simulation/simulation.h"
+#include "engine/simulation/faction.h"
 #include "engine/simulation/world/tile.h"
 #include "engine/core/utils.h"
 #include "game/assets/asset_processor_wd.h"
@@ -61,6 +62,35 @@ void Game::setupEntityManager() {
     Engine::setupEntityManager();
 }
 
+void Game::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
+    //Call setup
+    Engine::setupSimulation(parameters);
+
+    //Load stuff
+    loadFactions();
+}
+
+void Game::loadFactions() {
+    //Load factions
+    Config config(Utils::getInstallPath() + "/data/factions.json");
+    config.read();
+    error = config.getError();
+    if (hasError()) {
+        return;
+    }
+
+    //Load each faction config
+    for (nlohmann::json& data : config.data) {
+        entity_type_id_t id = data.value("id", 0);
+        std::unique_ptr<Faction> faction = std::make_unique<Faction>();
+        faction->id = id;
+        faction->code = data.value("code", "");
+        faction->name = faction->code; //TODO translate
+        //TODO load technologies section
+        simulation->addFaction(std::move(faction));
+    }
+}
+
 void Game::run() {
     Engine::run();
     if (hasError()) {
@@ -68,7 +98,6 @@ void Game::run() {
     }
 
     //TODO
-    //camera.set(100, 100);
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
     parameters->world = "LEVEL/DATA/LEVEL02";

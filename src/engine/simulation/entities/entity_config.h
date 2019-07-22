@@ -5,13 +5,30 @@
 #define OPENE2140_ENTITY_CONFIG_H
 
 #include <unordered_map>
+#include <src/engine/io/log.h>
 #include "engine/core/types.h"
 #include "engine/io/config.h"
+
+class Image;
 
 /**
  * Contains structured data for sprite group
  */
 struct SpriteGroup {
+    /**
+     * Name of this sprite group
+     */
+    std::string name;
+
+    /**
+     * Type of this sprite group
+     */
+    uint16_t type;
+
+    /**
+     * Images in this group
+     */
+    std::vector<Image*> images;
 };
 
 /**
@@ -43,6 +60,15 @@ public:
         data.update(configData);
         name = get<const std::string>("name", "");
         type = get<const std::string>("type", "");
+        config_data_t spritesData = configData["sprites"];
+        if (spritesData.is_object()) {
+            for (config_data_t::iterator entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
+                SpriteGroup group;
+                group.name = entry.key();
+                //TODO
+                sprites[group.name] = std::move(group);
+            }
+        }
     }
 
     /**

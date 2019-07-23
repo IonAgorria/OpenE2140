@@ -72,6 +72,11 @@ public:
     NON_COPYABLE(Simulation)
 
     /**
+     * Called when simulation should load from parameters
+     */
+    virtual void load();
+
+    /**
      * Called when simulation is being updated
      */
     virtual void update();

@@ -230,6 +230,9 @@ void Engine::setupEntityManager() {
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
     error = simulation->getError();
+
+    //Load the simulation
+    simulation->load();
 }
 
 EventHandler* Engine::getEventHandler() {

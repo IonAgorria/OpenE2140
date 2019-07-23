@@ -22,7 +22,9 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
         error = "Parameters not set";
         return;
     }
+}
 
+void Simulation::load() {
     //Load asset
     AssetLevel* assetLevel = engine->getAssetManager()->getAsset<AssetLevel>(this->parameters->world);
     if (!assetLevel) {

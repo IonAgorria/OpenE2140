@@ -9,11 +9,13 @@
 #include "engine/graphics/window.h"
 #include "engine/gui/guimenu.h"
 #include "engine/simulation/simulation.h"
+#include "engine/simulation/faction.h"
 #include "engine/simulation/world/world.h"
 #include "engine/simulation/entities/entity_manager.h"
 #include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"
+#include "engine/io/config.h"
 #include "engine.h"
 
 int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
@@ -231,6 +233,9 @@ void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) 
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
     error = simulation->getError();
 
+    //Load stuff before doing simulation load
+    loadFactions();
+
     //Load the simulation
     simulation->load();
 }
@@ -288,4 +293,25 @@ void Engine::updateCamera(const Vector2& newCamera) {
 input_key_code_t Engine::getKeyBind(const std::string& name) {
     //TODO there should be a configurable keybinds and falling back to default if not set
     return EventHandler::getCodeFromName(name);
+}
+
+void Engine::loadFactions() {
+    //Load factions
+    Config config(Utils::getDataPath() + "factions.json");
+    config.read();
+    error = config.getError();
+    if (hasError()) {
+        return;
+    }
+
+    //Load each faction config
+    for (nlohmann::json& data : config.data) {
+        entity_type_id_t id = data.value("id", 0);
+        std::unique_ptr<Faction> faction = std::make_unique<Faction>();
+        faction->id = id;
+        faction->code = data.value("code", "");
+        faction->name = getText("faction."+faction->code);
+        faction->data = data["data"];
+        simulation->addFaction(std::move(faction));
+    }
 }

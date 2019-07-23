@@ -25,6 +25,11 @@ public:
      * Name for this faction
      */
     std::string name;
+
+    /**
+     * Extra data for this faction
+     */
+    config_data_t data;
 };
 
 #endif //OPENE2140_FACTION_H

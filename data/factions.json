@@ -2,63 +2,67 @@
     {
         "id": 0,
         "code": "ed",
-        "technologies": [
-            {
-                "nuclear_reactor": 50,
-                "engine": 50,
-                "laser_detector": 100
-            },
-            {
-                "nuclear_engine": 150,
-                "rocket_engine": 150,
-                "laser_cannon": 500,
-                "light_laser_cannon": 500
-            },
-            {
-                "high_medicine": 0,
-                "flying": 1500,
-                "heavy_rockets": 0
-            },
-            {
-                "fast_repairing":  0,
-                "ai_mine":  0,
-                "teleportation": 0,
-                "ion_cannon":  0
-            },
-            {
-                "nuclear_weapons": 5000
-            }
-        ]
+        "data": {
+            "technologies": [
+                {
+                    "nuclear_reactor": 50,
+                    "engine": 50,
+                    "laser_detector": 100
+                },
+                {
+                    "nuclear_engine": 150,
+                    "rocket_engine": 150,
+                    "laser_cannon": 500,
+                    "light_laser_cannon": 500
+                },
+                {
+                    "high_medicine": 0,
+                    "flying": 1500,
+                    "heavy_rockets": 0
+                },
+                {
+                    "fast_repairing":  0,
+                    "ai_mine":  0,
+                    "teleportation": 0,
+                    "ion_cannon":  0
+                },
+                {
+                    "nuclear_weapons": 5000
+                }
+            ]
+        }
     },
     {
         "id": 1,
         "code": "ucs",
-        "technologies": [
-            {
-                "nuclear_reactor": 50,
-                "engine": 50,
-                "plasma_fusion": 100
-            },
-            {
-                "nuclear_engine": 0,
-                "rocket_engine": 0,
-                "plasma_cannon": 500,
-                "light_plasma_cannon": 500
-            },
-            {
-                "high_medicine": 0,
-                "flying":  1500,
-                "heavy_rockets": 0
-            },
-            {
-                "fast_repairing":  0,
-                "ai_mine":  0,
-                "teleportation":  0,
-                "plasma_bomb":  0
-            },
-            {
-                "plasma_weapons": 5000
-            }
-        ]
+        "data": {
+            "technologies": [
+                {
+                    "nuclear_reactor": 50,
+                    "engine": 50,
+                    "plasma_fusion": 100
+                },
+                {
+                    "nuclear_engine": 0,
+                    "rocket_engine": 0,
+                    "plasma_cannon": 500,
+                    "light_plasma_cannon": 500
+                },
+                {
+                    "high_medicine": 0,
+                    "flying": 1500,
+                    "heavy_rockets": 0
+                },
+                {
+                    "fast_repairing": 0,
+                    "ai_mine": 0,
+                    "teleportation": 0,
+                    "plasma_bomb": 0
+                },
+                {
+                    "plasma_weapons": 5000
+                }
+            ]
+        }
     }
 ]

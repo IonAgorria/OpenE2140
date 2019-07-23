@@ -65,30 +65,6 @@ void Game::setupEntityManager() {
 void Game::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
     //Call setup
     Engine::setupSimulation(parameters);
-
-    //Load stuff
-    loadFactions();
-}
-
-void Game::loadFactions() {
-    //Load factions
-    Config config(Utils::getInstallPath() + "/data/factions.json");
-    config.read();
-    error = config.getError();
-    if (hasError()) {
-        return;
-    }
-
-    //Load each faction config
-    for (nlohmann::json& data : config.data) {
-        entity_type_id_t id = data.value("id", 0);
-        std::unique_ptr<Faction> faction = std::make_unique<Faction>();
-        faction->id = id;
-        faction->code = data.value("code", "");
-        faction->name = faction->code; //TODO translate
-        //TODO load technologies section
-        simulation->addFaction(std::move(faction));
-    }
 }
 
 void Game::run() {

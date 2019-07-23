@@ -23,8 +23,6 @@ protected:
 
     void setupSimulation(std::unique_ptr<SimulationParameters>& parameters) override;
 
-    void loadFactions();
-
     /**
      * Sets a tile as reactor crate
      * TODO move this to some world or powerplant specific class

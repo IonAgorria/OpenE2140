@@ -126,6 +126,11 @@ protected:
      * @param parameters
      */
     virtual void setupSimulation(std::unique_ptr<SimulationParameters>& parameters);
+
+    /**
+     * Loads factions from data
+     */
+    virtual void loadFactions();
 public:
     /**
      * Main engine entry point, does the basic initializations

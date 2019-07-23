@@ -4,14 +4,10 @@
 #ifndef OPENE2140_CONFIG_H
 #define OPENE2140_CONFIG_H
 
-#include <nlohmann/json.hpp>
 #include "engine/core/common.h"
 #include "engine/core/error_possible.h"
 #include "engine/core/to_string.h"
 #include "engine/io/file.h"
-
-using config_data_t = nlohmann::json;
-using config_key_t = nlohmann::json::object_t::key_type;
 
 class File;
 class Vector2;

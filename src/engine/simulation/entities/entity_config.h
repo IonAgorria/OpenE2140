@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <src/engine/io/log.h>
 #include "engine/core/types.h"
-#include "engine/io/config.h"
 
 class Image;
 

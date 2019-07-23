@@ -13,6 +13,11 @@ using byte_array_t = byte_t[];
 /** Asset path */
 using asset_path_t = std::string;
 
+/** Config stuff */
+#include <nlohmann/json.hpp>
+using config_data_t = nlohmann::json;
+using config_key_t = nlohmann::json::object_t::key_type;
+
 /** Number type */
 using number_t = float; //TODO change this to fixed point
 

@@ -268,6 +268,14 @@ public:
     static const std::string& getInstallPath();
 
     /**
+     * Data base path where the game data files are stored or empty string if path is not available.
+     * Path's are guaranteed to end with dir separator.
+     *
+     * @return path string or empty string
+     */
+    static const std::string getDataPath();
+
+    /**
      * Program user path where the user files are stored or empty string if path is not available.
      * Path's are guaranteed to end with dir separator.
      *

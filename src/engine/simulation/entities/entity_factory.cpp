@@ -12,7 +12,7 @@ void IEntityFactory::clear() {
 }
 
 void IEntityFactory::load() {
-    loadConfig(Utils::getInstallPath() + getConfigPath());
+    loadConfig(Utils::getDataPath() + getConfigPath());
 }
 
 void IEntityFactory::loadConfig(const std::string& path) {

@@ -31,7 +31,7 @@ public:
  */
 class BuildingFactory: public IEntityFactory {
     const std::string getConfigPath() override {
-        return std::string("data") + DIR_SEP + "buildings.json";
+        return "buildings.json";
     }
 
     entity_kind_t getKind() override {

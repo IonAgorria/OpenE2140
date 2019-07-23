@@ -317,6 +317,11 @@ const std::string& Utils::getInstallPath() {
     return *installPath;
 }
 
+const std::string Utils::getDataPath() {
+    const std::string& installPath = Utils::getInstallPath();
+    return installPath + GAME_DATA_DIR + DIR_SEP;
+}
+
 const std::string& Utils::getUserPath() {
     //Only create string when there is no cached one
     if (!userPath) {

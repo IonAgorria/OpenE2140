@@ -33,10 +33,6 @@ int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
         }
     }
 
-    //Cache the paths
-    Utils::getInstallPath();
-    Utils::getUserPath();
-
     //Initialize log
     log_ptr log = Log::get(MAIN_LOG);
 

@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <src/engine/io/log.h>
 #include "engine/core/types.h"
+#include "engine/io/has_config_data.h"
 
 class Image;
 
@@ -33,13 +34,7 @@ struct SpriteGroup {
 /**
  * Base entity config containing the entity stats, type and such data
  */
-class EntityConfig: public entity_type_t {
-protected:
-    /**
-     * Contains data to get config values from
-     */
-    config_data_t data;
-
+class EntityConfig: public entity_type_t, public IHasConfigData {
 public:
     /*
      * Most common values
@@ -56,18 +51,7 @@ public:
      * Constructor
      */
     EntityConfig(config_data_t& configData) {
-        data.update(configData);
-        name = get<const std::string>("name", "");
-        type = get<const std::string>("type", "");
-        config_data_t spritesData = configData["sprites"];
-        if (spritesData.is_object()) {
-            for (config_data_t::iterator entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
-                SpriteGroup group;
-                group.name = entry.key();
-                //TODO
-                sprites[group.name] = std::move(group);
-            }
-        }
+        setData(configData);
     }
 
     /**
@@ -80,50 +64,19 @@ public:
      */
     NON_COPYABLE_NOR_MOVABLE(EntityConfig)
 
-    /**
-     * Returns true if key exists, even if it's null
-     *
-     * @param key
-     * @return
-     */
-    bool has(const config_key_t& key) const {
-        const auto it = data.find(key);
-        return it != data.end();
-    }
-
-    /**
-     * Return default value if key is not present or has null value
-     *
-     * @tparam T type of value to obtain/return
-     * @param key the key of value to access
-     * @param defaultValue value to return if key is not found/null
-     * @return value
-     */
-    template<typename T>
-    T get(const config_key_t& key, T defaultValue) const {
-        const auto it = data.find(key);
-        if (it != data.end() && !it->is_null()) {
-            return *it;
+    void setData(config_data_t& content) {
+        IHasConfigData::setData(content);
+        name = getData<const std::string>("name", "");
+        type = getData<const std::string>("type", "");
+        config_data_t spritesData = data["sprites"];
+        if (spritesData.is_object()) {
+            for (config_data_t::iterator entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
+                SpriteGroup group;
+                group.name = entry.key();
+                //TODO
+                sprites[group.name] = std::move(group);
+            }
         }
-        return defaultValue;
-    }
-
-    /**
-     * Return default value if key is not present or null value if has null value
-     *
-     * @tparam T type of value to obtain/return
-     * @param key the key of value to access
-     * @param defaultValue value to return if key is not found
-     * @param nullValue value to return if key is null
-     * @return value
-     */
-    template<typename T>
-    T get(const config_key_t& key, T& defaultValue, T& nullValue) const {
-        const auto it = data.find(key);
-        if (it != data.end()) {
-            return it->is_null() ? nullValue : *it;
-        }
-        return defaultValue;
     }
 };
 

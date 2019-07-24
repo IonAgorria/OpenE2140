@@ -5,11 +5,12 @@
 #define OPENE2140_FACTION_H
 
 #include "engine/core/common.h"
+#include "engine/io/has_config_data.h"
 
 /**
  * Contains faction related data
  */
-class Faction {
+class Faction: public IHasConfigData {
 public:
     /**
      * ID for the faction
@@ -25,11 +26,6 @@ public:
      * Name for this faction
      */
     std::string name;
-
-    /**
-     * Extra data for this faction
-     */
-    config_data_t data;
 };
 
 #endif //OPENE2140_FACTION_H

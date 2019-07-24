@@ -347,7 +347,7 @@ void Engine::loadFactions() {
         faction->id = id;
         faction->code = data.value("code", "");
         faction->name = getText("faction."+faction->code);
-        faction->data = data["data"];
+        faction->setData(data["data"]);
         simulation->addFaction(std::move(faction));
     }
 }

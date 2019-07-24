@@ -9,7 +9,7 @@
 CLASS_COMPONENT_DEFAULT(FactionComponent)
 
 void FactionComponent::setup() {
-    const std::string factionStr = base->getConfig()->get<const std::string>("faction", "");
+    const std::string factionStr = base->getConfig()->getData<const std::string>("faction", "");
     Log::get()->debug(factionStr);
 }
 

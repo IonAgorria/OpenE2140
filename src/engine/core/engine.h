@@ -19,6 +19,7 @@ class Renderer;
 class Simulation;
 class Timer;
 class GUIMenu;
+class Locale;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -76,6 +77,11 @@ protected:
     std::unique_ptr<GUIMenu> menu;
 
     /**
+     * Current locale
+     */
+    std::unique_ptr<Locale> locale;
+
+    /**
      * Called when engine is requested to close
      */
     virtual void close();
@@ -126,6 +132,11 @@ protected:
      * @param parameters
      */
     virtual void setupSimulation(std::unique_ptr<SimulationParameters>& parameters);
+
+    /**
+     * Called from engine to load locale from data
+     */
+    virtual void setupLocale();
 
     /**
      * Loads factions from data
@@ -212,6 +223,11 @@ public:
      * @return key code for provided bind
      */
     input_key_code_t getKeyBind(const std::string& name);
+
+    /**
+     * @return translated text for provided text key
+     */
+    const std::string getText(const std::string& key);
 };
 
 #endif //OPENE2140_ENGINE_H

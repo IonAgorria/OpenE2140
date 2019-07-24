@@ -16,6 +16,7 @@
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"
 #include "engine/io/config.h"
+#include "engine/gui/locale.h"
 #include "engine.h"
 
 int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
@@ -110,7 +111,17 @@ void Engine::run() {
     Log::set_default_level(log);
     log->debug("Running");
 
+    //Obtain own pointer
     std::shared_ptr<Engine> this_ptr = shared_from_this();
+
+    //Initialize config
+    //TODO
+
+    //Initialize locale
+    setupLocale();
+    if (hasError()) {
+        return;
+    }
 
     //Initialize timer
     timer = std::make_unique<Timer>();
@@ -134,7 +145,7 @@ void Engine::run() {
         return;
     }
 
-    // Initialize renderer
+    //Initialize renderer
     renderer = std::make_unique<Renderer>();
     error = renderer->getError();
     if (hasError()) {
@@ -295,6 +306,31 @@ input_key_code_t Engine::getKeyBind(const std::string& name) {
     return EventHandler::getCodeFromName(name);
 }
 
+void Engine::setupLocale() {
+    //Load declared locales
+    Config config(Utils::getDataPath() + "locales.json");
+    config.read();
+    error = config.getError();
+    if (hasError()) {
+        return;
+    }
+    config_data_t data = config.data;
+
+    //Load the current locale
+    std::string currentLocale = ""; //TODO load this from config
+    if (currentLocale.empty()) {
+        //Fallback to default locale
+        currentLocale = data.value("default", "");
+    }
+    if (currentLocale.empty()) {
+        error = "No locale available";
+        return;
+    }
+
+    //Load the config as current
+    locale = std::make_unique<Locale>(currentLocale, Utils::getDataPath() + "locales" + DIR_SEP + currentLocale + ".json");
+}
+
 void Engine::loadFactions() {
     //Load factions
     Config config(Utils::getDataPath() + "factions.json");
@@ -314,4 +350,14 @@ void Engine::loadFactions() {
         faction->data = data["data"];
         simulation->addFaction(std::move(faction));
     }
+}
+
+const std::string Engine::getText(const std::string& key) {
+    if (locale) {
+        const std::string& text = locale->getText(key);
+        if (!text.empty()) {
+            return text;
+        }
+    }
+    return "?_" + key + "_?";
 }

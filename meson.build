@@ -28,7 +28,7 @@ opene2140_deps += [json_dep]
 
 #Load boost libs
 boost_dep = dependency('boost',
-    modules: ['system', 'filesystem'],
+    modules: ['filesystem'],
     version : '>=1.66',
     required : false,
 )

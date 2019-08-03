@@ -47,6 +47,11 @@ public:
     virtual ~Config() = default;
 
     /**
+     * Clears config state in memory
+     */
+    void clear();
+
+    /**
      * Loads config state from file into memory
      */
     void read();
@@ -63,7 +68,7 @@ public:
      * @param vector to write
      * @return if successful
      */
-    bool getVector2(config_data_t& section, Vector2& vector);
+    static bool getVector2(config_data_t& section, Vector2& vector);
 
     /**
      * Reads rectangle from config data entry
@@ -72,7 +77,7 @@ public:
      * @param vector to write
      * @return if successful
      */
-    bool getRectangle(config_data_t& section, Rectangle& rectangle);
+    static bool getRectangle(config_data_t& section, Rectangle& rectangle);
 
     /**
      * Disable copy/move

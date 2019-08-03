@@ -14,7 +14,12 @@ protected:
     /**
      * Contains data to get config values from
      */
-    config_data_t data;
+    config_data_t configData;
+
+    /**
+     * Keeps the dirty state (data was modified since last setData)
+     */
+    bool dirty;
 
 public:
     /**
@@ -23,11 +28,11 @@ public:
     virtual ~IHasConfigData() = default;
 
     /**
-     * Sets the data from config data
+     * Loads the data from config data and resets dirty flag
      * @param content values to set
      */
-    virtual void setData(const config_data_t& content) {
-        data.update(content);
+    virtual void loadData(const config_data_t& content) {
+        configData.update(content);
     }
 
     /**
@@ -37,9 +42,10 @@ public:
      * @return
      */
     bool hasData(const config_key_t& key) const {
-        const auto it = data.find(key);
-        return it != data.end();
+        const auto it = configData.find(key);
+        return it != configData.end();
     }
+
 
     /**
      * Return default value if key is not present or has null value
@@ -51,8 +57,8 @@ public:
      */
     template<typename T>
     T getData(const config_key_t& key, T defaultValue) const {
-        const auto it = data.find(key);
-        if (it != data.end() && !it->is_null()) {
+        const auto it = configData.find(key);
+        if (it != configData.end() && !it->is_null()) {
             return *it;
         }
         return defaultValue;
@@ -69,11 +75,23 @@ public:
      */
     template<typename T>
     T getData(const config_key_t& key, T& defaultValue, T& nullValue) const {
-        const auto it = data.find(key);
-        if (it != data.end()) {
+        const auto it = configData.find(key);
+        if (it != configData.end()) {
             return it->is_null() ? nullValue : *it;
         }
         return defaultValue;
+    }
+
+    /**
+     * Sets the value in config data
+     *
+     * @tparam T type of value to obtain/return
+     * @param key the key of value to access
+     * @param value the value to set in key
+     */
+    template<typename T>
+    void setData(const config_key_t& key, T& value) {
+        configData[key] = value;
     }
 };
 

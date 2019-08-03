@@ -80,7 +80,11 @@ bool File::fromPath(const std::string& path, const File::FileMode& mode) {
     file = SDL_RWFromFile(path.c_str(), modeChars);
 
     //Check any errors
-    return checkInternal();
+    if (!checkInternal()) {
+        error += "\nfrom path: " + path;
+        return false;
+    }
+    return true;
 }
 
 bool File::fromMemory(const size_t size) {

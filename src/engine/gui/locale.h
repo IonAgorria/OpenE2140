@@ -6,13 +6,14 @@
 
 #include "engine/core/common.h"
 #include "engine/core/error_possible.h"
+#include "engine/core/to_string.h"
 
 using locale_texts_t = std::unordered_map<std::string, std::string>;
 
 /**
  * Provides translations for game texts in a single language
  */
-class Locale: public IErrorPossible {
+class Locale: public IErrorPossible, public IToString {
 protected:
     /**
      * Internal text map
@@ -26,9 +27,14 @@ public:
     const std::string code;
 
     /**
+     * Visible name of this locale
+     */
+    const std::string name;
+
+    /**
      * Constructor
      */
-    Locale(const std::string& code, const std::string& path);
+    Locale(const std::string& code, const std::string& name, const std::string& path);
 
     /**
      * Destructor
@@ -54,6 +60,14 @@ public:
      * @return localized text
      */
     const std::string& getText(const std::string& key);
+
+    /*
+     * IToString
+     */
+
+    std::string toString() const override;
+
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_LOCALE_H

@@ -4,7 +4,7 @@
 #include "locale.h"
 #include "engine/io/config.h"
 
-Locale::Locale(const std::string& code, const std::string& path): code(code) {
+Locale::Locale(const std::string& code, const std::string& name, const std::string& path): code(code), name(name) {
     load(path);
 }
 
@@ -20,7 +20,7 @@ void Locale::load(const std::string& path) {
 
     //Check if type is correct
     if (!data.is_object()) {
-        error = "Config doesn't contain object as root";
+        error = "Locale data doesn't contain object as root";
         return;
     }
 
@@ -32,4 +32,12 @@ void Locale::load(const std::string& path) {
 
 const std::string& Locale::getText(const std::string& key) {
     return texts[key];
+}
+
+std::string Locale::toString() const {
+    return "Locale(" + toStringContent() + ")";
+}
+
+std::string Locale::toStringContent() const {
+    return code + ", " + name;
 }

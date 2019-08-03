@@ -65,10 +65,10 @@ public:
     NON_COPYABLE_NOR_MOVABLE(EntityConfig)
 
     void setData(config_data_t& content) {
-        IHasConfigData::setData(content);
+        IHasConfigData::loadData(content);
         name = getData<const std::string>("name", "");
         type = getData<const std::string>("type", "");
-        config_data_t spritesData = data["sprites"];
+        config_data_t spritesData = configData["sprites"];
         if (spritesData.is_object()) {
             for (config_data_t::iterator entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
                 SpriteGroup group;

@@ -38,7 +38,7 @@ public:
     /**
      * File opening modes
      * Read: Only allows to read
-     * Write: Allows both writing and reading
+     * Write: Only allows to write
      */
     enum class FileMode {
         Read,

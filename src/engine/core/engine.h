@@ -8,6 +8,7 @@
 #include "engine/simulation/simulation_parameters.h"
 #include "engine/core/error_possible.h"
 #include "engine/io/log.h"
+#include "engine/io/has_config_data.h"
 #include "engine/math/vector2.h"
 
 //Forward declarations
@@ -24,7 +25,7 @@ class Locale;
 /**
  * Contains the central game code that calls and coordinates the subsystems
  */
-class Engine: public std::enable_shared_from_this<Engine>, public IErrorPossible {
+class Engine: public std::enable_shared_from_this<Engine>, public IErrorPossible, public IHasConfigData {
 protected:
     /**
      * Log for game
@@ -75,6 +76,11 @@ protected:
      * Current active menu if any
      */
     std::unique_ptr<GUIMenu> menu;
+
+    /**
+     * Available locale and their name
+     */
+    std::unordered_map<std::string, std::string> locales;
 
     /**
      * Current locale
@@ -134,9 +140,19 @@ protected:
     virtual void setupSimulation(std::unique_ptr<SimulationParameters>& parameters);
 
     /**
-     * Called from engine to load locale from data
+     * Called from engine to load engine config
+     */
+    virtual void setupConfig();
+
+    /**]
+     * Called from engine to load locales and setup the current locale
      */
     virtual void setupLocale();
+
+    /**
+     * Sets the locale as current
+     */
+    virtual void setLocale(const std::string& code);
 
     /**
      * Loads factions from data

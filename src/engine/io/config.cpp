@@ -9,6 +9,14 @@
 
 Config::Config(const std::string& path): path(path) {
     file = std::make_unique<File>();
+    data = config_data_t::object();
+}
+
+void Config::clear() {
+    if (data.is_discarded()) {
+        data = config_data_t(nullptr);
+    }
+    data.clear();
 }
 
 void Config::read() {
@@ -27,7 +35,10 @@ void Config::read() {
     if (hasError()) return;
 
     //Parse the content
-    data = nlohmann::json::parse(content.get());
+    data = config_data_t::parse(content.get(), nullptr, false);
+    if (data.is_discarded()) {
+        error = "Error parsing JSON";
+    }
 }
 
 void Config::write() {

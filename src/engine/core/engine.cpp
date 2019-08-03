@@ -109,13 +109,22 @@ void Engine::close() {
 void Engine::run() {
     //Since log is created before setup we have to reset the default level
     Log::set_default_level(log);
+
     log->debug("Running");
+
+    //Show some debug info
+    log->debug("Install path: " + Utils::getInstallPath());
+    log->debug("Data path: " + Utils::getDataPath());
+    log->debug("User path: " + Utils::getUserPath());
 
     //Obtain own pointer
     std::shared_ptr<Engine> this_ptr = shared_from_this();
 
     //Initialize config
-    //TODO
+    setupConfig();
+    if (hasError()) {
+        return;
+    }
 
     //Initialize locale
     setupLocale();
@@ -303,7 +312,21 @@ void Engine::updateCamera(const Vector2& newCamera) {
 
 input_key_code_t Engine::getKeyBind(const std::string& name) {
     //TODO there should be a configurable keybinds and falling back to default if not set
+
     return EventHandler::getCodeFromName(name);
+}
+
+void Engine::setupConfig() {
+    //Load any existing config
+    Config config(Utils::getUserPath() + "config.json");
+    config.read();
+    error = config.getError();
+    if (hasError()) {
+        //Failed to read, use clear state
+        log->warn("Couldn't read config: {0}", getError());
+        config.clear();
+    }
+    loadData(config.data);
 }
 
 void Engine::setupLocale() {
@@ -315,20 +338,43 @@ void Engine::setupLocale() {
         return;
     }
     config_data_t data = config.data;
-
-    //Load the current locale
-    std::string currentLocale = ""; //TODO load this from config
-    if (currentLocale.empty()) {
-        //Fallback to default locale
-        currentLocale = data.value("default", "");
+    if (!data.is_object()) {
+        error = "Locales config root is not object";
+        return;
     }
-    if (currentLocale.empty()) {
-        error = "No locale available";
+
+    //Load available locales
+    for (config_data_t::iterator entry = data.begin(); entry != data.end(); ++entry) {
+        if (entry.key() != "default") {
+            locales[entry.key()] = entry.value().get<std::string>();
+        }
+    }
+
+    //Load the current locale from config
+    std::string code = getData<const std::string>("locale", ""); //TODO load this from config
+
+    //Check if locale is valid and fallback to default locale
+    if (code.empty() || locales.find(code) == locales.end()) {
+        code = data.value("default", "");
+    }
+
+    //Set it
+    setLocale(code);
+}
+
+void Engine::setLocale(const std::string& code){
+    if (code.empty() || locales.find(code) == locales.end()) {
+        error = "Locale not available: " + code;
         return;
     }
 
     //Load the config as current
-    locale = std::make_unique<Locale>(currentLocale, Utils::getDataPath() + "locales" + DIR_SEP + currentLocale + ".json");
+    std::string name = locales[code];
+    locale = std::make_unique<Locale>(code, name, Utils::getDataPath() + "locales" + DIR_SEP + code + ".json");
+    log->debug("Current locale: {0}", locale->toString());
+
+    //Write down
+    setData("locale", locale->code);
 }
 
 void Engine::loadFactions() {
@@ -347,7 +393,7 @@ void Engine::loadFactions() {
         faction->id = id;
         faction->code = data.value("code", "");
         faction->name = getText("faction."+faction->code);
-        faction->setData(data["data"]);
+        faction->loadData(data["data"]);
         simulation->addFaction(std::move(faction));
     }
 }

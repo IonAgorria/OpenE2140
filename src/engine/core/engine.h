@@ -142,7 +142,12 @@ protected:
     /**
      * Called from engine to load engine config
      */
-    virtual void setupConfig();
+    virtual void loadConfig();
+
+    /**
+     * Called from engine to save engine config
+     */
+    virtual void saveConfig();
 
     /**]
      * Called from engine to load locales and setup the current locale
@@ -151,8 +156,11 @@ protected:
 
     /**
      * Sets the locale as current
+     *
+     * @param code locale code to set as current
+     * @param persistent sets the locale in the config as current
      */
-    virtual void setLocale(const std::string& code);
+    virtual void setLocale(const std::string& code, bool persistent = true);
 
     /**
      * Loads factions from data

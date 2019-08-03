@@ -121,7 +121,7 @@ void Engine::run() {
     std::shared_ptr<Engine> this_ptr = shared_from_this();
 
     //Initialize config
-    setupConfig();
+    loadConfig();
     if (hasError()) {
         return;
     }
@@ -176,6 +176,9 @@ void Engine::run() {
     //Initialize entity manager
     entityManager = std::make_unique<EntityManager>(this_ptr);
     setupEntityManager();
+
+    //Write config back
+    saveConfig();
     if (hasError()) {
         return;
     }
@@ -316,7 +319,7 @@ input_key_code_t Engine::getKeyBind(const std::string& name) {
     return EventHandler::getCodeFromName(name);
 }
 
-void Engine::setupConfig() {
+void Engine::loadConfig() {
     //Load any existing config
     Config config(Utils::getUserPath() + "config.json");
     config.read();
@@ -327,6 +330,20 @@ void Engine::setupConfig() {
         config.clear();
     }
     loadData(config.data);
+}
+
+void Engine::saveConfig() {
+    //Skip if is not dirty
+    if (!unsetDataDirty()) {
+        return;
+    }
+    log->debug("Saving dirty config");
+
+    //Save config
+    Config config(Utils::getUserPath() + "config.json");
+    config.data.update(configData);
+    config.write();
+    error = config.getError();
 }
 
 void Engine::setupLocale() {
@@ -354,15 +371,20 @@ void Engine::setupLocale() {
     std::string code = getData<const std::string>("locale", ""); //TODO load this from config
 
     //Check if locale is valid and fallback to default locale
+    bool persistent = false;
     if (code.empty() || locales.find(code) == locales.end()) {
+        if (!code.empty()) {
+            log->warn("Unknown locale: {0}", code);
+        }
         code = data.value("default", "");
+        persistent = true;
     }
 
     //Set it
-    setLocale(code);
+    setLocale(code, persistent);
 }
 
-void Engine::setLocale(const std::string& code){
+void Engine::setLocale(const std::string& code, bool persistent) {
     if (code.empty() || locales.find(code) == locales.end()) {
         error = "Locale not available: " + code;
         return;
@@ -374,7 +396,9 @@ void Engine::setLocale(const std::string& code){
     log->debug("Current locale: {0}", locale->toString());
 
     //Write down
-    setData("locale", locale->code);
+    if (persistent) {
+        setData("locale", locale->code);
+    }
 }
 
 void Engine::loadFactions() {

@@ -19,7 +19,7 @@ protected:
     /**
      * Keeps the dirty state (data was modified since last setData)
      */
-    bool dirty;
+    bool dataDirty = false;
 
 public:
     /**
@@ -32,6 +32,7 @@ public:
      * @param content values to set
      */
     virtual void loadData(const config_data_t& content) {
+        dataDirty = false;
         configData.update(content);
     }
 
@@ -91,7 +92,23 @@ public:
      */
     template<typename T>
     void setData(const config_key_t& key, T& value) {
+        dataDirty = true;
         configData[key] = value;
+    }
+
+    /**
+     * Unsets the data dirty state
+     * @return previous data dirty state
+     */
+    bool unsetDataDirty() {
+        bool tmp = dataDirty;
+        dataDirty = false;
+        return tmp;
+    }
+
+    /** @return the data dirty state */
+    bool isDataDirty() {
+        return dataDirty;
     }
 };
 

@@ -42,6 +42,16 @@
     const std::string type_name() const override { return std::string(#T); };
 
 /**
+ * Returns single bit mask by index
+ */
+#define BIT_MASK(INDEX) (1 << INDEX)
+
+/**
+ * Calculates the index of a single bit mask
+ */
+#define BIT_INDEX(MASK) (std::floor(std::log2(MASK)))
+
+/**
  * Sets a bit 0
  */
 #define BIT_OFF(VAR, BITS) VAR &= ~(BITS)

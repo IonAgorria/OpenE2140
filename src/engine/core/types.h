@@ -49,7 +49,10 @@ struct entity_type_t {
 using entity_direction_t = uint32_t;
 
 /** Player ID */
-using player_id_t = uint64_t;
+using player_id_t = uint16_t;
+
+/** Player mask */
+using player_mask_t = uint64_t;
 
 /** Money type */
 using money_t = int64_t;

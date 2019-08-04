@@ -11,6 +11,7 @@
 #include "engine/io/log.h"
 
 class Faction;
+class Player;
 class Engine;
 class World;
 class Renderer;
@@ -49,6 +50,11 @@ private:
      * Factions for this simulation
      */
     std::vector<std::unique_ptr<Faction>> factions;
+
+    /**
+     * Players for this simulation
+     */
+    std::vector<std::unique_ptr<Player>> players;
 
     /**
      * Last used entity id
@@ -145,6 +151,21 @@ public:
      * @return faction or null if none found
      */
     Faction* getFaction(const std::string& code);
+
+    /**
+     * Adds a new player to simulation
+     *
+     * @param player to add
+     */
+    void addPlayer(std::unique_ptr<Player> player);
+
+    /**
+     * Obtain the player from ID
+     *
+     * @param id of player
+     * @return player or null if none found
+     */
+    Player* getPlayer(player_id_t id);
 
     /*
      * AssetManager proxy

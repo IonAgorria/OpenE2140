@@ -24,6 +24,15 @@ AssetLevelGame::AssetLevelGame(const asset_path_t& path, const std::shared_ptr<F
     levelTilesetIndex = tileset;
 }
 
+player_id_t AssetLevelGame::getPlayerId(byte_t player) {
+    //Some players have the highest bit set even when having already another bit, so set it off
+    constexpr byte_t mask = BIT_MASK(7);
+    if (mask < player) {
+        BIT_OFF(player, mask);
+    }
+    return BIT_INDEX(player);
+}
+
 std::string AssetLevelGame::toString() const {
     return "AssetLevelGame(" + toStringContent() + ")";
 }
@@ -199,7 +208,7 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
 
         //Create entity
         EntityPrototype entity;
-        entity.player = player;
+        entity.player = getPlayerId(player);
         entity.type.id = type;
         entity.type.kind = ENTITY_KIND_UNIT;
         entity.position.set(x, y);
@@ -255,7 +264,7 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
 
         //Create entity
         EntityPrototype entity;
-        entity.player = player;
+        entity.player = getPlayerId(player);
         entity.type.id = type;
         entity.type.kind = ENTITY_KIND_BUILDING;
         entity.position.set(x, y);
@@ -328,12 +337,13 @@ void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
         seek(0x4BC);
         //Skip 2 unknown ints
         seek(8);
-        //Read side
-        unsigned int id = 0;
-        if (!readAll(id)) {
-            error = "Error reading player id\n" + error;
+        //Read id/mask
+        unsigned int mask = 0;
+        if (!readAll(mask)) {
+            error = "Error reading player id/mask\n" + error;
             return;
         }
+
         //Read enemies
         unsigned int enemies = 0;
         if (!readAll(enemies)) {
@@ -363,7 +373,7 @@ void AssetLevelGame::players(std::vector<PlayerPrototype>& players) {
 
         //Create prototype
         PlayerPrototype player;
-        player.id = id;
+        player.id = getPlayerId(mask);
         player.enemies = enemies;
         player.faction = faction;
         player.money = money;

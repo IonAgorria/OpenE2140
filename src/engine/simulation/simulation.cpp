@@ -5,15 +5,18 @@
 #include "engine/core/utils.h"
 #include "engine/core/engine.h"
 #include "engine/graphics/renderer.h"
-#include "engine/simulation/entities/entity.h"
-#include "engine/simulation/world/world.h"
+#include "faction.h"
+#include "player.h"
+#include "entities/entity.h"
+#include "components/player_component.h"
+#include "components/faction_component.h"
+#include "entities/entity_manager.h"
+#include "world/world.h"
 #include "engine/assets/asset.h"
 #include "engine/assets/asset_level.h"
 #include "engine/assets/asset_manager.h"
-#include "engine/simulation/entities/entity_manager.h"
 #include "simulation.h"
 #include "pathfinder/path_handler.h"
-#include "engine/simulation/faction.h"
 
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {
@@ -61,7 +64,16 @@ void Simulation::load() {
     if (hasError()) {
         return;
     }
-    //TODO use levelPlayers
+    for (PlayerPrototype& playerPrototype : levelPlayers) {
+        Faction* faction = nullptr;
+        if (playerPrototype.faction) {
+            faction = getFaction(playerPrototype.faction);
+        }
+
+        std::unique_ptr<Player> player = std::make_unique<Player>(playerPrototype.id, faction, playerPrototype.enemies);
+        player->money = playerPrototype.money;
+        addPlayer(std::move(player));
+    }
 
     //Load entities
     std::vector<EntityPrototype> levelEntities;
@@ -160,6 +172,19 @@ Faction* Simulation::getFaction(const std::string& code) {
         }
     }
     return nullptr;
+}
+
+void Simulation::addPlayer(std::unique_ptr<Player> player) {
+    player_id_t id = player->id;
+    //Allocate new empty if not enough are present
+    if (players.size() < static_cast<player_id_t>(id + 1)) {
+        players.resize(id + 1);
+    }
+    players[id].swap(player);
+}
+
+Player* Simulation::getPlayer(player_id_t id) {
+    return id < players.size() ? players[id].get() : nullptr;
 }
 
 Image* Simulation::getImage(const asset_path_t& path) {

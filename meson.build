@@ -81,6 +81,7 @@ opene2140_src = [
     'src/engine/assets/asset_palette.cpp',
     'src/engine/assets/asset_level.cpp',
     'src/engine/simulation/simulation.cpp',
+    'src/engine/simulation/player.cpp',
     'src/engine/simulation/entities/entity.cpp',
     'src/engine/simulation/entities/entity_manager.cpp',
     'src/engine/simulation/entities/entity_factory.cpp',

@@ -35,6 +35,14 @@ public:
      */
     AssetLevelGame(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
 
+    /**
+     * Does game level to engine player id conversion
+     *
+     * @param player to convert
+     * @return id
+     */
+    player_id_t getPlayerId(byte_t player);
+
     std::string toString() const override;
 
     void dimensions(Vector2& size) override;

@@ -277,7 +277,7 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
     seek(0xE229, true);
     for (unsigned int i = 1; i <= ENTITIES_PER_SECTION; ++i) {
         //Read index
-        byte_t index = 0;
+        unsigned short index = 0;
         if (!readAll(index)) {
             error = "Error reading entity index\n" + error;
             return;

@@ -20,7 +20,7 @@ protected:
     /**
      * Image to draw
      */
-    Image* image;
+    Image* image = nullptr;
 
     /**
      * Image offset from entity center;
@@ -35,7 +35,7 @@ protected:
     /**
      * Image direction;
      */
-    float imageDirection;
+    float imageDirection = 0;
 
 public:
     /**

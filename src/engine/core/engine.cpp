@@ -261,6 +261,7 @@ void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) 
 
     //Load the simulation
     simulation->load();
+    error = simulation->getError();
 }
 
 EventHandler* Engine::getEventHandler() {

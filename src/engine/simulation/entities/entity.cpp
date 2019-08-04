@@ -24,8 +24,24 @@ const Vector2& Entity::getPosition() const {
     return position;
 }
 
+void Entity::setPosition(const Vector2& newPosition) {
+    position.set(newPosition);
+}
+
+entity_direction_t Entity::getDirection() const {
+    return direction;
+}
+
+void Entity::setDirection(entity_direction_t newDirection) {
+    direction = newDirection;
+}
+
 const Rectangle& Entity::getBounds() const {
     return bounds;
+}
+
+void Entity::setBounds(const Rectangle& newBounds) {
+    bounds.set(newBounds);
 }
 
 const EntityConfig* Entity::getConfig() const {
@@ -61,6 +77,14 @@ void Entity::draw() {
 
 bool Entity::isActive() {
     return active;
+}
+
+bool Entity::isDisable() const {
+    return disable;
+}
+
+void Entity::setDisable(bool newDisable) {
+    disable = newDisable;
 }
 
 Tile* Entity::getTile() {

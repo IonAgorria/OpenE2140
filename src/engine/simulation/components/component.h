@@ -88,7 +88,7 @@ class T_COMPONENT { \
     /** Destructor */ \
     virtual ~T_COMPONENT(); \
     /** Creates declarations of component methods */ \
-    COMPONENT_METHODS(COMPONENT_METHOD_DECLARATION) \
+    COMPONENT_METHODS(COMPONENT_METHOD_DECLARATION)
 
 /**
  * Macro for component class definition with empty constructor/destructor

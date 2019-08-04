@@ -119,16 +119,16 @@ public:
     void removeEntity(std::shared_ptr<Entity> entity);
 
     /**
+     * @return current renderer
+     */
+    Renderer* getRenderer();
+
+    /**
      * Adds a new faction to simulation
      *
      * @param faction to add
      */
     void addFaction(std::unique_ptr<Faction> faction);
-
-    /**
-     * @return current renderer
-     */
-    Renderer* getRenderer();
 
     /**
      * Obtain the faction from ID

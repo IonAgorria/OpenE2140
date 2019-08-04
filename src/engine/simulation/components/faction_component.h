@@ -17,7 +17,7 @@ protected:
     /**
      * Faction for this entity
      */
-    Faction* faction;
+    Faction* faction = nullptr;
 
 public:
     /**

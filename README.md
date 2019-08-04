@@ -64,9 +64,8 @@ The following game assets must be present in WD file or directory form:
 - Basic entity implementation
 
 ## Roadmap
-- Implement engine level config load/save at user writable dir
-- Entity drawing
 - Static map entities (using SPRO*)
+- Entity drawing
 - Writing game data (sprites of units, weapons and other missing data)
 - Entity selection
 - Mobile units

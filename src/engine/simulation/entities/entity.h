@@ -46,6 +46,11 @@ protected:
     Vector2 position;
 
     /**
+     * Entity direction which is facing
+     */
+    entity_direction_t direction;
+
+    /**
      * Entity bounding rectangle if any
      */
     Rectangle bounds;
@@ -59,6 +64,11 @@ protected:
      * Flag for active state
      */
     bool active;
+
+    /**
+     * Flag for disable state
+     */
+    bool disable;
 
     /**
      * Add components method forwarding so extended entities can override them
@@ -96,9 +106,35 @@ public:
     const Vector2& getPosition() const;
 
     /**
+     * Set entity position
+     *
+     * @param newPosition position to set
+     */
+    void setPosition(const Vector2& newPosition);
+
+    /**
+     * @return entity direction
+     */
+    entity_direction_t getDirection() const;
+
+    /**
+     * Set entity direction
+     *
+     * @param newDirection direction to set
+     */
+    void setDirection(entity_direction_t newDirection);
+
+    /**
      * @return entity bounds
      */
     const Rectangle& getBounds() const;
+
+    /**
+     * Set entity bounds
+     *
+     * @param newBounds bounds to set
+     */
+    void setBounds(const Rectangle& newBounds);
 
     /**
      * @return entity config if any
@@ -134,6 +170,18 @@ public:
      * @return true if entity is considered active (has ID and is inside simulation)
      */
     bool isActive();
+
+    /**
+     * @return true if entity is considered disabled
+     */
+    bool isDisable() const;
+
+    /**
+     * Sets this entity disable state
+     *
+     * @param newDisable state to set
+     */
+    void setDisable(bool newDisable);
 
     /**
      * In case of none this method will return null

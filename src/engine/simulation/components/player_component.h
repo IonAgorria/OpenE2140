@@ -17,7 +17,7 @@ protected:
     /**
      * Player for this entity
      */
-    Player* player;
+    Player* player = nullptr;
 
 public:
     /**

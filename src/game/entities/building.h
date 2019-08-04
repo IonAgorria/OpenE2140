@@ -38,7 +38,7 @@ class BuildingFactory: public IEntityFactory {
         return ENTITY_KIND_BUILDING;
     }
 
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) override {
+    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
         return std::make_shared<Building>();
     }
 };

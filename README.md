@@ -66,7 +66,7 @@ The following game assets must be present in WD file or directory form:
 ## Roadmap
 - Static map entities (using SPRO*)
 - Entity drawing
-- Writing game data (sprites of units, weapons and other missing data)
+- Player colors
 - Entity selection
 - Mobile units
 - Move order
@@ -85,7 +85,7 @@ The following game assets must be present in WD file or directory form:
 - Add ingame menu for viewing player stuff
 - Building construction and deployment
 - Factories build queue
-- Player colors/teams
+- Writing game data (sprites of units, weapons and other missing data)
 - Complex orders such as patrol, ore transport, unit transport
 - Minimap to show units, buildings and ore
 - Map trees, rocks and water

@@ -56,18 +56,20 @@ void IEntityFactory::setManager(EntityManager* current) {
 }
 
 std::shared_ptr<Entity> IEntityFactory::makeEntity(entity_type_id_t id) {
-    std::shared_ptr<Entity> entity = instanceEntity(id);
+    //Get the config for entity instance
+    EntityConfig* config = nullptr;
+    if (id < configs.size()) {
+        config = configs[id].get();
+    }
+    //Call the implementation
+    std::shared_ptr<Entity> entity = instanceEntity(id, config);
     //Only setup if entity was instanced
-    if (entity) {
-        EntityConfig* config = nullptr;
-        if (id < configs.size()) {
-            config = configs[id].get();
-        }
-        if (config) {
-            entity->setup(config);
-        } else {
-            error = "Entity config not found for id: " + std::to_string(id);
-        }
+    if (!config) {
+        error = "Entity config not found for id: " + std::to_string(id);
+    } else if (!entity) {
+        error = "Entity not created for id: " + std::to_string(id);
+    } else {
+        entity->setup(config);
     }
     return entity;
 }

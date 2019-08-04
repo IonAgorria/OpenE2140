@@ -1,7 +1,351 @@
 [
   {
-    "id": 0,
+    "id": 69,
+    "type": "mine",
+    "sprites": {
+      "default": {"assets": [69, 70]}
+    }
+  },
+  {
+    "id": 73,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 73}
+    }
+  },
+  {
+    "id": 74,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 74}
+    }
+  },
+  {
+    "id": 75,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 75}
+    }
+  },
+  {
+    "id": 76,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 76}
+    }
+  },
+  {
+    "id": 77,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 77}
+    }
+  },
+  {
+    "id": 78,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 78}
+    }
+  },
+  {
+    "id": 79,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 79}
+    }
+  },
+  {
+    "id": 80,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 80}
+    }
+  },
+  {
+    "id": 81,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 81}
+    }
+  },
+  {
+    "id": 82,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 82}
+    }
+  },
+  {
+    "id": 83,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 83}
+    }
+  },
+  {
+    "id": 84,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 84}
+    }
+  },
+  {
+    "id": 85,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 85}
+    }
+  },
+  {
+    "id": 86,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 86}
+    }
+  },
+  {
+    "id": 87,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 87}
+    }
+  },
+  {
+    "id": 88,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 88}
+    }
+  },
+  {
+    "id": 89,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 89}
+    }
+  },
+  {
+    "id": 90,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 90}
+    }
+  },
+  {
+    "id": 91,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 91}
+    }
+  },
+  {
+    "id": 92,
+    "type": "wall",
+    "sprites": {
+      "default": {"asset": 92}
+    }
+  },
+  {
+    "id": 93,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 93}
+    }
+  },
+  {
+    "id": 94,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 94}
+    }
+  },
+  {
+    "id": 95,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 95}
+    }
+  },
+  {
+    "id": 96,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 96}
+    }
+  },
+  {
+    "id": 97,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 97}
+    }
+  },
+  {
+    "id": 98,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 98}
+    }
+  },
+  {
+    "id": 99,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 99}
+    }
+  },
+  {
+    "id": 100,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 100}
+    }
+  },
+  {
+    "id": 101,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 101}
+    }
+  },
+  {
+    "id": 102,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 102}
+    }
+  },
+  {
+    "id": 103,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 103}
+    }
+  },
+  {
+    "id": 104,
+    "type": "tree",
+    "sprites": {
+      "default": {"asset": 104}
+    }
+  },
+  {
+    "id": 105,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 105}
+    }
+  },
+  {
+    "id": 106,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 106}
+    }
+  },
+  {
+    "id": 107,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 107}
+    }
+  },
+  {
+    "id": 108,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 108}
+    }
+  },
+  {
+    "id": 109,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 109}
+    }
+  },
+  {
+    "id": 110,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 110}
+    }
+  },
+  {
+    "id": 111,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 111}
+    }
+  },
+  {
+    "id": 112,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 112}
+    }
+  },
+  {
+    "id": 113,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 113}
+    }
+  },
+  {
+    "id": 114,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 114}
+    }
+  },
+  {
+    "id": 115,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 115}
+    }
+  },
+  {
+    "id": 116,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 116}
+    }
+  },
+  {
+    "id": 117,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 117}
+    }
+  },
+  {
+    "id": 118,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 118}
+    }
+  },
+  {
+    "id": 119,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 119}
+    }
+  },
+  {
+    "id": 120,
+    "type": "pipe",
+    "sprites": {
+      "default": {"asset": 120}
+    }
+  },
+  {
+    "id": 200,
     "code": "exit_ed",
+    "type":"attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 76},
@@ -13,8 +357,9 @@
     }
   },
   {
-    "id": 1,
+    "id": 201,
     "code": "exit_ucs",
+    "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 82},
@@ -26,8 +371,9 @@
     }
   },
   {
-    "id": 2,
+    "id": 202,
     "code": "exit_water",
+    "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": {"asset": 88},
@@ -35,8 +381,9 @@
     }
   },
   {
-    "id": 3,
+    "id": 203,
     "code": "exit_bio_center",
+    "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 37},
@@ -44,8 +391,9 @@
     }
   },
   {
-    "id": 4,
+    "id": 204,
     "code": "exit_robot_factory",
+    "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": {"asset": 58},
@@ -53,8 +401,9 @@
     }
   },
   {
-    "id": 5,
+    "id": 205,
     "code": "nuclear_reactor",
+    "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": {"asset": 2},
@@ -62,13 +411,22 @@
     }
   },
   {
-    "id": 6,
+    "id": 206,
     "code": "tiger_legs",
+    "type": "attachment",
     "sprites_path": "MIX/SPRU0/",
     "sprites": {
-      "default_0": {"assets": [37, 45]},
-      "default_1": {"assets": [46, 54]},
-      "default_8": {"assets": [73, 81]}
+      "standby": {
+        "directional": true,
+        "index": 45,
+        "separation": 8
+      },
+      "walking": {
+        "directional": true,
+        "index": 37,
+        "length": 8,
+        "separation": 1
+      }
     }
   }
 ]

@@ -32,7 +32,7 @@ protected:
      * @param id
      * @return
      */
-    virtual std::shared_ptr<Entity> instanceEntity(entity_type_id_t id) = 0;
+    virtual std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) = 0;
 
     /**
      * Attempts to load a config

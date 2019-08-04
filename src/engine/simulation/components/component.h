@@ -97,5 +97,10 @@ class T_COMPONENT { \
     void T_COMPONENT::construction() {}; \
     T_COMPONENT::~T_COMPONENT() = default;
 
+/**
+ * Macro for component dynamic casting from entity
+ */
+#define GET_COMPONENT(OBJECT, T_COMPONENT) \
+    (dynamic_cast<T_COMPONENT*>(OBJECT))
 
 #endif //OPENE2140_COMPONENT_H

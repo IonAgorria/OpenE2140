@@ -16,8 +16,8 @@
  * Building entity
  */
 CLASS_ENTITY(Entity, Building,
-        FactionComponent,
         PlayerComponent,
+        FactionComponent,
         PlayerPaletteComponent<Building>
 )
 public:

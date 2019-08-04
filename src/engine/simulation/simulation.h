@@ -10,6 +10,7 @@
 #include "engine/assets/asset_manager.h"
 #include "engine/io/log.h"
 
+class EntityPrototype;
 class Faction;
 class Player;
 class Engine;
@@ -112,7 +113,12 @@ public:
     /**
      * Creates a new entity and adds to simulation
      */
-    void createEntity(entity_type_t entityType);
+    void createEntity(const EntityPrototype& entityPrototype);
+
+    /**
+     * Creates a new entity and adds to simulation
+     */
+    void createEntity(const entity_type_t& entityType);
 
     /**
      * Adds entity to simulation

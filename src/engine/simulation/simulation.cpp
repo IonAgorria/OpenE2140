@@ -83,7 +83,11 @@ void Simulation::load() {
         return;
     }
     for (EntityPrototype& entityPrototype : levelEntities) {
-        createEntity(entityPrototype.type);
+        if (!entityPrototype.exists) {
+            //TODO these should be stored for later use
+            continue;
+        }
+        createEntity(entityPrototype);
     }
 }
 
@@ -131,7 +135,27 @@ entity_id_t Simulation::nextEntityID() {
     return lastEntityID;
 }
 
-void Simulation::createEntity(entity_type_t entityType) {
+void Simulation::createEntity(const EntityPrototype& entityPrototype) {
+    std::shared_ptr<Entity> entityPtr = engine->getEntityManager()->makeEntity(entityPrototype.type);
+    if (entityPtr) {
+        Entity* entity = entityPtr.get();
+        //Basic stuff
+        entity->setPosition(entityPrototype.position);
+        entity->setDirection(entityPrototype.direction);
+        entity->setDisable(entityPrototype.disabled);
+        if (entityPrototype.player) {
+            //Obtain player and component
+            PlayerComponent* component = GET_COMPONENT(entity, PlayerComponent);
+            Player* player = getPlayer(entityPrototype.player);
+            if (player && component) {
+                component->setPlayer(player);
+            }
+        }
+        addEntity(entityPtr);
+    }
+}
+
+void Simulation::createEntity(const entity_type_t& entityType) {
     std::shared_ptr<Entity> entity = engine->getEntityManager()->makeEntity(entityType);
     if (entity) {
         addEntity(entity);

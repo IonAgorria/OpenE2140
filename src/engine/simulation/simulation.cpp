@@ -172,7 +172,7 @@ void Simulation::removeEntity(std::shared_ptr<Entity> entity) {
     entity->removedFromSimulation();
 }
 
-Renderer* Simulation::getRenderer() {
+Renderer* Simulation::getRenderer() const {
     return engine->getRenderer();
 }
 
@@ -185,11 +185,11 @@ void Simulation::addFaction(std::unique_ptr<Faction> faction) {
     factions[id].swap(faction);
 }
 
-Faction* Simulation::getFaction(faction_id_t id) {
+Faction* Simulation::getFaction(faction_id_t id) const {
     return id < factions.size() ? factions[id].get() : nullptr;
 }
 
-Faction* Simulation::getFaction(const std::string& code) {
+Faction* Simulation::getFaction(const std::string& code) const {
     for (std::unique_ptr<Faction>& faction : factions) {
         if (faction && faction->code == code) {
             return faction.get();
@@ -207,11 +207,10 @@ void Simulation::addPlayer(std::unique_ptr<Player> player) {
     players[id].swap(player);
 }
 
-Player* Simulation::getPlayer(player_id_t id) {
+Player* Simulation::getPlayer(player_id_t id) const {
     return id < players.size() ? players[id].get() : nullptr;
 }
 
-Image* Simulation::getImage(const asset_path_t& path) {
-    std::shared_ptr<Image> image = engine->getAssetManager()->getImage(path);
-    return image ? image.get() : nullptr;
+Image* Simulation::getImage(const asset_path_t& path) const {
+    return engine->getAssetManager()->getImage(path).get();
 }

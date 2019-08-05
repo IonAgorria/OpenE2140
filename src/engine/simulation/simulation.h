@@ -133,7 +133,7 @@ public:
     /**
      * @return current renderer
      */
-    Renderer* getRenderer();
+    Renderer* getRenderer() const;
 
     /**
      * Adds a new faction to simulation
@@ -148,7 +148,7 @@ public:
      * @param id of faction
      * @return faction or null if none found
      */
-    Faction* getFaction(faction_id_t id);
+    Faction* getFaction(faction_id_t id) const;
 
     /**
      * Obtain the faction from code
@@ -156,7 +156,7 @@ public:
      * @param code of faction
      * @return faction or null if none found
      */
-    Faction* getFaction(const std::string& code);
+    Faction* getFaction(const std::string& code) const;
 
     /**
      * Adds a new player to simulation
@@ -171,7 +171,7 @@ public:
      * @param id of player
      * @return player or null if none found
      */
-    Player* getPlayer(player_id_t id);
+    Player* getPlayer(player_id_t id) const;
 
     /*
      * AssetManager proxy
@@ -182,7 +182,7 @@ public:
      *
      * @return image
      */
-    Image* getImage(const asset_path_t& path);
+    Image* getImage(const asset_path_t& path) const;
 };
 
 #endif //OPENE2140_SIMULATION_H

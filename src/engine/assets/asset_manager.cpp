@@ -63,11 +63,7 @@ bool AssetManager::removeAsset(const asset_path_t& path) {
     return true;
 }
 
-Asset* AssetManager::getAsset(const asset_path_t& path) {
-    return assets[path].get();
-}
-
-std::shared_ptr<Image> AssetManager::getImage(const asset_path_t& path) {
+std::shared_ptr<Image> AssetManager::getImage(const asset_path_t& path) const {
     std::shared_ptr<Image> image;
     AssetImage* assetImage = getAsset<AssetImage>(path);
     if (assetImage) {

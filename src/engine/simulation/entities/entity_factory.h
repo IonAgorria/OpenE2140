@@ -92,6 +92,17 @@ public:
      * @return entity created
      */
     std::shared_ptr<Entity> makeEntity(entity_type_id_t id);
+
+    /*
+     * AssetManager proxy
+     */
+
+    /**
+     * Gets the loaded image from an asset
+     *
+     * @return image
+     */
+    Image* getImage(const asset_path_t& path) const;
 };
 
 #endif //OPENE2140_ENTITY_FACTORY_H

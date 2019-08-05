@@ -111,20 +111,20 @@ public:
     bool removeAsset(const asset_path_t& path);
 
     /**
-     * Gets the loaded asset
-     *
-     * @return asset
-     */
-    Asset* getAsset(const asset_path_t& path);
-
-    /**
      * Gets the loaded asset with specified cast
      *
      * @return asset
      */
-    template <typename T>
-    T* getAsset(const asset_path_t& path) {
-        return dynamic_cast<T*>(assets[path].get());
+    template <typename T = Asset>
+    T* getAsset(const asset_path_t& path) const {
+        auto it = assets.find(path);
+        if (it == assets.end()) {
+            //Not found
+            return nullptr;
+        }
+        //Get asset and cast if need
+        Asset* asset = (*it).second.get();
+        return dynamic_cast<T*>(asset);
     }
 
     /**
@@ -132,7 +132,7 @@ public:
      *
      * @return image
      */
-    std::shared_ptr<Image> getImage(const asset_path_t& path);
+    std::shared_ptr<Image> getImage(const asset_path_t& path) const;
 
     /**
      * @return the count of assets loaded

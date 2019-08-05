@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 23/06/19
 //
 
+#include "engine/core/engine.h"
 #include "entity_factory.h"
 #include "entity_manager.h"
 
@@ -59,4 +60,8 @@ std::shared_ptr<Entity> EntityManager::makeEntity(entity_type_t type) {
         }
     }
     return entity;
+}
+
+AssetManager* EntityManager::getAssetManager() {
+    return engine->getAssetManager();
 }

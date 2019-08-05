@@ -8,6 +8,7 @@
 #include "engine/io/log.h"
 #include "engine/core/error_possible.h"
 
+class AssetManager;
 class IEntityFactory;
 class Engine;
 class Entity;
@@ -72,6 +73,13 @@ public:
      * @return entity created, might point to null if none was build
      */
     std::shared_ptr<Entity> makeEntity(entity_type_t type);
+
+    /**
+     * Obtain the asset manager
+     *
+     * @return AssetManager
+     */
+    AssetManager* getAssetManager();
 };
 
 #endif //OPENE2140_ENTITY_MANAGER_H

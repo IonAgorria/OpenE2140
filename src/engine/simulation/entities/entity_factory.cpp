@@ -3,6 +3,8 @@
 //
 
 #include "entity.h"
+#include "engine/assets/asset_manager.h"
+#include "entity_manager.h"
 #include "entity_factory.h"
 #include "engine/io/config.h"
 #include "engine/core/utils.h"
@@ -72,4 +74,8 @@ std::shared_ptr<Entity> IEntityFactory::makeEntity(entity_type_id_t id) {
         entity->setup(config);
     }
     return entity;
+}
+
+Image* IEntityFactory::getImage(const asset_path_t& path) const {
+    return manager->getAssetManager()->getImage(path).get();
 }

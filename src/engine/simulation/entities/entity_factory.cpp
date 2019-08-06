@@ -54,6 +54,25 @@ void IEntityFactory::loadEntityConfig(config_data_t& data) {
     configs[id].swap(config);
 }
 
+std::string IEntityFactory::getAssetPath() const {
+    return "";
+}
+
+std::vector<std::string> IEntityFactory::getVariants() const {
+    return {""};
+}
+
+asset_path_t IEntityFactory::assembleAssetPath(const asset_path_t& path, const std::string& variant, const std::string& index) const {
+    return (path.empty() ? getAssetPath() : path) + variant + index;
+}
+
+std::string IEntityFactory::assembleGroupName(const std::string& name, const std::string& variant, const std::string& collection) const {
+    return name
+    + (variant.empty() ? "" : "_" + variant)
+    + (collection.empty() ? "" : "_" + collection)
+    ;
+}
+
 void IEntityFactory::setManager(EntityManager* current) {
     manager = current;
 }

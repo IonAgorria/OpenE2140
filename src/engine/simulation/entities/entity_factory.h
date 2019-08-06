@@ -88,12 +88,32 @@ public:
     /**
      * @return the file path containing the configs to use in this factory
      */
-    virtual std::string getConfigPath() = 0;
+    virtual std::string getConfigPath() const = 0;
+
+    /**
+     * @return the default asset path which will be used unless is specified
+     */
+    virtual std::string getAssetPath() const;
+
+    /**
+     * @return the variants
+     */
+    virtual std::vector<std::string> getVariants() const;
+
+    /**
+     * @return creates the asset path using different components
+     */
+    virtual asset_path_t assembleAssetPath(const asset_path_t& path, const std::string& variant, const std::string& index) const;
+
+    /**
+     * @return creates the group name using different components
+     */
+    virtual std::string assembleGroupName(const std::string& name, const std::string& variant, const std::string& collection) const;
 
     /**
      * @return the entity kind which this factory produces entities
      */
-    virtual entity_kind_t getKind() = 0;
+    virtual entity_kind_t getKind() const = 0;
 
     /**
      * Handles the entity request

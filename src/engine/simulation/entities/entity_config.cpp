@@ -14,7 +14,7 @@ void EntityConfig::loadData(const config_data_t& configData, const IEntityFactor
 
 void EntityConfig::loadSprites(const IEntityFactory* factory) {
     log_ptr log = factory->getLog();
-    const std::string defaultPath = configData.value<const std::string>("sprites_path", "");
+    const std::string defaultPath = configData.value<const std::string>("sprites_path", factory->getAssetPath());
     if (defaultPath.empty()) {
         log->error("{0} sprites_path is empty", toString());
         return;
@@ -26,33 +26,45 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
             if (value.is_number_unsigned()) {
                 //If its just a number then use it as index for a single image
                 unsigned int index = value.get<unsigned int>();
-                std::vector<Image*> images;
-                const asset_path_t imagePath = defaultPath + std::to_string(index);
-                Image* image = factory->getImage(imagePath);
-                if (image) {
-                    images.emplace_back(image);
-                } else {
-                    log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
-                }
-                sprites[entry.key()] = images;
-            } else if (value.is_array()) {
-                //If its a array then use it as a collection of indexes
-                std::vector<Image*> images;
-                for (nlohmann::json& element : value) {
-                    if (!element.is_number_unsigned()) {
-                        log->error("{0} sprites {1} non unsigned number found in array", toString(), entry.key());
-                        continue;
-                    }
-                    unsigned int index = element.get<unsigned int>();
-                    const asset_path_t imagePath = defaultPath + std::to_string(index);
+                for (std::string& variant : factory->getVariants()) {
+
+                    //Get image
+                    std::vector<Image*> images;
+                    const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
                     Image* image = factory->getImage(imagePath);
                     if (image) {
                         images.emplace_back(image);
                     } else {
                         log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                     }
+
+                    //Create group
+                    std::string group_name = factory->assembleGroupName(entry.key(), variant, "");
+                    sprites[group_name] = images;
                 }
-                sprites[entry.key()] = images;
+            } else if (value.is_array()) {
+                //If its a array then use it as a collection of indexes
+                for (std::string& variant : factory->getVariants()) {
+                    std::vector<Image*> images;
+                    for (nlohmann::json& element : value) {
+                        if (!element.is_number_unsigned()) {
+                            log->error("{0} sprites {1} non unsigned number found in array", toString(), entry.key());
+                            continue;
+                        }
+                        unsigned int index = element.get<unsigned int>();
+                        const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
+                        Image* image = factory->getImage(imagePath);
+                        if (image) {
+                            images.emplace_back(image);
+                        } else {
+                            log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
+                        }
+                    }
+
+                    //Create group
+                    std::string group_name = factory->assembleGroupName(entry.key(), variant, "");
+                    sprites[group_name] = images;
+                }
             } else if (value.is_object()) {
                 //If its a object then treat it as a set of rules to assemble collections
                 //Get base index
@@ -75,30 +87,31 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                                         ? value["separation"].get<unsigned int>() : 0;
 
                 //Iterate each collection (set of images)
-                for (unsigned int ci = 0; ci < collections; ++ci) {
-                    //Get the current index as start
-                    unsigned int start = index;
-                    //Advance the index by length of collection
-                    index += length;
-                    //Create the collection
-                    std::vector<Image*> images;
-                    for (unsigned int i = start; i < index; ++i) {
-                        const asset_path_t imagePath = assetPath + std::to_string(i);
-                        Image* image = factory->getImage(imagePath);
-                        if (image) {
-                            images.emplace_back(image);
-                        } else {
-                            log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
+                for (std::string& variant : factory->getVariants()) {
+                    unsigned int end = index;
+                    for (unsigned int ci = 0; ci < collections; ++ci) {
+                        //Get the current index as start
+                        unsigned int start = end;
+                        //Advance the index by length of collection
+                        end += length;
+                        //Create the collection
+                        std::vector<Image*> images;
+                        for (unsigned int i = start; i < end; ++i) {
+                            const asset_path_t imagePath = factory->assembleAssetPath(assetPath, variant, std::to_string(i));
+                            Image* image = factory->getImage(imagePath);
+                            if (image) {
+                                images.emplace_back(image);
+                            } else {
+                                log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
+                            }
                         }
+                        //Set the name and store collection
+                        std::string collection = 1 < collections ? std::to_string(ci) : "";
+                        std::string group_name = factory->assembleGroupName(entry.key(), variant, collection);
+                        sprites[group_name] = images;
+                        //Advance by separation
+                        end += separation;
                     }
-                    //Set the name and store collection
-                    std::string group_name = entry.key();
-                    if (1 < collections) {
-                        group_name += "_" + std::to_string(ci);
-                    }
-                    sprites[group_name] = images;
-                    //Advance by separation
-                    index += separation;
                 }
             } else {
                 log->error("{0} sprites {1} unknown sprite data", toString(), entry.key());
@@ -114,8 +127,9 @@ std::string EntityConfig::toString() const {
 }
 
 std::string EntityConfig::toStringContent() const {
-    return "Kind: " + std::to_string(kind) + ":" + std::to_string(id) +
-          (code.empty() ? "" : " " + code) +
-          (type.empty() ? "" : " " + type) +
+    return "Kind: " + std::to_string(kind) +
+           " ID: " + std::to_string(id) +
+          (code.empty() ? "" : " Code: " + code) +
+          (type.empty() ? "" : " Type: " + type) +
           "";
 }

@@ -32,11 +32,15 @@ public:
 class BuildingFactory: public IEntityFactory {
     TYPE_NAME_OVERRIDE(BuildingFactory);
 
-    std::string getConfigPath() override {
+    std::string getConfigPath() const override {
         return "buildings.json";
     }
 
-    entity_kind_t getKind() override {
+    std::string getAssetPath() const override {
+        return "MIX/SPRB0/";
+    }
+
+    entity_kind_t getKind() const override {
         return ENTITY_KIND_BUILDING;
     }
 

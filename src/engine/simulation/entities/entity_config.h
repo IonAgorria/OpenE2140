@@ -5,79 +5,69 @@
 #define OPENE2140_ENTITY_CONFIG_H
 
 #include <unordered_map>
-#include <src/engine/io/log.h>
-#include "engine/core/types.h"
+#include "engine/io/log.h"
+#include "engine/core/common.h"
+#include "engine/core/to_string.h"
 #include "engine/io/has_config_data.h"
 
+class IEntityFactory;
+class AssetManager;
 class Image;
-
-/**
- * Contains structured data for sprite group
- */
-struct SpriteGroup {
-    /**
-     * Name of this sprite group
-     */
-    std::string name;
-
-    /**
-     * Type of this sprite group
-     */
-    uint16_t type;
-
-    /**
-     * Images in this group
-     */
-    std::vector<Image*> images;
-};
 
 /**
  * Base entity config containing the entity stats, type and such data
  */
-class EntityConfig: public entity_type_t, public IHasConfigData {
+class EntityConfig: public IHasConfigData, public entity_type_t, public IToString {
 public:
     /*
      * Most common values
      */
+    std::string code;
     std::string name;
     std::string type;
 
     /**
      * Sprites data
      */
-    std::unordered_map<std::string, SpriteGroup> sprites;
+    std::unordered_map<std::string, std::vector<Image*>> sprites;
 
     /**
      * Constructor
      */
-    EntityConfig(config_data_t& configData) {
-        setData(configData);
-    }
+    EntityConfig() = default;
 
     /**
      * Destructor
      */
-    virtual ~EntityConfig() = default;
+    ~EntityConfig() override = default;
+
+    /**
+     * Loads data to entity config
+     *
+     * @param configData data store as entity config
+     * @param factory which this entity config is being configured from
+     */
+    void loadData(const config_data_t& configData, const IEntityFactory* factory);
 
     /**
      * Disable copy/move
      */
     NON_COPYABLE_NOR_MOVABLE(EntityConfig)
 
-    void setData(config_data_t& content) {
-        IHasConfigData::loadData(content);
-        name = getData<const std::string>("name", "");
-        type = getData<const std::string>("type", "");
-        config_data_t spritesData = configData["sprites"];
-        if (spritesData.is_object()) {
-            for (config_data_t::iterator entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
-                SpriteGroup group;
-                group.name = entry.key();
-                //TODO
-                sprites[group.name] = std::move(group);
-            }
-        }
-    }
+    /**
+     * Handles the loading and assemble of sprites in entity config as set of images
+     *
+     * @param factory which this entity config is being created from
+     */
+    void loadSprites(const IEntityFactory* factory);
+
+    /*
+     * IToString
+     */
+
+    std::string toString() const override;
+
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_ENTITY_CONFIG_H

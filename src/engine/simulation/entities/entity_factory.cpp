@@ -9,11 +9,11 @@
 #include "engine/io/config.h"
 #include "engine/core/utils.h"
 
-
 void IEntityFactory::clear() {
 }
 
 void IEntityFactory::load() {
+    log = Log::get(type_name());
     loadConfig(Utils::getDataPath() + getConfigPath());
 }
 
@@ -47,9 +47,10 @@ void IEntityFactory::loadEntityConfig(config_data_t& data) {
         configs.resize(id + 1);
     }
     //Create config and set it in configs
-    std::unique_ptr<EntityConfig> config = std::make_unique<EntityConfig>(data);
+    std::unique_ptr<EntityConfig> config = std::make_unique<EntityConfig>();
     config->kind = getKind();
     config->id = id;
+    config->loadData(data, this);
     configs[id].swap(config);
 }
 
@@ -74,6 +75,10 @@ std::shared_ptr<Entity> IEntityFactory::makeEntity(entity_type_id_t id) {
         entity->setup(config);
     }
     return entity;
+}
+
+log_ptr IEntityFactory::getLog() const {
+    return log;
 }
 
 Image* IEntityFactory::getImage(const asset_path_t& path) const {

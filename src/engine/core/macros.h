@@ -35,11 +35,15 @@
 
 /** Returns type name */
 #define TYPE_NAME(T) \
-    const std::string type_name() const { return std::string(#T); };
+    std::string type_name() const { return std::string(#T); };
+
+/** Returns type name */
+#define TYPE_NAME_VIRTUAL() \
+    virtual std::string type_name() const = 0;
 
 /** Returns type name and overrides any previous type name */
 #define TYPE_NAME_OVERRIDE(T) \
-    const std::string type_name() const override { return std::string(#T); };
+    std::string type_name() const override { return std::string(#T); };
 
 /**
  * Returns single bit mask by index

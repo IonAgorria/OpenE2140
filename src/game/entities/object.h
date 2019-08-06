@@ -34,7 +34,9 @@ public:
  * Object factory
  */
 class ObjectFactory: public IEntityFactory {
-    const std::string getConfigPath() override {
+    TYPE_NAME_OVERRIDE(ObjectFactory);
+
+    std::string getConfigPath() override {
         return "objects.json";
     }
 

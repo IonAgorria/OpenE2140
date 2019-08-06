@@ -17,6 +17,11 @@ class Entity;
 class IEntityFactory: public IErrorPossible {
 protected:
     /**
+     * Log for object
+     */
+    log_ptr log;
+
+    /**
      * Entity manager which this belongs to
      */
     EntityManager* manager;
@@ -56,6 +61,11 @@ public:
     NON_COPYABLE(IEntityFactory)
 
     /**
+     * Type name
+     */
+    TYPE_NAME_VIRTUAL();
+
+    /**
      * Assigns the current manager
      */
     void setManager(EntityManager* current);
@@ -78,7 +88,7 @@ public:
     /**
      * @return the file path containing the configs to use in this factory
      */
-    virtual const std::string getConfigPath() = 0;
+    virtual std::string getConfigPath() = 0;
 
     /**
      * @return the entity kind which this factory produces entities
@@ -92,6 +102,11 @@ public:
      * @return entity created
      */
     std::shared_ptr<Entity> makeEntity(entity_type_id_t id);
+
+    /**
+     * Obtains log for this factory
+     */
+    log_ptr getLog() const;
 
     /*
      * AssetManager proxy

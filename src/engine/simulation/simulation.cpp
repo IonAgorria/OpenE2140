@@ -190,7 +190,7 @@ Faction* Simulation::getFaction(faction_id_t id) const {
 }
 
 Faction* Simulation::getFaction(const std::string& code) const {
-    for (std::unique_ptr<Faction>& faction : factions) {
+    for (const std::unique_ptr<Faction>& faction : factions) {
         if (faction && faction->code == code) {
             return faction.get();
         }

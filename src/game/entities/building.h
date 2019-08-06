@@ -30,7 +30,9 @@ public:
  * Building factory
  */
 class BuildingFactory: public IEntityFactory {
-    const std::string getConfigPath() override {
+    TYPE_NAME_OVERRIDE(BuildingFactory);
+
+    std::string getConfigPath() override {
         return "buildings.json";
     }
 

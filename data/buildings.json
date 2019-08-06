@@ -38,8 +38,8 @@
             }
         },
         "sprites": {
-            "default": {"asset": 39},
-            "damaged": {"asset": 40}
+            "default": 39,
+            "damaged": 40
         }
     },
     {
@@ -65,8 +65,8 @@
             }
         },
         "sprites": {
-            "default": {"asset": 61},
-            "damaged": {"asset": 62}
+            "default": 61,
+            "damaged": 62
         }
     },
     {
@@ -104,8 +104,8 @@
             }
         },
         "sprites": {
-            "default": {"asset": 33},
-            "damaged": {"asset": 34}
+            "default": 33,
+            "damaged": 34
         }
     },
     {
@@ -141,8 +141,8 @@
             }
         },
         "sprites": {
-            "default": {"asset": 55},
-            "damaged": {"asset": 54}
+            "default": 55,
+            "damaged": 54
         },
         "weapons": [
             {
@@ -174,8 +174,8 @@
             }
         },
         "sprites": {
-            "default": {"asset": 35},
-            "damaged": {"asset": 36}
+            "default": 35,
+            "damaged": 36
         }
     },
     {
@@ -202,10 +202,10 @@
         },
         "sprites": {
             "default": {
-                "asset": "MIX/SPRB0/57"
+                "index": 57
             },
             "damaged": {
-                "asset": "MIX/SPRB0/58"
+                "index": 58
             }
         }
     },
@@ -239,8 +239,8 @@
             "light": 3
         },
         "sprites": {
-            "default": {"asset": 12},
-            "damaged": {"asset": 13}
+            "default": 12,
+            "damaged": 13
         }
     },
     {
@@ -295,12 +295,12 @@
             "heavy": 6
         },
         "sprites": {
-            "top":              {"asset": 20},
-            "top_damaged":      {"asset": 21},
-            "bottom":           {"asset": 22},
-            "bottom_damaged":   {"asset": 23},
-            "exit":             {"asset": 24},
-            "exit_damaged":     {"asset": 25}
+            "top":              20,
+            "top_damaged":      21,
+            "bottom":           22,
+            "bottom_damaged":   23,
+            "exit":             24,
+            "exit_damaged":     25
         }
     },
     {
@@ -487,8 +487,8 @@
             "light": 4
         },
         "sprites": {
-            "default": {"asset": 90},
-            "damaged": {"asset": 91}
+            "default": 90,
+            "damaged": 91
         }
     },
     {
@@ -505,8 +505,8 @@
             "light": 4
         },
         "sprites": {
-            "default": {"asset": 92},
-            "damaged": {"asset": 93}
+            "default": 92,
+            "damaged": 93
         }
     },
     {
@@ -523,8 +523,8 @@
             "light": 4
         },
         "sprites": {
-            "default": {"asset": 94},
-            "damaged": {"asset": 95}
+            "default": 94,
+            "damaged": 95
         }
     },
     {
@@ -541,8 +541,8 @@
             "light": 4
         },
         "sprites": {
-            "default": {"asset": 96},
-            "damaged": {"asset": 97}
+            "default": 96,
+            "damaged": 97
         }
     },
     {
@@ -559,8 +559,8 @@
             "light": 4
         },
         "sprites": {
-            "default": {"asset": 98},
-            "damaged": {"asset": 99}
+            "default": 98,
+            "damaged": 99
         }
     },
     {
@@ -577,8 +577,8 @@
             "light": 4
         },
         "sprites": {
-            "default": {"asset": 100},
-            "damaged": {"asset": 101}
+            "default": 100,
+            "damaged": 101
         }
     },
     {
@@ -591,8 +591,8 @@
         "consumed_energy": 1000,
         "health": 500,
         "sprites": {
-            "default": {"asset": 102},
-            "damaged": {"asset": 103}
+            "default": 102,
+            "damaged": 103
         },
         "weapons": [
             {
@@ -611,8 +611,8 @@
         "consumed_energy": 300,
         "health": 300,
         "sprites": {
-            "default": {"asset": 104},
-            "damaged": {"asset": 105}
+            "default": 104,
+            "damaged": 105
         },
         "weapons": [
             {

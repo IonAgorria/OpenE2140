@@ -3,343 +3,343 @@
     "id": 69,
     "type": "mine",
     "sprites": {
-      "default": {"assets": [69, 70]}
+      "default": [69, 70]
     }
   },
   {
     "id": 73,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 73}
+      "default": 73
     }
   },
   {
     "id": 74,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 74}
+      "default": 74
     }
   },
   {
     "id": 75,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 75}
+      "default": 75
     }
   },
   {
     "id": 76,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 76}
+      "default": 76
     }
   },
   {
     "id": 77,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 77}
+      "default": 77
     }
   },
   {
     "id": 78,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 78}
+      "default": 78
     }
   },
   {
     "id": 79,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 79}
+      "default": 79
     }
   },
   {
     "id": 80,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 80}
+      "default": 80
     }
   },
   {
     "id": 81,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 81}
+      "default": 81
     }
   },
   {
     "id": 82,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 82}
+      "default": 82
     }
   },
   {
     "id": 83,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 83}
+      "default": 83
     }
   },
   {
     "id": 84,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 84}
+      "default": 84
     }
   },
   {
     "id": 85,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 85}
+      "default": 85
     }
   },
   {
     "id": 86,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 86}
+      "default": 86
     }
   },
   {
     "id": 87,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 87}
+      "default": 87
     }
   },
   {
     "id": 88,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 88}
+      "default": 88
     }
   },
   {
     "id": 89,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 89}
+      "default": 89
     }
   },
   {
     "id": 90,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 90}
+      "default": 90
     }
   },
   {
     "id": 91,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 91}
+      "default": 91
     }
   },
   {
     "id": 92,
     "type": "wall",
     "sprites": {
-      "default": {"asset": 92}
+      "default": 92
     }
   },
   {
     "id": 93,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 93}
+      "default": 93
     }
   },
   {
     "id": 94,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 94}
+      "default": 94
     }
   },
   {
     "id": 95,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 95}
+      "default": 95
     }
   },
   {
     "id": 96,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 96}
+      "default": 96
     }
   },
   {
     "id": 97,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 97}
+      "default": 97
     }
   },
   {
     "id": 98,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 98}
+      "default": 98
     }
   },
   {
     "id": 99,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 99}
+      "default": 99
     }
   },
   {
     "id": 100,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 100}
+      "default": 100
     }
   },
   {
     "id": 101,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 101}
+      "default": 101
     }
   },
   {
     "id": 102,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 102}
+      "default": 102
     }
   },
   {
     "id": 103,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 103}
+      "default": 103
     }
   },
   {
     "id": 104,
     "type": "tree",
     "sprites": {
-      "default": {"asset": 104}
+      "default": 104
     }
   },
   {
     "id": 105,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 105}
+      "default": 105
     }
   },
   {
     "id": 106,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 106}
+      "default": 106
     }
   },
   {
     "id": 107,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 107}
+      "default": 107
     }
   },
   {
     "id": 108,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 108}
+      "default": 108
     }
   },
   {
     "id": 109,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 109}
+      "default": 109
     }
   },
   {
     "id": 110,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 110}
+      "default": 110
     }
   },
   {
     "id": 111,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 111}
+      "default": 111
     }
   },
   {
     "id": 112,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 112}
+      "default": 112
     }
   },
   {
     "id": 113,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 113}
+      "default": 113
     }
   },
   {
     "id": 114,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 114}
+      "default": 114
     }
   },
   {
     "id": 115,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 115}
+      "default": 115
     }
   },
   {
     "id": 116,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 116}
+      "default": 116
     }
   },
   {
     "id": 117,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 117}
+      "default": 117
     }
   },
   {
     "id": 118,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 118}
+      "default": 118
     }
   },
   {
     "id": 119,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 119}
+      "default": 119
     }
   },
   {
     "id": 120,
     "type": "pipe",
     "sprites": {
-      "default": {"asset": 120}
+      "default": 120
     }
   },
   {
@@ -348,12 +348,12 @@
     "type":"attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "exit_0": {"asset": 76},
-      "exit_1": {"asset": 77},
-      "exit_2": {"asset": 78},
-      "exit_3_top": {"asset": 79},
-      "exit_3_bottom": {"asset": 80},
-      "exit_3_platform": {"asset": 81}
+      "exit_0": 76,
+      "exit_1": 77,
+      "exit_2": 78,
+      "exit_3_top": 79,
+      "exit_3_bottom": 80,
+      "exit_3_platform": 81
     }
   },
   {
@@ -362,12 +362,12 @@
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "exit_0": {"asset": 82},
-      "exit_1": {"asset": 83},
-      "exit_2": {"asset": 84},
-      "exit_3_top": {"asset": 85},
-      "exit_3_bottom": {"asset": 86},
-      "exit_3_platform": {"asset": 87}
+      "exit_0": 82,
+      "exit_1": 83,
+      "exit_2": 84,
+      "exit_3_top": 85,
+      "exit_3_bottom": 86,
+      "exit_3_platform": 87
     }
   },
   {
@@ -376,8 +376,8 @@
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "default": {"asset": 88},
-      "damaged": {"asset": 89}
+      "default": 88,
+      "damaged": 89
     }
   },
   {
@@ -386,8 +386,8 @@
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "exit_0": {"asset": 37},
-      "exit_1": {"asset": 38}
+      "exit_0": 37,
+      "exit_1": 38
     }
   },
   {
@@ -396,8 +396,8 @@
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "exit_0": {"asset": 58},
-      "exit_1": {"asset": 89}
+      "exit_0": 58,
+      "exit_1": 89
     }
   },
   {
@@ -406,8 +406,8 @@
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "default": {"asset": 2},
-      "damaged": {"asset": 3}
+      "default": 2,
+      "damaged": 3
     }
   },
   {

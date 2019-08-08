@@ -15,6 +15,20 @@ class AssetManager;
 class Image;
 
 /**
+ * Contains per sprite set related data
+ */
+struct SpriteGroup {
+    /** Name for this entry */
+    std::string name = "";
+    /** Images for this entry */
+    std::vector<Image*> images;
+    /** Total duration of all images */
+    duration_t duration = 0;
+    /** Should the animation loop? */
+    bool loop = false;
+};
+
+/**
  * Base entity config containing the entity stats, type and such data
  */
 class EntityConfig: public IHasConfigData, public entity_type_t, public IToString {
@@ -29,7 +43,7 @@ public:
     /**
      * Sprites data
      */
-    std::unordered_map<std::string, std::vector<Image*>> sprites;
+    std::unordered_map<std::string, SpriteGroup> sprites;
 
     /**
      * Constructor

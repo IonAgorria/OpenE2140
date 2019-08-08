@@ -14,11 +14,17 @@ void EntityConfig::loadData(const config_data_t& configData, const IEntityFactor
 
 void EntityConfig::loadSprites(const IEntityFactory* factory) {
     log_ptr log = factory->getLog();
+    //Get config for all sprite groups if they don't have own config entries
     const std::string defaultPath = configData.value<const std::string>("sprites_path", factory->getAssetPath());
     if (defaultPath.empty()) {
         log->error("{0} sprites_path is empty", toString());
         return;
     }
+    //Duration of image groups
+    duration_t defaultDuration = configData["duration"].is_number_unsigned()
+                               ? configData["duration"].get<duration_t>() : 0;
+
+    //Parse the sprites
     config_data_t spritesData = configData["sprites"];
     if (spritesData.is_object()) {
         for (auto entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
@@ -29,23 +35,27 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 for (std::string& variant : factory->getVariants()) {
 
                     //Get image
-                    std::vector<Image*> images;
+                    SpriteGroup spriteGroup;
+                    spriteGroup.duration = defaultDuration;
+                    spriteGroup.loop = false;
                     const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
                     Image* image = factory->getImage(imagePath);
                     if (image) {
-                        images.emplace_back(image);
+                        spriteGroup.images.emplace_back(image);
                     } else {
                         log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                     }
 
                     //Create group
-                    std::string group_name = factory->assembleGroupName(entry.key(), variant, "");
-                    sprites[group_name] = images;
+                    spriteGroup.name = factory->assembleGroupName(entry.key(), variant, "");
+                    sprites[spriteGroup.name] = spriteGroup;
                 }
             } else if (value.is_array()) {
                 //If its a array then use it as a collection of indexes
                 for (std::string& variant : factory->getVariants()) {
-                    std::vector<Image*> images;
+                    SpriteGroup spriteGroup;
+                    spriteGroup.duration = defaultDuration;
+                    spriteGroup.loop = false;
                     for (nlohmann::json& element : value) {
                         if (!element.is_number_unsigned()) {
                             log->error("{0} sprites {1} non unsigned number found in array", toString(), entry.key());
@@ -55,15 +65,15 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                         const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
                         Image* image = factory->getImage(imagePath);
                         if (image) {
-                            images.emplace_back(image);
+                            spriteGroup.images.emplace_back(image);
                         } else {
                             log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                         }
                     }
 
                     //Create group
-                    std::string group_name = factory->assembleGroupName(entry.key(), variant, "");
-                    sprites[group_name] = images;
+                    spriteGroup.name = factory->assembleGroupName(entry.key(), variant, "");
+                    sprites[spriteGroup.name] = spriteGroup;
                 }
             } else if (value.is_object()) {
                 //If its a object then treat it as a set of rules to assemble collections
@@ -85,6 +95,11 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 //Number to skip per each collection
                 unsigned int separation = value["separation"].is_number_unsigned()
                                         ? value["separation"].get<unsigned int>() : 0;
+                //Duration of image groups
+                duration_t duration = value["duration"].is_number_unsigned()
+                                      ? value["duration"].get<duration_t>() : defaultDuration;
+                //Should the animation loop?
+                bool loop = value["loop"].is_boolean() && value["loop"].get<bool>();
 
                 //Iterate each collection (set of images)
                 for (std::string& variant : factory->getVariants()) {
@@ -95,20 +110,22 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                         //Advance the index by length of collection
                         end += length;
                         //Create the collection
-                        std::vector<Image*> images;
+                        SpriteGroup spriteGroup;
+                        spriteGroup.duration = duration;
+                        spriteGroup.loop = loop;
                         for (unsigned int i = start; i < end; ++i) {
                             const asset_path_t imagePath = factory->assembleAssetPath(assetPath, variant, std::to_string(i));
                             Image* image = factory->getImage(imagePath);
                             if (image) {
-                                images.emplace_back(image);
+                                spriteGroup.images.emplace_back(image);
                             } else {
                                 log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                             }
                         }
                         //Set the name and store collection
                         std::string collection = 1 < collections ? std::to_string(ci) : "";
-                        std::string group_name = factory->assembleGroupName(entry.key(), variant, collection);
-                        sprites[group_name] = images;
+                        spriteGroup.name = factory->assembleGroupName(entry.key(), variant, collection);
+                        sprites[spriteGroup.name] = spriteGroup;
                         //Advance by separation
                         end += separation;
                     }

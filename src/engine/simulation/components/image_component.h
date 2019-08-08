@@ -23,17 +23,17 @@ protected:
     Image* image = nullptr;
 
     /**
-     * Image offset from entity center;
+     * Image offset from entity center
      */
     Vector2 imageOffset;
 
     /**
-     * Image size;
+     * Image size
      */
     Vector2 imageSize;
 
     /**
-     * Image direction;
+     * Image direction
      */
     float imageDirection = 0;
 

@@ -112,6 +112,7 @@ void AssetManager::loadAssets() {
     if (hasError()) return;
 
     //Print loaded assets
+    log->debug("Loaded {0} assets", getAssetsCount());
     //for (std::pair<asset_path, std::shared_ptr<Asset>> pair : assetManager->getAssets()) log->debug(pair.first);
 }
 

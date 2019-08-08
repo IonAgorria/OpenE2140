@@ -57,14 +57,10 @@ using player_mask_t = uint64_t;
 /** Money type */
 using money_t = int64_t;
 
-/**
- * Type for tile flags
- */
+/** Type for tile flags */
 using tile_flags_t = uint16_t;
 
-/**
- * Type for cost of path
- */
+/** Type for cost of path */
 using path_cost_t = uint16_t;
 
 /**

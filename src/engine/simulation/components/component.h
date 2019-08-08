@@ -65,7 +65,7 @@ protected: \
     T_BASE* base; \
 public: \
     /** Constructs the component and receives pointer to base which belongs to */ \
-    T_COMPONENT(T_BASE* base): base(base) { construction(); }; \
+    explicit T_COMPONENT(T_BASE* base): base(base) { construction(); }; \
     /** Set type name */ \
     TYPE_NAME(T_COMPONENT) \
     /** Disable copy and move */ \

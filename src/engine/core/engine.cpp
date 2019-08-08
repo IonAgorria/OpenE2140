@@ -241,8 +241,6 @@ void Engine::setupAssetManager() {
     assetManager->loadAssets();
     error = assetManager->getError();
     if (!error.empty()) return;
-
-    log->debug("Loaded {0} assets", assetManager->getAssetsCount());
 }
 
 void Engine::setupEntityManager() {

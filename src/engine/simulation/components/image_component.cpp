@@ -28,5 +28,8 @@ void ImageComponent::setImageFromSprite(const std::string& code) {
     SpriteGroup* group = config ? config->getSprite(code) : nullptr;
     if (group && !group->images.empty()) {
         image = group->images.at(0);
+        if (image) {
+            image->getRectangle().getSize(imageSize);
+        }
     }
 }

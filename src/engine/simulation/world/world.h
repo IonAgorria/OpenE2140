@@ -57,6 +57,11 @@ private:
 
 public:
     /**
+     * Tileset index used in this world
+     */
+    const unsigned int tilesetIndex;
+
+    /**
      * Tile image size
      */
     const int tileSize;

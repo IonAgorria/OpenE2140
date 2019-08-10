@@ -8,9 +8,13 @@ void Object::simulationChanged() {
     if (!isActive()) {
         return;
     }
+
+    //Set bounds
     World* world = simulation->getWorld();
     bounds.setCenter(position, Vector2(world->tileSize));
-    setImageFromSprite("default");
+
+    //Load image according to tileset
+    setImageFromSprite("default_" + std::to_string(world->tilesetIndex));
 }
 
 void Object::draw() {

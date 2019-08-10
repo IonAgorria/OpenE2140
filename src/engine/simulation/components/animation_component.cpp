@@ -21,6 +21,9 @@ void AnimationComponent::update() {
     if (animation) {
         animation->update(GAME_DELTA);
         image = animation->getCurrentFrame();
+        if (image) {
+            image->getRectangle().getSize(imageSize);
+        }
     }
 }
 

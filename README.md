@@ -64,8 +64,7 @@ The following game assets must be present in WD file or directory form:
 - Basic entity implementation
 
 ## Roadmap
-- Static map entities (using SPRO*)
-- Entity drawing
+- Tree shadows
 - Player colors
 - Entity selection
 - Mobile units

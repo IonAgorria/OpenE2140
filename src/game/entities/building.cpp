@@ -11,7 +11,8 @@ void Building::simulationChanged() {
     }
 
     World* world = simulation->getWorld();
-    world->toWorldRectangle(bounds, bounds);
+    world->toWorldRectangle(config->bounds, bounds);
+    bounds += Rectangle(position, Vector2());
     chooseSprite();
 }
 
@@ -38,7 +39,10 @@ void BuildingFactory::setupEntityConfig(EntityConfig* config) {
                 bounds.getUnionRectangle(layoutRectangle, bounds);
             }
         }
-        config->bounds.set(bounds);
+        config_data_t boundsData;
+        Config::setRectangle(bounds, boundsData);
+        config->setData("bounds", boundsData);
+        config->bounds = bounds;
     }
 
     IEntityFactory::setupEntityConfig(config);

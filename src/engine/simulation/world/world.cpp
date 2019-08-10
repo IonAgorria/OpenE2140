@@ -8,6 +8,7 @@
 
 World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& tilesetImages) :
     tilesetImages(std::move(tilesetImages)),
+    tilesetIndex(assetLevel->tilesetIndex()),
     tileSize(static_cast<int>(assetLevel->tileSize())),
     tileSizeHalf(tileSize / 2)
     {

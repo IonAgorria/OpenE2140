@@ -78,6 +78,15 @@ bool Config::getRectangle(config_data_t& section, Rectangle& rectangle) {
     return true;
 }
 
+void Config::setRectangle(Rectangle& rectangle, config_data_t& section) {
+    std::vector<int> boundsArray;
+    section = config_data_t(boundsArray);
+    section[0] = rectangle.x;
+    section[1] = rectangle.y;
+    section[2] = rectangle.w;
+    section[3] = rectangle.h;
+}
+
 std::string Config::toString() const {
     return "Config(" + toStringContent() + ")";
 }

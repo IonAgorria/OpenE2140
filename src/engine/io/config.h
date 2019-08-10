@@ -74,10 +74,19 @@ public:
      * Reads rectangle from config data entry
      *
      * @param section to read from
-     * @param vector to write
+     * @param rectangle to write
      * @return if successful
      */
     static bool getRectangle(config_data_t& section, Rectangle& rectangle);
+
+    /**
+     * Writes rectangle to config data entry
+     *
+     * @param rectangle to read from
+     * @param section to write
+     * @return if successful
+     */
+    static void setRectangle(Rectangle& rectangle, config_data_t& section);
 
     /**
      * Disable copy/move

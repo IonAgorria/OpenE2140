@@ -245,7 +245,7 @@ void Renderer::initBuffers() {
 
 void Renderer::prepare(const Image& image, const Palette* paletteExtra) {
     //Get palette
-    std::shared_ptr<Palette> palette = image.getPalette();
+    const std::shared_ptr<Palette>& palette = image.getPalette();
 
     bool needFlush;
     int requiredMode;

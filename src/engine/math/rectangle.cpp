@@ -128,6 +128,21 @@ bool Rectangle::zero() const {
     return 0 == x && 0 == y;
 }
 
+void Rectangle::getPosition(Vector2& vector) const {
+    vector.x = this->x;
+    vector.y = this->y;
+}
+
+void Rectangle::getSize(Vector2& vector) const {
+    vector.x = this->w;
+    vector.y = this->h;
+}
+
+void Rectangle::getCenter(Vector2& vector) const {
+    vector.x = x + w / 2;
+    vector.y = y + h / 2;
+}
+
 void Rectangle::set(int v) {
     this->x = v;
     this->y = v;
@@ -181,11 +196,6 @@ void Rectangle::setCenter(const Vector2& center, const Vector2& size) {
     this->h = size.y;
     this->x = center.x - w / 2;
     this->y = center.y - h / 2;
-}
-
-void Rectangle::getCenter(Vector2& vector) const {
-    vector.x = x + w / 2;
-    vector.y = y + h / 2;
 }
 
 bool Rectangle::isInside(int px, int py) const {

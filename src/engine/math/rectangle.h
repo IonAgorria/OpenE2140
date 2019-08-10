@@ -139,6 +139,27 @@ public:
     bool zero() const;
 
     /**
+     * Get rectangle position
+     *
+     * @param vector to write to
+     */
+    void getPosition(Vector2& vector) const;
+
+    /**
+     * Get rectangle size
+     *
+     * @param vector to write to
+     */
+    void getSize(Vector2& vector) const;
+
+    /**
+     * Get rectangle center
+     *
+     * @param vector to write to
+     */
+    void getCenter(Vector2& vector) const;
+
+    /**
      * Sets rectangle components
      *
      * @param v value
@@ -206,13 +227,6 @@ public:
      * @param size of rectangle
      */
     void setCenter(const Vector2& center, const Vector2& size);
-
-    /**
-     * Sets rectangle center on the vector
-     *
-     * @param vector to change
-     */
-    void getCenter(Vector2& vector) const;
 
     /**
      * Checks if a position is inside this rectangle

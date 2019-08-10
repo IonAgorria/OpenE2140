@@ -138,7 +138,7 @@ public:
     /**
      * @return palette used by this image if any
      */
-    const std::shared_ptr<Palette> getPalette() const;
+    const std::shared_ptr<Palette>& getPalette() const;
 
     /**
      * Binds the texture for use

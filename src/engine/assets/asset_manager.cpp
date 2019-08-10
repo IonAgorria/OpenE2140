@@ -16,7 +16,7 @@
 //#define STBRP_LARGE_RECTS
 #include "stb_rect_pack.h"
 
-AssetManager::AssetManager(std::shared_ptr<Engine> engine): engine(engine) {
+AssetManager::AssetManager(std::shared_ptr<Engine> engine): engine(std::move(engine)) {
     log = Log::get("Assets");
 }
 
@@ -98,7 +98,7 @@ void AssetManager::loadAssets() {
     Utils::getRootPaths(std::string(GAME_ASSETS_DIR) + DIR_SEP, roots);
 
     //Load each registered containers
-    for (std::pair<std::string,bool> pair : assetContainers) {
+    for (auto& pair : assetContainers) {
         loadAssetContainer(roots, pair.first, pair.second);
         if (hasError()) return;
     }
@@ -120,7 +120,7 @@ void AssetManager::loadAssetContainer(const std::vector<std::string>& assetRoots
     log->debug("Loading from '{0}'", containerName);
     //Scan assets from containers by checking different paths that might contain assets
     bool found = false;
-    for (std::string path : assetRoots) {
+    for (const std::string& path : assetRoots) {
         if (found) break;
         for (std::unique_ptr<IAssetProcessor>& processor : processors) {
             found |= processor->scanContainer(path, containerName);
@@ -137,7 +137,7 @@ void AssetManager::loadAssetContainer(const std::vector<std::string>& assetRoots
             std::string text = "Error loading game data for directory/file '" + containerName + "'\n";
             if (error.empty()) {
                 text += "Check if game files are correctly set and are accessible inside following paths: \n";
-                for (std::string path : assetRoots) {
+                for (const std::string& path : assetRoots) {
                     text += path + "\n";
                 }
             } else {
@@ -176,9 +176,9 @@ void AssetManager::refreshAssets() {
     //Iterate all assets and handle by asset type
     std::vector<AssetImage*> assetImages;
     std::vector<AssetImage*> assetImagesWithPalettes;
-    for (std::unordered_map<asset_path_t, std::unique_ptr<Asset>>::iterator pair = assets.begin(); pair != assets.end(); ++pair) {
+    for (auto& asset : assets) {
         //Handle image assets
-        AssetImage* assetImage = dynamic_cast<AssetImage*>(pair->second.get());
+        AssetImage* assetImage = dynamic_cast<AssetImage*>(asset.second.get());
         if (assetImage) {
             assetImage->assignImage(nullptr);
             std::shared_ptr<AssetPalette> assetPalette = assetImage->getAssetPalette();
@@ -236,7 +236,7 @@ void AssetManager::processImages(
         lastSize = assetImages.size();
 
         //Create the base image
-        std::shared_ptr<Image> atlasImage = std::make_shared<Image>(Vector2(textureSize), withPalette);
+        std::shared_ptr<Image> atlasImage = std::make_shared<Image>(Vector2(static_cast<int>(textureSize)), withPalette);
         error = atlasImage->getError();
         if (!error.empty()) return;
 
@@ -254,7 +254,7 @@ void AssetManager::processImages(
                 error = "This asset image exceeds the maximum texture size allowed " + assetImage->getPath() + " " + imageSize.toString();
                 return;
             }
-            rect.id = index;
+            rect.id = static_cast<int>(index);
             rect.w = imageSize.x;
             rect.h = imageSize.y;
             rect.x = 0;
@@ -265,12 +265,12 @@ void AssetManager::processImages(
         //Prepare the rect packer and do it
         stbrp_init_target(
                 &context,
-                textureSize,
-                textureSize,
+                static_cast<int>(textureSize),
+                static_cast<int>(textureSize),
                 nodes.data(),
-                textureSize
+                static_cast<int>(textureSize)
         );
-        stbrp_pack_rects(&context, rects.data(), imageCount);
+        stbrp_pack_rects(&context, rects.data(), static_cast<int>(imageCount));
 
         //Get the rects that were packed and use them for actual image setup
         for (unsigned int i = 0; i < imageCount; ++i) {

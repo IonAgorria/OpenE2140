@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 21/04/18
 //
 #include <string>
+#include <utility>
 #include "SDL_surface.h"
 #include "engine/core/utils.h"
 #include "image.h"
@@ -126,10 +127,10 @@ const GLuint Image::getTexture() const {
 }
 
 void Image::setPalette(std::shared_ptr<Palette> newPalette) {
-    this->palette = newPalette;
+    this->palette = std::move(newPalette);
 }
 
-const std::shared_ptr<Palette> Image::getPalette() const {
+const std::shared_ptr<Palette>& Image::getPalette() const {
     return palette;
 }
 
@@ -144,15 +145,12 @@ GLuint Image::bindTexture() const {
 bool Image::loadTextureR8(const byte_t* pixels) {
     bindTexture();
 
-    //Flip image
-    std::unique_ptr<byte_array_t> flipped = Utils::bufferFlipY(pixels, rectangle.w, rectangle.h);
-
     //Required to properly load the data
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
     //Load it
-    glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RED_INTEGER, GL_UNSIGNED_BYTE, flipped.get());
+    glTexSubImage2D(GL_TEXTURE_2D, 0, rectangle.x, rectangle.y, rectangle.w, rectangle.h, GL_RED_INTEGER, GL_UNSIGNED_BYTE, pixels);
     error = Utils::checkGLError();
     return error.empty();
 }

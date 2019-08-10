@@ -49,7 +49,7 @@ private:
     /**
      * Number of assets loaded
      */
-    int assetsCount;
+    int assetsCount = 0;
 
     /**
      * Loads the assets data in the container from files into memory
@@ -68,12 +68,12 @@ public:
     /**
      * Constructs loader
      */
-    AssetManager(std::shared_ptr<Engine> engine);
+    explicit AssetManager(std::shared_ptr<Engine> engine);
 
     /**
      * Destructs loader and cleans any loaded assets
      */
-    ~AssetManager();
+    ~AssetManager() override;
 
     /**
      * Disable copy/move

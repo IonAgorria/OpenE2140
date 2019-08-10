@@ -47,7 +47,10 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& t
     }
     for (size_t i = 0; i < tilePrototypes.size(); ++i) {
         TilePrototype prototype = tilePrototypes.at(i);
-        Vector2 pos(i % realRectangle.w, i / realRectangle.h);
+        Vector2 pos(
+                static_cast<int>(i % realRectangle.w),
+                static_cast<int>(i / realRectangle.h)
+        );
         std::unique_ptr<Tile> tile = std::make_unique<Tile>(i, pos);
         tile->setPrototype(prototype);
         tiles.emplace_back(std::move(tile));
@@ -112,10 +115,10 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
                 continue;
             }
             renderer->draw(
-                tileSizeHalf + (x * drawTileSize),
-                tileSizeHalf + (y * drawTileSize),
-                drawTileSize,
-                drawTileSize,
+                static_cast<float>(tileSizeHalf + (x * drawTileSize)),
+                static_cast<float>(tileSizeHalf + (y * drawTileSize)),
+                static_cast<float>(drawTileSize),
+                static_cast<float>(drawTileSize),
                 0,
                 *image,
                 nullptr

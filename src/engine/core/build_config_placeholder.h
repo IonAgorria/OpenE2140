@@ -25,18 +25,23 @@
 #endif
 
 /* True if being building on macos */
-#ifndef OPENE2140_IS_MACOS
-#define OPENE2140_IS_MACOS true
+#ifndef GAME_IS_MACOS
+#define GAME_IS_MACOS true
 #endif
 
 /* True if being building on windows */
-#ifndef OPENE2140_IS_WINDOWS
-#define OPENE2140_IS_WINDOWS true
+#ifndef GAME_IS_WINDOWS
+#define GAME_IS_WINDOWS true
 #endif
 
 /* Enables the use of Boost library */
-#ifndef OPENE2140_USE_BOOST
-#define OPENE2140_USE_BOOST true
+#ifndef GAME_USE_BOOST
+#define GAME_USE_BOOST true
+#endif
+
+/* Updates of game logic per second */
+#ifndef GAME_UPDATES_PER_SECOND
+#define GAME_UPDATES_PER_SECOND 30
 #endif
 
 #endif //OPENE2140_BUILD_CONFIG_PLACEHOLDER_H

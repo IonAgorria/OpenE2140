@@ -6,13 +6,14 @@
 #include "engine/simulation/simulation.h"
 #include "world.h"
 
-World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& tilesetImages)
-            : tilesetImages(std::move(tilesetImages)) {
+World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& tilesetImages) :
+    tilesetImages(std::move(tilesetImages)),
+    tileSize(static_cast<int>(assetLevel->tileSize())),
+    tileSizeHalf(tileSize / 2)
+    {
     log = Log::get("World");
 
     //Set dimensions
-    tileSize = assetLevel->tileSize();
-    tileSizeHalf = tileSize / 2;
     Vector2 size;
     assetLevel->dimensions(size);
     error = assetLevel->getError();
@@ -154,12 +155,26 @@ Tile* World::getTile(const Vector2& position) {
     return getTile(position.x / tileSize, position.y / tileSize);
 }
 
-void World::toTilePosition(const Vector2& position, Vector2& result) {
-    result.set(position.x / tileSize, position.y / tileSize);
+void World::toTileVector(const Vector2& vector, Vector2& result) {
+    result.set(vector.x / tileSize, vector.y / tileSize);
 }
 
-void World::toWorldPosition(const Vector2& position, Vector2& result) {
-    result.set(position.x * (tileSize + tileSizeHalf), position.y * (tileSize + tileSizeHalf));
+void World::toWorldVector(const Vector2& vector, Vector2& result) {
+    result.set(vector.x * (tileSize + tileSizeHalf), vector.y * (tileSize + tileSizeHalf));
+}
+
+void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
+    result.set(
+            rectangle.x / tileSize, rectangle.y / tileSize,
+            rectangle.w / tileSize, rectangle.h / tileSize
+    );
+}
+
+void World::toWorldRectangle(const Rectangle& rectangle, Rectangle& result) {
+    result.set(
+            rectangle.x * (tileSize + tileSizeHalf), rectangle.y * (tileSize + tileSizeHalf),
+            rectangle.w * (tileSize + tileSizeHalf), rectangle.h * (tileSize + tileSizeHalf)
+    );
 }
 
 Image* World::calculateTileImage(Tile& tile) {

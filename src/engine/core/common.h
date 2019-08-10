@@ -25,6 +25,8 @@
 #define GAME_VERSION STR(GAME_VERSION_MAJOR) "." STR(GAME_VERSION_MINOR)
 /** Full title of this game */
 #define GAME_TITLE GAME_NAME " " GAME_VERSION
+/** Delta per game update in ms */
+#define GAME_DELTA (1000 / GAME_UPDATES_PER_SECOND)
 /** Game main log tag for global use when required */
 #define MAIN_LOG "Main"
 /** File to dump when crashing */

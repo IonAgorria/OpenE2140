@@ -38,7 +38,10 @@ public:
     const bool extra;
 
     /**
-     * Constructor for empty palette
+     * Constructor for palette with fixed size
+     *
+     * @param size number of colors to reserve
+     * @param extra is this palette a extra palette?
      */
     Palette(unsigned int size, bool extra);
 
@@ -111,7 +114,7 @@ public:
     /**
      * @return texture id
      */
-    const GLuint getTexture() const;
+    GLuint getTexture() const;
 
     /**
      * @return string version of this

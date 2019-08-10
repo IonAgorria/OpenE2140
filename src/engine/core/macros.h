@@ -12,7 +12,7 @@
 #define BEGIN_END(container) (container).begin(), (container).end()
 
 /** Dir separator */
-#ifdef OPENE2140_IS_WINDOWS
+#ifdef GAME_IS_WINDOWS
 #    define DIR_SEP "\\"
 #else
 #    define DIR_SEP "/"

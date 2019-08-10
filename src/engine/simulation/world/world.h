@@ -5,6 +5,8 @@
 #define OPENE2140_WORLD_H
 
 #include "engine/core/common.h"
+#include "engine/core/error_possible.h"
+#include "engine/io/log.h"
 #include "engine/math/rectangle.h"
 #include "tile.h"
 
@@ -53,22 +55,22 @@ private:
      */
     std::vector<std::unique_ptr<Tile>> tiles;
 
+public:
     /**
      * Tile image size
      */
-    int tileSize;
+    const int tileSize;
 
     /**
      * Tile image size half
      */
-    int tileSizeHalf;
+    const int tileSizeHalf;
 
     /**
      * World scaling
      */
     const int scaling = 1;
 
-public:
     /**
      * World constructor
      */
@@ -142,22 +144,40 @@ public:
     Tile* getTile(const Vector2& position);
 
     /**
-     * Translates world position to tile position
+     * Translates world vector to tile vector
      *
-     * @param position to convert
+     * @param vector to convert
      * @param result to write result
      * @return tile if valid
      */
-    void toTilePosition(const Vector2& position, Vector2& result);
+    void toTileVector(const Vector2& vector, Vector2& result);
 
     /**
-     * Translates tile position to world position
+     * Translates tile vector to world vector
      *
-     * @param position to convert
+     * @param vector to convert
      * @param result to write result
      * @return tile if valid
      */
-    void toWorldPosition(const Vector2& position, Vector2& result);
+    void toWorldVector(const Vector2& vector, Vector2& result);
+
+    /**
+     * Translates world rectangle to tile rectangle
+     *
+     * @param rectangle to convert
+     * @param result to write result
+     * @return tile if valid
+     */
+    void toTileRectangle(const Rectangle& rectangle, Rectangle& result);
+
+    /**
+     * Translates tile rectangle to world rectangle
+     *
+     * @param rectangle to convert
+     * @param result to write result
+     * @return tile if valid
+     */
+    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result);
 
     /**
      * Calculates the image for the tile

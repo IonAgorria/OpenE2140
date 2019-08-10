@@ -4,7 +4,6 @@
 #ifndef OPENE2140_COLOR_H
 #define OPENE2140_COLOR_H
 
-#include <string>
 #include "engine/core/common.h"
 
 /**

@@ -21,7 +21,7 @@ Renderer::Renderer() {
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
     log->debug("GL_MAX_TEXTURE_SIZE: {0}", maxTextureSize);
 
-#if OPENE2140_IS_MACOS
+#if GAME_IS_MACOS
     //MacOS doesn't draw anything if max texture size is used so we reduce it by half
     if (maxTextureSize / 2 > MINIMUM_TEXTURE_SIZE) {
         log->debug("Workaround: Reduced max texture size by half");

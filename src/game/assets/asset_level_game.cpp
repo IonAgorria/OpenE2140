@@ -42,7 +42,7 @@ void AssetLevelGame::dimensions(Vector2& size) {
 }
 
 unsigned int AssetLevelGame::tileSize() {
-    return 64;
+    return TILE_SIZE;
 }
 
 std::string AssetLevelGame::name() {

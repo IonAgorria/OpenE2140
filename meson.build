@@ -44,11 +44,12 @@ opene2140_cfg.set('OPENE2140_BUILD_CONFIG_PLACEHOLDER_H', '"OpenE2140"', descrip
 opene2140_cfg.set('GAME_NAME', '"OpenE2140"', description: 'Engine name')
 opene2140_cfg.set('GAME_VERSION_MAJOR', 0, description: 'Engine version major digit')
 opene2140_cfg.set('GAME_VERSION_MINOR', 3, description: 'Engine version minor digit')
+opene2140_cfg.set('GAME_UPDATES_PER_SECOND', 30, description: 'Updates of game logic per second')
 
 #Variable config
-opene2140_cfg.set('OPENE2140_USE_BOOST', boost_dep.found() ? 'true' : 'false', description: 'Enables the use of Boost library')
-opene2140_cfg.set('OPENE2140_IS_MACOS', opene2140_is_macos ? 'true' : 'false', description: 'True if being building on macos')
-opene2140_cfg.set('OPENE2140_IS_WINDOWS', opene2140_is_windows ? 'true' : 'false', description: 'True if being building on windows')
+opene2140_cfg.set('GAME_USE_BOOST', boost_dep.found() ? 'true' : 'false', description: 'Enables the use of Boost library')
+opene2140_cfg.set('GAME_IS_MACOS', opene2140_is_macos ? 'true' : 'false', description: 'True if being building on macos')
+opene2140_cfg.set('GAME_IS_WINDOWS', opene2140_is_windows ? 'true' : 'false', description: 'True if being building on windows')
 
 #Save the config to header file
 configure_file(output: 'build_config.h', configuration: opene2140_cfg)

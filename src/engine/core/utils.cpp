@@ -11,8 +11,8 @@
 #include "utils.h"
 
 //Attempt to load boost libs
-//#define OPENE2140_USE_BOOST 0
-#if OPENE2140_USE_BOOST
+//#define GAME_USE_BOOST 0
+#if GAME_USE_BOOST
 #   define BOOST_STACKTRACE_GNU_SOURCE_NOT_REQUIRED 1
 #   include "boost/stacktrace.hpp"
 #   include "boost/filesystem.hpp"
@@ -395,7 +395,7 @@ std::unique_ptr<byte_array_t> Utils::createBuffer(const size_t size) {
 }
 
 bool Utils::saveStackTrace(const std::string& file) {
-#if OPENE2140_USE_BOOST
+#if GAME_USE_BOOST
     //Save and return if saved something
     size_t amount = boost::stacktrace::safe_dump_to(file.c_str());
     return 0 < amount;
@@ -407,7 +407,7 @@ bool Utils::saveStackTrace(const std::string& file) {
 }
 
 bool Utils::getStackTrace(std::list<std::string>& lines) {
-#if OPENE2140_USE_BOOST
+#if GAME_USE_BOOST
     //Get current
     auto st = boost::stacktrace::stacktrace();
     //Check if failed to load
@@ -440,7 +440,7 @@ bool Utils::getStackTrace(std::list<std::string>& lines) {
 }
 
 bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& dirPaths) {
-#if OPENE2140_USE_BOOST
+#if GAME_USE_BOOST
     using namespace boost::filesystem;
 
     //Check path

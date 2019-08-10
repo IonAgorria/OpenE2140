@@ -54,7 +54,7 @@ unsigned long Palette::length() const {
 }
 
 bool Palette::set(Palette& palette) {
-    for (unsigned int i = 0; i < palette.length(); ++i) {
+    for (size_t i = 0; i < palette.length(); ++i) {
         ColorRGBA color;
         if (!palette.getColor(i, color)) {
             return false;
@@ -118,7 +118,7 @@ GLuint Palette::bindTexture() const {
     return texture;
 }
 
-const GLuint Palette::getTexture() const {
+GLuint Palette::getTexture() const {
     return texture;
 }
 

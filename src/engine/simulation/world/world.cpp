@@ -164,7 +164,7 @@ void World::toTileVector(const Vector2& vector, Vector2& result) {
 }
 
 void World::toWorldVector(const Vector2& vector, Vector2& result) {
-    result.set(vector.x * (tileSize + tileSizeHalf), vector.y * (tileSize + tileSizeHalf));
+    result.set(vector.x * tileSize + tileSizeHalf, vector.y * tileSize + tileSizeHalf);
 }
 
 void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
@@ -176,8 +176,8 @@ void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
 
 void World::toWorldRectangle(const Rectangle& rectangle, Rectangle& result) {
     result.set(
-            rectangle.x * (tileSize + tileSizeHalf), rectangle.y * (tileSize + tileSizeHalf),
-            rectangle.w * (tileSize + tileSizeHalf), rectangle.h * (tileSize + tileSizeHalf)
+            rectangle.x * tileSize + tileSizeHalf, rectangle.y * tileSize + tileSizeHalf,
+            rectangle.w * tileSize + tileSizeHalf, rectangle.h * tileSize + tileSizeHalf
     );
 }
 

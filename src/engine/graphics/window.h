@@ -42,7 +42,7 @@ public:
     /**
      * Destroys any created window
      */
-    ~Window();
+    ~Window() override;
 
     /**
      * Disable copy/move

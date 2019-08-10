@@ -43,7 +43,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
     //We want to get names block before iterating records so jump to name block size
     long recordsBlockOffset = file->tell();
     size_t recordSize = sizeof(WDFileRecord);
-    file->seek(recordSize * recordCount);
+    file->seek(static_cast<long>(recordSize * recordCount));
 
     //Read names block size
     unsigned int namesBlockSize;
@@ -72,7 +72,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
     file->seek(recordsBlockOffset, true);
     for (unsigned int recordIndex = 0; recordIndex < recordCount; ++recordIndex) {
         //Pass the record to fill it
-        WDFileRecord record;
+        WDFileRecord record {};
         amount = file->read(&record, recordSize);
         error = file->getError();
         if (amount != recordSize || !error.empty()) {
@@ -93,7 +93,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
         }
 
         //Get the name in safe way (ensure index is inside block or stop if null terminator is seen)
-        std::string recordName = std::string();
+        std::string recordName = std::string(name);
         for (unsigned int nameIndex = record.nameOffset; nameIndex < namesBlockSize; ++nameIndex) {
             byte_t& c = namesBlock[nameIndex];
             if (c == '\0') break;
@@ -101,13 +101,13 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
         }
 
         //Check if name is empty
-        if (recordName.empty()) {
+        if (name.length() == recordName.length()) {
             error = "Name is empty at file record " + std::to_string(recordIndex);
             return -1;
         }
 
         //Create an asset now that we know the name and file offset/size, the file pointer is shared with each asset
-        std::unique_ptr<Asset> asset = std::make_unique<Asset>(name + '/' + recordName, file, record.fileOffset, record.fileSize);
+        std::unique_ptr<Asset> asset = std::make_unique<Asset>(recordName, file, record.fileOffset, record.fileSize);
         if (!manager->addAsset(std::move(asset))) {
             return -1;
         }

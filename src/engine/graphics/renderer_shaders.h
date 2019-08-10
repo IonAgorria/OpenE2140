@@ -61,6 +61,8 @@ void main() {
     float sy = gs_in[0].size.y;
     vec4 position = gl_in[0].gl_Position;
     if (gs_in[0].rotation == 0) {
+        //Non rotated rectangle mode
+
         //Bottom left
         gl_Position = uCombined * (position + vec4(-sx, -sy, 0.0, 0.0));
         gs_TexCoord = gs_in[0].textureUV.xy;
@@ -81,6 +83,8 @@ void main() {
         gs_TexCoord = gs_in[0].textureUV.zw;
         EmitVertex();
     } else {
+        //Rotated rectangle mode
+
         float rs = sin(gs_in[0].rotation);
         float rc = cos(gs_in[0].rotation);
 
@@ -148,18 +152,15 @@ void main() {
         int index = int(texture(uTextureImagePalette, gs_TexCoord).r);
         if (0 <= uPaletteExtraOffset && uPaletteExtraOffset <= index) {
             //Access the real color from extra palette
-            vColor = texelFetch(uTexturePaletteExtra, index - uPaletteExtraOffset, 0);
+            FragColor = texelFetch(uTexturePaletteExtra, index - uPaletteExtraOffset, 0);
         } else {
             //Access the real color from main palette
-            vColor = texelFetch(uTexturePalette, index, 0);
+            FragColor = texelFetch(uTexturePalette, index, 0);
         }
     } else {
         //Get the color from image texture
-        vColor = texture(uTextureImageRGBA, gs_TexCoord);
+        FragColor = texture(uTextureImageRGBA, gs_TexCoord);
     }
-    //Discard if alpha is lower than threshold
-    //if (vColor.a < uAlphaThreshold) discard;
-    FragColor = vColor;
     //Uncomment to override with texcoord
     //FragColor = vec4(gs_TexCoord.xy, 0.0, 1.0);
     //Uncomment to show depth buffer

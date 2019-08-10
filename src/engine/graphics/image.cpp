@@ -179,9 +179,7 @@ bool Image::loadFromRGB565(const byte_t* pixels) {
     if (!check(false)) return false;
 
     //Create buffer for converted pixels and do conversion
-    std::unique_ptr<byte_array_t> converted = Utils::createBuffer(
-            static_cast<const size_t>(rectangle.w * rectangle.h * 4)
-    );
+    std::unique_ptr<byte_array_t> converted = Utils::createBuffer(rectangle.w * rectangle.h * 4);
     int result = SDL_ConvertPixels(
             rectangle.w, rectangle.h,
             SDL_PIXELFORMAT_RGB565, pixels, rectangle.w * 2,

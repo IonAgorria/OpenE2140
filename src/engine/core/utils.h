@@ -33,6 +33,7 @@ private:
     static std::terminate_handler originalTerminateHandler;
     /*** Last exception info */
     static std::string lastException;
+
 public:
     /**
      * Set debug mode
@@ -52,7 +53,7 @@ public:
      * @param log to write the error or null to ignore
      * @return the produced error or string representing the lack of error
      */
-    static std::string checkSDLError(const log_ptr log = nullptr);
+    static std::string checkSDLError(const log_ptr& log = nullptr);
 
     /**
      * Checks if OpenGL has any error
@@ -60,7 +61,7 @@ public:
      * @param log to write the error or null to ignore
      * @return the produced error or string representing the lack of error
      */
-    static std::string checkGLError(const log_ptr log = nullptr);
+    static std::string checkGLError(const log_ptr& log = nullptr);
 
     /**
      * Checks if SDL and/or OpenGL has any error and concatenate them with newline if several errors occur
@@ -68,7 +69,7 @@ public:
      * @param log to write the error or null to ignore
      * @return the produced error or string representing the lack of error
      */
-    static std::string checkAnyError(const log_ptr log = nullptr);
+    static std::string checkAnyError(const log_ptr& log = nullptr);
 
     /**
      * Converts value with n precision to string using ostream
@@ -147,7 +148,7 @@ public:
      * @param appendStackTrace to append stack trace at bottom
      * @param informDeveloper to show inform developer text
      */
-    static void showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace, bool informDeveloper);
+    static void showErrorDialog(const std::string& error, const log_ptr& log, bool appendStackTrace, bool informDeveloper);
 
     /**
      * Joins each element between iterators to stream using glue
@@ -273,7 +274,7 @@ public:
      *
      * @return path string or empty string
      */
-    static const std::string getDataPath();
+    static std::string getDataPath();
 
     /**
      * Program user path where the user files are stored or empty string if path is not available.
@@ -321,7 +322,7 @@ public:
      * @param size of buffer
      * @return unique pointer of buffer
      */
-    static std::unique_ptr<byte_array_t> createBuffer(const size_t size);
+    static std::unique_ptr<byte_array_t> createBuffer(size_t size);
 
     /**
      * Saves current stack trace to file
@@ -355,7 +356,7 @@ public:
      * @param data pointer to data
      * @return flipped data
      */
-    static std::unique_ptr<byte_array_t> bufferFlipY(const byte_array_t data, unsigned int width, unsigned int height);
+    static std::unique_ptr<byte_array_t> bufferFlipY(const byte_array_t data, size_t width, size_t height);
 
     /**
      * Moves unique pointer from vector, returns it and erases the vector position

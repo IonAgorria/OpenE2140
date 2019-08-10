@@ -37,8 +37,8 @@ private:
      * Segmented image header
      */
     struct segmented_image_header_t {
-        unsigned int width;
-        unsigned int height;
+        int width;
+        int height;
         unsigned int dataBlockSize;
         unsigned int scanLinesCount;
         unsigned int segmentBlockSize;

@@ -153,8 +153,9 @@ private:
      *
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     * @param line specified if preparations are for line mode
      */
-    void prepare(const Image& image, const Palette* paletteExtra);
+    void prepare(const Image& image, const Palette* paletteExtra, bool line);
 public:
     /**
      * Constructs loader
@@ -210,20 +211,18 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra);
+    void draw(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
      * Draws the provided data
      *
-     * @param x position of drawn image
-     * @param y position of drawn image
-     * @param width size of drawn image
-     * @param height size of drawn image
+     * @param position of drawn image
+     * @param size of drawn image
      * @param angle angle of drawn image
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(const Vector2& position, const Vector2& size, const float angle, const Image& image, const Palette* paletteExtra);
+    void draw(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
      * Draws the provided data
@@ -233,7 +232,7 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(const Rectangle& rectangle, const float angle, const Image& image, const Palette* paletteExtra);
+    void draw(const Rectangle& rectangle, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
      * Create and load a OpenGL shader.

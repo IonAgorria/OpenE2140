@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <csignal>
 #include <list>
+#include <memory>
 #include "common.h"
 #include "SDL_filesystem.h"
 #include "SDL_quit.h"
@@ -38,7 +39,7 @@ bool Utils::isFlag(unsigned int flag) {
     return BIT_STATE(flags, flag);
 }
 
-std::string Utils::checkSDLError(const log_ptr log) {
+std::string Utils::checkSDLError(const log_ptr& log) {
     const char* error = SDL_GetError();
     if (error && strlen(error) != 0) {
         SDL_ClearError();
@@ -50,7 +51,6 @@ std::string Utils::checkSDLError(const log_ptr log) {
     return "";
 }
 
-std::string Utils::checkGLError(const log_ptr log) {
     GLenum result = glGetError();
     if (result != GL_NO_ERROR) {
         const char* error = reinterpret_cast<const char*>(glGetString(result));
@@ -59,12 +59,13 @@ std::string Utils::checkGLError(const log_ptr log) {
                 log->error("GL Error: {0}", error);
             }
             return std::string(error);
+std::string Utils::checkGLError(const log_ptr& log) {
         }
     }
     return "";
 }
 
-std::string Utils::checkAnyError(const log_ptr log) {
+std::string Utils::checkAnyError(const log_ptr& log) {
     std::string result = checkSDLError(log);
     std::string glError = checkGLError(log);
     if (!result.empty() && !glError.empty()) {
@@ -238,12 +239,12 @@ void Utils::handleHaltAndCatchFire(int sig) {
     raise(sig);
 }
 
-void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool appendStackTrace, bool informDeveloper) {
+void Utils::showErrorDialog(const std::string& error, const log_ptr& log, bool appendStackTrace, bool informDeveloper) {
     //Get lines from error
     std::list<std::string> lines;
     if (informDeveloper) {
-        lines.push_back("Unexpected error occurred, please inform this to developer :(");
-        lines.push_back(""); //Empty line
+        lines.emplace_back("Unexpected error occurred, please inform this to developer :(");
+        lines.emplace_back(""); //Empty line
     }
     split(lines, error, "\n", false);
 
@@ -251,12 +252,12 @@ void Utils::showErrorDialog(const std::string& error, const log_ptr log, bool ap
     if (appendStackTrace) {
         std::list<std::string> linesStackTrace;
         bool success = getStackTrace(linesStackTrace);
-        lines.push_back(""); //Empty line
-        lines.push_back("Stack trace:");
+        lines.emplace_back(""); //Empty line
+        lines.emplace_back("Stack trace:");
         if (success && !lines.empty()) {
             std::copy(BEGIN_END(linesStackTrace), std::back_inserter(lines));
         } else {
-            lines.push_back("Empty stack trace!");
+            lines.emplace_back("Empty stack trace!");
         }
     }
 
@@ -301,7 +302,7 @@ const std::string& Utils::getInstallPath() {
     //Only create string when there is no cached one
     if (!installPath) {
         //Create a new static string for storing path
-        installPath.reset(new std::string());
+        installPath = std::make_unique<std::string>();
         char* path = SDL_GetBasePath();
         if (path) {
             //Path is valid so store it in cache
@@ -317,16 +318,15 @@ const std::string& Utils::getInstallPath() {
     return *installPath;
 }
 
-const std::string Utils::getDataPath() {
-    const std::string& installPath = Utils::getInstallPath();
-    return installPath + GAME_DATA_DIR + DIR_SEP;
+std::string Utils::getDataPath() {
+    return Utils::getInstallPath() + GAME_DATA_DIR + DIR_SEP;
 }
 
 const std::string& Utils::getUserPath() {
     //Only create string when there is no cached one
     if (!userPath) {
         //Create a new static string for storing path
-        userPath.reset(new std::string());
+        userPath = std::make_unique<std::string>();
         char* userPathChar = SDL_GetPrefPath(GAME_NAME, GAME_NAME); //Both org and app are same
         if (userPathChar) {
             //Path is valid so store it in cache
@@ -334,7 +334,7 @@ const std::string& Utils::getUserPath() {
             SDL_free(userPathChar);
 
             //Set dump path too
-            dumpPath.reset(new std::string());
+            dumpPath = std::make_unique<std::string>();
             dumpPath->assign(*userPath + DIR_SEP + GAME_DUMP_FILE);
         }
     }
@@ -360,7 +360,7 @@ std::string Utils::getParentPath(const std::string& path) {
 std::string Utils::toUpper(const std::string& text) {
     std::string result(text);
     std::string::size_type size = text.size();
-    for (unsigned int pos = 0; pos < size; ++pos) {
+    for (size_t pos = 0; pos < size; ++pos) {
         if (islower((unsigned char) text[pos])) {
             result[pos] = static_cast<char>(toupper(text[pos]));
         }
@@ -371,7 +371,7 @@ std::string Utils::toUpper(const std::string& text) {
 std::string Utils::toLower(const std::string& text) {
     std::string result(text);
     std::string::size_type size = text.size();
-    for (unsigned int pos = 0; pos < size; ++pos) {
+    for (size_t pos = 0; pos < size; ++pos) {
         if (isupper((unsigned char) text[pos])) {
             result[pos] = static_cast<char>(tolower(text[pos]));
         }
@@ -382,7 +382,7 @@ std::string Utils::toLower(const std::string& text) {
 std::string Utils::toInternalPath(const std::string& path) {
     std::string result(path);
     std::string::size_type size = path.size();
-    for (unsigned int pos = 0; pos < size; ++pos) {
+    for (size_t pos = 0; pos < size; ++pos) {
         if (path[pos] == '\\') {
             result[pos] = '/';
         }
@@ -390,7 +390,7 @@ std::string Utils::toInternalPath(const std::string& path) {
     return result;
 }
 
-std::unique_ptr<byte_array_t> Utils::createBuffer(const size_t size) {
+std::unique_ptr<byte_array_t> Utils::createBuffer(size_t size) {
     return std::make_unique<byte_array_t>(size);
 }
 
@@ -415,7 +415,7 @@ bool Utils::getStackTrace(std::list<std::string>& lines) {
         return false;
     }
     //Write lines
-    for (unsigned int i = 0; i < st.size(); ++i) {
+    for (size_t i = 0; i < st.size(); ++i) {
         //Just store the name instead of full name as we don't really care our own name
         if (i == 0) {
             lines.push_front(std::string("Utils::") + __func__ + " <- last call");
@@ -469,10 +469,10 @@ bool Utils::listDirectory(const std::string& dirPath, std::list<std::string>& di
  * @param lines of buffer
  * @param data to flip
  */
-std::unique_ptr<byte_array_t> Utils::bufferFlipY(const byte_array_t data, unsigned int width, unsigned int height) {
+std::unique_ptr<byte_array_t> Utils::bufferFlipY(const byte_array_t data, size_t width, size_t height) {
     //Copy first line before shifting all
     std::unique_ptr<byte_array_t> tmp = createBuffer(width * height);
-    for (unsigned int i = 0; i < height; ++i) {
+    for (size_t i = 0; i < height; ++i) {
         memcpy(tmp.get() + i * width, data + (height - i - 1) * width, width);
     }
     return tmp;

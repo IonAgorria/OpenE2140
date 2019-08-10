@@ -11,7 +11,7 @@ void AssetProcessorLevel::processIntermediates() {
     std::unordered_map<asset_path_t,Asset*> assets;
 
     //Iterate all assets
-    for (const std::pair<const asset_path_t, std::unique_ptr<Asset>>& pair : manager->getAssets()) {
+    for (auto& pair : manager->getAssets()) {
         asset_path_t assetPath = pair.first;
 
         //Check if its level
@@ -20,7 +20,7 @@ void AssetProcessorLevel::processIntermediates() {
         }
     }
 
-    for (std::pair<asset_path_t,Asset*> pair : assets) {
+    for (auto& pair : assets) {
         Asset* asset = pair.second;
 
         //Get INI of level if available

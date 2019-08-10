@@ -41,7 +41,7 @@ void AssetProcessorMIX::processIntermediates() {
     }
 
     //Iterate mix paths
-    for (asset_path_t assetPath : assets) {
+    for (const asset_path_t& assetPath : assets) {
         Asset* asset = manager->getAsset(assetPath);
         processIntermediateMIX(asset);
         if (!error.empty()) return;
@@ -67,7 +67,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
     }
 
     //Pass the header to fill it
-    mix_header_t mixHeader;
+    mix_header_t mixHeader {};
     size_t readSize = sizeof(mixHeader);
     size_t amount = asset->read(&mixHeader, readSize);
     error = asset->getError();
@@ -145,7 +145,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
         }
 
         //Read streams
-        for (unsigned int i = 0; i < streamPositions.size(); ++i) {
+        for (size_t i = 0; i < streamPositions.size(); ++i) {
             asset_path_t streamAssetPath = basePath + "/" + std::to_string(i);
             //Calculate start-end-size of stream
             unsigned int streamStart = streamPositions[i];
@@ -158,10 +158,10 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
             size_t streamSize = streamEnd - streamStart;
 
             //Attempt to detect type of stream, first we need to seek 2 unsigned shorts
-            long result = asset->seek(streamStart + sizeof(unsigned short) + sizeof(unsigned short), true);
+            long result = asset->seek(static_cast<long>(streamStart + sizeof(unsigned short) + sizeof(unsigned short)), true);
             error = asset->getError();
             if (result < 0 || !error.empty()) {
-                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
+                error = "Error reading '" + streamAssetPath + " when seeking " + error;
                 return;
             }
 
@@ -171,7 +171,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
             amount = asset->read(&streamType, readSize);
             error = asset->getError();
             if (amount != readSize || !error.empty()) {
-                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " type " + error;
+                error = "Error reading '" + streamAssetPath + " type " + error;
                 return;
             }
 
@@ -179,7 +179,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
             result = asset->seek(streamStart, true);
             error = asset->getError();
             if (result < 0 || !error.empty()) {
-                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
+                error = "Error reading '" + streamAssetPath + " when seeking " + error;
                 return;
             }
 
@@ -196,7 +196,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     //Get image size
                     size_16_t imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + error;
+                        error = "Error reading '" + streamAssetPath + " image size " + error;
                         return;
                     }
                     assetStart += sizeof(imageSizeStruct);
@@ -206,7 +206,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     result = asset->seek(1);
                     error = asset->getError();
                     if (result < 0 || !error.empty()) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
+                        error = "Error reading '" + streamAssetPath + " when seeking " + error;
                         return;
                     }
                     assetStart += 1;
@@ -214,14 +214,14 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     //Get palette index
                     byte_t paletteIndex = 0;
                     if (!asset->readAll(paletteIndex)) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index " + error;
+                        error = "Error reading '" + streamAssetPath + " palette index " + error;
                         return;
                     }
                     assetStart += 1;
 
                     //Get palette for this image
                     if (paletteIndex < mixHeader.palettesFirstIndex) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index ";
+                        error = "Error reading '" + streamAssetPath + " palette index ";
                         error += std::to_string(paletteIndex) + " is lower than first index " + std::to_string(mixHeader.palettesFirstIndex);
                         return;
                     }
@@ -234,7 +234,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     //Get image size
                     size_16_t imageSizeStruct;
                     if (!asset->readAll(imageSizeStruct)) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image size " + asset->getError();
+                        error = "Error reading '" + streamAssetPath + " image size " + asset->getError();
                         return;
                     }
                     assetStart += sizeof(imageSizeStruct);
@@ -247,11 +247,20 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     break;
                 }
                 case TYPE_IMAGE_SEGMENTED: {
-                    //Skip 4 unknown bytes and stream type byte
-                    result = asset->seek(5);
+                    //Get image size
+                    size_16_t imageSizeStruct;
+                    if (!asset->readAll(imageSizeStruct)) {
+                        error = "Error reading '" + streamAssetPath + " image size " + asset->getError();
+                        return;
+                    }
+                    assetStart += sizeof(imageSizeStruct);
+                    imageSize.set(imageSizeStruct.width, imageSizeStruct.height);
+
+                    //Skip stream type byte
+                    result = asset->seek(1);
                     error = asset->getError();
                     if (result < 0 || !error.empty()) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
+                        error = "Error reading '" + streamAssetPath + " when seeking " + error;
                         return;
                     }
 
@@ -261,32 +270,35 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     amount = asset->read(&paletteIndex, readSize);
                     error = asset->getError();
                     if (amount != readSize || !error.empty()) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index " + error;
+                        error = "Error reading '" + streamAssetPath + " palette index " + error;
                         return;
                     }
 
                     //Get palette for this image
                     if (paletteIndex < mixHeader.palettesFirstIndex) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " palette index ";
+                        error = "Error reading '" + streamAssetPath + " palette index ";
                         error += std::to_string(paletteIndex) + " is lower than first index " + std::to_string(mixHeader.palettesFirstIndex);
                         return;
                     }
                     imagePalette = palettes.at(paletteIndex - mixHeader.palettesFirstIndex);
 
                     //Get segmented image header
-                    segmented_image_header_t segmentedImageHeader;
+                    segmented_image_header_t segmentedImageHeader {};
                     if (!asset->readAll(segmentedImageHeader)) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " segmented image header " + asset->getError();
+                        error = "Error reading '" + streamAssetPath + " segmented image header " + asset->getError();
                         return;
                     }
-                    imageSize.set(segmentedImageHeader.width, segmentedImageHeader.height);
+                    if (imageSize.x != segmentedImageHeader.width || imageSize.y != segmentedImageHeader.height) {
+                        error = "Error reading '" + streamAssetPath + " segmented image header size don't match with image";
+                        return;
+                    }
 
                     //Get scan line indexes
                     std::vector<unsigned short> scanLines;
                     unsigned short value;
                     for (unsigned int j = 0; j < segmentedImageHeader.scanLinesCount; ++j) {
                         if (!asset->readAll(value)) {
-                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " scan line " + std::to_string(j) + " " + asset->getError();
+                            error = "Error reading '" + streamAssetPath + " scan line " + std::to_string(j) + " " + asset->getError();
                             return;
                         }
                         scanLines.push_back(value);
@@ -296,7 +308,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     std::vector<unsigned short> dataOffsets;
                     for (unsigned int j = 0; j < segmentedImageHeader.scanLinesCount; ++j) {
                         if (!asset->readAll(value)) {
-                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " data offset " + std::to_string(j) + " " + asset->getError();
+                            error = "Error reading '" + streamAssetPath + " data offset " + std::to_string(j) + " " + asset->getError();
                             return;
                         }
                         dataOffsets.push_back(value);
@@ -307,9 +319,9 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     unsigned short segmentSize = sizeof(segmented_image_segment_t);
                     unsigned int segmentsAmount = segmentedImageHeader.segmentBlockSize / segmentSize;
                     for (unsigned int j = 0; j < segmentsAmount; ++j) {
-                        segmented_image_segment_t segment;
+                        segmented_image_segment_t segment {};
                         if (!asset->readAll(segment)) {
-                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment " + std::to_string(j) + " " + asset->getError();
+                            error = "Error reading '" + streamAssetPath + "segment " + std::to_string(j) + " " + asset->getError();
                             return;
                         }
                         segments.push_back(segment);
@@ -319,7 +331,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     result = asset->seek(1);
                     error = asset->getError();
                     if (result < 0 || !error.empty()) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking " + error;
+                        error = "Error reading '" + streamAssetPath + " when seeking " + error;
                         return;
                     }
 
@@ -327,7 +339,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     long dataBlockOffset = asset->tell();
                     long dataBlockEnd = dataBlockOffset + segmentedImageHeader.dataBlockSize;
                     if (dataBlockEnd != streamEnd) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " data block end  ";
+                        error = "Error reading '" + streamAssetPath + " data block end  ";
                         error += std::to_string(dataBlockEnd) + " mismatch asset end " + std::to_string(streamEnd) + " " + asset->getError();
                         return;
                     }
@@ -337,7 +349,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                     unsigned int imagePixelCount = segmentedImageHeader.width * segmentedImageHeader.height;
                     assetSize = imagePixelCount;
                     if (!assetFile->fromMemory(assetSize)) {
-                        error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " image buffer " + assetFile->getError();
+                        error = "Error reading '" + streamAssetPath + " image buffer " + assetFile->getError();
                         return;
                     }
                     assetStart = 0;
@@ -350,12 +362,12 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                         result = asset->seek(dataBlockOffset + dataOffsets.at(scanLineIndex), true);
                         error = asset->getError();
                         if (result < 0 || !error.empty()) {
-                            error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when seeking data block " + error;
+                            error = "Error reading '" + streamAssetPath + " when seeking data block " + error;
                             return;
                         }
 
                         //Draw a line
-                        size_t lineSize = 0;
+                        int lineSize = 0;
                         unsigned short lineEnd = scanLines.at(scanLineIndex + 1) / segmentSize;
                         for (unsigned short segmentIndex = scanLines.at(scanLineIndex) / segmentSize; segmentIndex < lineEnd; segmentIndex++) {
                             segmented_image_segment_t segment = segments.at(segmentIndex);
@@ -365,7 +377,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
 
                             //Sanity check
                             if (lineSize > segmentedImageHeader.width) {
-                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " line size ";
+                                error = "Error reading '" + streamAssetPath + " line size ";
                                 error += std::to_string(lineSize) + " is bigger than image " + std::to_string(segmentedImageHeader.width);
                                 return;
                             }
@@ -375,7 +387,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                                 result = assetFile->write(&zero, 1);
                                 error = assetFile->getError();
                                 if (result < 0 || !error.empty()) {
-                                    error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing left padding " + error;
+                                    error = "Error reading '" + streamAssetPath + " when writing left padding " + error;
                                     return;
                                 }
                             }
@@ -387,7 +399,7 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                             amount = asset->read(segmentBuffer.get(), segment.width);
                             error = asset->getError();
                             if (amount != segment.width || !error.empty()) {
-                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer reading " + error;
+                                error = "Error reading '" + streamAssetPath + "segment buffer reading " + error;
                                 return;
                             }
 
@@ -395,17 +407,17 @@ void AssetProcessorMIX::processIntermediateMIX(Asset* asset) {
                             amount = assetFile->write(segmentBuffer.get(), segment.width);
                             error = assetFile->getError();
                             if (amount != segment.width || !error.empty()) {
-                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + "segment buffer writing " + error;
+                                error = "Error reading '" + streamAssetPath + "segment buffer writing " + error;
                                 return;
                             }
                         }
 
                         //Fill right padding (palette + index)
-                        for (unsigned int j = 0; j < segmentedImageHeader.width - lineSize; j++) {
+                        for (int j = 0; j < segmentedImageHeader.width - lineSize; j++) {
                             result = assetFile->write(&zero, 1);
                             error = assetFile->getError();
                             if (result < 0 || !error.empty()) {
-                                error = "Error reading '" + path + "' MIX stream " + std::to_string(i) + " when writing right padding " + error;
+                                error = "Error reading '" + streamAssetPath + " when writing right padding " + error;
                                 return;
                             }
                         }

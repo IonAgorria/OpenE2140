@@ -291,8 +291,8 @@ void Renderer::prepare(const Image& image, const Palette* paletteExtra) {
     }
 }
 
-void Renderer::draw(const float x, const float y, const float width, const float height, const float angle, const Image& image, const Palette* paletteExtra) {
     prepare(image, paletteExtra);
+void Renderer::draw(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
 
     //Increment the vertices count
     verticesCount++;
@@ -312,8 +312,8 @@ void Renderer::draw(const float x, const float y, const float width, const float
     vertices[verticesIndex++] = image.v2;
 }
 
-void Renderer::draw(const Vector2& position, const Vector2& size, const float angle, const Image& image, const Palette* paletteExtra) {
-    prepare(image, paletteExtra);
+void Renderer::draw(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra) {
+    prepare(image, paletteExtra, false);
 
     //Increment the vertices count
     verticesCount++;
@@ -322,8 +322,8 @@ void Renderer::draw(const Vector2& position, const Vector2& size, const float an
     vertices[verticesIndex++] = position.x;
     vertices[verticesIndex++] = position.y;
     //Size
-    vertices[verticesIndex++] = size.x / 2.0f;
-    vertices[verticesIndex++] = size.y / 2.0f;
+    vertices[verticesIndex++] = static_cast<float>(size.x) / 2.0f;
+    vertices[verticesIndex++] = static_cast<float>(size.y) / 2.0f;
     //Angle
     vertices[verticesIndex++] = angle;
     //Texture UV
@@ -333,18 +333,18 @@ void Renderer::draw(const Vector2& position, const Vector2& size, const float an
     vertices[verticesIndex++] = image.v2;
 }
 
-void Renderer::draw(const Rectangle& rectangle, const float angle, const Image& image, const Palette* paletteExtra) {
     prepare(image, paletteExtra);
+void Renderer::draw(const Rectangle& rectangle, float angle, const Image& image, const Palette* paletteExtra) {
 
     //Increment the vertices count
     verticesCount++;
     //Get size
-    float w = rectangle.w / 2.0f;
-    float h = rectangle.h / 2.0f;
+    float w = static_cast<float>(rectangle.w) / 2.0f;
+    float h = static_cast<float>(rectangle.h) / 2.0f;
 
     //Position
-    vertices[verticesIndex++] = rectangle.x + w;
-    vertices[verticesIndex++] = rectangle.y + h;
+    vertices[verticesIndex++] = static_cast<float>(rectangle.x) + w;
+    vertices[verticesIndex++] = static_cast<float>(rectangle.y) + h;
     //Size
     vertices[verticesIndex++] = w;
     vertices[verticesIndex++] = h;

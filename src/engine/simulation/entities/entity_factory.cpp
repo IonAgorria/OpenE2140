@@ -34,24 +34,24 @@ void IEntityFactory::loadConfig(const std::string& path) {
 
     //Load each entity config
     for (nlohmann::json& data : config.data) {
-        loadEntityConfig(data);
+        //Get ID
+        if (!data["id"].is_number_integer()) return;
+        entity_type_id_t id = data.value("id", 0);
+        //Allocate new empty if not enough are present
+        if (configs.size() < id + 1) {
+            configs.resize(id + 1);
+        }
+        //Create config and set it in configs
+        std::unique_ptr<EntityConfig> entityConfig = std::make_unique<EntityConfig>();
+        entityConfig->kind = getKind();
+        entityConfig->id = id;
+        entityConfig->loadData(data, this);
+        setupEntityConfig(entityConfig.get());
+        configs[id].swap(entityConfig);
     }
 }
 
-void IEntityFactory::loadEntityConfig(config_data_t& data) {
-    //Get ID
-    if (!data["id"].is_number_integer()) return;
-    entity_type_id_t id = data.value("id", 0);
-    //Allocate new empty if not enough are present
-    if (configs.size() < id + 1) {
-        configs.resize(id + 1);
-    }
-    //Create config and set it in configs
-    std::unique_ptr<EntityConfig> config = std::make_unique<EntityConfig>();
-    config->kind = getKind();
-    config->id = id;
-    config->loadData(data, this);
-    configs[id].swap(config);
+void IEntityFactory::setupEntityConfig(EntityConfig* config) {
 }
 
 std::string IEntityFactory::getAssetPath() const {
@@ -66,7 +66,7 @@ asset_path_t IEntityFactory::assembleAssetPath(const asset_path_t& path, const s
     return (path.empty() ? getAssetPath() : path) + variant + index;
 }
 
-std::string IEntityFactory::assembleGroupName(const std::string& name, const std::string& variant, const std::string& collection) const {
+std::string IEntityFactory::assembleGroupCode(const std::string& name, const std::string& variant, const std::string& collection) const {
     return name
     + (variant.empty() ? "" : "_" + variant)
     + (collection.empty() ? "" : "_" + collection)

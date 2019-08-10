@@ -15,7 +15,7 @@
  */
 CLASS_ENTITY(Entity, Object, ImageComponent)
 public:
-    Object();
+    void simulationChanged() override;
 
     void draw() override;
 };
@@ -23,11 +23,8 @@ public:
 /**
  * Tree object
  */
-CLASS_ENTITY(Entity, Tree, ImageComponent)
+CLASS_ENTITY(Object, Tree)
 public:
-    Tree();
-
-    void draw() override;
 };
 
 /**

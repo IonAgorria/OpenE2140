@@ -90,10 +90,6 @@ bool Vector2::zero() const {
     return 0 == x && 0 == y;
 }
 
-std::string Vector2::toString() const {
-    return "V(" + std::to_string(x) + ", " + std::to_string(y) + ")";
-}
-
 void Vector2::set(int x, int y) {
     this->x = x;
     this->y = y;
@@ -102,4 +98,12 @@ void Vector2::set(int x, int y) {
 void Vector2::set(const Vector2& vector2) {
     this->x = vector2.x;
     this->y = vector2.y;
+}
+
+std::string Vector2::toString() const {
+    return "Vector2(" + toStringContent() + ")";
+}
+
+std::string Vector2::toStringContent() const {
+    return std::to_string(x) + ", " + std::to_string(y);
 }

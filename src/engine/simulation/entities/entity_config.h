@@ -9,6 +9,7 @@
 #include "engine/core/common.h"
 #include "engine/core/to_string.h"
 #include "engine/io/has_config_data.h"
+#include "engine/math/rectangle.h"
 
 class IEntityFactory;
 class AssetManager;
@@ -18,8 +19,8 @@ class Image;
  * Contains per sprite set related data
  */
 struct SpriteGroup {
-    /** Name for this entry */
-    std::string name = "";
+    /** Code for this entry */
+    std::string code = "";
     /** Images for this entry */
     std::vector<Image*> images;
     /** Total duration of all images */
@@ -39,11 +40,12 @@ public:
     std::string code;
     std::string name;
     std::string type;
+    Rectangle bounds;
 
     /**
      * Sprites data
      */
-    std::unordered_map<std::string, SpriteGroup> sprites;
+    std::unordered_map<std::string, std::unique_ptr<SpriteGroup>> sprites;
 
     /**
      * Constructor
@@ -74,6 +76,19 @@ public:
      * @param factory which this entity config is being created from
      */
     void loadSprites(const IEntityFactory* factory);
+
+    /**
+     * Returns the loaded sprite with specified code if available
+     *
+     * @param code
+     * @return sprite or null if none was found
+     */
+    SpriteGroup* getSprite(const std::string& code) const;
+
+    /**
+     * Loads the bounds from config
+     */
+    void loadBounds();
 
     /*
      * IToString

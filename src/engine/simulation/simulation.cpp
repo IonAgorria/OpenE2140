@@ -140,7 +140,9 @@ void Simulation::createEntity(const EntityPrototype& entityPrototype) {
     if (entityPtr) {
         Entity* entity = entityPtr.get();
         //Basic stuff
-        entity->setPosition(entityPrototype.position);
+        Vector2 position;
+        world->toWorldVector(entityPrototype.position, position);
+        entity->setPosition(position);
         entity->setDirection(entityPrototype.direction);
         entity->setDisable(entityPrototype.disabled);
         if (entityPrototype.player) {

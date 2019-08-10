@@ -47,6 +47,15 @@ public:
         return it != configData.end();
     }
 
+    /**
+     * Return data value
+     *
+     * @param key the key of value to access
+     * @return value
+     */
+    config_data_t getData(const config_key_t& key) const {
+        return getData<config_data_t>(key, config_data_t(nullptr));
+    }
 
     /**
      * Return default value if key is not present or has null value

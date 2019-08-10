@@ -4,10 +4,11 @@
 #ifndef OPENE2140_RECTANGLE_H
 #define OPENE2140_RECTANGLE_H
 
+#include "engine/core/to_string.h"
 #include "SDL_rect.h"
 #include "vector2.h"
 
-class Rectangle : public SDL_Rect {
+class Rectangle : public SDL_Rect, public IToString {
 public:
     /**
      * Constructs a new rectangle
@@ -39,7 +40,7 @@ public:
      *
      * @param v value for all components
      */
-    Rectangle(int v);
+    explicit Rectangle(int v);
 
     /**
      * Constructs a new zero rectangle
@@ -125,7 +126,7 @@ public:
     /**
      * @return true if rectangle has area
      */
-    operator bool() const;
+    explicit operator bool() const;
 
     /**
      * @return true if rectangle has no area
@@ -136,11 +137,6 @@ public:
      * @return true if rectangle x and y is 0
      */
     bool zero() const;
-
-    /**
-     * @return string version of this vector
-     */
-    std::string toString() const;
 
     /**
      * Sets rectangle components
@@ -252,6 +248,14 @@ public:
     bool isOverlap(const Rectangle& rectangle) const;
 
     /**
+     * Get union rectangle between provided and this rectangle
+     *
+     * @param rectangle to check
+     * @param result where to store union rectangle
+     */
+    void getUnionRectangle(const Rectangle& rectangle, Rectangle& result) const;
+
+    /**
      * Get intersection rectangle between provided and this rectangle
      *
      * @param rectangle to check
@@ -268,6 +272,14 @@ public:
      * @return if intersection occurred
      */
     bool getIntersectLine(Vector2& start, Vector2& end) const;
+
+    /*
+     * IToString
+     */
+
+    std::string toString() const override;
+
+    std::string toStringContent() const override;
 };
 
 

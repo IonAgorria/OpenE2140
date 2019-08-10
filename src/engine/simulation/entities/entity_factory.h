@@ -81,9 +81,11 @@ public:
     virtual void load();
 
     /**
-     * Called when loading a entity config
+     * Called when config is created
+     *
+     * @param config
      */
-    virtual void loadEntityConfig(config_data_t& data);
+    virtual void setupEntityConfig(EntityConfig* config);
 
     /**
      * @return the file path containing the configs to use in this factory
@@ -108,7 +110,7 @@ public:
     /**
      * @return creates the group name using different components
      */
-    virtual std::string assembleGroupName(const std::string& name, const std::string& variant, const std::string& collection) const;
+    virtual std::string assembleGroupCode(const std::string& name, const std::string& variant, const std::string& collection) const;
 
     /**
      * @return the entity kind which this factory produces entities

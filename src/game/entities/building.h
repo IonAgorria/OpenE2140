@@ -6,11 +6,16 @@
 
 #include "engine/simulation/entities/entity_factory.h"
 #include "engine/simulation/components/component.h"
+#include "engine/simulation/components/animation_component.h"
 #include "engine/simulation/components/faction_component.h"
 #include "engine/simulation/components/player_component.h"
-#include "game/components/player_palette_component.h"
+#include "game/components/palette_setup_component.h"
 #include "game/core/constants.h"
 #include "engine/simulation/entities/entity.h"
+
+class Building;
+CLASS_COMPONENT(Building, BuildingComponent)
+};
 
 /**
  * Building entity
@@ -18,12 +23,18 @@
 CLASS_ENTITY(Entity, Building,
         PlayerComponent,
         FactionComponent,
-        PlayerPaletteComponent<Building>
+        PaletteSetupComponent, //before AnimationComponent
+        AnimationComponent
 )
 public:
-    Building();
+    void simulationChanged() override;
 
     void draw() override;
+
+    /**
+     * Selects current sprite
+     */
+    void chooseSprite();
 };
 
 /**
@@ -47,6 +58,8 @@ class BuildingFactory: public IEntityFactory {
     std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
         return std::make_shared<Building>();
     }
+
+    void setupEntityConfig(EntityConfig* config) override;
 };
 
 #endif //OPENE2140_BUILDING_H

@@ -57,15 +57,19 @@ void Entity::addedToSimulation(Simulation* sim) {
     renderer = simulation->getRenderer();
     id = simulation->nextEntityID();
     active = true;
-    componentsSimulationChanged();
+    simulationChanged();
 }
 
 void Entity::removedFromSimulation() {
     active = false;
-    componentsSimulationChanged();
+    simulationChanged();
     renderer = nullptr;
     simulation = nullptr;
     id = 0;
+}
+
+void Entity::simulationChanged() {
+    componentsSimulationChanged();
 }
 
 void Entity::update() {

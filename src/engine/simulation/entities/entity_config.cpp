@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 5/08/19
 //
 
+#include "engine/io/config.h"
 #include "entity_factory.h"
 #include "entity_config.h"
 
@@ -10,22 +11,23 @@ void EntityConfig::loadData(const config_data_t& configData, const IEntityFactor
     code = getData<const std::string>("code", "");
     type = getData<const std::string>("type", "");
     loadSprites(factory);
+    loadBounds();
 }
 
 void EntityConfig::loadSprites(const IEntityFactory* factory) {
     log_ptr log = factory->getLog();
     //Get config for all sprite groups if they don't have own config entries
-    const std::string defaultPath = configData.value<const std::string>("sprites_path", factory->getAssetPath());
+    const std::string defaultPath = getData<const std::string>("sprites_path", factory->getAssetPath());
     if (defaultPath.empty()) {
         log->error("{0} sprites_path is empty", toString());
         return;
     }
     //Duration of image groups
-    duration_t defaultDuration = configData["duration"].is_number_unsigned()
-                               ? configData["duration"].get<duration_t>() : 0;
+    duration_t defaultDuration = getData("duration").is_number_unsigned()
+                               ? getData("duration").get<duration_t>() : 0;
 
     //Parse the sprites
-    config_data_t spritesData = configData["sprites"];
+    config_data_t spritesData = getData("sprites");
     if (spritesData.is_object()) {
         for (auto entry = spritesData.begin(); entry != spritesData.end(); ++entry) {
             config_data_t value = entry.value();
@@ -35,27 +37,27 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 for (std::string& variant : factory->getVariants()) {
 
                     //Get image
-                    SpriteGroup spriteGroup;
-                    spriteGroup.duration = defaultDuration;
-                    spriteGroup.loop = false;
+                    std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
+                    spriteGroup->duration = defaultDuration;
+                    spriteGroup->loop = false;
                     const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
                     Image* image = factory->getImage(imagePath);
                     if (image) {
-                        spriteGroup.images.emplace_back(image);
+                        spriteGroup->images.emplace_back(image);
                     } else {
                         log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                     }
 
                     //Create group
-                    spriteGroup.name = factory->assembleGroupName(entry.key(), variant, "");
-                    sprites[spriteGroup.name] = spriteGroup;
+                    spriteGroup->code = factory->assembleGroupCode(entry.key(), variant, "");
+                    sprites[spriteGroup->code] = std::move(spriteGroup);
                 }
             } else if (value.is_array()) {
                 //If its a array then use it as a collection of indexes
                 for (std::string& variant : factory->getVariants()) {
-                    SpriteGroup spriteGroup;
-                    spriteGroup.duration = defaultDuration;
-                    spriteGroup.loop = false;
+                    std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
+                    spriteGroup->duration = defaultDuration;
+                    spriteGroup->loop = false;
                     for (nlohmann::json& element : value) {
                         if (!element.is_number_unsigned()) {
                             log->error("{0} sprites {1} non unsigned number found in array", toString(), entry.key());
@@ -65,15 +67,15 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                         const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
                         Image* image = factory->getImage(imagePath);
                         if (image) {
-                            spriteGroup.images.emplace_back(image);
+                            spriteGroup->images.emplace_back(image);
                         } else {
                             log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                         }
                     }
 
                     //Create group
-                    spriteGroup.name = factory->assembleGroupName(entry.key(), variant, "");
-                    sprites[spriteGroup.name] = spriteGroup;
+                    spriteGroup->code = factory->assembleGroupCode(entry.key(), variant, "");
+                    sprites[spriteGroup->code] = std::move(spriteGroup);
                 }
             } else if (value.is_object()) {
                 //If its a object then treat it as a set of rules to assemble collections
@@ -110,22 +112,22 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                         //Advance the index by length of collection
                         end += length;
                         //Create the collection
-                        SpriteGroup spriteGroup;
-                        spriteGroup.duration = duration;
-                        spriteGroup.loop = loop;
+                        std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
+                        spriteGroup->duration = duration;
+                        spriteGroup->loop = loop;
                         for (unsigned int i = start; i < end; ++i) {
                             const asset_path_t imagePath = factory->assembleAssetPath(assetPath, variant, std::to_string(i));
                             Image* image = factory->getImage(imagePath);
                             if (image) {
-                                spriteGroup.images.emplace_back(image);
+                                spriteGroup->images.emplace_back(image);
                             } else {
                                 log->error("{0} sprites {1} image not found at {2}", toString(), entry.key(), imagePath);
                             }
                         }
                         //Set the name and store collection
                         std::string collection = 1 < collections ? std::to_string(ci) : "";
-                        spriteGroup.name = factory->assembleGroupName(entry.key(), variant, collection);
-                        sprites[spriteGroup.name] = spriteGroup;
+                        spriteGroup->code = factory->assembleGroupCode(entry.key(), variant, collection);
+                        sprites[spriteGroup->code] = std::move(spriteGroup);
                         //Advance by separation
                         end += separation;
                     }
@@ -136,6 +138,23 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
         }
     } else if (!spritesData.is_null()) {
         log->error("{0} sprites root is not object nor null", toString());
+    }
+}
+
+SpriteGroup* EntityConfig::getSprite(const std::string& spriteCode) const {
+    auto it = sprites.find(spriteCode);
+    if (it == sprites.end()) {
+        //Not found
+        return nullptr;
+    }
+    return (*it).second.get();
+}
+
+void EntityConfig::loadBounds() {
+    config_data_t boundsData = getData("bounds");
+    if (!Config::getRectangle(boundsData, bounds)) {
+        //Default if none was loaded
+        bounds.set(0, 0, 1, 1);
     }
 }
 

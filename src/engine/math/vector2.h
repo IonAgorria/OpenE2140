@@ -5,12 +5,13 @@
 #define OPENE2140_VECTOR2_H
 
 #include <string>
+#include "engine/core/to_string.h"
 #include "SDL_rect.h"
 
 /**
  * Stores 2D point
  */
-class Vector2 : public SDL_Point {
+class Vector2 : public SDL_Point, public IToString {
 public:
     /**
      * Constructs a new vector
@@ -25,7 +26,7 @@ public:
      *
      * @param v value for all
      */
-    Vector2(int v);
+    explicit Vector2(int v);
 
     /**
      * Constructs a new vector from another
@@ -121,17 +122,12 @@ public:
     /**
      * @return true if vector is not zero
      */
-    operator bool() const;
+    explicit operator bool() const;
 
     /**
      * @return true if vector x and y is 0
      */
     bool zero() const;
-
-    /**
-     * @return string version of this vector
-     */
-    std::string toString() const;
 
     /**
      * Sets vector components
@@ -147,6 +143,14 @@ public:
      * @param vector2 to get values
      */
     void set(const Vector2& vector2);
+
+    /*
+     * IToString
+     */
+
+    std::string toString() const override;
+
+    std::string toStringContent() const override;
 };
 
 

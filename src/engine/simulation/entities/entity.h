@@ -98,7 +98,7 @@ public:
     /**
      * Does the entity setup after object creation
      */
-    void setup(EntityConfig* newConfig);
+    virtual void setup(EntityConfig* newConfig);
 
     /**
      * @return entity position
@@ -152,14 +152,19 @@ public:
     void addedToSimulation(Simulation* simulation);
 
     /**
-     * Called when entity is added to simulation
+     * Called when entity is removed from simulation
      */
     void removedFromSimulation();
 
     /**
+     * Called when entity is added or removed from simulation
+     */
+    virtual void simulationChanged();
+
+    /**
      * Updates the entity state
      */
-    void update();
+    virtual void update();
 
     /**
      * Called when this entity is requested to draw

@@ -128,10 +128,6 @@ bool Rectangle::zero() const {
     return 0 == x && 0 == y;
 }
 
-std::string Rectangle::toString() const {
-    return "R(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h) + ")";
-}
-
 void Rectangle::set(int v) {
     this->x = v;
     this->y = v;
@@ -219,10 +215,22 @@ bool Rectangle::isOverlap(const Rectangle& rectangle) const {
 
 }
 
+void Rectangle::getUnionRectangle(const Rectangle& rectangle, Rectangle& result) const {
+    SDL_UnionRect(this, &rectangle, &result);
+}
+
 bool Rectangle::getIntersectRectangle(const Rectangle& rectangle, Rectangle& result) const {
     return SDL_IntersectRect(this, &rectangle, &result) == SDL_TRUE;
 }
 
 bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) const {
     return SDL_IntersectRectAndLine(this, &start.x, &start.y, &end.x, &end.y);
+}
+
+std::string Rectangle::toString() const {
+    return "Rectangle(" + toStringContent() + ")";
+}
+
+std::string Rectangle::toStringContent() const {
+    return std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h);
 }

@@ -63,8 +63,8 @@ using tile_flags_t = uint16_t;
 /** Type for cost of path */
 using path_cost_t = uint16_t;
 
-/** Type for time intervals */
-using duration_t = uint64_t;
+/** Type for time intervals in ms, can be positive or negative */
+using duration_t = int64_t;
 
 /**
  * Size struct with shorts

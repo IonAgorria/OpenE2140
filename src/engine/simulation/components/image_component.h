@@ -13,7 +13,7 @@
 class Image;
 
 /**
- * Adds a single image and optional extra palette
+ * Adds a single image
  */
 CLASS_COMPONENT(Entity, ImageComponent)
 protected:
@@ -44,6 +44,13 @@ public:
      * @param renderer
      */
     void draw(Renderer* renderer);
+
+    /**
+     * Sets the image from sprite
+     *
+     * @param code sprite to set
+     */
+    void setImageFromSprite(const std::string& code);
 };
 
 #endif //OPENE2140_IMAGE_COMPONENT_H

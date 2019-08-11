@@ -56,6 +56,7 @@
 /** Flags for program */
 #define FLAG_DEBUG                       0b1
 #define FLAG_INSTALLATION_PARENT        0b10
+#define FLAG_DEBUG_OPENGL              0b100
 /** Flags for tile states */
 #define TILE_FLAG_PASSABLE               0b1
 #define TILE_FLAG_WATER                 0b10

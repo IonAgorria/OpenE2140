@@ -27,10 +27,12 @@ int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
     for(int i=1; i < argc; i++) {
         std::string arg = argv[i];
         std::transform(BEGIN_END(arg), arg.begin(), ::tolower);
-        if (arg.compare("-debug") == 0 || arg.compare("-d") == 0) {
+        if (arg == "--debug" || arg == "-d") {
             Utils::setFlag(FLAG_DEBUG, true);
-        } else if (arg.compare("-parent") == 0) {
+        } else if (arg == "--parent") {
             Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
+        } else if (arg == "--debug_opengl") {
+            Utils::setFlag(FLAG_DEBUG_OPENGL, true);
         } else {
             std::cout << "Unknown arg " << arg << "\n";
         }

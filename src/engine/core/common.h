@@ -43,10 +43,10 @@
 #define MINIMUM_TEXTURE_SIZE 512
 /** Maximum texture size */
 #define MAXIMUM_TEXTURE_SIZE 8192
-/** Texture unit for palette image texture */
-#define TEXTURE_UNIT_IMAGE_PALETTE GL_TEXTURE0
 /** Texture unit for RGBA image texture */
-#define TEXTURE_UNIT_IMAGE_RGBA GL_TEXTURE1
+#define TEXTURE_UNIT_IMAGE_RGBA GL_TEXTURE0
+/** Texture unit for palette image texture */
+#define TEXTURE_UNIT_IMAGE_PALETTE GL_TEXTURE1
 /** Texture unit for colors palette texture */
 #define TEXTURE_UNIT_PALETTE_COLORS GL_TEXTURE2
 /** Texture unit for extra palette texture */

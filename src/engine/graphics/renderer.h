@@ -10,6 +10,10 @@
 #include "engine/io/log.h"
 #include "image.h"
 
+#define PROGRAM_RECTANGLE_TEXTURE 0
+#define PROGRAM_RECTANGLE_PALETTE_TEXTURE 1
+#define PROGRAM_LINE_TEXTURE 2
+#define PROGRAM_COUNT 3
 #define MAX_BATCH_VERTICES 10240
 #define MAX_COMPONENTS_PER_VERTICE 9
 
@@ -24,9 +28,9 @@ private:
     log_ptr log;
 
     /**
-     * Shader program handle
+     * Shader program handles
      */
-    GLuint programHandle;
+    GLuint programHandles[PROGRAM_COUNT];
 
     /**
      * Vertex shader handle
@@ -34,14 +38,24 @@ private:
     GLuint programVertexHandle;
 
     /**
-     * Geometry shader handle
+     * Rectangle geometry shader handle
      */
-    GLuint programGeometryHandle;
+    GLuint programGeometryRectangleHandle;
 
     /**
-     * Fragment shader handle
+     * Line geometry shader handle
      */
-    GLuint programFragmentHandle;
+    GLuint programGeometryLineHandle;
+
+    /**
+     * Texture fragment shader handle
+     */
+    GLuint programFragmentTextureHandle;
+
+    /**
+     * Palette texture fragment shader handle
+     */
+    GLuint programFragmentPaletteTextureHandle;
 
     /**
      * VAO buffer handle
@@ -94,14 +108,9 @@ private:
     GLuint lastTexturePaletteExtra;
 
     /**
-     * Location for combined uniform in shader
+     * Locations for combined uniform in shader
      */
-    GLint uCombinedLocation;
-
-    /**
-     * Location for uMode uniform in shader
-     */
-    GLint uModeLocation;
+    GLint uCombinedLocations[PROGRAM_COUNT];
 
     /**
      * Location for uPaletteExtraOffset uniform in shader
@@ -114,9 +123,9 @@ private:
     GLint uTextureImagePaletteLocation;
 
     /**
-     * Location for uTextureImageRGBA uniform in shader
+     * Locations for uTextureImageRGBA uniform in shader
      */
-    GLint uTextureImageRGBALocation;
+    GLint uTextureImageRGBALocations[PROGRAM_COUNT];
 
     /**
      * Location for uTexturePalette uniform in shader
@@ -129,9 +138,9 @@ private:
     GLint uTexturePaletteExtraLocation;
 
     /**
-     * Current mode value for shaders
+     * Current active program
      */
-    int mode;
+    int activeProgram;
 
     /**
      * Current projection matrix
@@ -235,6 +244,30 @@ public:
     void draw(const Rectangle& rectangle, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
+     * Draws the provided data
+     *
+     * @param sx start position of line
+     * @param sy start position of line
+     * @param ex end position of line
+     * @param ey end position of line
+     * @param width of line
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void drawLine(float sx, float sy, float ex, float ey, float width, const Image& image, const Palette* paletteExtra = nullptr);
+
+    /**
+     * Draws the provided data
+     *
+     * @param start of line
+     * @param end of line
+     * @param width of line
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void drawLine(const Vector2& start, const Vector2& end, float width, const Image& image, const Palette* paletteExtra = nullptr);
+
+    /**
      * Create and load a OpenGL shader.
      *
      * @param type Shader type to create.
@@ -244,9 +277,18 @@ public:
     GLuint loadShader(GLenum type, const char* code);
 
     /**
+     * Create and load a OpenGL program.
+     *
+     * @param program_id Shader program to create.
+     * @param shaders handles to attach/use in program
+     * @return id for the program
+     */
+    void loadProgram(unsigned int program_id, const std::vector<GLuint>& shaders);
+
+    /**
      * Initializes OpenGL shader program with shaders code.
      */
-    void initShaderProgram();
+    void initShaderPrograms();
 
     /**
      * Initializes OpenGL buffers.

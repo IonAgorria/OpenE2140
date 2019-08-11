@@ -4,43 +4,42 @@
 #ifndef OPENE2140_RENDERER_SHADERS_H
 #define OPENE2140_RENDERER_SHADERS_H
 
-#define RENDERER_SHADER_MODE_TEXTURE 0
-#define RENDERER_SHADER_MODE_PALETTE_TEXTURE 1
+/*
+ * UV vec4:
+ * (x, y,  z,  w)
+ * (u, v, u2, v2)
+ */
 
 /**
  * Vertex shader code
  */
-const char* VERTEX_SHADER_CODE = R"vertex(
+const char* VERTEX_SHADER = R"vertex(
 #version 330 core
 
 layout(location = 0) in vec2 attribPosition;
-layout(location = 1) in vec2 attribSize;
-layout(location = 2) in float attribRotation;
-layout(location = 3) in vec4 attribTextureUV;
+layout(location = 1) in vec4 attribTextureUV;
+layout(location = 2) in vec2 attrib2vec2;
+layout(location = 3) in float attrib3float;
 
 out VERTEXSHADER_OUT {
-    vec2 size;
-    float rotation;
     vec4 textureUV;
+    vec2 attrib2vec2;
+    float attrib3float;
 } vs_out;
 
 void main() {
     //Multiply position of vertex with combined matrix, this gives us the final position to render the vertex
     gl_Position = vec4(attribPosition.x, attribPosition.y, 0.0, 1.0);
-    vs_out.size = attribSize;
-    vs_out.rotation = attribRotation;
     vs_out.textureUV = attribTextureUV;
+    vs_out.attrib2vec2 = attrib2vec2;
+    vs_out.attrib3float = attrib3float;
 }
 )vertex";
 
 /**
- * Geometry shader code
- *
- * UV vec4:
- * (x, y,  z,  w)
- * (u, v, u2, v2)
+ * Rectangle geometry shader code
  */
-const char* GEOMETRY_SHADER_CODE = R"geometry(
+const char* GEOMETRY_SHADER_RECTANGLE = R"geometry(
 #version 330 core
 
 uniform mat4 uCombined;
@@ -49,18 +48,18 @@ layout (points) in;
 layout (triangle_strip, max_vertices = 4) out;
 
 in VERTEXSHADER_OUT {
-    vec2 size;
-    float rotation;
     vec4 textureUV;
+    vec2 attrib2vec2;
+    float attrib3float;
 } gs_in[];
 
 out vec2 gs_TexCoord;
 
 void main() {
-    float sx = gs_in[0].size.x;
-    float sy = gs_in[0].size.y;
+    float sx = gs_in[0].attrib2vec2.x;
+    float sy = gs_in[0].attrib2vec2.y;
     vec4 position = gl_in[0].gl_Position;
-    if (gs_in[0].rotation == 0) {
+    if (gs_in[0].attrib3float == 0) {
         //Non rotated rectangle mode
 
         //Bottom left
@@ -85,8 +84,8 @@ void main() {
     } else {
         //Rotated rectangle mode
 
-        float rs = sin(gs_in[0].rotation);
-        float rc = cos(gs_in[0].rotation);
+        float rs = sin(gs_in[0].attrib3float);
+        float rc = cos(gs_in[0].attrib3float);
 
         //Bottom left
         gl_Position = uCombined * (position + vec4(
@@ -130,15 +129,62 @@ void main() {
 )geometry";
 
 /**
- * Fragment shader code
+ * Line geometry shader code
  */
-const char* FRAGMENT_SHADER_CODE = R"fragment(
+const char* GEOMETRY_SHADER_LINE = R"geometry(
+#version 330 core
+
+uniform mat4 uCombined;
+
+layout (points) in;
+layout (triangle_strip, max_vertices = 4) out;
+
+in VERTEXSHADER_OUT {
+    vec4 textureUV;
+    vec2 attrib2vec2;
+    float attrib3float;
+} gs_in[];
+
+out vec2 gs_TexCoord;
+
+void main() {
+    float sx = gs_in[0].gl_Position.x;
+    float sy = gs_in[0].gl_Position.y;
+    float ex = gs_in[0].attrib2vec2.x;
+    float ey = gs_in[0].attrib2vec2.y;
+
+    EndPrimitive();
+}
+)geometry";
+
+/**
+ * Texture fragment shader code
+ */
+const char* FRAGMENT_SHADER_TEXTURE = R"fragment(
+#version 330 core
+
+uniform sampler2D uTextureImageRGBA;
+
+in vec2 gs_TexCoord;
+out vec4 FragColor;
+
+void main() {
+    //Get the color from image texture
+    FragColor = texture(uTextureImageRGBA, gs_TexCoord);
+    //Uncomment to override with texcoord
+    //FragColor = vec4(gs_TexCoord.xy, 0.0, 1.0);
+}
+)fragment";
+
+/**
+ * Palette texture fragment shader code
+ */
+const char* FRAGMENT_SHADER_PALETTE_TEXTURE = R"fragment(
 #version 330 core
 
 uniform int uMode;
 uniform int uPaletteExtraOffset;
 uniform usampler2D uTextureImagePalette;
-uniform sampler2D uTextureImageRGBA;
 uniform sampler1D uTexturePalette;
 uniform sampler1D uTexturePaletteExtra;
 
@@ -146,25 +192,17 @@ in vec2 gs_TexCoord;
 out vec4 FragColor;
 
 void main() {
-    vec4 vColor;
-    if (uMode == 1) {
-        //Get the index to access in the palettes from the 2D image
-        int index = int(texture(uTextureImagePalette, gs_TexCoord).r);
-        if (0 <= uPaletteExtraOffset && uPaletteExtraOffset <= index) {
-            //Access the real color from extra palette
-            FragColor = texelFetch(uTexturePaletteExtra, index - uPaletteExtraOffset, 0);
-        } else {
-            //Access the real color from main palette
-            FragColor = texelFetch(uTexturePalette, index, 0);
-        }
+    //Get the index to access in the palettes from the 2D image
+    int index = int(texture(uTextureImagePalette, gs_TexCoord).r);
+    if (0 <= uPaletteExtraOffset && uPaletteExtraOffset <= index) {
+        //Access the real color from extra palette
+        FragColor = texelFetch(uTexturePaletteExtra, index - uPaletteExtraOffset, 0);
     } else {
-        //Get the color from image texture
-        FragColor = texture(uTextureImageRGBA, gs_TexCoord);
+        //Access the real color from main palette
+        FragColor = texelFetch(uTexturePalette, index, 0);
     }
     //Uncomment to override with texcoord
     //FragColor = vec4(gs_TexCoord.xy, 0.0, 1.0);
-    //Uncomment to show depth buffer
-    //FragColor.xyz = vec3(gl_FragCoord.z / gl_FragCoord.w * 0.4); gl_FragColor.a = 1.0;
 }
 )fragment";
 

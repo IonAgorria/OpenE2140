@@ -7,6 +7,17 @@
 #include "engine/io/log.h"
 #include "window.h"
 
+void GLAPIENTRY OpenGLCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+                               GLsizei length, const GLchar* message, const void* userParam) {
+    log_ptr log = Log::get("Window");
+    bool isError = type == GL_DEBUG_TYPE_ERROR;
+    log->log(
+            isError ? log_level::err : log_level::info,
+            "OpenGL Callback - {0} source {1:x} type {2:x} id {3:x} severity {4:x}",
+            message, source, type, id, severity
+     );
+}
+
 Window::Window() {
     log = Log::get("Window");
     size = Vector2(WINDOW_DEFAULT_RESOLUTION);
@@ -60,6 +71,10 @@ Window::Window() {
         error = "GLEW init failed\n" + glewResultString + "\n" + error;
     }
     if (!error.empty()) return;
+
+    //Enable debug output
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(OpenGLCallback, 0);
 
     //Print some strings related to GL
     log->debug("GL_VERSION: {0}", glGetString(GL_VERSION));

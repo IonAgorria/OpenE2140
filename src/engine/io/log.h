@@ -12,6 +12,9 @@
 /** Log type */
 using log_ptr = std::shared_ptr<spdlog::logger>;
 
+/** Log levels */
+using log_level = spdlog::level::level_enum;
+
 /**
  * Log class for static methods
  */

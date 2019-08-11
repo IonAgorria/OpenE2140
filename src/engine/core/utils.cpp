@@ -51,18 +51,18 @@ std::string Utils::checkSDLError(const log_ptr& log) {
     return "";
 }
 
-    GLenum result = glGetError();
-    if (result != GL_NO_ERROR) {
-        const char* error = reinterpret_cast<const char*>(glGetString(result));
-        if (error && strlen(error) != 0) {
-            if (log) {
-                log->error("GL Error: {0}", error);
-            }
-            return std::string(error);
 std::string Utils::checkGLError(const log_ptr& log) {
+    std::string errors;
+    GLenum result;
+    int limit = 10;
+    while((result = glGetError()) != GL_NO_ERROR && 0 < limit) {
+        if (log) {
+            log->error("GL Error: {0:x}", result);
         }
+        if (errors.empty()) errors += "GL Error:";
+        errors += " " + std::to_string(result);
     }
-    return "";
+    return errors;
 }
 
 std::string Utils::checkAnyError(const log_ptr& log) {

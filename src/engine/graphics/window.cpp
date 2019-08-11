@@ -12,7 +12,7 @@ void GLAPIENTRY OpenGLCallback(GLenum source, GLenum type, GLuint id, GLenum sev
     log_ptr log = Log::get("Window");
     bool isError = type == GL_DEBUG_TYPE_ERROR;
     log->log(
-            isError ? log_level::err : log_level::info,
+            isError ? log_level::err : log_level::debug,
             "OpenGL Callback - {0} source {1:x} type {2:x} id {3:x} severity {4:x}",
             message, source, type, id, severity
      );

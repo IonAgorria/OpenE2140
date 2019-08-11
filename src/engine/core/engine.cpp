@@ -222,8 +222,8 @@ void Engine::draw() {
     renderer->flush();
 
     //Update window
-    float elapsed = std::max(0.001f, timer->elapsed());
-    window->setTitle(std::to_string(1.0f / elapsed).substr(0, 4) + " FPS");
+    float elapsed = std::max(0.0001f, timer->elapsed());
+    window->setTitle(std::to_string(static_cast<int>(std::round(1.0f / elapsed))) + " FPS");
     window->swap();
 }
 

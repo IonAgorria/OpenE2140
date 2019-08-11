@@ -49,7 +49,7 @@ void EntityManager::load() {
         }
     }
 
-    log->error("Loaded entity manager");
+    log->debug("Loaded entity manager");
 }
 
 std::shared_ptr<Entity> EntityManager::makeEntity(entity_type_t type) {

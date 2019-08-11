@@ -52,9 +52,7 @@ Renderer::Renderer() {
 
     //Set the texture units for samplers
     glUseProgram(programHandles[PROGRAM_RECTANGLE_TEXTURE]);
-    glUniform1i(uTextureImageRGBALocations[PROGRAM_RECTANGLE_TEXTURE], 0);
-    glUseProgram(programHandles[PROGRAM_LINE_TEXTURE]);
-    glUniform1i(uTextureImageRGBALocations[PROGRAM_LINE_TEXTURE], 0);
+    glUniform1i(uTextureImageRGBALocation, 0);
     glUseProgram(programHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE]);
     glUniform1i(uTextureImagePaletteLocation, 1);
     glUniform1i(uTexturePaletteLocation, 2);
@@ -79,29 +77,14 @@ Renderer::~Renderer() {
 
     //Delete programs
     glUseProgram(0);
-    GLuint program = programHandles[PROGRAM_RECTANGLE_TEXTURE];
-    if (program) {
-        glDetachShader(program, programVertexHandle);
-        glDetachShader(program, programGeometryRectangleHandle);
-        glDetachShader(program, programFragmentTextureHandle);
-        glDeleteProgram(program);
-        programHandles[PROGRAM_RECTANGLE_TEXTURE] = 0;
-    }
-    program = programHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE];
-    if (program) {
-        glDetachShader(program, programVertexHandle);
-        glDetachShader(program, programGeometryRectangleHandle);
-        glDetachShader(program, programFragmentPaletteTextureHandle);
-        glDeleteProgram(program);
-        programHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE] = 0;
-    }
-    program = programHandles[PROGRAM_LINE_TEXTURE];
-    if (program) {
-        glDetachShader(program, programVertexHandle);
-        glDetachShader(program, programGeometryLineHandle);
-        glDetachShader(program, programFragmentTextureHandle);
-        glDeleteProgram(program);
-        programHandles[PROGRAM_LINE_TEXTURE] = 0;
+    for (int i = 0; i < PROGRAM_COUNT; ++i) {
+        GLuint program = programHandles[i];
+        if (program) {
+            glDetachShader(program, programVertexHandle);
+            glDetachShader(program, programFragmentHandles[i]);
+            glDeleteProgram(program);
+            programHandles[i] = 0;
+        }
     }
 
     //Delete shaders
@@ -109,21 +92,11 @@ Renderer::~Renderer() {
         glDeleteShader(programVertexHandle);
         programVertexHandle = 0;
     }
-    if (programGeometryRectangleHandle) {
-        glDeleteShader(programGeometryRectangleHandle);
-        programGeometryRectangleHandle = 0;
-    }
-    if (programGeometryLineHandle) {
-        glDeleteShader(programGeometryLineHandle);
-        programGeometryLineHandle = 0;
-    }
-    if (programFragmentTextureHandle) {
-        glDeleteShader(programFragmentTextureHandle);
-        programFragmentTextureHandle = 0;
-    }
-    if (programFragmentPaletteTextureHandle) {
-        glDeleteShader(programFragmentPaletteTextureHandle);
-        programFragmentPaletteTextureHandle = 0;
+    for (auto& programFragmentHandle : programFragmentHandles) {
+        if (programFragmentHandle) {
+            glDeleteShader(programFragmentHandle);
+            programFragmentHandle = 0;
+        }
     }
 
     //Delete other stuff
@@ -175,16 +148,15 @@ GLuint Renderer::loadShader(GLenum type, const char* code) {
     return shader;
 }
 
-void Renderer::loadProgram(unsigned int program_id, const std::vector<GLuint>& shaders) {
+void Renderer::loadProgram(unsigned int program_id) {
     //Create program
     GLuint program = glCreateProgram();
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
     //Attach shaders
-    for (GLuint shader : shaders) {
-        glAttachShader(program, shader);
-    }
+    glAttachShader(program, programVertexHandle);
+    glAttachShader(program, programFragmentHandles[program_id]);
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
@@ -217,31 +189,28 @@ void Renderer::loadProgram(unsigned int program_id, const std::vector<GLuint>& s
 }
 
 void Renderer::initShaderPrograms() {
-    log->debug("Initializing shader program");
+    log->debug("Initializing shader programs");
+
     //Load shaders
     programVertexHandle = loadShader(GL_VERTEX_SHADER, VERTEX_SHADER);
     if (!error.empty()) return;
-    programGeometryRectangleHandle = loadShader(GL_GEOMETRY_SHADER, GEOMETRY_SHADER_RECTANGLE);
+    programFragmentHandles[PROGRAM_RECTANGLE_TEXTURE] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_TEXTURE);
     if (!error.empty()) return;
-    programGeometryLineHandle = loadShader(GL_GEOMETRY_SHADER, GEOMETRY_SHADER_RECTANGLE); //TODO
+    programFragmentHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_PALETTE_TEXTURE);
     if (!error.empty()) return;
-    programFragmentTextureHandle = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_TEXTURE);
+    programFragmentHandles[PROGRAM_RECTANGLE_COLOR] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_COLOR);
     if (!error.empty()) return;
-    programFragmentPaletteTextureHandle = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_PALETTE_TEXTURE);
+    programFragmentHandles[PROGRAM_LINE_COLOR] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_COLOR);
     if (!error.empty()) return;
 
     //Create programs
-    loadProgram(PROGRAM_RECTANGLE_TEXTURE, {
-            programVertexHandle, programGeometryRectangleHandle, programFragmentTextureHandle
-    });
+    loadProgram(PROGRAM_RECTANGLE_TEXTURE);
     if (!error.empty()) return;
-    loadProgram(PROGRAM_RECTANGLE_PALETTE_TEXTURE, {
-            programVertexHandle, programGeometryRectangleHandle, programFragmentPaletteTextureHandle
-    });
+    loadProgram(PROGRAM_RECTANGLE_PALETTE_TEXTURE);
     if (!error.empty()) return;
-    loadProgram(PROGRAM_LINE_TEXTURE, {
-            programVertexHandle, programGeometryLineHandle, programFragmentTextureHandle
-    });
+    loadProgram(PROGRAM_RECTANGLE_COLOR);
+    if (!error.empty()) return;
+    loadProgram(PROGRAM_LINE_COLOR);
     if (!error.empty()) return;
 
     //Get the locations
@@ -259,8 +228,7 @@ void Renderer::initShaderPrograms() {
         if (!error.empty()) return;
         uCombinedLocations[i] = location;
     }
-    uTextureImageRGBALocations[PROGRAM_RECTANGLE_TEXTURE] = glGetUniformLocation(programHandles[PROGRAM_RECTANGLE_TEXTURE], "uTextureImageRGBA");
-    uTextureImageRGBALocations[PROGRAM_LINE_TEXTURE] = glGetUniformLocation(programHandles[PROGRAM_LINE_TEXTURE], "uTextureImageRGBA");
+    uTextureImageRGBALocation = glGetUniformLocation(programHandles[PROGRAM_RECTANGLE_TEXTURE], "uTextureImageRGBA");
     GLint programPaletteTexture = programHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE];
     uPaletteExtraOffsetLocation = glGetUniformLocation(programPaletteTexture, "uPaletteExtraOffset");
     uTextureImagePaletteLocation = glGetUniformLocation(programPaletteTexture, "uTextureImagePalette");
@@ -268,9 +236,7 @@ void Renderer::initShaderPrograms() {
     uTexturePaletteExtraLocation = glGetUniformLocation(programPaletteTexture, "uTexturePaletteExtra");
 
     error = Utils::checkGLError(log);
-    if (error.empty() && (uTextureImageRGBALocations[PROGRAM_RECTANGLE_TEXTURE] < 0
-                      || uTextureImageRGBALocations[PROGRAM_LINE_TEXTURE] < 0
-                      || uTextureImagePaletteLocation < 0
+    if (error.empty() && (uTextureImageRGBALocation < 0 || uTextureImagePaletteLocation < 0
                       || uTexturePaletteLocation < 0 || uTexturePaletteExtraLocation < 0
     )) {
         std::string text = "Uniform location not found in shaders";
@@ -299,38 +265,43 @@ void Renderer::initBuffers() {
     //Amount of components per attrib
     const int loc0amount = 2; //Vec2
     const int loc1amount = 4; //Vec4
-    const int loc2amount = 2; //Vec2
-    const int loc3amount = 1; //Float
     //Total bytes taken by each attrib
     const size_t loc0bytes = loc0amount * sizeof(GLfloat);
     const size_t loc1bytes = loc1amount * sizeof(GLfloat);
-    const size_t loc2bytes = loc2amount * sizeof(GLfloat);
-    const size_t loc3bytes = loc3amount * sizeof(GLfloat);
     //Offset for attrib in relation to previous attribute end
     const GLvoid* loc0offset = 0;
     const GLvoid* loc1offset = (GLvoid*) (loc0bytes);
-    const GLvoid* loc2offset = (GLvoid*) (loc0bytes + loc1bytes);
-    const GLvoid* loc3offset = (GLvoid*) (loc0bytes + loc1bytes + loc2bytes);
     //All attributes bytes count in a entire vertex
-    const int stride = loc0bytes + loc1bytes + loc2bytes + loc3bytes;
+    const int stride = loc0bytes + loc1bytes;
     //Setup all the vertex attributes data on this vertex array
     glVertexAttribPointer(0, loc0amount, GL_FLOAT, GL_FALSE, stride, loc0offset);
     glVertexAttribPointer(1, loc1amount, GL_FLOAT, GL_FALSE, stride, loc1offset);
-    glVertexAttribPointer(2, loc2amount, GL_FLOAT, GL_FALSE, stride, loc2offset);
-    glVertexAttribPointer(3, loc3amount, GL_FLOAT, GL_FALSE, stride, loc3offset);
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
     //Enable them
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glEnableVertexAttribArray(3);
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 }
 
-void Renderer::prepare(const Image& image, const Palette* paletteExtra, bool line) {
+bool Renderer::prepare(int program, bool needFlush) {
+    needFlush |= verticesCount >= MAX_BATCH_VERTICES;
+    needFlush |= program != activeProgram;
+
+    //Check if we need to flush the batch
+    if (needFlush) {
+        flush();
+
+        //Set the active program
+        activeProgram = program;
+        glUseProgram(programHandles[activeProgram]);
+    }
+    return needFlush;
+}
+
+void Renderer::prepareImage(const Image& image, const Palette* paletteExtra) {
     //Get palette
     const std::shared_ptr<Palette>& palette = image.getPalette();
 
@@ -345,20 +316,13 @@ void Renderer::prepare(const Image& image, const Palette* paletteExtra, bool lin
         needFlush = textureImageChanged || texturePaletteChanged || texturePaletteExtraChanged;
     } else {
         //RGBA image
-        requiredProgram = line ? PROGRAM_LINE_TEXTURE : PROGRAM_RECTANGLE_TEXTURE;
+        requiredProgram = PROGRAM_RECTANGLE_TEXTURE;
         needFlush = !lastTextureImageRGBA || lastTextureImageRGBA != image.getTexture();
     }
-    needFlush |= verticesCount >= MAX_BATCH_VERTICES;
-    needFlush |= requiredProgram != activeProgram;
+    needFlush = prepare(requiredProgram, needFlush);
 
-    //Check if we need to flush the batch
+    //Check if it was flushed
     if (needFlush) {
-        flush();
-
-        //Set the active program
-        activeProgram = requiredProgram;
-        glUseProgram(programHandles[activeProgram]);
-
         //Now bind the image and required palettes if any
         GLuint bindedTexture = image.bindTexture();
         if (palette) {
@@ -378,112 +342,170 @@ void Renderer::prepare(const Image& image, const Palette* paletteExtra, bool lin
     }
 }
 
-void Renderer::draw(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
-    prepare(image, paletteExtra, false);
+void Renderer::drawImage(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
+    prepareImage(image, paletteExtra);
 
     //Increment the vertices count
-    verticesCount++;
+    verticesCount += 6;
+
+    //Get the half of size
+    width /= 2;
+    height /= 2;
 
     //Position
-    vertices[verticesIndex++] = x;
-    vertices[verticesIndex++] = y;
-    //Texture UV
-    vertices[verticesIndex++] = image.u;
-    vertices[verticesIndex++] = image.v;
-    vertices[verticesIndex++] = image.u2;
-    vertices[verticesIndex++] = image.v2;
-    //Size
-    vertices[verticesIndex++] = width / 2.0f;
-    vertices[verticesIndex++] = height / 2.0f;
-    //Angle
-    vertices[verticesIndex++] = angle;
+    if (angle == 0) {
+        //Non rotated rectangle mode
+
+        //Bottom left
+        vertices[verticesIndex++] = x - width;
+        vertices[verticesIndex++] = y - height;
+        vertices[verticesIndex++] = image.u;
+        vertices[verticesIndex++] = image.v;
+        vertices[verticesIndex++] = 0;
+        vertices[verticesIndex++] = 0;
+
+        //Bottom right
+        vertices[verticesIndex++] = x + width;
+        vertices[verticesIndex++] = y - height;
+        vertices[verticesIndex++] = image.u2;
+        vertices[verticesIndex++] = image.v;
+        vertices[verticesIndex++] = 1;
+        vertices[verticesIndex++] = 0;
+
+        //Top left
+        vertices[verticesIndex++] = x - width;
+        vertices[verticesIndex++] = y + height;
+        vertices[verticesIndex++] = image.u;
+        vertices[verticesIndex++] = image.v2;
+        vertices[verticesIndex++] = 0;
+        vertices[verticesIndex++] = 1;
+
+        //Bottom right
+        vertices[verticesIndex++] = x + width;
+        vertices[verticesIndex++] = y - height;
+        vertices[verticesIndex++] = image.u2;
+        vertices[verticesIndex++] = image.v;
+        vertices[verticesIndex++] = 1;
+        vertices[verticesIndex++] = 0;
+
+        //Top left
+        vertices[verticesIndex++] = x - width;
+        vertices[verticesIndex++] = y + height;
+        vertices[verticesIndex++] = image.u;
+        vertices[verticesIndex++] = image.v2;
+        vertices[verticesIndex++] = 0;
+        vertices[verticesIndex++] = 1;
+
+        //Top right
+        vertices[verticesIndex++] = x + width;
+        vertices[verticesIndex++] = y + height;
+        vertices[verticesIndex++] = image.u2;
+        vertices[verticesIndex++] = image.v2;
+        vertices[verticesIndex++] = 1;
+        vertices[verticesIndex++] = 1;
+    } else {
+        //Rotated rectangle mode
+        float rs = sin(angle);
+        float rc = cos(angle);
+
+        //Bottom left
+        vertices[verticesIndex++] = x - ((rc * -width) - (rs * -height));
+        vertices[verticesIndex++] = y - ((rs * -width) + (rc * -height));
+        vertices[verticesIndex++] = image.u;
+        vertices[verticesIndex++] = image.v;
+        vertices[verticesIndex++] = 0;
+        vertices[verticesIndex++] = 0;
+
+        //Bottom right
+        float brx = x + ((rc *  width) - (rs * -height));
+        float bry = y - ((rs *  width) + (rc * -height));
+        vertices[verticesIndex++] = brx;
+        vertices[verticesIndex++] = bry;
+        vertices[verticesIndex++] = image.u2;
+        vertices[verticesIndex++] = image.v;
+        vertices[verticesIndex++] = 1;
+        vertices[verticesIndex++] = 0;
+
+        //Top left
+        float tlx = x - ((rc * -width) - (rs *  height));
+        float tly = y + ((rs * -width) + (rc *  height));
+        vertices[verticesIndex++] = tlx;
+        vertices[verticesIndex++] = tly;
+        vertices[verticesIndex++] = image.u;
+        vertices[verticesIndex++] = image.v2;
+        vertices[verticesIndex++] = 0;
+        vertices[verticesIndex++] = 1;
+
+        //Bottom right
+        vertices[verticesIndex++] = brx;
+        vertices[verticesIndex++] = bry;
+        vertices[verticesIndex++] = image.u2;
+        vertices[verticesIndex++] = image.v;
+        vertices[verticesIndex++] = 1;
+        vertices[verticesIndex++] = 0;
+
+        //Top left
+        vertices[verticesIndex++] = tlx;
+        vertices[verticesIndex++] = tly;
+        vertices[verticesIndex++] = image.u;
+        vertices[verticesIndex++] = image.v2;
+        vertices[verticesIndex++] = 0;
+        vertices[verticesIndex++] = 1;
+
+        //Top right
+        vertices[verticesIndex++] = x + ((rc *  width) - (rs * height));
+        vertices[verticesIndex++] = y + ((rs *  width) + (rc * height));
+        vertices[verticesIndex++] = image.u2;
+        vertices[verticesIndex++] = image.v2;
+        vertices[verticesIndex++] = 1;
+        vertices[verticesIndex++] = 1;
+    }
 }
 
-void Renderer::draw(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra) {
-    prepare(image, paletteExtra, false);
-
-    //Increment the vertices count
-    verticesCount++;
-
-    //Position
-    vertices[verticesIndex++] = position.x;
-    vertices[verticesIndex++] = position.y;
-    //Texture UV
-    vertices[verticesIndex++] = image.u;
-    vertices[verticesIndex++] = image.v;
-    vertices[verticesIndex++] = image.u2;
-    vertices[verticesIndex++] = image.v2;
-    //Size
-    vertices[verticesIndex++] = static_cast<float>(size.x) / 2.0f;
-    vertices[verticesIndex++] = static_cast<float>(size.y) / 2.0f;
-    //Angle
-    vertices[verticesIndex++] = angle;
+void Renderer::drawImage(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra) {
+    drawImage(
+            static_cast<float>(position.x),
+            static_cast<float>(position.y),
+            static_cast<float>(size.x),
+            static_cast<float>(size.y),
+            angle, image, paletteExtra
+    );
 }
 
-void Renderer::draw(const Rectangle& rectangle, float angle, const Image& image, const Palette* paletteExtra) {
-    prepare(image, paletteExtra, false);
-
+void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color) {
+    prepare(PROGRAM_LINE_COLOR);
+    //TODO
     //Increment the vertices count
-    verticesCount++;
-    //Get size
-    float w = static_cast<float>(rectangle.w) / 2.0f;
-    float h = static_cast<float>(rectangle.h) / 2.0f;
-
-    //Position
-    vertices[verticesIndex++] = static_cast<float>(rectangle.x) + w;
-    vertices[verticesIndex++] = static_cast<float>(rectangle.y) + h;
-    //Texture UV
-    vertices[verticesIndex++] = image.u;
-    vertices[verticesIndex++] = image.v;
-    vertices[verticesIndex++] = image.u2;
-    vertices[verticesIndex++] = image.v2;
-    //Size
-    vertices[verticesIndex++] = w;
-    vertices[verticesIndex++] = h;
-    //Angle
-    vertices[verticesIndex++] = angle;
-}
-
-void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const Image& image, const Palette* paletteExtra) {
-    prepare(image, paletteExtra, true);
-
-    //Increment the vertices count
-    verticesCount++;
+    verticesCount += 4;
 
     //Start position
     vertices[verticesIndex++] = sx;
     vertices[verticesIndex++] = sy;
-    //Texture UV
-    vertices[verticesIndex++] = image.u;
-    vertices[verticesIndex++] = image.v;
-    vertices[verticesIndex++] = image.u2;
-    vertices[verticesIndex++] = image.v2;
     //End position
     vertices[verticesIndex++] = ex;
     vertices[verticesIndex++] = ey;
+    //Color
+    vertices[verticesIndex++] = static_cast<float>(color.r) / 255.0f;
+    vertices[verticesIndex++] = static_cast<float>(color.g) / 255.0f;
+    vertices[verticesIndex++] = static_cast<float>(color.b) / 255.0f;
+    vertices[verticesIndex++] = static_cast<float>(color.a) / 255.0f;
     //Width
-    vertices[verticesIndex++] = width;
+    vertices[verticesIndex++] = width / 2.0f;
 }
 
-void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, const Image& image, const Palette* paletteExtra) {
-    prepare(image, paletteExtra, true);
+void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, const ColorRGBA& color) {
+    drawLine(
+            static_cast<float>(start.x),
+            static_cast<float>(start.y),
+            static_cast<float>(end.x),
+            static_cast<float>(end.y),
+            width, color
+    );
+}
 
-    //Increment the vertices count
-    verticesCount++;
-
-    //Start position
-    vertices[verticesIndex++] = start.x;
-    vertices[verticesIndex++] = start.y;
-    //Texture UV
-    vertices[verticesIndex++] = image.u;
-    vertices[verticesIndex++] = image.v;
-    vertices[verticesIndex++] = image.u2;
-    vertices[verticesIndex++] = image.v2;
-    //End position
-    vertices[verticesIndex++] = end.x;
-    vertices[verticesIndex++] = end.y;
-    //Width
-    vertices[verticesIndex++] = width;
+void Renderer::drawRectangle(const Rectangle& rectangle, float width, const ColorRGBA& color) {
+    prepare(PROGRAM_RECTANGLE_COLOR);
+    //TODO
 }
 
 bool Renderer::flush() {
@@ -496,7 +518,7 @@ bool Renderer::flush() {
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verticesIndex, vertices, GL_DYNAMIC_DRAW);
 
         //Draw it
-        glDrawArrays(GL_POINTS, 0, verticesCount);
+        glDrawArrays(GL_TRIANGLES, 0, verticesCount);
 
         //Check any error
         error = Utils::checkGLError(log);

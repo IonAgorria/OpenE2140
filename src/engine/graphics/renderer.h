@@ -6,16 +6,18 @@
 
 #include <glm/matrix.hpp>
 #include "engine/core/macros.h"
-#include "engine/core/error_possible.h"
+#include "engine/core/macros.h"
+#include "engine/graphics/color.h"
 #include "engine/io/log.h"
 #include "image.h"
 
 #define PROGRAM_RECTANGLE_TEXTURE 0
 #define PROGRAM_RECTANGLE_PALETTE_TEXTURE 1
-#define PROGRAM_LINE_TEXTURE 2
-#define PROGRAM_COUNT 3
+#define PROGRAM_RECTANGLE_COLOR 2
+#define PROGRAM_LINE_COLOR 3
+#define PROGRAM_COUNT 4
 #define MAX_BATCH_VERTICES 10240
-#define MAX_COMPONENTS_PER_VERTICE 9
+#define MAX_COMPONENTS_PER_VERTICE 6
 
 /**
  * Handles the rendering of various parts using window and game state
@@ -30,127 +32,112 @@ private:
     /**
      * Shader program handles
      */
-    GLuint programHandles[PROGRAM_COUNT];
+    GLuint programHandles[PROGRAM_COUNT] = {};
 
     /**
-     * Vertex shader handle
+     * Vertex shader handles
      */
-    GLuint programVertexHandle;
+    GLuint programVertexHandle = 0;
 
     /**
-     * Rectangle geometry shader handle
+     * Fragment shader handles
      */
-    GLuint programGeometryRectangleHandle;
-
-    /**
-     * Line geometry shader handle
-     */
-    GLuint programGeometryLineHandle;
-
-    /**
-     * Texture fragment shader handle
-     */
-    GLuint programFragmentTextureHandle;
-
-    /**
-     * Palette texture fragment shader handle
-     */
-    GLuint programFragmentPaletteTextureHandle;
+    GLuint programFragmentHandles[PROGRAM_COUNT] = {};
 
     /**
      * VAO buffer handle
      */
-    GLuint vaoHandle;
+    GLuint vaoHandle = 0;
 
     /**
      * VBO buffer handle
      */
-    GLuint vboHandle;
+    GLuint vboHandle = 0;
 
     /**
      * Vertices buffer to store current vertices in batch
      */
-    GLfloat vertices[MAX_BATCH_VERTICES * MAX_COMPONENTS_PER_VERTICE];
+    GLfloat vertices[MAX_BATCH_VERTICES * MAX_COMPONENTS_PER_VERTICE] = {};
 
     /**
      * Vertices buffer written vertices count
      */
-    unsigned int verticesCount;
+    unsigned int verticesCount = 0;
 
     /**
      * Vertices buffer index
      */
-    unsigned int verticesIndex;
+    unsigned int verticesIndex = 0;
 
     /**
      * Max texture size
      */
-    int maxTextureSize;
+    int maxTextureSize = 0;
 
     /**
      * Last used texture for RGBA image
      */
-    GLuint lastTextureImageRGBA;
+    GLuint lastTextureImageRGBA = 0;
 
     /**
      * Last used texture for palette image
      */
-    GLuint lastTextureImagePalette;
+    GLuint lastTextureImagePalette = 0;
 
     /**
      * Last used texture for palette
      */
-    GLuint lastTexturePalette;
+    GLuint lastTexturePalette = 0;
 
     /**
      * Last used texture for extra palette
      */
-    GLuint lastTexturePaletteExtra;
+    GLuint lastTexturePaletteExtra = 0;
 
     /**
      * Locations for combined uniform in shader
      */
-    GLint uCombinedLocations[PROGRAM_COUNT];
+    GLint uCombinedLocations[PROGRAM_COUNT] = {};
 
     /**
      * Location for uPaletteExtraOffset uniform in shader
      */
-    GLint uPaletteExtraOffsetLocation;
+    GLint uPaletteExtraOffsetLocation = 0;
 
     /**
      * Location for uTextureImagePalette uniform in shader
      */
-    GLint uTextureImagePaletteLocation;
+    GLint uTextureImagePaletteLocation = 0;
 
     /**
      * Locations for uTextureImageRGBA uniform in shader
      */
-    GLint uTextureImageRGBALocations[PROGRAM_COUNT];
+    GLint uTextureImageRGBALocation = 0;
 
     /**
      * Location for uTexturePalette uniform in shader
      */
-    GLint uTexturePaletteLocation;
+    GLint uTexturePaletteLocation = 0;
 
     /**
      * Location for uTexturePaletteExtra uniform in shader
      */
-    GLint uTexturePaletteExtraLocation;
+    GLint uTexturePaletteExtraLocation = 0;
 
     /**
      * Current active program
      */
-    int activeProgram;
+    int activeProgram = 0;
 
     /**
      * Current projection matrix
      */
-    glm::mat4 projection;
+    glm::mat4 projection = {};
 
     /**
      * Current view matrix
      */
-    glm::mat4 view;
+    glm::mat4 view = {};
 
     /**
      * Viewport rectangle
@@ -158,13 +145,21 @@ private:
     Rectangle viewport;
 
     /**
-     * Prepares the internal states to draw the provided objects
+     * Prepares the internal states to draw using the specified program
+     *
+     * @param program wanted to use
+     * @param needFlush tells that flush is necessary
+     * @return if flush was done
+     */
+    bool prepare(int program, bool needFlush = false);
+
+    /**
+     * Prepares the internal states to draw the provided image
      *
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
-     * @param line specified if preparations are for line mode
      */
-    void prepare(const Image& image, const Palette* paletteExtra, bool line);
+    void prepareImage(const Image& image, const Palette* paletteExtra);
 public:
     /**
      * Constructs loader
@@ -174,7 +169,7 @@ public:
     /**
      * Destructs loader and cleans any loaded assets
      */
-    ~Renderer();
+    ~Renderer() override;
 
     /**
      * Disable copy/move
@@ -210,7 +205,7 @@ public:
     void changeCamera(int x, int y);
 
     /**
-     * Draws the provided data
+     * Draws the provided image
      *
      * @param x position of drawn image
      * @param y position of drawn image
@@ -220,10 +215,10 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra = nullptr);
+    void drawImage(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
-     * Draws the provided data
+     * Draws the provided image
      *
      * @param position of drawn image
      * @param size of drawn image
@@ -231,41 +226,38 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void draw(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra = nullptr);
+    void drawImage(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
-     * Draws the provided data
-     *
-     * @param rectangle rectangle of drawn image
-     * @param angle angle of drawn image
-     * @param image image to draw
-     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
-     */
-    void draw(const Rectangle& rectangle, float angle, const Image& image, const Palette* paletteExtra = nullptr);
-
-    /**
-     * Draws the provided data
+     * Draws the provided line
      *
      * @param sx start position of line
      * @param sy start position of line
      * @param ex end position of line
      * @param ey end position of line
      * @param width of line
-     * @param image image to draw
-     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     * @param color of rectangle lines
      */
-    void drawLine(float sx, float sy, float ex, float ey, float width, const Image& image, const Palette* paletteExtra = nullptr);
+    void drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color);
 
     /**
-     * Draws the provided data
+     * Draws the provided line
      *
      * @param start of line
      * @param end of line
      * @param width of line
-     * @param image image to draw
-     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     * @param color of rectangle lines
      */
-    void drawLine(const Vector2& start, const Vector2& end, float width, const Image& image, const Palette* paletteExtra = nullptr);
+    void drawLine(const Vector2& start, const Vector2& end, float width, const ColorRGBA& color);
+
+    /**
+     * Draws the provided rectangle
+     *
+     * @param rectangle to draw
+     * @param width of rectangle lines
+     * @param color of rectangle lines
+     */
+    void drawRectangle(const Rectangle& rectangle, float width, const ColorRGBA& color);
 
     /**
      * Create and load a OpenGL shader.
@@ -280,10 +272,9 @@ public:
      * Create and load a OpenGL program.
      *
      * @param program_id Shader program to create.
-     * @param shaders handles to attach/use in program
      * @return id for the program
      */
-    void loadProgram(unsigned int program_id, const std::vector<GLuint>& shaders);
+    void loadProgram(unsigned int program_id);
 
     /**
      * Initializes OpenGL shader program with shaders code.

@@ -31,7 +31,7 @@ void AnimationComponent::draw(Renderer* renderer) {
     if (image) {
         Vector2 position = base->getPosition();
         position += imageOffset;
-        renderer->draw(position, imageSize, imageDirection, *image, nullptr);
+        renderer->drawImage(position, imageSize, imageDirection, *image, nullptr);
     }
 }
 

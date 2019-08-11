@@ -115,14 +115,14 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
             if (!image) {
                 continue;
             }
-            renderer->draw(
-                static_cast<float>(tileSizeHalf + (x * drawTileSize)),
-                static_cast<float>(tileSizeHalf + (y * drawTileSize)),
-                static_cast<float>(drawTileSize),
-                static_cast<float>(drawTileSize),
-                0,
-                *image,
-                nullptr
+            renderer->drawImage(
+                    static_cast<float>(tileSizeHalf + (x * drawTileSize)),
+                    static_cast<float>(tileSizeHalf + (y * drawTileSize)),
+                    static_cast<float>(drawTileSize),
+                    static_cast<float>(drawTileSize),
+                    0,
+                    *image,
+                    nullptr
             );
         }
     }

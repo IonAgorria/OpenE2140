@@ -288,10 +288,9 @@ void Renderer::initBuffers() {
     if (!error.empty()) return;
 }
 
-bool Renderer::prepare(int program, bool needFlush) {
+bool Renderer::prepare(size_t indicesAmount, int program, bool needFlush) {
     needFlush |= program != activeProgram;
-    needFlush |= indicesCount >= MAX_BATCH_VERTICES;
-    needFlush |= verticesCount >= MAX_BATCH_VERTICES;
+    needFlush |= indicesCount + indicesAmount >= MAX_BATCH_VERTICES;
 
     //Check if we need to flush the batch
     if (needFlush) {
@@ -305,7 +304,7 @@ bool Renderer::prepare(int program, bool needFlush) {
     return needFlush;
 }
 
-void Renderer::prepareImage(const Image& image, const Palette* paletteExtra) {
+void Renderer::prepareImage(size_t indicesAmount, const Image& image, const Palette* paletteExtra) {
     //Get palette
     const std::shared_ptr<Palette>& palette = image.getPalette();
 
@@ -323,7 +322,7 @@ void Renderer::prepareImage(const Image& image, const Palette* paletteExtra) {
         requiredProgram = PROGRAM_RECTANGLE_TEXTURE;
         needFlush = !lastTextureImageRGBA || lastTextureImageRGBA != image.getTexture();
     }
-    needFlush = prepare(requiredProgram, needFlush);
+    needFlush = prepare(indicesAmount, requiredProgram, needFlush);
 
     //Check if it was flushed
     if (needFlush) {
@@ -347,14 +346,14 @@ void Renderer::prepareImage(const Image& image, const Palette* paletteExtra) {
 }
 
 void Renderer::drawImage(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
-    prepareImage(image, paletteExtra);
+    prepareImage(6, image, paletteExtra);
 
     //Add the indices
     indices[indicesCount++] = verticesCount;
     indices[indicesCount++] = verticesCount + 1;
     indices[indicesCount++] = verticesCount + 2;
-    indices[indicesCount++] = verticesCount + 1;
     indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 1;
     indices[indicesCount++] = verticesCount + 3;
 
     //Increment the vertices count
@@ -449,14 +448,60 @@ void Renderer::drawImage(const Vector2& position, const Vector2& size, float ang
 }
 
 void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color) {
-    prepare(PROGRAM_LINE_COLOR);
-    /*TODO
-    //Color
-    vertices[verticesIndex++] = static_cast<float>(color.r) / 255.0f;
-    vertices[verticesIndex++] = static_cast<float>(color.g) / 255.0f;
-    vertices[verticesIndex++] = static_cast<float>(color.b) / 255.0f;
-    vertices[verticesIndex++] = static_cast<float>(color.a) / 255.0f;
-    */
+    prepare(6, PROGRAM_LINE_COLOR);
+
+    //Add the indices
+    indices[indicesCount++] = verticesCount;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 3;
+
+    //Increment the vertices count
+    verticesCount += 4;
+
+    //Calculate stuff
+    width /= 2; //Half of width is used in each side
+    float angle = static_cast<float>(std::atan2(ey - sy, ex - sx) + M_PI_2);
+    float rc = std::cos(angle) * width;
+    float rs = std::sin(angle) * width;
+    float r = static_cast<float>(color.r) / 255.0f;
+    float g = static_cast<float>(color.g) / 255.0f;
+    float b = static_cast<float>(color.b) / 255.0f;
+    float a = static_cast<float>(color.a) / 255.0f;
+
+    //Start left
+    vertices[verticesIndex++] = sx - rc;
+    vertices[verticesIndex++] = sy - rs;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //Start right
+    vertices[verticesIndex++] = sx + rc;
+    vertices[verticesIndex++] = sy + rs;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //End left
+    vertices[verticesIndex++] = ex - rc;
+    vertices[verticesIndex++] = ey - rs;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //End right
+    vertices[verticesIndex++] = ex + rc;
+    vertices[verticesIndex++] = ey + rs;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
 }
 
 void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, const ColorRGBA& color) {
@@ -469,9 +514,123 @@ void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, c
     );
 }
 
+void Renderer::drawRectangle(float x, float y, float w, float h, float width, const ColorRGBA& color) {
+    prepare(24, PROGRAM_RECTANGLE_COLOR);
+
+    //Calculate stuff
+    float r = static_cast<float>(color.r) / 255.0f;
+    float g = static_cast<float>(color.g) / 255.0f;
+    float b = static_cast<float>(color.b) / 255.0f;
+    float a = static_cast<float>(color.a) / 255.0f;
+
+    //Bottom
+    indices[indicesCount++] = verticesCount;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 3;
+
+    //Left
+    indices[indicesCount++] = verticesCount;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 6;
+    indices[indicesCount++] = verticesCount + 6;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 4;
+
+    //Right
+    indices[indicesCount++] = verticesCount + 3;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 5;
+    indices[indicesCount++] = verticesCount + 5;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 7;
+
+    //Top
+    indices[indicesCount++] = verticesCount + 4;
+    indices[indicesCount++] = verticesCount + 5;
+    indices[indicesCount++] = verticesCount + 6;
+    indices[indicesCount++] = verticesCount + 6;
+    indices[indicesCount++] = verticesCount + 5;
+    indices[indicesCount++] = verticesCount + 7;
+
+    //0 Outside bottom left
+    vertices[verticesIndex++] = x;
+    vertices[verticesIndex++] = y;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //1 Outside bottom right
+    vertices[verticesIndex++] = x + w;
+    vertices[verticesIndex++] = y;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //2 Inner bottom left
+    vertices[verticesIndex++] = x + width;
+    vertices[verticesIndex++] = y + width;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //3 Inner bottom right
+    vertices[verticesIndex++] = x + w - width;
+    vertices[verticesIndex++] = y + width;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //4 Inner bottom left
+    vertices[verticesIndex++] = x + width;
+    vertices[verticesIndex++] = y + h - width;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //5 Inner bottom right
+    vertices[verticesIndex++] = x + w - width;
+    vertices[verticesIndex++] = y + h - width;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //6 Outside top left
+    vertices[verticesIndex++] = x;
+    vertices[verticesIndex++] = y + h;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //7 Outside top left
+    vertices[verticesIndex++] = x + w;
+    vertices[verticesIndex++] = y + h;
+    vertices[verticesIndex++] = r;
+    vertices[verticesIndex++] = g;
+    vertices[verticesIndex++] = b;
+    vertices[verticesIndex++] = a;
+
+    //Increment the vertices count
+    verticesCount += 8;
+}
+
 void Renderer::drawRectangle(const Rectangle& rectangle, float width, const ColorRGBA& color) {
-    prepare(PROGRAM_RECTANGLE_COLOR);
-    //TODO
+    drawRectangle(
+            static_cast<float>(rectangle.x),
+            static_cast<float>(rectangle.y),
+            static_cast<float>(rectangle.w),
+            static_cast<float>(rectangle.h),
+            width, color
+    );
 }
 
 bool Renderer::flush() {

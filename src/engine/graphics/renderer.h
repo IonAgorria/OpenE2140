@@ -162,19 +162,21 @@ private:
     /**
      * Prepares the internal states to draw using the specified program
      *
+     * @param indicesAmount amount of indices that is going to take
      * @param program wanted to use
      * @param needFlush tells that flush is necessary
      * @return if flush was done
      */
-    bool prepare(int program, bool needFlush = false);
+    bool prepare(size_t indicesAmount, int program, bool needFlush = false);
 
     /**
      * Prepares the internal states to draw the provided image
      *
+     * @param indicesAmount amount of indices that is going to take
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void prepareImage(const Image& image, const Palette* paletteExtra);
+    void prepareImage(size_t indicesAmount, const Image& image, const Palette* paletteExtra);
 public:
     /**
      * Constructs loader
@@ -264,6 +266,18 @@ public:
      * @param color of rectangle lines
      */
     void drawLine(const Vector2& start, const Vector2& end, float width, const ColorRGBA& color);
+
+    /**
+     * Draws the provided rectangle
+     *
+     * @param x position of rectangle
+     * @param y position of rectangle
+     * @param w size of rectangle
+     * @param h size of rectangle
+     * @param width of line
+     * @param color of rectangle lines
+     */
+    void drawRectangle(float x, float sy, float ex, float ey, float width, const ColorRGBA& color);
 
     /**
      * Draws the provided rectangle

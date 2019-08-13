@@ -20,10 +20,10 @@ CLASS_COMPONENT(Building, BuildingComponent)
 /**
  * Building entity
  */
-CLASS_ENTITY(Entity, Building,
-        PlayerComponent,
-        FactionComponent,
-        PaletteSetupComponent, //before AnimationComponent
+CLASS_ENTITY_COMPONENTS(Entity, Building,
+                        PlayerComponent,
+                        FactionComponent,
+                        PaletteSetupComponent, //before AnimationComponent
         AnimationComponent
 )
 public:

@@ -83,7 +83,7 @@ public:
     /**
      * Entity destructor
      */
-    virtual ~Entity();
+    ~Entity() override;
 
     /**
      * Disable copy
@@ -210,12 +210,23 @@ public:
 };
 
 /**
+ * Macro for entity class definition without components
+ *
+ * T_ENTITY specifies the class type name
+ */
+#define CLASS_ENTITY(T_BASE, T_ENTITY) \
+class T_ENTITY: public T_BASE { \
+public: \
+    /** Update type name */ \
+    TYPE_NAME_OVERRIDE(T_ENTITY)
+
+/**
  * Macro for common entity class definition with provided components
  *
  * T_ENTITY specifies the class type name
  * The rest of args are the component classes to be attached into this class
  */
-#define CLASS_ENTITY(T_BASE, T_ENTITY, ...) \
+#define CLASS_ENTITY_COMPONENTS(T_BASE, T_ENTITY, ...) \
 class T_ENTITY: public ComponentBinder<T_BASE, T_ENTITY ,##__VA_ARGS__> { \
 public: \
     /** Update type name */ \

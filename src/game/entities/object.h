@@ -13,7 +13,7 @@
 /**
  * Simple object with simple image
  */
-CLASS_ENTITY(Entity, Object, ImageComponent)
+CLASS_ENTITY_COMPONENTS(Entity, Object, ImageComponent)
 public:
     void simulationChanged() override;
 

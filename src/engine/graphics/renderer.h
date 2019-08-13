@@ -16,7 +16,7 @@
 #define PROGRAM_RECTANGLE_COLOR 2
 #define PROGRAM_LINE_COLOR 3
 #define PROGRAM_COUNT 4
-#define MAX_BATCH_VERTICES 10240
+#define MAX_BATCH_VERTICES 10240 //If this exceeds ushort switch the indices to uint
 #define MAX_COMPONENTS_PER_VERTICE 6
 
 /**
@@ -62,12 +62,27 @@ private:
     /**
      * Vertices buffer written vertices count
      */
-    unsigned int verticesCount = 0;
+    size_t verticesCount = 0;
 
     /**
      * Vertices buffer index
      */
-    unsigned int verticesIndex = 0;
+    size_t verticesIndex = 0;
+
+    /**
+     * IBO buffer handle
+     */
+    GLuint iboHandle = 0;
+
+    /**
+     * Indices buffer to store current indices in batch
+     */
+    GLushort indices[MAX_BATCH_VERTICES] = {};
+
+    /**
+     * Vertices buffer written vertices count
+     */
+    size_t indicesCount = 0;
 
     /**
      * Max texture size

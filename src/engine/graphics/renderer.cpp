@@ -60,10 +60,6 @@ Renderer::Renderer() {
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
-    //Bind the stuff
-    glUseProgram(programHandles[activeProgram]);
-    glBindVertexArray(vaoHandle);
-
     //Set blending func
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -100,6 +96,10 @@ Renderer::~Renderer() {
     }
 
     //Delete other stuff
+    if (iboHandle) {
+        glDeleteBuffers(1, &iboHandle);
+        iboHandle = 0;
+    }
     if (vboHandle) {
         glDeleteBuffers(1, &vboHandle);
         vboHandle = 0;
@@ -253,12 +253,14 @@ void Renderer::initBuffers() {
     //Generate buffers
     glGenVertexArrays(1, &vaoHandle);
     glGenBuffers(1, &vboHandle);
+    glGenBuffers(1, &iboHandle);
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
     //Bind the stuff
     glBindVertexArray(vaoHandle);
     glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
     error = Utils::checkGLError(log);
     if (!error.empty()) return;
 
@@ -287,8 +289,9 @@ void Renderer::initBuffers() {
 }
 
 bool Renderer::prepare(int program, bool needFlush) {
-    needFlush |= verticesCount >= MAX_BATCH_VERTICES;
     needFlush |= program != activeProgram;
+    needFlush |= indicesCount >= MAX_BATCH_VERTICES;
+    needFlush |= verticesCount >= MAX_BATCH_VERTICES;
 
     //Check if we need to flush the batch
     if (needFlush) {
@@ -297,6 +300,7 @@ bool Renderer::prepare(int program, bool needFlush) {
         //Set the active program
         activeProgram = program;
         glUseProgram(programHandles[activeProgram]);
+        glBindVertexArray(vaoHandle);
     }
     return needFlush;
 }
@@ -345,8 +349,16 @@ void Renderer::prepareImage(const Image& image, const Palette* paletteExtra) {
 void Renderer::drawImage(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
     prepareImage(image, paletteExtra);
 
+    //Add the indices
+    indices[indicesCount++] = verticesCount;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 3;
+
     //Increment the vertices count
-    verticesCount += 6;
+    verticesCount += 4;
 
     //Get the half of size
     width /= 2;
@@ -363,22 +375,6 @@ void Renderer::drawImage(float x, float y, float width, float height, float angl
         vertices[verticesIndex++] = image.v;
         vertices[verticesIndex++] = 0;
         vertices[verticesIndex++] = 0;
-
-        //Bottom right
-        vertices[verticesIndex++] = x + width;
-        vertices[verticesIndex++] = y - height;
-        vertices[verticesIndex++] = image.u2;
-        vertices[verticesIndex++] = image.v;
-        vertices[verticesIndex++] = 1;
-        vertices[verticesIndex++] = 0;
-
-        //Top left
-        vertices[verticesIndex++] = x - width;
-        vertices[verticesIndex++] = y + height;
-        vertices[verticesIndex++] = image.u;
-        vertices[verticesIndex++] = image.v2;
-        vertices[verticesIndex++] = 0;
-        vertices[verticesIndex++] = 1;
 
         //Bottom right
         vertices[verticesIndex++] = x + width;
@@ -417,36 +413,16 @@ void Renderer::drawImage(float x, float y, float width, float height, float angl
         vertices[verticesIndex++] = 0;
 
         //Bottom right
-        float brx = x + ((rc *  width) - (rs * -height));
-        float bry = y - ((rs *  width) + (rc * -height));
-        vertices[verticesIndex++] = brx;
-        vertices[verticesIndex++] = bry;
+        vertices[verticesIndex++] = x + ((rc *  width) - (rs * -height));
+        vertices[verticesIndex++] = y - ((rs *  width) + (rc * -height));
         vertices[verticesIndex++] = image.u2;
         vertices[verticesIndex++] = image.v;
         vertices[verticesIndex++] = 1;
         vertices[verticesIndex++] = 0;
 
         //Top left
-        float tlx = x - ((rc * -width) - (rs *  height));
-        float tly = y + ((rs * -width) + (rc *  height));
-        vertices[verticesIndex++] = tlx;
-        vertices[verticesIndex++] = tly;
-        vertices[verticesIndex++] = image.u;
-        vertices[verticesIndex++] = image.v2;
-        vertices[verticesIndex++] = 0;
-        vertices[verticesIndex++] = 1;
-
-        //Bottom right
-        vertices[verticesIndex++] = brx;
-        vertices[verticesIndex++] = bry;
-        vertices[verticesIndex++] = image.u2;
-        vertices[verticesIndex++] = image.v;
-        vertices[verticesIndex++] = 1;
-        vertices[verticesIndex++] = 0;
-
-        //Top left
-        vertices[verticesIndex++] = tlx;
-        vertices[verticesIndex++] = tly;
+        vertices[verticesIndex++] = x - ((rc * -width) - (rs *  height));
+        vertices[verticesIndex++] = y + ((rs * -width) + (rc *  height));
         vertices[verticesIndex++] = image.u;
         vertices[verticesIndex++] = image.v2;
         vertices[verticesIndex++] = 0;
@@ -474,23 +450,13 @@ void Renderer::drawImage(const Vector2& position, const Vector2& size, float ang
 
 void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color) {
     prepare(PROGRAM_LINE_COLOR);
-    //TODO
-    //Increment the vertices count
-    verticesCount += 4;
-
-    //Start position
-    vertices[verticesIndex++] = sx;
-    vertices[verticesIndex++] = sy;
-    //End position
-    vertices[verticesIndex++] = ex;
-    vertices[verticesIndex++] = ey;
+    /*TODO
     //Color
     vertices[verticesIndex++] = static_cast<float>(color.r) / 255.0f;
     vertices[verticesIndex++] = static_cast<float>(color.g) / 255.0f;
     vertices[verticesIndex++] = static_cast<float>(color.b) / 255.0f;
     vertices[verticesIndex++] = static_cast<float>(color.a) / 255.0f;
-    //Width
-    vertices[verticesIndex++] = width / 2.0f;
+    */
 }
 
 void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, const ColorRGBA& color) {
@@ -516,9 +482,11 @@ bool Renderer::flush() {
 
         //Load data
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verticesIndex, vertices, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * indicesCount, indices, GL_DYNAMIC_DRAW);
 
         //Draw it
-        glDrawArrays(GL_TRIANGLES, 0, verticesCount);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
+        glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_SHORT, 0);
 
         //Check any error
         error = Utils::checkGLError(log);
@@ -527,6 +495,7 @@ bool Renderer::flush() {
         //Reset the counters
         verticesIndex = 0;
         verticesCount = 0;
+        indicesCount = 0;
     }
 
     return true;

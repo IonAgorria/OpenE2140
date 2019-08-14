@@ -91,10 +91,6 @@ Window::Window() {
 
     //Set parameters
     glClearColor(0.5, 0.5, 0.5, 1.0);
-    //VSync TODO put this as configurable param
-    if (0 != SDL_GL_SetSwapInterval(1)) {
-        log->warn("VSync setting failed");
-    }
 
     //Check errors
     error = Utils::checkAnyError();
@@ -186,4 +182,16 @@ void Window::swap() {
     if (this->check()) {
         SDL_GL_SwapWindow(windowHandle);
     }
+}
+
+void Window::setSampling(bool state) {
+    if (state) {
+        glEnable(GL_MULTISAMPLE);
+    } else {
+        glDisable(GL_MULTISAMPLE);
+    }
+}
+
+bool Window::setVSync(bool state) {
+    return 0 == SDL_GL_SetSwapInterval(state ? 1 : 0);
 }

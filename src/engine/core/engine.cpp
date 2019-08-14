@@ -233,6 +233,9 @@ void Engine::setupEventHandler() {
 }
 
 void Engine::setupWindow() {
+    //Setup sampling and vsync
+    window->setSampling(getData<bool>("sampling", true));
+    window->setVSync(getData<bool>("vsync", true));
 }
 
 void Engine::setupRenderer() {
@@ -369,7 +372,7 @@ void Engine::setupLocale() {
     }
 
     //Load the current locale from config
-    std::string code = getData<const std::string>("locale", ""); //TODO load this from config
+    std::string code = getData<const std::string>("locale", "");
 
     //Check if locale is valid and fallback to default locale
     bool persistent = false;

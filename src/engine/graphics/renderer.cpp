@@ -47,9 +47,6 @@ Renderer::Renderer() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe mode
 
-    //Enable samples
-    //glEnable(GL_MULTISAMPLE);
-
     //Set the texture units for samplers
     glUseProgram(programHandles[PROGRAM_RECTANGLE_TEXTURE]);
     glUniform1i(uTextureImageRGBALocation, 0);

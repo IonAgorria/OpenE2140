@@ -108,6 +108,21 @@ public:
      * Updates window content
      */
     void swap();
+
+    /**
+     * Enables or disables the sampling
+     *
+     * @param state
+     */
+    void setSampling(bool state);
+
+    /**
+     * Enables or disables vsync
+     *
+     * @param state to set
+     * @return true if state was successfully set
+     */
+    bool setVSync(bool state);
 };
 
 #endif //OPENE2140_WINDOW_H

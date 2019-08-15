@@ -741,6 +741,8 @@ void Renderer::drawRectangle(const Rectangle& rectangle, float width, const Colo
 
 bool Renderer::flush() {
     if (verticesCount > 0) {
+        flushes++;
+
         //Load combined matrix before drawing
         glm::mat4 combined = projection * view;
         glUniformMatrix4fv(uCombinedLocations[activeProgram], 1, GL_FALSE, glm::value_ptr(combined));

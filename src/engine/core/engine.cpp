@@ -225,10 +225,13 @@ void Engine::draw() {
 
     //Flush renderer
     renderer->flush();
+    size_t flushes = renderer->flushes;
+    renderer->flushes = 0;
 
     //Update window
     float elapsed = std::max(0.0001f, timer->elapsed());
-    window->setTitle(std::to_string(static_cast<int>(std::round(1.0f / elapsed))) + " FPS");
+    int fps = static_cast<int>(std::round(1.0f / elapsed));
+    window->setTitle(std::to_string(fps) + " FPS " + std::to_string(flushes) + " Flushes");
     window->swap();
 }
 

@@ -108,6 +108,7 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     int tileEndY = std::min(tileRectangle.h, (viewY + rectangle.h) / tileSize + 1);
     int drawTileSize = tileSize * scaling;
     //Iterate each tile inside rectangle
+    std::vector<Rectangle> rectangles;
     for (int y = tileStartY; y < tileEndY; ++y) {
         for (int x = tileStartX; x < tileEndX; ++x) {
             //Get current image of tile and draw it
@@ -127,17 +128,19 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
                     *image,
                     nullptr
             );
+
+            //Store rectangles for later
             if (debugTiles) {
-                const ColorRGBA debugColor {0xA0, 0xA0, 0xA0, 0x60};
-                renderer->drawRectangle(
-                        static_cast<float>(tx),
-                        static_cast<float>(ty),
-                        static_cast<float>(drawTileSize),
-                        static_cast<float>(drawTileSize),
-                        1,
-                        debugColor
-                );
+                rectangles.emplace_back(tx, ty, drawTileSize, drawTileSize);
             }
+        }
+    }
+
+    //Draw debug rectangles
+    if (debugTiles) {
+        const ColorRGBA debugColor {0xA0, 0xA0, 0xA0, 0x20};
+        for (const Rectangle& rect : rectangles) {
+            renderer->drawRectangle(rect, 1, debugColor);
         }
     }
 }

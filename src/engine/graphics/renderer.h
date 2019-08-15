@@ -178,6 +178,11 @@ private:
     void prepareImage(size_t indicesAmount, const Image& image, const Palette* paletteExtra);
 public:
     /**
+     * Flush counter
+     */
+    size_t flushes;
+
+    /**
      * Constructs loader
      */
     Renderer();

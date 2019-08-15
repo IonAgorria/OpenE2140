@@ -571,7 +571,6 @@ void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, c
 }
 
 void Renderer::drawRectangle(float x, float y, float w, float h, float width, const ColorRGBA& color) {
-    prepare(24, PROGRAM_COLOR);
 
     //Calculate stuff
     float r = static_cast<float>(color.r) / 255.0f;
@@ -579,104 +578,155 @@ void Renderer::drawRectangle(float x, float y, float w, float h, float width, co
     float b = static_cast<float>(color.b) / 255.0f;
     float a = static_cast<float>(color.a) / 255.0f;
 
-    //Bottom
-    indices[indicesCount++] = verticesCount;
-    indices[indicesCount++] = verticesCount + 1;
-    indices[indicesCount++] = verticesCount + 2;
-    indices[indicesCount++] = verticesCount + 2;
-    indices[indicesCount++] = verticesCount + 1;
-    indices[indicesCount++] = verticesCount + 3;
+    if (0 < width) {
+        //Rectangle with hole inside
+        prepare(24, PROGRAM_COLOR);
 
-    //Left
-    indices[indicesCount++] = verticesCount;
-    indices[indicesCount++] = verticesCount + 2;
-    indices[indicesCount++] = verticesCount + 6;
-    indices[indicesCount++] = verticesCount + 6;
-    indices[indicesCount++] = verticesCount + 2;
-    indices[indicesCount++] = verticesCount + 4;
+        //Bottom
+        indices[indicesCount++] = verticesCount;
+        indices[indicesCount++] = verticesCount + 1;
+        indices[indicesCount++] = verticesCount + 2;
+        indices[indicesCount++] = verticesCount + 2;
+        indices[indicesCount++] = verticesCount + 1;
+        indices[indicesCount++] = verticesCount + 3;
 
-    //Right
-    indices[indicesCount++] = verticesCount + 3;
-    indices[indicesCount++] = verticesCount + 1;
-    indices[indicesCount++] = verticesCount + 5;
-    indices[indicesCount++] = verticesCount + 5;
-    indices[indicesCount++] = verticesCount + 1;
-    indices[indicesCount++] = verticesCount + 7;
+        //Left
+        indices[indicesCount++] = verticesCount;
+        indices[indicesCount++] = verticesCount + 2;
+        indices[indicesCount++] = verticesCount + 6;
+        indices[indicesCount++] = verticesCount + 6;
+        indices[indicesCount++] = verticesCount + 2;
+        indices[indicesCount++] = verticesCount + 4;
 
-    //Top
-    indices[indicesCount++] = verticesCount + 4;
-    indices[indicesCount++] = verticesCount + 5;
-    indices[indicesCount++] = verticesCount + 6;
-    indices[indicesCount++] = verticesCount + 6;
-    indices[indicesCount++] = verticesCount + 5;
-    indices[indicesCount++] = verticesCount + 7;
+        //Right
+        indices[indicesCount++] = verticesCount + 3;
+        indices[indicesCount++] = verticesCount + 1;
+        indices[indicesCount++] = verticesCount + 5;
+        indices[indicesCount++] = verticesCount + 5;
+        indices[indicesCount++] = verticesCount + 1;
+        indices[indicesCount++] = verticesCount + 7;
 
-    //0 Outside bottom left
-    vertices[verticesIndex++] = x;
-    vertices[verticesIndex++] = y;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //Top
+        indices[indicesCount++] = verticesCount + 4;
+        indices[indicesCount++] = verticesCount + 5;
+        indices[indicesCount++] = verticesCount + 6;
+        indices[indicesCount++] = verticesCount + 6;
+        indices[indicesCount++] = verticesCount + 5;
+        indices[indicesCount++] = verticesCount + 7;
 
-    //1 Outside bottom right
-    vertices[verticesIndex++] = x + w;
-    vertices[verticesIndex++] = y;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //Increment the vertices count
+        verticesCount += 8;
 
-    //2 Inner bottom left
-    vertices[verticesIndex++] = x + width;
-    vertices[verticesIndex++] = y + width;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //0 Outside bottom left
+        vertices[verticesIndex++] = x;
+        vertices[verticesIndex++] = y;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
 
-    //3 Inner bottom right
-    vertices[verticesIndex++] = x + w - width;
-    vertices[verticesIndex++] = y + width;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //1 Outside bottom right
+        vertices[verticesIndex++] = x + w;
+        vertices[verticesIndex++] = y;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
 
-    //4 Inner bottom left
-    vertices[verticesIndex++] = x + width;
-    vertices[verticesIndex++] = y + h - width;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //2 Inner bottom left
+        vertices[verticesIndex++] = x + width;
+        vertices[verticesIndex++] = y + width;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
 
-    //5 Inner bottom right
-    vertices[verticesIndex++] = x + w - width;
-    vertices[verticesIndex++] = y + h - width;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //3 Inner bottom right
+        vertices[verticesIndex++] = x + w - width;
+        vertices[verticesIndex++] = y + width;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
 
-    //6 Outside top left
-    vertices[verticesIndex++] = x;
-    vertices[verticesIndex++] = y + h;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //4 Inner bottom left
+        vertices[verticesIndex++] = x + width;
+        vertices[verticesIndex++] = y + h - width;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
 
-    //7 Outside top left
-    vertices[verticesIndex++] = x + w;
-    vertices[verticesIndex++] = y + h;
-    vertices[verticesIndex++] = r;
-    vertices[verticesIndex++] = g;
-    vertices[verticesIndex++] = b;
-    vertices[verticesIndex++] = a;
+        //5 Inner bottom right
+        vertices[verticesIndex++] = x + w - width;
+        vertices[verticesIndex++] = y + h - width;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
 
-    //Increment the vertices count
-    verticesCount += 8;
+        //6 Outside top left
+        vertices[verticesIndex++] = x;
+        vertices[verticesIndex++] = y + h;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
+
+        //7 Outside top left
+        vertices[verticesIndex++] = x + w;
+        vertices[verticesIndex++] = y + h;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
+    } else {
+        //Filled rectangle
+        prepare(6, PROGRAM_COLOR);
+
+        //Add the indices
+        indices[indicesCount++] = verticesCount;
+        indices[indicesCount++] = verticesCount + 1;
+        indices[indicesCount++] = verticesCount + 2;
+        indices[indicesCount++] = verticesCount + 2;
+        indices[indicesCount++] = verticesCount + 1;
+        indices[indicesCount++] = verticesCount + 3;
+
+        //Increment the vertices count
+        verticesCount += 4;
+
+        //Bottom left
+        vertices[verticesIndex++] = x;
+        vertices[verticesIndex++] = y;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
+
+        //Bottom right
+        vertices[verticesIndex++] = x + w;
+        vertices[verticesIndex++] = y;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
+
+        //Top left
+        vertices[verticesIndex++] = x;
+        vertices[verticesIndex++] = y + h;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
+
+        //Top right
+        vertices[verticesIndex++] = x + w;
+        vertices[verticesIndex++] = y + h;
+        vertices[verticesIndex++] = r;
+        vertices[verticesIndex++] = g;
+        vertices[verticesIndex++] = b;
+        vertices[verticesIndex++] = a;
+    }
 }
 
 void Renderer::drawRectangle(const Rectangle& rectangle, float width, const ColorRGBA& color) {
@@ -700,7 +750,6 @@ bool Renderer::flush() {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * indicesCount, indices, GL_DYNAMIC_DRAW);
 
         //Draw it
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboHandle);
         glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_SHORT, 0);
 
         //Check any error

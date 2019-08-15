@@ -11,7 +11,7 @@
 
 Renderer::Renderer() {
     log = Log::get("Renderer");
-    activeProgram = PROGRAM_RECTANGLE_TEXTURE;
+    activeProgram = PROGRAM_TEXTURE;
 
     initShaderPrograms();
     if (!error.empty()) return;
@@ -48,9 +48,9 @@ Renderer::Renderer() {
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe mode
 
     //Set the texture units for samplers
-    glUseProgram(programHandles[PROGRAM_RECTANGLE_TEXTURE]);
+    glUseProgram(programHandles[PROGRAM_TEXTURE]);
     glUniform1i(uTextureImageRGBALocation, 0);
-    glUseProgram(programHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE]);
+    glUseProgram(programHandles[PROGRAM_PALETTE_TEXTURE]);
     glUniform1i(uTextureImagePaletteLocation, 1);
     glUniform1i(uTexturePaletteLocation, 2);
     glUniform1i(uTexturePaletteExtraLocation, 3);
@@ -191,23 +191,19 @@ void Renderer::initShaderPrograms() {
     //Load shaders
     programVertexHandle = loadShader(GL_VERTEX_SHADER, VERTEX_SHADER);
     if (!error.empty()) return;
-    programFragmentHandles[PROGRAM_RECTANGLE_TEXTURE] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_TEXTURE);
+    programFragmentHandles[PROGRAM_TEXTURE] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_TEXTURE);
     if (!error.empty()) return;
-    programFragmentHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_PALETTE_TEXTURE);
+    programFragmentHandles[PROGRAM_PALETTE_TEXTURE] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_PALETTE_TEXTURE);
     if (!error.empty()) return;
-    programFragmentHandles[PROGRAM_RECTANGLE_COLOR] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_COLOR);
-    if (!error.empty()) return;
-    programFragmentHandles[PROGRAM_LINE_COLOR] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_COLOR);
+    programFragmentHandles[PROGRAM_COLOR] = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_COLOR);
     if (!error.empty()) return;
 
     //Create programs
-    loadProgram(PROGRAM_RECTANGLE_TEXTURE);
+    loadProgram(PROGRAM_TEXTURE);
     if (!error.empty()) return;
-    loadProgram(PROGRAM_RECTANGLE_PALETTE_TEXTURE);
+    loadProgram(PROGRAM_PALETTE_TEXTURE);
     if (!error.empty()) return;
-    loadProgram(PROGRAM_RECTANGLE_COLOR);
-    if (!error.empty()) return;
-    loadProgram(PROGRAM_LINE_COLOR);
+    loadProgram(PROGRAM_COLOR);
     if (!error.empty()) return;
 
     //Get the locations
@@ -225,8 +221,8 @@ void Renderer::initShaderPrograms() {
         if (!error.empty()) return;
         uCombinedLocations[i] = location;
     }
-    uTextureImageRGBALocation = glGetUniformLocation(programHandles[PROGRAM_RECTANGLE_TEXTURE], "uTextureImageRGBA");
-    GLint programPaletteTexture = programHandles[PROGRAM_RECTANGLE_PALETTE_TEXTURE];
+    uTextureImageRGBALocation = glGetUniformLocation(programHandles[PROGRAM_TEXTURE], "uTextureImageRGBA");
+    GLint programPaletteTexture = programHandles[PROGRAM_PALETTE_TEXTURE];
     uPaletteExtraOffsetLocation = glGetUniformLocation(programPaletteTexture, "uPaletteExtraOffset");
     uTextureImagePaletteLocation = glGetUniformLocation(programPaletteTexture, "uTextureImagePalette");
     uTexturePaletteLocation = glGetUniformLocation(programPaletteTexture, "uTexturePalette");
@@ -309,14 +305,14 @@ void Renderer::prepareImage(size_t indicesAmount, const Image& image, const Pale
     int requiredProgram;
     if (palette) {
         //Palette image
-        requiredProgram = PROGRAM_RECTANGLE_PALETTE_TEXTURE;
+        requiredProgram = PROGRAM_PALETTE_TEXTURE;
         bool textureImageChanged = !lastTextureImagePalette || lastTextureImagePalette != image.getTexture();
         bool texturePaletteChanged = !lastTexturePalette || lastTexturePalette != palette->getTexture();
         bool texturePaletteExtraChanged = paletteExtra && (!lastTexturePaletteExtra || lastTexturePaletteExtra != paletteExtra->getTexture());
         needFlush = textureImageChanged || texturePaletteChanged || texturePaletteExtraChanged;
     } else {
         //RGBA image
-        requiredProgram = PROGRAM_RECTANGLE_TEXTURE;
+        requiredProgram = PROGRAM_TEXTURE;
         needFlush = !lastTextureImageRGBA || lastTextureImageRGBA != image.getTexture();
     }
     needFlush = prepare(indicesAmount, requiredProgram, needFlush);
@@ -445,7 +441,7 @@ void Renderer::drawImage(const Vector2& position, const Vector2& size, float ang
 }
 
 void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color) {
-    prepare(6, PROGRAM_LINE_COLOR);
+    prepare(6, PROGRAM_COLOR);
 
     //Add the indices
     indices[indicesCount++] = verticesCount;
@@ -512,7 +508,7 @@ void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, c
 }
 
 void Renderer::drawRectangle(float x, float y, float w, float h, float width, const ColorRGBA& color) {
-    prepare(24, PROGRAM_RECTANGLE_COLOR);
+    prepare(24, PROGRAM_COLOR);
 
     //Calculate stuff
     float r = static_cast<float>(color.r) / 255.0f;

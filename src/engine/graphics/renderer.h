@@ -11,11 +11,10 @@
 #include "engine/io/log.h"
 #include "image.h"
 
-#define PROGRAM_RECTANGLE_TEXTURE 0
-#define PROGRAM_RECTANGLE_PALETTE_TEXTURE 1
-#define PROGRAM_RECTANGLE_COLOR 2
-#define PROGRAM_LINE_COLOR 3
-#define PROGRAM_COUNT 4
+#define PROGRAM_TEXTURE 0
+#define PROGRAM_PALETTE_TEXTURE 1
+#define PROGRAM_COLOR 2
+#define PROGRAM_COUNT 3
 #define MAX_BATCH_VERTICES 10240 //If this exceeds ushort switch the indices to uint
 #define MAX_COMPONENTS_PER_VERTICE 6
 

@@ -6,7 +6,7 @@
 
 #include "engine/simulation/entities/entity_factory.h"
 #include "engine/simulation/components/component.h"
-#include "engine/simulation/components/animation_component.h"
+#include "engine/simulation/components/image_component.h"
 #include "engine/simulation/components/faction_component.h"
 #include "engine/simulation/components/player_component.h"
 #include "game/components/palette_setup_component.h"
@@ -23,8 +23,8 @@ CLASS_COMPONENT(Building, BuildingComponent)
 CLASS_ENTITY_COMPONENTS(Entity, Building,
                         PlayerComponent,
                         FactionComponent,
-                        PaletteSetupComponent, //before AnimationComponent
-        AnimationComponent
+                        PaletteSetupComponent, //before ImageComponent
+        ImageComponent
 )
 public:
     void simulationChanged() override;

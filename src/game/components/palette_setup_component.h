@@ -43,7 +43,7 @@ public:
 
         //Setup palette size
         if (0 < lowestEntry) {
-            AnimationComponent* animationComponent = GET_COMPONENT(base, AnimationComponent);
+            ImageComponent* animationComponent = GET_COMPONENT(base, ImageComponent);
             animationComponent->extraPaletteSize = 0x100 - lowestEntry;
         }
     }
@@ -52,8 +52,8 @@ public:
         if (!base->isActive()) {
             return;
         }
-        //AnimationComponent* animationComponent = GET_COMPONENT(base, AnimationComponent);
-        //Palette* palette = animationComponent->getExtraPalette();
+        //ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+        //Palette* palette = imageComponent->getExtraPalette();
 
         //Load player color
         /* TODO set color to palette

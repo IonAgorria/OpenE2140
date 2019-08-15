@@ -20,12 +20,12 @@ void Building::simulationChanged() {
 void Building::chooseSprite() {
     //Load default sprites
     //TODO if (health)
-    //setAnimationFromSprite("damaged");
-    setAnimationFromSprite("default");
+    //setImageFromSprite("damaged");
+    setImageFromSprite("default");
 }
 
 void Building::draw() {
-    AnimationComponent::draw(renderer);
+    ImageComponent::draw(renderer);
 }
 
 void BuildingFactory::setupEntityConfig(EntityConfig* config) {

@@ -201,12 +201,8 @@
             }
         },
         "sprites": {
-            "default": {
-                "index": 57
-            },
-            "damaged": {
-                "index": 58
-            }
+            "default": 57,
+            "damaged": 58
         }
     },
     {
@@ -224,7 +220,11 @@
             "kt30",
             "russ_3",
             "ttre_300"
-        ]
+        ],
+        "sprites": {
+            "default": 18,
+            "damaged": 19
+        }
     },
     {
         "id": 8,
@@ -255,6 +255,10 @@
         "health": 500,
         "capacity": {
             "light": 4
+        },
+        "sprites": {
+            "default": 41,
+            "damaged": 42
         }
     },
     {
@@ -269,6 +273,10 @@
         "health": 500,
         "capacity": {
             "light": 4
+        },
+        "sprites": {
+            "default": 63,
+            "damaged": 64
         }
     },
     {
@@ -278,6 +286,10 @@
         "layout": [
             [0, 0, 2, 2]
         ],
+        "sprites": {
+            "default": 4,
+            "damaged": 5
+        },
         "consumed_energy": 700,
         "health": 200
     },
@@ -319,7 +331,11 @@
                 "price": 200,
                 "weapon": "laser"
             }
-        ]
+        ],
+        "sprites": {
+            "default": 51,
+            "damaged": 52
+        }
     },
     {
         "id": 14,
@@ -337,7 +353,11 @@
                 "price": 200,
                 "weapon": "rocket"
             }
-        ]
+        ],
+        "sprites": {
+            "default": 72,
+            "damaged": 73
+        }
     },
     {
         "id": 15,
@@ -355,7 +375,11 @@
                 "price": 300,
                 "weapon": "ion"
             }
-        ]
+        ],
+        "sprites": {
+            "default": 53,
+            "damaged": 54
+        }
     },
     {
         "id": 16,
@@ -373,7 +397,11 @@
                 "price": 200,
                 "weapon": "plasma"
             }
-        ]
+        ],
+        "sprites": {
+            "default": 74,
+            "damaged": 75
+        }
     },
     {
         "id": 17,
@@ -384,7 +412,11 @@
             [0, 0, 1, 1]
         ],
         "consumed_energy": 50,
-        "health": 900
+        "health": 900,
+        "sprites": {
+            "default": 49,
+            "damaged": 50
+        }
     },
     {
         "id": 18,
@@ -393,6 +425,10 @@
         "layout": [
             [0, 0, 2, 2]
         ],
+        "sprites": {
+            "default": 0,
+            "damaged": 1
+        },
         "consumed_energy": 0,
         "health": 600,
         "upgrades": [
@@ -417,14 +453,25 @@
         "id": 19,
         "code": "refinery",
         "faction": null,
+        "bounds": [0, 0, 3, 2],
         "layout": [
-            [0, 0, 2, 2],
+            [0, 0, 2, 1],
             [2, 0, 1, 1]
         ],
         "consumed_energy": 300,
         "health": 800,
         "capacity": {
             "light": 6
+        },
+        "objects": {
+            "conveyor_belt": {
+                "type": "conveyor_belt",
+                "position": [2, 0]
+            }
+        },
+        "sprites": {
+            "default": 6,
+            "damaged": 7
         }
     },
     {
@@ -435,7 +482,13 @@
             [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
-        "health": 500
+        "health": 500,
+        "sprites": {
+            "default": 14,
+            "damaged": 15,
+            "pad_left": 16,
+            "pad_right": 17
+        }
     },
     {
         "id": 21,
@@ -446,7 +499,15 @@
             [0, 0, 1, 1]
         ],
         "consumed_energy": 500,
-        "health": 500
+        "health": 500,
+        "sprites": {
+            "default": 65,
+            "damaged": 66,
+            "open": {
+                "index": 67,
+                "length": 5
+            }
+        }
     },
     {
         "id": 22,
@@ -457,12 +518,21 @@
             [0, 0, 1, 1]
         ],
         "consumed_energy": 100,
-        "health": 500
+        "health": 500,
+        "sprites": {
+            "default": 43,
+            "damaged": 48,
+            "open_0": 44,
+            "open_1": 45,
+            "open_2_top": 46,
+            "open_2_bottom": 47
+        }
     },
     {
         "id": 23,
         "code": "mine",
         "faction": null,
+        "bounds": [0, 0, 3, 2],
         "layout": [
             [0, 0, 2, 2],
             [2, 0, 1, 1]
@@ -471,6 +541,17 @@
         "health": 500,
         "capacity": {
             "light": 6
+        },
+        "objects": {
+            "conveyor_belt": {
+                "type": "conveyor_belt",
+                "position": [2, 0]
+            }
+        },
+        "sprites": {
+            "default": 26,
+            "damaged": 27,
+            "flywheel": [28, 29, 30, 31, 32]
         }
     },
     {

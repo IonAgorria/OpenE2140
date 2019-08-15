@@ -77,7 +77,7 @@ The following game assets must be present in WD file or directory form:
 - Weapons:
     - Weapon data loading into Weapon(Config?) at simulation startup
     - Usage of weapon data when weapon is instanced
-- Turrets
+- Turrets:
     - Turret(s) containing component
     - Tracking the current target with turret
 - Attack order

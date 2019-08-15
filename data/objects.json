@@ -1,5 +1,9 @@
 [
   {
+    "id": 0,
+    "sprites": {}
+  },
+  {
     "id": 69,
     "type": "mine",
     "sprites": {
@@ -396,8 +400,8 @@
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
-      "exit_0": 58,
-      "exit_1": 89
+      "exit_0": 59,
+      "exit_1": 60
     }
   },
   {
@@ -426,6 +430,19 @@
         "index": 37,
         "length": 8,
         "separation": 1
+      }
+    }
+  },
+  {
+    "id": 207,
+    "code": "conveyor_belt",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "head": 8,
+      "body": {
+        "index": 9,
+        "length": 3
       }
     }
   }

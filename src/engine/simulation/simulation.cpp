@@ -9,14 +9,11 @@
 #include "player.h"
 #include "entities/entity.h"
 #include "components/player_component.h"
-#include "components/faction_component.h"
 #include "entities/entity_manager.h"
 #include "world/world.h"
 #include "engine/assets/asset.h"
 #include "engine/assets/asset_level.h"
-#include "engine/assets/asset_manager.h"
 #include "simulation.h"
-#include "pathfinder/path_handler.h"
 
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters> parameters):
         parameters(std::move(parameters)), engine(std::move(engine)) {

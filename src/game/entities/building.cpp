@@ -13,6 +13,7 @@ void Building::simulationChanged() {
     World* world = simulation->getWorld();
     world->toWorldRectangle(config->bounds, bounds);
     bounds += Rectangle(position, Vector2());
+    imageOffset += Vector2(world->tileSizeHalf);
     chooseSprite();
 }
 

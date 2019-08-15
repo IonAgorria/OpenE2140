@@ -128,7 +128,7 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
                     nullptr
             );
             if (debugTiles) {
-                const ColorRGBA debugColor {0x80, 0x80, 0x80, 0x80};
+                const ColorRGBA debugColor {0xA0, 0xA0, 0xA0, 0x60};
                 renderer->drawRectangle(
                         static_cast<float>(tx),
                         static_cast<float>(ty),
@@ -190,8 +190,8 @@ void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
 
 void World::toWorldRectangle(const Rectangle& rectangle, Rectangle& result) {
     result.set(
-            rectangle.x * tileSize + tileSizeHalf, rectangle.y * tileSize + tileSizeHalf,
-            rectangle.w * tileSize + tileSizeHalf, rectangle.h * tileSize + tileSizeHalf
+            rectangle.x * tileSize - tileSizeHalf, rectangle.y * tileSize - tileSizeHalf,
+            rectangle.w * tileSize, rectangle.h * tileSize
     );
 }
 

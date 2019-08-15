@@ -5,8 +5,8 @@
         "type": "construction_factory",
         "faction": "ed",
         "layout": [
-            [-1, -1, 3, 2],
-            [1, 1, 1, 1]
+            [0, 0, 3, 2],
+            [2, 2, 1, 1]
         ],
         "consumed_energy": 0,
         "health": 1500,
@@ -48,8 +48,8 @@
         "type": "construction_factory",
         "faction": "ucs",
         "layout": [
-            [-1, -1, 2, 2],
-            [0, 1, 1, 1]
+            [0, 0, 2, 2],
+            [1, 2, 1, 1]
         ],
         "consumed_energy": 0,
         "health": 1500,
@@ -75,8 +75,8 @@
         "type": "heavy_factory",
         "faction": "ed",
         "layout": [
-            [-1, -1, 2, 2],
-            [1, 0, 1, 1]
+            [0, 0, 2, 2],
+            [2, 1, 1, 1]
         ],
         "consumed_energy": 400,
         "health": 1000,
@@ -114,7 +114,7 @@
         "type": "heavy_factory",
         "faction": "ucs",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 400,
         "health": 1000,
@@ -157,7 +157,7 @@
         "type": "light_factory",
         "faction": "ed",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
         "health": 700,
@@ -184,7 +184,7 @@
         "type": "light_factory",
         "faction": "ucs",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
         "health": 700,
@@ -214,7 +214,7 @@
         "code": "water_base",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 300,
         "health": 900,
@@ -231,7 +231,7 @@
         "code": "research_center",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
         "health": 800,
@@ -249,7 +249,7 @@
         "type": "superweapon_control",
         "faction": "ed",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
         "health": 500,
@@ -263,7 +263,7 @@
         "type": "superweapon_control",
         "faction": "ucs",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
         "health": 500,
@@ -276,7 +276,7 @@
         "code": "teleport",
         "faction": "ucs",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 700,
         "health": 200
@@ -286,7 +286,7 @@
         "code": "shelter",
         "faction": null,
         "layout": [
-            [0, -1, 1, 1]
+            [1, 0, 1, 1]
         ],
         "consumed_energy": 0,
         "health": 2000,
@@ -391,7 +391,7 @@
         "code": "power_plant",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 0,
         "health": 600,
@@ -418,8 +418,8 @@
         "code": "refinery",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2],
-            [1, -1, 1, 1]
+            [0, 0, 2, 2],
+            [2, 0, 1, 1]
         ],
         "consumed_energy": 300,
         "health": 800,
@@ -432,7 +432,7 @@
         "code": "air_base",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 200,
         "health": 500
@@ -464,8 +464,8 @@
         "code": "mine",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2],
-            [1, -1, 1, 1]
+            [0, 0, 2, 2],
+            [2, 0, 1, 1]
         ],
         "consumed_energy": -2000,
         "health": 500,
@@ -479,7 +479,7 @@
         "type": "civilian",
         "faction": null,
         "layout": [
-            [-1, -1, 3, 2]
+            [0, 0, 3, 2]
         ],
         "consumed_energy": 0,
         "health": 500,
@@ -497,7 +497,7 @@
         "type": "civilian",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 0,
         "health": 500,
@@ -515,7 +515,7 @@
         "type": "civilian",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 0,
         "health": 500,
@@ -533,7 +533,7 @@
         "type": "civilian",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 0,
         "health": 500,
@@ -551,7 +551,7 @@
         "type": "civilian",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 0,
         "health": 500,
@@ -569,7 +569,7 @@
         "type": "civilian",
         "faction": null,
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 0,
         "health": 500,
@@ -586,7 +586,7 @@
         "code": "sdi_defence",
         "faction": "ucs",
         "layout": [
-            [-1, -1, 2, 2]
+            [0, 0, 2, 2]
         ],
         "consumed_energy": 1000,
         "health": 500,

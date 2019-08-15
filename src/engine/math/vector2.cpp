@@ -4,22 +4,22 @@
 #include <iostream>
 #include "vector2.h"
 
-Vector2::Vector2(int x, int y) {
+Vector2::Vector2(int x, int y): SDL_Point() {
     this->x = x;
     this->y = y;
 }
 
-Vector2::Vector2(int v) {
+Vector2::Vector2(int v): SDL_Point() {
     this->x = v;
     this->y = v;
 }
 
-Vector2::Vector2(const Vector2& vector2) {
+Vector2::Vector2(const Vector2& vector2): SDL_Point(vector2) {
     this->x = vector2.x;
     this->y = vector2.y;
 }
 
-Vector2::Vector2() {
+Vector2::Vector2(): SDL_Point() {
     this->x = 0;
     this->y = 0;
 }
@@ -82,12 +82,65 @@ Vector2 Vector2::operator/(Vector2 const &vector2) const {
     );
 }
 
+void Vector2::operator+=(int v) {
+    this->x += v;
+    this->y += v;
+}
+
+void Vector2::operator-=(int v) {
+    this->x -= v;
+    this->y -= v;
+}
+
+void Vector2::operator*=(int v) {
+    this->x *= v;
+    this->y *= v;
+}
+
+void Vector2::operator/=(int v) {
+    this->x /= v;
+    this->y /= v;
+}
+
+Vector2 Vector2::operator+(int v) const {
+    return Vector2(
+            this->x + v,
+            this->y + v
+    );
+}
+
+Vector2 Vector2::operator-(int v) const {
+    return Vector2(
+            this->x - v,
+            this->y - v
+    );
+}
+
+Vector2 Vector2::operator*(int v) const {
+    return Vector2(
+            this->x * v,
+            this->y * v
+    );
+}
+
+Vector2 Vector2::operator/(int v) const {
+    return Vector2(
+            this->x / v,
+            this->y / v
+    );
+}
+
 Vector2::operator bool() const {
     return 0 != x && 0 != y;
 }
 
 bool Vector2::zero() const {
     return 0 == x && 0 == y;
+}
+
+void Vector2::set(int v) {
+    this->x = v;
+    this->y = v;
 }
 
 void Vector2::set(int x, int y) {

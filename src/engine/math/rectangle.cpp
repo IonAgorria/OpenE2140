@@ -3,35 +3,35 @@
 //
 #include "rectangle.h"
 
-Rectangle::Rectangle(int x, int y, int width, int height) {
+Rectangle::Rectangle(int x, int y, int width, int height): SDL_Rect() {
     this->x = x;
     this->y = y;
     this->w = width;
     this->h = height;
 }
 
-Rectangle::Rectangle(const Vector2& position, const Vector2& size) {
+Rectangle::Rectangle(const Vector2& position, const Vector2& size): SDL_Rect() {
     this->x = position.x;
     this->y = position.y;
     this->w = size.x;
     this->h = size.y;
 }
 
-Rectangle::Rectangle(const Rectangle& rectangle) {
+Rectangle::Rectangle(const Rectangle& rectangle): SDL_Rect(rectangle) {
     this->x = rectangle.x;
     this->y = rectangle.y;
     this->w = rectangle.w;
     this->h = rectangle.h;
 }
 
-Rectangle::Rectangle(int v) {
+Rectangle::Rectangle(int v): SDL_Rect() {
     this->x = v;
     this->y = v;
     this->w = v;
     this->h = v;
 }
 
-Rectangle::Rectangle() {
+Rectangle::Rectangle(): SDL_Rect() {
     this->x = 0;
     this->y = 0;
     this->w = 0;

@@ -120,6 +120,66 @@ public:
     Vector2 operator/(Vector2 const &vector2) const;
 
     /**
+     * Adds vector values to this vector
+     *
+     * @param v
+     */
+    void operator+=(int v);
+
+    /**
+     * Subtract vector values to this vector
+     *
+     * @param v
+     */
+    void operator-=(int v);
+
+    /**
+     * Multiply vector values with this vector values
+     *
+     * @param v
+     */
+    void operator*=(int v);
+
+    /**
+     * Divides vector values with this vector values
+     *
+     * @param v
+     */
+    void operator/=(int v);
+
+    /**
+     * Adds vector values to this vector
+     *
+     * @param v
+     * @return resulting vector
+     */
+    Vector2 operator+(int v) const;
+
+    /**
+     * Subtract vector values to this vector
+     *
+     * @param v
+     * @return resulting vector
+     */
+    Vector2 operator-(int v) const;
+
+    /**
+     * Multiply vector values with this vector values
+     *
+     * @param v
+     * @return resulting vector
+     */
+    Vector2 operator*(int v) const;
+
+    /**
+     * Divides vector values with this vector values
+     *
+     * @param v
+     * @return resulting vector
+     */
+    Vector2 operator/(int v) const;
+
+    /**
      * @return true if vector is not zero
      */
     explicit operator bool() const;
@@ -128,6 +188,13 @@ public:
      * @return true if vector x and y is 0
      */
     bool zero() const;
+
+    /**
+     * Sets vector components
+     *
+     * @param v value
+     */
+    void set(int v);
 
     /**
      * Sets vector components

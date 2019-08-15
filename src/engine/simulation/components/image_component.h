@@ -28,11 +28,6 @@ protected:
      */
     std::unique_ptr<Animation> animation;
 
-    /**
-     * Optional palette to provide when drawing image
-     */
-    std::unique_ptr<Palette> extraPalette;
-
 public:
     /**
      * Image offset from entity center
@@ -50,14 +45,14 @@ public:
     float imageDirection = 0;
 
     /**
+     * Optional palette to provide when drawing image
+     */
+    Palette* extraPalette;
+
+    /**
      * Animation play state
      */
     bool animationPlay = true;
-
-    /**
-     * Extra palette size if any
-     */
-    unsigned int extraPaletteSize = 0;
 
     /**
      * Draws this component
@@ -70,11 +65,6 @@ public:
      * @return animation in component
      */
     Animation* getAnimation() const;
-
-    /**
-     * @return extra palette in component if any
-     */
-    Palette* getExtraPalette() const;
 
     /**
      * Sets the image from sprite

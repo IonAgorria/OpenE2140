@@ -8,9 +8,6 @@
 CLASS_COMPONENT_DEFAULT(ImageComponent)
 
 void ImageComponent::setup() {
-    if (0 < extraPaletteSize) {
-        extraPalette = std::make_unique<Palette>(extraPaletteSize, true);
-    }
 }
 
 void ImageComponent::simulationChanged() {
@@ -30,16 +27,12 @@ void ImageComponent::draw(Renderer* renderer) {
     if (image) {
         Vector2 position = base->getPosition();
         position += imageOffset;
-        renderer->drawImage(position, imageSize, imageDirection, *image, nullptr);
+        renderer->drawImage(position, imageSize, imageDirection, *image, extraPalette);
     }
 }
 
 Animation* ImageComponent::getAnimation() const {
     return animation.get();
-}
-
-Palette* ImageComponent::getExtraPalette() const {
-    return extraPalette.get();
 }
 
 void ImageComponent::setImageFromSprite(const std::string& code) {

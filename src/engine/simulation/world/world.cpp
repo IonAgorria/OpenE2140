@@ -138,9 +138,8 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
 
     //Draw debug rectangles
     if (debugTiles) {
-        const ColorRGBA debugColor {0xA0, 0xA0, 0xA0, 0x20};
         for (const Rectangle& rect : rectangles) {
-            renderer->drawRectangle(rect, 1, debugColor);
+            renderer->drawRectangle(rect, 1, Color::DEBUG_WORLD);
         }
     }
 }

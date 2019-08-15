@@ -31,6 +31,11 @@ protected:
      */
     bool check();
 
+    /**
+     * Flag for dirty state of colors compared to texture
+     */
+    bool dirty;
+
 public:
     /**
      * Is palette for extra colors?
@@ -48,7 +53,7 @@ public:
     /**
      * Palette destructor
      */
-    ~Palette();
+    ~Palette() override;
 
     /**
      * Disable copy/move
@@ -70,7 +75,7 @@ public:
      *
      * @return true if OK
      */
-    bool set(Palette& palette);
+    bool set(const Palette& palette);
 
     /**
      * Gets the color value at index in this palette
@@ -88,7 +93,7 @@ public:
      * @param color struct to use
      * @return true if OK
      */
-    bool setColor(unsigned int index, ColorRGBA& color);
+    bool setColor(unsigned int index, const ColorRGBA& color);
 
     /**
      * Sets the color value at index in this palette
@@ -97,7 +102,7 @@ public:
      * @param color struct to use
      * @return true if OK
      */
-    bool setColor(unsigned int index, ColorRGB& color);
+    bool setColor(unsigned int index, const ColorRGB& color);
 
     /**
      * Binds the texture for use

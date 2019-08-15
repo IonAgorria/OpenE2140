@@ -5,6 +5,8 @@
 #include "palette.h"
 
 Palette::Palette(unsigned int size, bool extra): extra(extra) {
+    dirty = false;
+
     //Reserve colors
     ColorRGBA color;
     for (unsigned int i = 0; i < size; ++i) {
@@ -53,13 +55,13 @@ unsigned long Palette::length() const {
     return colors.size();
 }
 
-bool Palette::set(Palette& palette) {
+bool Palette::set(const Palette& palette) {
     for (size_t i = 0; i < palette.length(); ++i) {
         ColorRGBA color;
         if (!palette.getColor(i, color)) {
             return false;
         }
-        if (!setColor(i,color)) {
+        if (!setColor(i, color)) {
             return false;
         }
     }
@@ -75,23 +77,25 @@ bool Palette::getColor(unsigned int index, ColorRGBA& color) const {
     return true;
 }
 
-bool Palette::setColor(unsigned int index, ColorRGBA& color) {
+bool Palette::setColor(unsigned int index, const ColorRGBA& color) {
     //Check index
     if (index >= length()) {
         error = "Index out of bounds: " + std::to_string(index) + " color " + color.toString();
         return false;
     }
     colors[index].setRGBA(color);
+    dirty = true;
     return true;
 }
 
-bool Palette::setColor(unsigned int index, ColorRGB& color) {
+bool Palette::setColor(unsigned int index, const ColorRGB& color) {
     //Check index
     if (index >= length()) {
         error = "Index out of bounds: " + std::to_string(index) + " color " + color.toString();
         return false;
     }
     colors[index].setRGB(color);
+    dirty = true;
     return true;
 }
 
@@ -123,10 +127,14 @@ GLuint Palette::getTexture() const {
 }
 
 bool Palette::updateTexture() {
-    bindTexture();
-    glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, colors.size(), 0, GL_RGBA, GL_UNSIGNED_BYTE, colors.data());
-    error = Utils::checkGLError();
-    return error.empty();
+    if (dirty) {
+        dirty = false;
+        bindTexture();
+        glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, colors.size(), 0, GL_RGBA, GL_UNSIGNED_BYTE, colors.data());
+        error = Utils::checkGLError();
+        return error.empty();
+    }
+    return true;
 }
 
 std::string Palette::toString() const {

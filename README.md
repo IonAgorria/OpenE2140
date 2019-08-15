@@ -64,13 +64,14 @@ The following game assets must be present in WD file or directory form:
 - Basic entity implementation
 
 ## Roadmap
-- Tree shadows
 - Player colors
+- Entity attachment
+    - Building exits
 - Entity selection
+- Unit factory
 - Mobile units
 - Move order
 - Basic pathfinder
-- Buildings
 - Rectangle and circular collisions for buildings/units 
 - Basic ingame GUI
 - Menu GUI

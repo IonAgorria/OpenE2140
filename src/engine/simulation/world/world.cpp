@@ -102,10 +102,10 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     //Do pixel to tile conversions
     int viewX = rectangle.x + tileSizeHalf;
     int viewY = rectangle.y + tileSizeHalf;
-    int tileStartX = std::max(tileRectangle.x, viewX / tileSize - 1);
-    int tileStartY = std::max(tileRectangle.y, viewY / tileSize - 1);
-    int tileEndX = std::min(tileRectangle.w, (viewX + rectangle.w) / tileSize + 1);
-    int tileEndY = std::min(tileRectangle.h, (viewY + rectangle.h) / tileSize + 1);
+    int tileStartX = std::max(tileRectangle.x, viewX / tileSize);
+    int tileStartY = std::max(tileRectangle.y, viewY / tileSize);
+    int tileEndX = std::min(tileRectangle.w, (viewX + rectangle.w) / tileSize);
+    int tileEndY = std::min(tileRectangle.h, (viewY + rectangle.h) / tileSize);
     int drawTileSize = tileSize * scaling;
     //Iterate each tile inside rectangle
     std::vector<Rectangle> rectangles;

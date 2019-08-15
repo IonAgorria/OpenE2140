@@ -96,9 +96,9 @@ public:
     /**
      * Draws this simulation
      *
-     * @param rectangle the rectangle to draw
+     * @param viewport the rectangle to draw
      */
-    virtual void draw(const Rectangle& rectangle);
+    virtual void draw(const Rectangle& viewport);
 
     /**
      * @return entities in simulation
@@ -128,12 +128,12 @@ public:
     /**
      * Adds entity to simulation
      */
-    void addEntity(std::shared_ptr<Entity> entity);
+    void addEntity(const std::shared_ptr<Entity>& entity);
 
     /**
      * Removes entity from simulation
      */
-    void removeEntity(std::shared_ptr<Entity> entity);
+    void removeEntity(const std::shared_ptr<Entity>& entity);
 
     /**
      * @return current renderer

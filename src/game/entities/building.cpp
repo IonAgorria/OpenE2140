@@ -3,6 +3,7 @@
 //
 #include "engine/io/config.h"
 #include "engine/simulation/world/world.h"
+#include "engine/simulation/entities/entity_config.h"
 #include "building.h"
 
 void Building::simulationChanged() {
@@ -44,18 +45,4 @@ void Building::chooseSprite() {
 
 void Building::draw() {
     ImageComponent::draw(renderer);
-}
-
-void BuildingFactory::setupEntityConfig(EntityConfig* config) {
-    //Setup the bounds from first layout of building if bounds is not set in config and layout exists
-    config_data_t layout = config->getData("layout");
-    if (!config->getData("bounds").is_array() && layout.is_array()) {
-        Rectangle bounds;
-        if (Config::getRectangle(layout[0], bounds)) {
-            config->setData("bounds", layout[0]);
-            config->bounds = bounds;
-        }
-    }
-
-    IEntityFactory::setupEntityConfig(config);
 }

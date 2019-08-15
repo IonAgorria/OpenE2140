@@ -16,8 +16,7 @@
 #include "game/assets/asset_processor_datpal.h"
 #include "game/assets/asset_processor_level.h"
 #include "game/assets/asset_processor_mix.h"
-#include "game/entities/building.h"
-#include "game/entities/object.h"
+#include "game/entities/factories.h"
 #include "game/io/event_listener_camera.h"
 #include "game/io/event_listener_debug.h"
 #include "game.h"
@@ -73,8 +72,8 @@ void Game::run() {
     //TODO
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
-    parameters->world = "LEVEL/DATA/LEVEL01";
-    //parameters->world = "LEVEL/DATA/LEVEL06";
+    parameters->world = "LEVEL/DATA/LEVEL02";
+    parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     setupSimulation(std::move(parameters));

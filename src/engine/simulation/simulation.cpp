@@ -107,7 +107,17 @@ void Simulation::update() {
     }
 }
 
-void Simulation::draw(const Rectangle& rectangle) {
+void Simulation::draw(const Rectangle& viewport) {
+    //Obtain a slightly bigger rectangle
+    int tileSize = world->tileSize;
+    Rectangle rectangle(
+        viewport.x - tileSize,
+        viewport.y - tileSize,
+        viewport.w + tileSize * 2,
+        viewport.h + tileSize * 2
+    );
+
+    //Draw world
     Renderer* renderer = getRenderer();
     world->draw(renderer, rectangle);
 
@@ -165,12 +175,12 @@ void Simulation::createEntity(const entity_type_t& entityType) {
     }
 }
 
-void Simulation::addEntity(std::shared_ptr<Entity> entity) {
+void Simulation::addEntity(const std::shared_ptr<Entity>& entity) {
     entities.emplace_back(entity);
     entity->addedToSimulation(this);
 }
 
-void Simulation::removeEntity(std::shared_ptr<Entity> entity) {
+void Simulation::removeEntity(const std::shared_ptr<Entity>& entity) {
     Utils::eraseElementFromVector(entities, entity);
     entity->removedFromSimulation();
 }

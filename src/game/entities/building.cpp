@@ -9,11 +9,29 @@ void Building::simulationChanged() {
     if (!isActive()) {
         return;
     }
-
     World* world = simulation->getWorld();
+
+    //Set the building bounds
     world->toWorldRectangle(config->bounds, bounds);
     bounds += Rectangle(position, Vector2());
-    imageOffset += Vector2(world->tileSizeHalf);
+
+
+    //Set position to the center of bounds
+    bounds.getCenter(position);
+
+    //Layout setup to claim tiles
+    config_data_t layout = config->getData("layout");
+    if (layout.is_array()) {
+        for (config_data_t& layoutData : layout) {
+            Rectangle layoutRectangle;
+            if (!Config::getRectangle(layoutData, layoutRectangle)) {
+                continue;
+            }
+            //TODO
+        }
+    }
+
+    //Set the rest
     chooseSprite();
 }
 
@@ -29,21 +47,14 @@ void Building::draw() {
 }
 
 void BuildingFactory::setupEntityConfig(EntityConfig* config) {
-    //Setup the bounds from layout of building if bounds is not set in config and layout exists
+    //Setup the bounds from first layout of building if bounds is not set in config and layout exists
     config_data_t layout = config->getData("layout");
     if (!config->getData("bounds").is_array() && layout.is_array()) {
         Rectangle bounds;
-        //Do an union of each rectangle
-        for (config_data_t& layoutData : layout) {
-            Rectangle layoutRectangle;
-            if (Config::getRectangle(layoutData, layoutRectangle)) {
-                bounds.getUnionRectangle(layoutRectangle, bounds);
-            }
+        if (Config::getRectangle(layout[0], bounds)) {
+            config->setData("bounds", layout[0]);
+            config->bounds = bounds;
         }
-        config_data_t boundsData;
-        Config::setRectangle(bounds, boundsData);
-        config->setData("bounds", boundsData);
-        config->bounds = bounds;
     }
 
     IEntityFactory::setupEntityConfig(config);

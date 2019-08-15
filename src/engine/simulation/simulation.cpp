@@ -117,7 +117,7 @@ void Simulation::draw(const Rectangle& rectangle) {
         if (rectangle.isOverlap(bounds)) {
             entity->draw();
             if (debugEntities) {
-                const ColorRGBA debugColor {0xFF, 0, 0, 0xFF};
+                const ColorRGBA debugColor {0xFF, 0, 0, 0x40};
                 renderer->drawRectangle(bounds, 2, debugColor);
             }
         }

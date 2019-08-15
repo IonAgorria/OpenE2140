@@ -138,6 +138,8 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
         }
     } else if (!spritesData.is_null()) {
         log->error("{0} sprites root is not object nor null", toString());
+    } else {
+        log->error("{0} sprites is null", toString());
     }
 }
 

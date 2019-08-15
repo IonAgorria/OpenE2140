@@ -24,7 +24,7 @@ CLASS_ENTITY_COMPONENTS(Entity, Building,
                         PlayerComponent,
                         FactionComponent,
                         PaletteSetupComponent, //before ImageComponent
-        ImageComponent
+                        ImageComponent
 )
 public:
     void simulationChanged() override;

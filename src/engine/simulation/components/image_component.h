@@ -34,7 +34,6 @@ protected:
     std::unique_ptr<Palette> extraPalette;
 
 public:
-
     /**
      * Image offset from entity center
      */
@@ -51,6 +50,11 @@ public:
     float imageDirection = 0;
 
     /**
+     * Animation play state
+     */
+    bool animationPlay = true;
+
+    /**
      * Extra palette size if any
      */
     unsigned int extraPaletteSize = 0;
@@ -62,10 +66,14 @@ public:
      */
     void draw(Renderer* renderer);
 
-    /** @return animation in component */
+    /**
+     * @return animation in component
+     */
     Animation* getAnimation() const;
 
-    /** @return extra palette in component if any */
+    /**
+     * @return extra palette in component if any
+     */
     Palette* getExtraPalette() const;
 
     /**

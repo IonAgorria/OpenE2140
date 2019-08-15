@@ -17,7 +17,7 @@ void ImageComponent::simulationChanged() {
 }
 
 void ImageComponent::update() {
-    if (animation) {
+    if (animationPlay && animation) {
         animation->update(GAME_DELTA);
         image = animation->getCurrentFrame();
         if (image) {

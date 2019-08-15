@@ -252,6 +252,30 @@ public:
      * @param ex end position of line
      * @param ey end position of line
      * @param width of line
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void drawLine(float sx, float sy, float ex, float ey, float width, const Image& image, const Palette* paletteExtra = nullptr);
+
+    /**
+     * Draws the provided line
+     *
+     * @param start of line
+     * @param end of line
+     * @param width of line
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void drawLine(const Vector2& start, const Vector2& end, float width, const Image& image, const Palette* paletteExtra = nullptr);
+
+    /**
+     * Draws the provided line
+     *
+     * @param sx start position of line
+     * @param sy start position of line
+     * @param ex end position of line
+     * @param ey end position of line
+     * @param width of line
      * @param color of rectangle lines
      */
     void drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color);

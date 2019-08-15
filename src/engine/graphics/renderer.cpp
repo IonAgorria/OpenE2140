@@ -440,6 +440,69 @@ void Renderer::drawImage(const Vector2& position, const Vector2& size, float ang
     );
 }
 
+void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const Image& image, const Palette* paletteExtra) {
+    prepareImage(6, image, paletteExtra);
+
+    //Add the indices
+    indices[indicesCount++] = verticesCount;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 3;
+
+    //Increment the vertices count
+    verticesCount += 4;
+
+    //Calculate stuff
+    width /= 2; //Half of width is used in each side
+    float angle = static_cast<float>(std::atan2(ey - sy, ex - sx) + M_PI_2);
+    float rc = std::cos(angle) * width;
+    float rs = std::sin(angle) * width;
+
+    //Start left
+    vertices[verticesIndex++] = sx - rc;
+    vertices[verticesIndex++] = sy - rs;
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = 0;
+    vertices[verticesIndex++] = 0;
+
+    //Start right
+    vertices[verticesIndex++] = sx + rc;
+    vertices[verticesIndex++] = sy + rs;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = 1;
+    vertices[verticesIndex++] = 0;
+
+    //End left
+    vertices[verticesIndex++] = ex - rc;
+    vertices[verticesIndex++] = ey - rs;
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v2;
+    vertices[verticesIndex++] = 0;
+    vertices[verticesIndex++] = 1;
+
+    //End right
+    vertices[verticesIndex++] = ex + rc;
+    vertices[verticesIndex++] = ey + rs;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v2;
+    vertices[verticesIndex++] = 1;
+    vertices[verticesIndex++] = 1;
+}
+
+void Renderer::drawLine(const Vector2& start, const Vector2& end, float width, const Image& image, const Palette* paletteExtra) {
+    drawLine(
+            static_cast<float>(start.x),
+            static_cast<float>(start.y),
+            static_cast<float>(end.x),
+            static_cast<float>(end.y),
+            width, image, paletteExtra
+    );
+}
+
 void Renderer::drawLine(float sx, float sy, float ex, float ey, float width, const ColorRGBA& color) {
     prepare(6, PROGRAM_COLOR);
 

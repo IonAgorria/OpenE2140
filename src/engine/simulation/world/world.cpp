@@ -13,6 +13,7 @@ World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& t
     tileSizeHalf(tileSize / 2)
     {
     log = Log::get("World");
+    debugTiles = Utils::isFlag(FLAG_DEBUG_ALL);
 
     //Set dimensions
     Vector2 size;
@@ -115,15 +116,28 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
             if (!image) {
                 continue;
             }
+            int tx = x * drawTileSize;
+            int ty = y * drawTileSize;
             renderer->drawImage(
-                    static_cast<float>(tileSizeHalf + (x * drawTileSize)),
-                    static_cast<float>(tileSizeHalf + (y * drawTileSize)),
+                    static_cast<float>(tileSizeHalf + tx),
+                    static_cast<float>(tileSizeHalf + ty),
                     static_cast<float>(drawTileSize),
                     static_cast<float>(drawTileSize),
                     0,
                     *image,
                     nullptr
             );
+            if (debugTiles) {
+                const ColorRGBA debugColor {0x80, 0x80, 0x80, 0x80};
+                renderer->drawRectangle(
+                        static_cast<float>(tx),
+                        static_cast<float>(ty),
+                        static_cast<float>(drawTileSize),
+                        static_cast<float>(drawTileSize),
+                        1,
+                        debugColor
+                );
+            }
         }
     }
 }

@@ -57,6 +57,11 @@ private:
 
 public:
     /**
+     * Flag for enabling debugging tiles
+     */
+    bool debugTiles = false;
+
+    /**
      * Tileset index used in this world
      */
     const unsigned int tilesetIndex;

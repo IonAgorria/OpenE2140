@@ -29,7 +29,10 @@ int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
         std::transform(BEGIN_END(arg), arg.begin(), ::tolower);
         if (arg == "--debug" || arg == "-d") {
             Utils::setFlag(FLAG_DEBUG, true);
-        } else if (arg == "--parent") {
+        } else if (arg == "--debug_all" || arg == "-da") {
+            Utils::setFlag(FLAG_DEBUG, true);
+            Utils::setFlag(FLAG_DEBUG_ALL, true);
+        } else if (arg == "--parent" || arg == "-p") {
             Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
         } else if (arg == "--debug_opengl") {
             Utils::setFlag(FLAG_DEBUG_OPENGL, true);

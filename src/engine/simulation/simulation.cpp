@@ -21,6 +21,7 @@
 Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
         parameters(std::move(parameters)), engine(engine) {
     log = Log::get("Simulation");
+    debugEntities = Utils::isFlag(FLAG_DEBUG_ALL);
     if (!this->parameters || this->parameters->world.empty()) {
         error = "Parameters not set";
         return;
@@ -118,6 +119,10 @@ void Simulation::draw(const Rectangle& rectangle) {
         const Rectangle& bounds = entity->getBounds();
         if (rectangle.isOverlap(bounds)) {
             entity->draw();
+            if (debugEntities) {
+                const ColorRGBA debugColor {0xFF, 0, 0, 0xFF};
+                renderer->drawRectangle(bounds, 2, debugColor);
+            }
         }
     }
 }

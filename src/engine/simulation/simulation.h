@@ -64,6 +64,11 @@ private:
 
 public:
     /**
+     * Flag for enabling debugging entities
+     */
+    bool debugEntities = false;
+
+    /**
      * Constructor
      */
     Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters);

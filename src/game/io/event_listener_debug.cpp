@@ -2,13 +2,14 @@
 // Created by Ion Agorria on 28/04/19
 //
 
-#include "game/core/constants.h"
 #include "game/core/game.h"
-#include "engine/assets/asset_manager.h"
+#include "engine/simulation/simulation.h"
+#include "engine/simulation/world/world.h"
 #include "event_listener_debug.h"
 
 EventListenerDebug::EventListenerDebug(std::shared_ptr<Game> game): game(game) {
-    keyAssetsReload = game->getKeyBind("F12");
+    keyDebugEntities = game->getKeyBind("F2");
+    keyDebugTiles = game->getKeyBind("F3");
 }
 
 EventListenerDebug::~EventListenerDebug() {
@@ -19,12 +20,12 @@ EventListenerDebug::~EventListenerDebug() {
 
 bool EventListenerDebug::eventKeyChange(Window* window, input_key_t& key) {
     if (key.press && !key.repeat) {
-        if (key.code == keyAssetsReload) {
-            if (key.shift) {
-                game->getAssetManager()->loadAssets();
-            } else {
-                game->getAssetManager()->refreshAssets();
-            }
+        if (key.code == keyDebugTiles) {
+            Simulation* simulation = game->getSimulation();
+            simulation->getWorld()->debugTiles = !simulation->getWorld()->debugTiles;
+        } else if (key.code == keyDebugEntities) {
+            Simulation* simulation = game->getSimulation();
+            simulation->debugEntities = !simulation->debugEntities;
         }
     }
     return false;

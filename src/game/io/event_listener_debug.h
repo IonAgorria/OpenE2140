@@ -23,7 +23,8 @@ private:
     /*
      * Key values
      */
-    input_key_code_t keyAssetsReload = 0;
+    input_key_code_t keyDebugEntities = 0;
+    input_key_code_t keyDebugTiles = 0;
 public:
     /**
      * Event handler constructor

@@ -71,12 +71,12 @@ public:
     /**
      * Constructor
      */
-    Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters);
+    Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters> parameters);
 
     /**
      * Destructor
      */
-    virtual ~Simulation();
+    ~Simulation() override;
 
     /**
      * Disable copy

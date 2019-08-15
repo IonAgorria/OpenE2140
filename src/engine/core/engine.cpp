@@ -258,8 +258,8 @@ void Engine::setupEntityManager() {
     if (!error.empty()) return;
 }
 
-void Engine::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
-    simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), parameters);
+void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
+    simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), std::move(parameters));
     error = simulation->getError();
 
     //Load stuff before doing simulation load

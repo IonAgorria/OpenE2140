@@ -18,8 +18,8 @@
 #include "simulation.h"
 #include "pathfinder/path_handler.h"
 
-Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters>& parameters):
-        parameters(std::move(parameters)), engine(engine) {
+Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters> parameters):
+        parameters(std::move(parameters)), engine(std::move(engine)) {
     log = Log::get("Simulation");
     debugEntities = Utils::isFlag(FLAG_DEBUG_ALL);
     if (!this->parameters || this->parameters->world.empty()) {

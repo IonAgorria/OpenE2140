@@ -64,11 +64,6 @@ void Game::setupEntityManager() {
     Engine::setupEntityManager();
 }
 
-void Game::setupSimulation(std::unique_ptr<SimulationParameters>& parameters) {
-    //Call setup
-    Engine::setupSimulation(parameters);
-}
-
 void Game::run() {
     Engine::run();
     if (hasError()) {
@@ -82,7 +77,7 @@ void Game::run() {
     //parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
-    setupSimulation(parameters);
+    setupSimulation(std::move(parameters));
     if (hasError()) {
         return;
     }

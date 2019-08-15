@@ -89,7 +89,7 @@ public:
     /**
      * World destructor
      */
-    ~World();
+    ~World() override;
 
     /**
      * Disable copy/move

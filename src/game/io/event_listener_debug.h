@@ -29,12 +29,12 @@ public:
     /**
      * Event handler constructor
      */
-    EventListenerDebug(std::shared_ptr<Game> game);
+    explicit EventListenerDebug(std::shared_ptr<Game> game);
 
     /**
      * Destroys event handler
      */
-    virtual ~EventListenerDebug();
+    ~EventListenerDebug() override;
 
     /**
      * Disable copy

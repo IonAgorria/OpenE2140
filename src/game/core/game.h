@@ -21,8 +21,6 @@ protected:
 
     void setupEntityManager() override;
 
-    void setupSimulation(std::unique_ptr<SimulationParameters>& parameters) override;
-
     /**
      * Sets a tile as reactor crate
      * TODO move this to some world or powerplant specific class

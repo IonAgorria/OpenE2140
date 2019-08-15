@@ -137,7 +137,7 @@ protected:
      *
      * @param parameters
      */
-    virtual void setupSimulation(std::unique_ptr<SimulationParameters>& parameters);
+    virtual void setupSimulation(std::unique_ptr<SimulationParameters> parameters);
 
     /**
      * Called from engine to load engine config

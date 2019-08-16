@@ -75,12 +75,17 @@ private:
     /**
      * Palette controlled by this component
      */
-    std::unique_ptr<Palette> palette;
+    std::shared_ptr<Palette> palette;
 
     /**
      * Lowest entry for palette index conversion
      */
     size_t lowestEntry = 0;
+
+    /**
+     * Does this entity have lights?
+     */
+    bool hasLight = false;
 
 public:
     /**

@@ -27,7 +27,7 @@ void ImageComponent::draw(Renderer* renderer) {
     if (image) {
         Vector2 position = base->getPosition();
         position += imageOffset;
-        renderer->drawImage(position, imageSize, imageDirection, *image, extraPalette);
+        renderer->drawImage(position, imageSize, imageDirection, *image, extraPalette.get());
     }
 }
 

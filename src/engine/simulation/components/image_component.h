@@ -47,7 +47,7 @@ public:
     /**
      * Optional palette to provide when drawing image
      */
-    Palette* extraPalette;
+    std::shared_ptr<Palette> extraPalette;
 
     /**
      * Animation play state

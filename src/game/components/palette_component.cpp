@@ -48,15 +48,25 @@ void PaletteComponent::setup() {
 
     //Create palette and set it to image component
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
-    palette = std::make_unique<Palette>((PALETTE_MAX_INDEX+1) - lowestEntry, true);
-    imageComponent->extraPalette = palette.get();
+    palette = std::make_shared<Palette>((PALETTE_MAX_INDEX+1) - lowestEntry, true);
+    imageComponent->extraPalette = palette;
 }
 
 void PaletteComponent::simulationChanged() {
     if (!base->isActive()) {
         return;
     }
+    if (!palette) {
+        return;
+    }
     const EntityConfig* config = base->getConfig();
+
+    //Copy the original colors since some entities might not have lights or other stuff
+    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    Palette* imagePalette = imageComponent->getImagePalette();
+    if (imagePalette) {
+        palette->setColors(imagePalette, lowestEntry, 0, palette->length() - 1);
+    }
 
     //Load player color
     /* TODO set color to palette
@@ -70,7 +80,7 @@ void PaletteComponent::simulationChanged() {
 
     //Setup the rest
     setupShadows(config);
-    palette->setColor(0xFF, Color::CLEAR);
+    palette->setColor(0xFF - lowestEntry, Color::CLEAR);
     palette->updateTexture();
 }
 
@@ -100,6 +110,9 @@ void PaletteComponent::setupShadows(const EntityConfig* config) {
 }
 
 void PaletteComponent::setLight(bool state) {
+    if (!palette || !hasLight) {
+        return;
+    }
     const EntityConfig* config = base->getConfig();
     switch (config->kind) {
         case ENTITY_KIND_UNIT:

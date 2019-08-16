@@ -31,6 +31,14 @@ void ImageComponent::draw(Renderer* renderer) {
     }
 }
 
+Image* ImageComponent::getImage() const {
+    return image;
+}
+
+Palette* ImageComponent::getImagePalette() const {
+    return image ? image->getPalette().get() : nullptr;
+}
+
 Animation* ImageComponent::getAnimation() const {
     return animation.get();
 }

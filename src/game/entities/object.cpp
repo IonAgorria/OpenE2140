@@ -5,16 +5,16 @@
 #include "object.h"
 
 void Object::simulationChanged() {
-    if (!isActive()) {
-        return;
+    if (isActive()) {
+        //Set bounds
+        World* world = simulation->getWorld();
+        bounds.setCenter(position, Vector2(world->tileSize));
+
+        //Load image according to tileset
+        setImageFromSprite("default_" + std::to_string(world->tilesetIndex));
     }
 
-    //Set bounds
-    World* world = simulation->getWorld();
-    bounds.setCenter(position, Vector2(world->tileSize));
-
-    //Load image according to tileset
-    setImageFromSprite("default_" + std::to_string(world->tilesetIndex));
+    Entity::simulationChanged();
 }
 
 void Object::draw() {

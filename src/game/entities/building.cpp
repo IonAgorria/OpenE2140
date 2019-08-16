@@ -7,33 +7,33 @@
 #include "building.h"
 
 void Building::simulationChanged() {
-    if (!isActive()) {
-        return;
-    }
-    World* world = simulation->getWorld();
+    if (isActive()) {
+        World* world = simulation->getWorld();
 
-    //Set the building bounds
-    world->toWorldRectangle(config->bounds, bounds);
-    bounds += Rectangle(position, Vector2());
+        //Set the building bounds
+        world->toWorldRectangle(config->bounds, bounds);
+        bounds += Rectangle(position, Vector2());
 
+        //Set position to the center of bounds
+        bounds.getCenter(position);
 
-    //Set position to the center of bounds
-    bounds.getCenter(position);
-
-    //Layout setup to claim tiles
-    config_data_t layout = config->getData("layout");
-    if (layout.is_array()) {
-        for (config_data_t& layoutData : layout) {
-            Rectangle layoutRectangle;
-            if (!Config::getRectangle(layoutData, layoutRectangle)) {
-                continue;
+        //Layout setup to claim tiles
+        config_data_t layout = config->getData("layout");
+        if (layout.is_array()) {
+            for (config_data_t& layoutData : layout) {
+                Rectangle layoutRectangle;
+                if (!Config::getRectangle(layoutData, layoutRectangle)) {
+                    continue;
+                }
+                //TODO
             }
-            //TODO
         }
+
+        //Set the rest
+        chooseSprite();
     }
 
-    //Set the rest
-    chooseSprite();
+    Entity::simulationChanged();
 }
 
 void Building::chooseSprite() {

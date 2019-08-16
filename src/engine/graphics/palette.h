@@ -73,9 +73,19 @@ public:
     /**
      * Sets this palette from other palette
      *
+     * @param srcIndex the first color source index
+     * @param dstIndex the first color destination index
+     * @param length number of colors to copy
      * @return true if OK
      */
-    bool set(const Palette& palette);
+    bool setColors(const Palette* palette, unsigned int srcIndex, unsigned int dstIndex, unsigned int length);
+
+    /**
+     * Sets this palette from other palette
+     *
+     * @return true if OK
+     */
+    bool setColors(const Palette* palette);
 
     /**
      * Gets the color value at index in this palette

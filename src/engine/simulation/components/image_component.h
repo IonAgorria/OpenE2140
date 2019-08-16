@@ -62,6 +62,16 @@ public:
     void draw(Renderer* renderer);
 
     /**
+     * @return current image in component if any
+     */
+    Image* getImage() const;
+
+    /**
+     * @return palette of current image in component if any
+     */
+    Palette* getImagePalette() const;
+
+    /**
      * @return animation in component
      */
     Animation* getAnimation() const;

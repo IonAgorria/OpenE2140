@@ -5,6 +5,7 @@
 #define OPENE2140_PLAYER_SETUP_COMPONENT_H
 
 #include "game/core/constants.h"
+#include "engine/graphics/color.h"
 #include "engine/simulation/components/component.h"
 
 /**
@@ -23,7 +24,7 @@
 #define PALETTE_UNIT_FIRE1 0xF5
 #define PALETTE_UNIT_FIRE2 0xF6
 //Unit light
-#define PALETTE_UNIT_LIGHT 0xF7
+#define PALETTE_UNIT_LIGHT0 0xF7
 //Unit player coloring
 #define PALETTE_UNIT_PLAYER0 0xF8
 #define PALETTE_UNIT_PLAYER1 0xF9
@@ -48,6 +49,22 @@
 //Building shadow tones
 #define PALETTE_BUILDING_SHADOW_EXTRA 0xFD
 #define PALETTE_BUILDING_SHADOW 0xFE
+
+/**
+ * Color definitions
+ */
+namespace Color {
+    const ColorRGBA BUILDING_LIGHT0_ON {25, 25, 185, 255};
+    const ColorRGBA BUILDING_LIGHT1_ON {45, 45, 205, 255};
+    const ColorRGBA BUILDING_LIGHT2_ON {65, 65, 225, 255};
+    const ColorRGBA BUILDING_LIGHT3_ON {85, 85, 245, 255};
+    const ColorRGBA BUILDING_LIGHT_OFF {0, 0, 10, 255};
+    const ColorRGBA BUILDING_PLAYER0 {0, 30, 0, 255};
+    const ColorRGBA BUILDING_PLAYER1 {20, 50, 0, 255};
+    const ColorRGBA BUILDING_PLAYER2 {40, 60, 0, 255};
+    const ColorRGBA BUILDING_PLAYER3 {45, 75, 0, 255};
+    const ColorRGBA BUILDING_PLAYER4 {55, 90, 0, 255};
+}
 
 /**
  * Handles palette setup per entity type
@@ -79,13 +96,18 @@ public:
 
     void update();
 
-    void draw();
-
     /**
      * Does setup for shadow colors
      * @param config
      */
     void setupShadows(const EntityConfig* config);
+
+    /**
+     * Controls light state
+     *
+     * @param state
+     */
+    void setLight(bool state);
 
     /**
      * @return extra palette in component if any

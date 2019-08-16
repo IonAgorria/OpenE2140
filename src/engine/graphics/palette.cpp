@@ -55,17 +55,22 @@ unsigned long Palette::length() const {
     return colors.size();
 }
 
-bool Palette::set(const Palette& palette) {
-    for (size_t i = 0; i < palette.length(); ++i) {
+bool Palette::setColors(const Palette* palette, unsigned int srcIndex, unsigned int dstIndex, unsigned int length) {
+    for (size_t i = 0; i < length; ++i) {
         ColorRGBA color;
-        if (!palette.getColor(i, color)) {
+        if (!palette->getColor(srcIndex + i, color)) {
             return false;
         }
-        if (!setColor(i, color)) {
+        Log::get()->debug("{0} {1}, {2}, {3}, {4},", i, color.r, color.g, color.b, color.a);
+        if (!setColor(dstIndex + i, color)) {
             return false;
         }
     }
     return true;
+}
+
+bool Palette::setColors(const Palette* palette) {
+    return setColors(palette, 0, 0, palette->length());
 }
 
 bool Palette::getColor(unsigned int index, ColorRGBA& color) const {

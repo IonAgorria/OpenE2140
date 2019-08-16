@@ -10,10 +10,10 @@
 void PaletteComponent::construction() {
 }
 
+unsigned short test;
 void PaletteComponent::update() {
-}
-
-void PaletteComponent::draw() {
+    test+=4;
+    setLight(0x8000 < test);
 }
 
 void PaletteComponent::setup() {
@@ -50,16 +50,13 @@ void PaletteComponent::setup() {
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
     palette = std::make_unique<Palette>((PALETTE_MAX_INDEX+1) - lowestEntry, true);
     imageComponent->extraPalette = palette.get();
-
-    //Setup the rest
-    setupShadows(config);
-    palette->updateTexture();
 }
 
 void PaletteComponent::simulationChanged() {
     if (!base->isActive()) {
         return;
     }
+    const EntityConfig* config = base->getConfig();
 
     //Load player color
     /* TODO set color to palette
@@ -70,6 +67,11 @@ void PaletteComponent::simulationChanged() {
         }
     }
     */
+
+    //Setup the rest
+    setupShadows(config);
+    palette->setColor(0xFF, Color::CLEAR);
+    palette->updateTexture();
 }
 
 void PaletteComponent::setupShadows(const EntityConfig* config) {
@@ -95,6 +97,45 @@ void PaletteComponent::setupShadows(const EntityConfig* config) {
     if (shadowExtra) {
         palette->setColor(shadowExtra - lowestEntry, Color::SHADOW_EXTRA);
     }
+}
+
+void PaletteComponent::setLight(bool state) {
+    const EntityConfig* config = base->getConfig();
+    switch (config->kind) {
+        case ENTITY_KIND_UNIT:
+            //TODO get color for this
+            palette->setColor(
+                    PALETTE_UNIT_LIGHT0 - lowestEntry,
+                    state ? Color::BLUE : Color::BLACK
+            );
+            break;
+        case ENTITY_KIND_BUILDING:
+            //Some buildings don't use certain indexes
+            if (config->code == "water_base") {
+                return;
+            }
+            palette->setColor(
+                    PALETTE_BUILDING_LIGHT0 - lowestEntry,
+                    state ? Color::BUILDING_LIGHT0_ON : Color::BUILDING_LIGHT_OFF
+            );
+            palette->setColor(
+                    PALETTE_BUILDING_LIGHT1 - lowestEntry,
+                    state ? Color::BUILDING_LIGHT1_ON : Color::BUILDING_LIGHT_OFF
+            );
+            palette->setColor(
+                    PALETTE_BUILDING_LIGHT2 - lowestEntry,
+                    state ? Color::BUILDING_LIGHT2_ON : Color::BUILDING_LIGHT_OFF
+            );
+            palette->setColor(
+                    PALETTE_BUILDING_LIGHT3 - lowestEntry,
+                    state ? Color::BUILDING_LIGHT3_ON : Color::BUILDING_LIGHT_OFF
+            );
+            break;
+        default:
+            //Nothing to do
+            return;
+    }
+    palette->updateTexture();
 }
 
 Palette* PaletteComponent::getPalette() const {

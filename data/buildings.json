@@ -335,7 +335,9 @@
         "sprites": {
             "default": 51,
             "damaged": 52
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 14,
@@ -357,7 +359,9 @@
         "sprites": {
             "default": 72,
             "damaged": 73
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 15,
@@ -379,7 +383,9 @@
         "sprites": {
             "default": 53,
             "damaged": 54
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 16,
@@ -401,7 +407,9 @@
         "sprites": {
             "default": 74,
             "damaged": 75
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 17,
@@ -416,7 +424,9 @@
         "sprites": {
             "default": 49,
             "damaged": 50
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 18,
@@ -570,7 +580,9 @@
         "sprites": {
             "default": 90,
             "damaged": 91
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 25,
@@ -588,7 +600,9 @@
         "sprites": {
             "default": 92,
             "damaged": 93
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 26,
@@ -606,7 +620,9 @@
         "sprites": {
             "default": 94,
             "damaged": 95
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 27,
@@ -624,7 +640,9 @@
         "sprites": {
             "default": 96,
             "damaged": 97
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 28,
@@ -642,7 +660,9 @@
         "sprites": {
             "default": 98,
             "damaged": 99
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 29,
@@ -660,7 +680,9 @@
         "sprites": {
             "default": 100,
             "damaged": 101
-        }
+        },
+        "palette_player": false,
+        "palette_light": false
     },
     {
         "id": 84,

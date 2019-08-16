@@ -15,7 +15,7 @@
 #define PROGRAM_PALETTE_TEXTURE 1
 #define PROGRAM_COLOR 2
 #define PROGRAM_COUNT 3
-#define MAX_BATCH_VERTICES 10240 //If this exceeds ushort switch the indices to uint
+#define MAX_BATCH_VERTICES 10240 //NOTE: If this exceeds ushort switch the indices to uint
 #define MAX_COMPONENTS_PER_VERTICE 6
 
 /**

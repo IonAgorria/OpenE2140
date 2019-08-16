@@ -61,7 +61,6 @@ bool Palette::setColors(const Palette* palette, unsigned int srcIndex, unsigned 
         if (!palette->getColor(srcIndex + i, color)) {
             return false;
         }
-        Log::get()->debug("{0} {1}, {2}, {3}, {4},", i, color.r, color.g, color.b, color.a);
         if (!setColor(dstIndex + i, color)) {
             return false;
         }

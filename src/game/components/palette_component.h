@@ -12,8 +12,15 @@
  * Constants for palette indexes with special meaning
  */
 #define PALETTE_MAX_INDEX 0xFF
+/*
+ * Object entries
+ */
 //Object shadow
 #define PALETTE_OBJECT_SHADOW 0xFE
+
+/*
+ * Unit entries
+ */
 //Unit movement dependent colors (threads/wheels/jets)
 #define PALETTE_UNIT_MOVEMENT0 0xF0
 #define PALETTE_UNIT_MOVEMENT1 0xF1
@@ -35,6 +42,9 @@
 //Unit shadow
 #define PALETTE_UNIT_SHADOW 0xFE
 
+/*
+ * Building entries
+ */
 //Building lights to be set as black when has no power (water base doesn't have any so not set)
 #define PALETTE_BUILDING_LIGHT0 0xF4
 #define PALETTE_BUILDING_LIGHT1 0xF5
@@ -83,9 +93,19 @@ private:
     size_t lowestEntry = 0;
 
     /**
+     * Does this entity have player defined colors?
+     */
+    bool hasPlayer = false;
+
+    /**
      * Does this entity have lights?
      */
     bool hasLight = false;
+
+    /**
+     * Does this entity have shadow?
+     */
+    bool hasShadow = false;
 
 public:
     /**

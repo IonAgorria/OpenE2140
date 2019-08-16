@@ -12,18 +12,30 @@ void PaletteComponent::construction() {
 
 unsigned short test;
 void PaletteComponent::update() {
-    test+=4;
+    test+=10;
     setLight(0x8000 < test);
 }
 
 void PaletteComponent::setup() {
-    //Set palette size using the entity config data
     const EntityConfig* config = base->getConfig();
+
+    //Load flags based on default values per kind, if config value exists then use it
+    hasPlayer = config->kind == ENTITY_KIND_UNIT || config->kind == ENTITY_KIND_BUILDING;
+    hasPlayer = config->getData<bool>("palette_player", hasPlayer);
+    hasLight = config->kind == ENTITY_KIND_BUILDING;
+    hasLight = config->getData<bool>("palette_light", hasLight);
+    hasShadow = false;
+    if (config->kind == ENTITY_KIND_OBJECT) {
+        hasShadow = config->type == "tree" || config->type == "wall" || config->type == "pipe";
+    } else if (config->kind == ENTITY_KIND_UNIT || config->kind == ENTITY_KIND_BUILDING) {
+        hasShadow = true;
+    }
+    hasShadow = config->getData<bool>("palette_shadow", hasShadow);
+
+    //Set palette size using the entity config data
     switch (config->kind) {
         case ENTITY_KIND_OBJECT:
-            if (config->type == "tree"
-            || config->type == "wall"
-            || config->type == "pipe") {
+            if (hasShadow) {
                 lowestEntry = PALETTE_OBJECT_SHADOW;
             }
             break;
@@ -32,13 +44,14 @@ void PaletteComponent::setup() {
             break;
         case ENTITY_KIND_BUILDING:
             //Some buildings don't use certain indexes
-            if (config->code == "water_base") {
+            if (hasPlayer) {
                 lowestEntry = PALETTE_BUILDING_PLAYER0;
-            } else {
+            } else if (hasLight) {
                 lowestEntry = PALETTE_BUILDING_LIGHT0;
+            } else {
+                lowestEntry = PALETTE_BUILDING_SHADOW_EXTRA;
             }
             break;
-
     }
 
     //Check if nothing to do

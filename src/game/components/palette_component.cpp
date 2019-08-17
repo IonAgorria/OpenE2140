@@ -20,45 +20,16 @@ void PaletteComponent::update() {
 void PaletteComponent::setup() {
     const EntityConfig* config = base->getConfig();
 
-    //Load flags based on default values per kind, if config value exists then use it
-    hasPlayer = config->kind == ENTITY_KIND_UNIT || config->kind == ENTITY_KIND_BUILDING;
-    hasPlayer = config->getData<bool>("palette_player", hasPlayer);
-    hasLight = config->kind == ENTITY_KIND_BUILDING;
-    hasLight = config->getData<bool>("palette_light", hasLight);
-    hasShadow = false;
-    if (config->kind == ENTITY_KIND_OBJECT) {
-        hasShadow = config->type == "tree" || config->type == "wall" || config->type == "pipe";
-    } else if (config->kind == ENTITY_KIND_UNIT || config->kind == ENTITY_KIND_BUILDING) {
-        hasShadow = true;
-    }
-    hasShadow = config->getData<bool>("palette_shadow", hasShadow);
-
-    //Set palette size using the entity config data
-    switch (config->kind) {
-        case ENTITY_KIND_OBJECT:
-            if (hasShadow) {
-                lowestEntry = PALETTE_OBJECT_SHADOW;
-            }
-            break;
-        case ENTITY_KIND_UNIT:
-            lowestEntry = PALETTE_UNIT_MOVEMENT0;
-            break;
-        case ENTITY_KIND_BUILDING:
-            //Some buildings don't use certain indexes
-            if (hasPlayer) {
-                lowestEntry = PALETTE_BUILDING_PLAYER0;
-            } else if (hasLight) {
-                lowestEntry = PALETTE_BUILDING_LIGHT0;
-            } else {
-                lowestEntry = PALETTE_BUILDING_SHADOW_EXTRA;
-            }
-            break;
-    }
-
-    //Check if nothing to do
+    //Copy flags from config
+    lowestEntry = config->getData<size_t>("palette_lowest_entry", lowestEntry);
     if (0 == lowestEntry) {
         return;
     }
+    hasPlayer = config->getData<bool>("palette_player", false);
+    hasLight = config->getData<bool>("palette_light", false);
+    hasShadow = config->getData<bool>("palette_shadow", false);
+    hasMovement = config->getData<bool>("palette_movement", false);
+    hasFire = config->getData<bool>("palette_fire", false);
 
     //Create palette and set it to image component
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
@@ -134,7 +105,7 @@ void PaletteComponent::setLight(bool state) {
         case ENTITY_KIND_UNIT:
             //TODO get color for this
             palette->setColor(
-                    PALETTE_UNIT_LIGHT0 - lowestEntry,
+                    PALETTE_UNIT_LIGHT - lowestEntry,
                     state ? Color::BLUE : Color::BLACK
             );
             break;

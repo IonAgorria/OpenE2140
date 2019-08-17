@@ -35,7 +35,7 @@
 #define PALETTE_UNIT_FIRE1 0xF5
 #define PALETTE_UNIT_FIRE2 0xF6
 //Unit light
-#define PALETTE_UNIT_LIGHT0 0xF7
+#define PALETTE_UNIT_LIGHT 0xF7
 //TODO
 #define PALETTE_UNIT_UNKNOWN 0xFD
 //Unit shadow
@@ -94,6 +94,16 @@ private:
      * Does this entity have shadow?
      */
     bool hasShadow = false;
+
+    /**
+     * Does this entity have movement based colors?
+     */
+    bool hasMovement = false;
+
+    /**
+     * Does this entity have weapon fire?
+     */
+    bool hasFire = false;
 
 public:
     /**

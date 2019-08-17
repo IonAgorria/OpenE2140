@@ -148,6 +148,11 @@ public:
     void addFaction(std::unique_ptr<Faction> faction);
 
     /**
+     * @return factions in simulation
+     */
+    std::vector<std::unique_ptr<Faction>>& getFactions();
+
+    /**
      * Obtain the faction from ID
      *
      * @param id of faction
@@ -169,6 +174,11 @@ public:
      * @param player to add
      */
     void addPlayer(std::unique_ptr<Player> player);
+
+    /**
+     * @return players in simulation
+     */
+    std::vector<std::unique_ptr<Player>>& getPlayers();
 
     /**
      * Obtain the player from ID

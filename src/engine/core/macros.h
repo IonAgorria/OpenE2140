@@ -48,7 +48,7 @@
 /**
  * Returns single bit mask by index
  */
-#define BIT_MASK(INDEX) (static_cast<uint64_t>(1) << INDEX)
+#define BIT_MASK(INDEX) (static_cast<unsigned>(1) << INDEX)
 
 /**
  * Calculates the index of a single bit mask

@@ -199,6 +199,10 @@ void Simulation::addFaction(std::unique_ptr<Faction> faction) {
     factions[id].swap(faction);
 }
 
+std::vector<std::unique_ptr<Faction>>& Simulation::getFactions() {
+    return factions;
+}
+
 Faction* Simulation::getFaction(faction_id_t id) const {
     return id < factions.size() ? factions[id].get() : nullptr;
 }
@@ -219,6 +223,10 @@ void Simulation::addPlayer(std::unique_ptr<Player> player) {
         players.resize(id + 1);
     }
     players[id].swap(player);
+}
+
+std::vector<std::unique_ptr<Player>>& Simulation::getPlayers() {
+    return players;
 }
 
 Player* Simulation::getPlayer(player_id_t id) const {

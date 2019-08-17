@@ -109,8 +109,8 @@ struct ColorHSV {
         float r = static_cast<float>(color.r) / 255.0f;
         float g = static_cast<float>(color.g) / 255.0f;
         float b = static_cast<float>(color.b) / 255.0f;
-        float min = std::min(r, g, b);
-        float max = std::max(r, g, b);
+        float min = std::min(r, std::min(g, b));
+        float max = std::max(r, std::max(g, b));
         v = max;
         float delta = max - min;
 

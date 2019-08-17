@@ -19,7 +19,7 @@ struct TilePrototype {
     /**
      * Tile flags
      */
-    tile_flags_t tileFlags;
+    tile_flags_t tileFlags = 0;
 
     /**
      * Contained ore in this tile

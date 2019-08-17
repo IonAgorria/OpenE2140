@@ -9,6 +9,7 @@
 #include "engine/graphics/window.h"
 #include "engine/io/event_handler.h"
 #include "engine/simulation/simulation.h"
+#include "engine/simulation/player.h"
 #include "engine/simulation/faction.h"
 #include "engine/simulation/world/tile.h"
 #include "engine/core/utils.h"
@@ -67,9 +68,7 @@ void Game::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
     //Call setup
     Engine::setupSimulation(std::move(parameters));
 
-    for (Player& player : simulation->getPlayers()) {
-        setupPlayerColors(player);
-    }
+    setupPlayerColors();
 }
 
 void Game::run() {
@@ -101,18 +100,22 @@ void Game::run() {
     }
 }
 
-void Game::setupPlayerColors(Player& player) {
+void Game::setupPlayerColors() {
     //Generate player palette colors using base color
-    ColorHSV base;
-    base.fromRGB(player.color);
-    player.extraColors.clear();
-    for (ColorHSV hsv : Color::PLAYER) {
-        hsv.h = base.h;
-        hsv.s = base.s * hsv.s;
-        hsv.v = base.v * hsv.v;
-        ColorRGB paletteColor;
-        hsv.toRGB(paletteColor);
-        player.extraColors.emplace_back(paletteColor);
+    for (std::unique_ptr<Player>& player : simulation->getPlayers()) {
+        if (!player) continue;
+        ColorHSV base;
+        base.fromRGB(player->color);
+        player->extraColors.clear();
+        for (ColorHSV hsv : Color::PLAYER) {
+            hsv.h = base.h;
+            hsv.s = base.s * hsv.s;
+            hsv.v = base.v * hsv.v;
+            ColorRGBA paletteColor;
+            hsv.toRGB(paletteColor);
+            paletteColor.a = player->color.a;
+            player->extraColors.emplace_back(paletteColor);
+        }
     }
 }
 

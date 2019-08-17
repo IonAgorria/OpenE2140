@@ -598,6 +598,7 @@
     {
         "id": 41,
         "code": "t100",
+        "type": "tank",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": null,
@@ -617,12 +618,14 @@
     {
         "id": 42,
         "code": "raptor_es",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "engine",
         "price": 250,
         "armor": "medium",
         "health": 200,
+        "palette_fire": true,
         "weapons": [
             {
                 "type": "mg",
@@ -636,6 +639,7 @@
     {
         "id": 43,
         "code": "raptor_ad",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "rocket_engine",
@@ -657,6 +661,7 @@
     {
         "id": 44,
         "code": "st01b_tank",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "engine",
@@ -681,6 +686,7 @@
     {
         "id": 45,
         "code": "st02_tank",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "rocket_engine",
@@ -705,6 +711,7 @@
     {
         "id": 46,
         "code": "tiger_assault",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "rocket_engine",
@@ -734,6 +741,7 @@
     {
         "id": 47,
         "code": "tiger_hellmaker",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "engine",
@@ -769,6 +777,7 @@
     {
         "id": 48,
         "code": "mt_200",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "nuclear_engine",
@@ -793,6 +802,7 @@
     {
         "id": 49,
         "code": "mt_201l",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "light_laser_cannon",
@@ -817,6 +827,7 @@
     {
         "id": 50,
         "code": "spider",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "light_plasma_cannon",
@@ -847,6 +858,7 @@
     {
         "id": 51,
         "code": "spider_ii",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "heavy_rockets",
@@ -877,6 +889,7 @@
     {
         "id": 52,
         "code": "ht_30_lr",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "light_laser_cannon",
@@ -920,6 +933,7 @@
     {
         "id": 53,
         "code": "ht_33_r",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "heavy_rockets",
@@ -944,6 +958,7 @@
     {
         "id": 54,
         "code": "ht_34_j",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "ion_cannon",
@@ -968,13 +983,17 @@
     {
         "id": 55,
         "code": "atm_500",
-        "type": "unit_transport",
+        "type": "vehicle",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": null,
         "price": 400,
         "armor": "medium",
         "health": 200,
+        "unit_transport": true,
+        "capacity": {
+            //TODO
+        },
         "turrets": [
             {
                 "position": [0, 0],
@@ -992,7 +1011,7 @@
     {
         "id": 56,
         "code": "wtp_100",
-        "type": "unit_transport",
+        "type": "amphibian",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "nuclear_engine",
@@ -1000,6 +1019,7 @@
         "armor": "medium",
         "health": 300,
         "movement": "amphibian",
+        "unit_transport": true,
         "capacity": {
             "light": 6,
             "heavy": 1
@@ -1008,13 +1028,14 @@
     {
         "id": 57,
         "code": "tur",
-        "type": "unit_transport",
+        "type": "vehicle",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": null,
         "price": 300,
         "armor": "light",
         "health": 200,
+        "unit_transport": true,
         "capacity": {
             "light": 6
         }
@@ -1022,13 +1043,14 @@
     {
         "id": 58,
         "code": "bio",
-        "type": "unit_transport",
+        "type": "vehicle",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "high_medicine",
         "price": 1000,
         "armor": "light",
         "health": 200,
+        "unit_transport": true,
         "capacity": {
             "light": 4
         }
@@ -1036,16 +1058,19 @@
     {
         "id": 59,
         "code": "btti",
+        "type": "vehicle",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": null,
         "price": 200,
         "armor": "light",
-        "health": 150
+        "health": 150,
+        "palette_fire": true,
     },
     {
         "id": 60,
         "code": "hellbike",
+        "type": "vehicle",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": null,
@@ -1064,7 +1089,8 @@
     {
         "id": 61,
         "code": "bantha",
-        "type": "ore_transport",
+        "type": "vehicle",
+        "ore_transport": true,
         "faction": null,
         "required_building": "construction_factory",
         "required_technology": null,
@@ -1075,7 +1101,8 @@
     {
         "id": 62,
         "code": "hcr-m",
-        "type": "repairer",
+        "type": "tank",
+        "repairer": true,
         "faction": null,
         "required_building": "construction_factory",
         "required_technology": "fast_repairing",
@@ -1086,7 +1113,8 @@
     {
         "id": 63,
         "code": "miner",
-        "type": "ground_miner",
+        "TODO_type": "vehicle",
+        "miner": true,
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "ai_miner",
@@ -1105,12 +1133,14 @@
                     }
                 ]
             }
-        ]
+        ],
+        "palette_light": true
     },
     {
         "id": 64,
         "code": "miner_bt",
-        "type": "ground_miner",
+        "TODO_type": "vehicle",
+        "miner": true,
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "ai_mine",
@@ -1129,11 +1159,13 @@
                     }
                 ]
             }
-        ]
+        ],
+        "palette_light": true
     },
     {
         "id": 65,
         "code": "screamer",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "required_technology": "teleportation",
@@ -1154,6 +1186,7 @@
     {
         "id": 66,
         "code": "shadow",
+        "type": "tank",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "required_technology": "teleportation",
@@ -1170,6 +1203,7 @@
     {
         "id": 67,
         "code": "shark",
+        "type": "ship",
         "faction": "ed",
         "required_building": "water_base",
         "required_technology": "engine",
@@ -1190,7 +1224,8 @@
     {
         "id": 68,
         "code": "wtrn",
-        "type": "unit_transport",
+        "type": "ship",
+        "unit_transport": true,
         "faction": "ed",
         "required_building": "water_base",
         "required_technology": "engine",
@@ -1206,6 +1241,7 @@
     {
         "id": 69,
         "code": "kt30",
+        "type": "ship",
         "faction": "ed",
         "required_building": "water_base",
         "required_technology": "heavy_rockets",
@@ -1243,6 +1279,7 @@
     {
         "id": 70,
         "code": "russ_3",
+        "type": "submarine",
         "faction": "ucs",
         "required_building": "water_base",
         "required_technology": "engine",
@@ -1263,7 +1300,8 @@
     {
         "id": 71,
         "code": "ttre_400",
-        "type": "water_miner",
+        "type": "ship",
+        "miner": true,
         "faction": "ucs",
         "required_building": "water_base",
         "required_technology": "ai_mine",
@@ -1275,6 +1313,7 @@
     {
         "id": 72,
         "code": "thunder",
+        "type": "helicopter",
         "faction": "ed",
         "required_technology": "flying",
         "price": 700,
@@ -1294,7 +1333,8 @@
     {
         "id": 73,
         "code": "hat",
-        "type": "unit_transport",
+        "type": "vtol",
+        "unit_transport": true,
         "faction": "ed",
         "required_technology": "flying",
         "price": 1000,
@@ -1305,6 +1345,7 @@
     {
         "id": 74,
         "code": "storm",
+        "type": "helicopter",
         "faction": "ed",
         "required_technology": "flying",
         "price": 500,
@@ -1324,6 +1365,7 @@
     {
         "id": 75,
         "code": "gargoil",
+        "type": "vtol",
         "faction": "ucs",
         "required_building": "air_base",
         "required_technology": "flying",
@@ -1331,6 +1373,7 @@
         "armor": "medium",
         "health": 60,
         "movement": "air",
+        "palette_movement": true,
         "weapons": [
             {
                 "type": "mg",
@@ -1344,17 +1387,21 @@
     {
         "id": 76,
         "code": "hellwind",
+        "type": "bomber",
         "faction": "ucs",
         "required_building": "air_base",
         "required_technology": "plasma_bomb",
         "price": 1000,
         "armor": "heavy",
+        "palette_movement": true,
         "movement": "air",
         "health": 150
     },
     {
         "id": 77,
         "code": "heavy_lifter",
+        "type": "vtol",
+        "ore_transport": true,
         "faction": null,
         "required_building": "air_base",
         "required_technology": "flying",
@@ -1366,12 +1413,14 @@
     {
         "id": 78,
         "code": "vtol_harrier",
+        "type": "vtol",
         "faction": "ed",
         "required_building": "air_base",
         "TODO_required_technology": null,
         "price": 900,
         "armor": "medium",
         "health": 50,
+        "TODO_palette_movement": true,
         "movement": "air",
         "weapons": [
             {
@@ -1395,12 +1444,14 @@
     {
         "id": 79,
         "code": "gargoil_new",
+        "type": "vtol",
         "faction": "ucs",
         "required_building": "air_base",
         "TODO_required_technology": null,
         "price": 900,
         "armor": "medium",
         "health": 50,
+        "TODO_palette_movement": true,
         "movement": "air",
         "weapons": [
             {
@@ -1424,17 +1475,20 @@
     {
         "id": 80,
         "code": "heavy_bomber",
+        "type": "bomber",
         "faction": "ed",
         "required_building": "air_base",
         "TODO_required_technology": null,
         "price": 2300,
         "armor": "medium",
         "health": 300,
+        "TODO_palette_movement": true,
         "movement": "air"
     },
     {
         "id": 81,
         "code": "heavy_tank",
+        "type": "tank",
         "faction": "ed",
         "required_building": "tech_house",
         "TODO_required_technology": null,
@@ -1472,6 +1526,7 @@
     {
         "id": 82,
         "code": "big_mech",
+        "type": "walker",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "TODO_required_technology": null,
@@ -1502,6 +1557,7 @@
     {
         "id": 83,
         "code": "goliat",
+        "type": "vehicle",
         "faction": "ucs",
         "required_building": "heavy_tech",
         "TODO_required_technology": null,

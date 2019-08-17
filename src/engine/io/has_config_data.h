@@ -100,7 +100,7 @@ public:
      * @param value the value to set in key
      */
     template<typename T>
-    void setData(const config_key_t& key, T& value) {
+    void setData(const config_key_t& key, const T& value) {
         dataDirty = true;
         configData[key] = value;
     }

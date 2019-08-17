@@ -4,11 +4,12 @@
 #ifndef OPENE2140_FACTORIES_H
 #define OPENE2140_FACTORIES_H
 
-#include <src/engine/io/config.h>
+#include "engine/io/config.h"
 #include "game/core/constants.h"
 #include "engine/simulation/entities/entity_factory.h"
 #include "building.h"
 #include "object.h"
+#include "unit.h"
 
 /**
  * Building factory
@@ -41,6 +42,26 @@ class BuildingFactory: public IEntityFactory {
                 config->setData("bounds", layout[0]);
                 config->bounds = bounds;
             }
+        }
+
+        //Set config values if they are missing
+        if (!config->getData("palette_light").is_boolean()) {
+            config->setData("palette_light", true);
+        }
+        if (!config->getData("palette_player").is_boolean()) {
+            config->setData("palette_player", true);
+        }
+        if (!config->getData("palette_shadow").is_boolean()) {
+            config->setData("palette_shadow", true);
+        }
+
+        //Set palette size using the entity config data
+        if (config->getData("palette_light", false)) {
+            config->setData("palette_lowest_entry", PALETTE_BUILDING_LIGHT0);
+        } else if (config->getData("palette_player", false)) {
+            config->setData("palette_lowest_entry", PALETTE_PLAYER);
+        } else if (config->getData("palette_shadow", false)) {
+            config->setData("palette_lowest_entry", PALETTE_BUILDING_SHADOW_EXTRA);
         }
 
         IEntityFactory::setupEntityConfig(config);
@@ -81,6 +102,73 @@ class ObjectFactory: public IEntityFactory {
             }
         }
         return std::make_shared<Object>();
+    }
+
+    void setupEntityConfig(EntityConfig* config) override {
+        //Set config values if they are missing
+        if (!config->getData("palette_shadow").is_boolean()
+        && (config->type == "tree" || config->type == "wall" || config->type == "pipe")) {
+            config->setData("palette_shadow", true);
+        }
+
+        //Set palette size using the entity config data
+        if (config->getData("palette_shadow", false)) {
+            config->setData("palette_lowest_entry", PALETTE_OBJECT_SHADOW);
+        }
+
+        IEntityFactory::setupEntityConfig(config);
+    }
+};
+
+/**
+ * Unit factory
+ */
+class UnitFactory: public IEntityFactory {
+    TYPE_NAME_OVERRIDE(UnitFactory);
+
+    std::string getConfigPath() const override {
+        return "units.json";
+    }
+
+    std::string getAssetPath() const override {
+        return "MIX/SPRU0/";
+    }
+
+    entity_kind_t getKind() const override {
+        return ENTITY_KIND_UNIT;
+    }
+
+    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+        return std::make_shared<Unit>();
+    }
+
+    void setupEntityConfig(EntityConfig* config) override {
+        //Set config values if they are missing
+        if (!config->getData("palette_movement").is_boolean()
+            && (config->type == "mcu" || config->type == "vehicle" || config->type == "tank")) {
+            config->setData("palette_movement", true);
+        }
+        if (!config->getData("palette_player").is_boolean()) {
+            config->setData("palette_player", true);
+        }
+        if (!config->getData("palette_shadow").is_boolean()) {
+            config->setData("palette_shadow", true);
+        }
+
+        //Set palette size using the entity config data
+        if (config->getData("palette_movement", false)) {
+            config->setData("palette_lowest_entry", PALETTE_UNIT_MOVEMENT0);
+        } else if (config->getData("palette_fire", false)) {
+            config->setData("palette_lowest_entry", PALETTE_UNIT_FIRE0);
+        } else if (config->getData("palette_light", false)) {
+            config->setData("palette_lowest_entry", PALETTE_UNIT_LIGHT);
+        } else if (config->getData("palette_player", false)) {
+            config->setData("palette_lowest_entry", PALETTE_PLAYER);
+        } else if (config->getData("palette_shadow", false)) {
+            config->setData("palette_lowest_entry", PALETTE_UNIT_SHADOW);
+        }
+
+        IEntityFactory::setupEntityConfig(config);
     }
 };
 

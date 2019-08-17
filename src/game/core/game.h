@@ -6,6 +6,7 @@
 
 #include "engine/core/engine.h"
 
+class Player;
 class Tile;
 
 /**
@@ -21,9 +22,12 @@ protected:
 
     void setupEntityManager() override;
 
-    void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) override;
+    void setupSimulation(std::unique_ptr<SimulationParameters> parameters) override;
 
-    void setupPlayerColors(Player& player);
+    /**
+     * Setup player extra colors as palette colors
+     */
+    void setupPlayerColors();
 
     /**
      * Sets a tile as reactor crate

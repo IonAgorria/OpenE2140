@@ -63,6 +63,15 @@ void Game::setupEntityManager() {
     Engine::setupEntityManager();
 }
 
+void Game::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
+    //Call setup
+    Engine::setupSimulation(std::move(parameters));
+
+    for (Player& player : simulation->getPlayers()) {
+        setupPlayerColors(player);
+    }
+}
+
 void Game::run() {
     Engine::run();
     if (hasError()) {
@@ -92,9 +101,25 @@ void Game::run() {
     }
 }
 
+void Game::setupPlayerColors(Player& player) {
+    //Generate player palette colors using base color
+    ColorHSV base;
+    base.fromRGB(player.color);
+    player.extraColors.clear();
+    for (ColorHSV hsv : Color::PLAYER) {
+        hsv.h = base.h;
+        hsv.s = base.s * hsv.s;
+        hsv.v = base.v * hsv.v;
+        ColorRGB paletteColor;
+        hsv.toRGB(paletteColor);
+        player.extraColors.emplace_back(paletteColor);
+    }
+}
+
 void Game::setReactorCrate(Tile& tile) {
     BIT_OFF(tile.tileFlags, TILE_FLAG_PASSABLE);
     BIT_ON(tile.tileFlags, TILE_FLAG_IMMUTABLE);
     tile.isImageDirty = true;
     //TODO set damage type and destroy any entity inside
+    //TODO mark the surrounding tiles a radiactive
 }

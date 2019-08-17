@@ -24,6 +24,13 @@
 namespace Color {
     const ColorRGBA SHADOW_MAIN            {0x00, 0x00, 0x00, 0x60};
     const ColorRGBA SHADOW_EXTRA           {0x00, 0x00, 0x00, 0x40};
+    const ColorHSV PLAYER[] {
+            {120, 1.0f, 0.3f},
+            {96, 1.0f, 0.5f},
+            {80, 1.0f, 0.6f},
+            {80, 1.0f, 0.75f},
+            {80, 1.0f, 0.9f}
+    };
 }
 
 #endif //OPENE2140_CONSTANTS_H

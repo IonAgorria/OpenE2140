@@ -64,7 +64,6 @@ The following game assets must be present in WD file or directory form:
 - Basic entity implementation
 
 ## Roadmap
-- Player colors
 - Entity attachment
     - Building exits
 - Entity selection

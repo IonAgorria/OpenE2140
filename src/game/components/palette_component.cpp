@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 15/8/19
 //
 
+#include "engine/simulation/player.h"
 #include "engine/simulation/entities/entity_config.h"
 #include "engine/simulation/components/player_component.h"
 #include "engine/simulation/components/image_component.h"
@@ -82,14 +83,16 @@ void PaletteComponent::simulationChanged() {
     }
 
     //Load player color
-    /* TODO set color to palette
     PlayerComponent* playerComponent = GET_COMPONENT(base, PlayerComponent);
     if (playerComponent) {
         Player* player = playerComponent->getPlayer();
         if (player) {
+            auto colors = player->extraColors;
+            for (size_t i = 0; i < PALETTE_PLAYER_AMOUNT && i < colors.size(); ++i) {
+                palette->setColor(PALETTE_PLAYER - lowestEntry + i, colors[i]);
+            }
         }
     }
-    */
 
     //Setup the rest
     setupShadows(config);

@@ -12,6 +12,10 @@
  * Constants for palette indexes with special meaning
  */
 #define PALETTE_MAX_INDEX 0xFF
+//Player coloring entries
+#define PALETTE_PLAYER 0xF8
+#define PALETTE_PLAYER_AMOUNT 5
+
 /*
  * Object entries
  */
@@ -32,13 +36,8 @@
 #define PALETTE_UNIT_FIRE2 0xF6
 //Unit light
 #define PALETTE_UNIT_LIGHT0 0xF7
-//Unit player coloring
-#define PALETTE_UNIT_PLAYER0 0xF8
-#define PALETTE_UNIT_PLAYER1 0xF9
-#define PALETTE_UNIT_PLAYER2 0xFA
-#define PALETTE_UNIT_PLAYER3 0xFB
-#define PALETTE_UNIT_PLAYER4 0xFC
-#define PALETTE_UNIT_PLAYER5 0xFD
+//TODO
+#define PALETTE_UNIT_UNKNOWN 0xFD
 //Unit shadow
 #define PALETTE_UNIT_SHADOW 0xFE
 
@@ -50,12 +49,6 @@
 #define PALETTE_BUILDING_LIGHT1 0xF5
 #define PALETTE_BUILDING_LIGHT2 0xF6
 #define PALETTE_BUILDING_LIGHT3 0xF7
-//Building player coloring
-#define PALETTE_BUILDING_PLAYER0 0xF8
-#define PALETTE_BUILDING_PLAYER1 0xF9
-#define PALETTE_BUILDING_PLAYER2 0xFA
-#define PALETTE_BUILDING_PLAYER3 0xFB
-#define PALETTE_BUILDING_PLAYER4 0xFC
 //Building shadow tones
 #define PALETTE_BUILDING_SHADOW_EXTRA 0xFD
 #define PALETTE_BUILDING_SHADOW 0xFE
@@ -69,11 +62,6 @@ namespace Color {
     const ColorRGBA BUILDING_LIGHT2_ON {65, 65, 225, 255};
     const ColorRGBA BUILDING_LIGHT3_ON {85, 85, 245, 255};
     const ColorRGBA BUILDING_LIGHT_OFF {0, 0, 10, 255};
-    const ColorRGBA BUILDING_PLAYER0 {0, 30, 0, 255};
-    const ColorRGBA BUILDING_PLAYER1 {20, 50, 0, 255};
-    const ColorRGBA BUILDING_PLAYER2 {40, 60, 0, 255};
-    const ColorRGBA BUILDING_PLAYER3 {45, 75, 0, 255};
-    const ColorRGBA BUILDING_PLAYER4 {55, 90, 0, 255};
 }
 
 /**

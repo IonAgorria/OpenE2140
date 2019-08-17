@@ -4,6 +4,7 @@
 #ifndef OPENE2140_PLAYER_H
 #define OPENE2140_PLAYER_H
 
+#include "engine/graphics/color.h"
 #include "engine/core/common.h"
 
 class Faction;
@@ -22,6 +23,16 @@ public:
      * Mask of this player based on id
      */
     const player_mask_t mask = 0;
+
+    /**
+     * Main color for this player
+     */
+    ColorRGBA color = Color::WHITE;
+
+    /**
+     * Extra colors
+     */
+    std::vector<ColorRGBA> extraColors;
 
     /**
      * Player faction

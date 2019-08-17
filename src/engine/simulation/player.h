@@ -23,12 +23,12 @@ public:
      */
     const player_mask_t mask = 0;
 
-protected:
     /**
      * Player faction
      */
     Faction* faction = nullptr;
 
+protected:
     /**
      * Player enemies mask, those which are enemies are marked as 1 in their bit position (determined at mask)
      */
@@ -48,12 +48,12 @@ public:
     /**
      * Constructor
      */
-    Player(player_id_t id, Faction* faction = nullptr, player_mask_t enemies = 0);
+    Player(player_id_t id, player_mask_t enemies = 0);
 
     /**
      * Destructor
      */
-    virtual ~Player();
+    virtual ~Player() = default;
 
     /**
      * Disable copy
@@ -64,13 +64,6 @@ public:
      * Type name
      */
     TYPE_NAME(Player)
-
-    /**
-     * Faction of this player if any
-     *
-     * @return faction
-     */
-    Faction* getFaction();
 
     /**
      * Returns if this player considers the other as enemy

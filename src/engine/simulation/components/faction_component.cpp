@@ -20,7 +20,7 @@ void FactionComponent::simulationChanged() {
         PlayerComponent* playerComponent = castBase<PlayerComponent>();
         if (!faction && playerComponent) {
             Player* player = playerComponent->getPlayer();
-            faction = player ? player->getFaction() : nullptr;
+            faction = player ? player->faction : nullptr;
         }
         if (!faction) {
             const std::string factionCode = base->getConfig()->getData<const std::string>("faction", "");

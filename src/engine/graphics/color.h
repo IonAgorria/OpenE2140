@@ -17,7 +17,8 @@ struct ColorRG {
     /**
      * Sets this color from other color
      */
-    void setRGB(const ColorRG& color) {
+    template<typename T>
+    void setRG(const T& color) {
         r = color.r;
         g = color.g;
     }
@@ -41,7 +42,8 @@ struct ColorRGB {
     /**
      * Sets this color from other color
      */
-    void setRGB(const ColorRGB& color) {
+    template<typename T>
+    void setRGB(const T& color) {
         r = color.r;
         g = color.g;
         b = color.b;
@@ -62,7 +64,8 @@ struct ColorRGBA: public SDL_Color {
     /**
      * Sets this color from other color
      */
-    void setRGB(const ColorRGB& color) {
+    template<typename T>
+    void setRGB(const T& color) {
         r = color.r;
         g = color.g;
         b = color.b;
@@ -71,7 +74,8 @@ struct ColorRGBA: public SDL_Color {
     /**
      * Sets this color from other color
      */
-    void setRGBA(const ColorRGBA& color) {
+    template<typename T>
+    void setRGBA(const T& color) {
         r = color.r;
         g = color.g;
         b = color.b;
@@ -84,6 +88,118 @@ struct ColorRGBA: public SDL_Color {
     std::string toString() const {
         return " R " + std::to_string(r) + " G " + std::to_string(g)
              + " B " + std::to_string(b) + " A " + std::to_string(a);
+    }
+};
+
+/**
+ * Struct for HSV color
+ *
+ * https://www.cs.rit.edu/~ncs/color/t_convert.html
+ */
+struct ColorHSV {
+    float h = 0;
+    float s = 0;
+    float v = 0;
+
+    /**
+     * Sets this color from RGBA
+     */
+    template<typename T>
+    void fromRGB(const T& color) {
+        float r = static_cast<float>(color.r) / 255.0f;
+        float g = static_cast<float>(color.g) / 255.0f;
+        float b = static_cast<float>(color.b) / 255.0f;
+        float min = std::min(r, g, b);
+        float max = std::max(r, g, b);
+        v = max;
+        float delta = max - min;
+
+        if (max != 0) {
+            s = delta / max;
+        } else {
+            // r = g = b = 0		// s = 0, v is undefined
+            s = 0;
+            h = 0;
+            return;
+        }
+
+        if (r == max) {
+            h = (g - b) / delta;		// between yellow & magenta
+        } else if (g == max) {
+            h = 2 + (b - r) / delta;	// between cyan & yellow
+        } else {
+            h = 4 + (r -  g) / delta;	// between magenta & cyan
+        }
+
+        h *= 60;
+        if (h < 0) {
+            h += 360;
+        }
+    }
+
+    /**
+     * Set this color from HSV
+     * https://www.cs.rit.edu/~ncs/color/t_convert.html
+     */
+    template<typename T>
+    void toRGB(T& color) {
+        int i;
+        float f, p, q, t;
+
+        if (s == 0) {
+            // achromatic (grey)
+            color.r = static_cast<byte_t>(255 * v);
+            color.g = static_cast<byte_t>(255 * v);
+            color.b = static_cast<byte_t>(255 * v);
+            return;
+        }
+
+        h /= 60;			// sector 0 to 5
+        i = std::floor(h);
+        f = h - static_cast<float>(i);			// factorial part of h
+        p = v * (1 - s);
+        q = v * (1 - s * f);
+        t = v * (1 - s * (1 - f));
+
+        switch (i) {
+            case 0:
+                color.r = static_cast<byte_t>(255 * v);
+                color.g = static_cast<byte_t>(255 * t);
+                color.b = static_cast<byte_t>(255 * p);
+                break;
+            case 1:
+                color.r = static_cast<byte_t>(255 * q);
+                color.g = static_cast<byte_t>(255 * v);
+                color.b = static_cast<byte_t>(255 * p);
+                break;
+            case 2:
+                color.r = static_cast<byte_t>(255 * p);
+                color.g = static_cast<byte_t>(255 * v);
+                color.b = static_cast<byte_t>(255 * t);
+                break;
+            case 3:
+                color.r = static_cast<byte_t>(255 * p);
+                color.g = static_cast<byte_t>(255 * q);
+                color.b = static_cast<byte_t>(255 * v);
+                break;
+            case 4:
+                color.r = static_cast<byte_t>(255 * t);
+                color.g = static_cast<byte_t>(255 * p);
+                color.b = static_cast<byte_t>(255 * v);
+                break;
+            default:		// case 5:
+                color.r = static_cast<byte_t>(255 * v);
+                color.g = static_cast<byte_t>(255 * p);
+                color.b = static_cast<byte_t>(255 * q);
+                break;
+        }
+    }
+
+    /**
+     * @return string version of this color
+     */
+    std::string toString() const {
+        return " H " + std::to_string(h) + " S " + std::to_string(s) + " V " + std::to_string(v);
     }
 };
 

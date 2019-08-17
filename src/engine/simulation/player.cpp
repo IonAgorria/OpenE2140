@@ -5,15 +5,8 @@
 #include "faction.h"
 #include "player.h"
 
-Player::Player(player_id_t id, Faction* faction, player_mask_t enemies):
-    id(id), mask(BIT_MASK(id)), faction(faction), enemies(enemies) {
-}
-
-Player::~Player() {
-}
-
-Faction* Player::getFaction() {
-    return faction;
+Player::Player(player_id_t id, player_mask_t enemies):
+    id(id), mask(BIT_MASK(id)), enemies(enemies) {
 }
 
 bool Player::isEnemy(const Player* other) const {

@@ -68,8 +68,9 @@ void Simulation::load() {
             faction = getFaction(playerPrototype.faction);
         }
 
-        std::unique_ptr<Player> player = std::make_unique<Player>(playerPrototype.id, faction, playerPrototype.enemies);
+        std::unique_ptr<Player> player = std::make_unique<Player>(playerPrototype.id, playerPrototype.enemies);
         player->money = playerPrototype.money;
+        player->faction = faction;
         addPlayer(std::move(player));
     }
 

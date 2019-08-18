@@ -461,25 +461,34 @@
   },
   {
     "id": 206,
-    "code": "tiger_legs",
-    "type": "attachment",
+    "code": "radar",
+    "type": "attachment_spinner",
     "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_shadow_clear": true,
     "sprites": {
       "default": {
-        "collections": 9,
-        "index": 45,
-        "separation": 8
-      },
-      "walking": {
-        "collections": 5,
-        "index": 37,
-        "length": 8,
-        "separation": 1
+        "index": 587,
+        "length": 9,
+        "duration": 100
       }
     }
   },
   {
     "id": 207,
+    "code": "flywheel_mine",
+    "type": "attachment_spinner",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "default": {
+        "index": 28,
+        "length": 5,
+        "duration": 200
+      }
+    }
+  },
+  {
+    "id": 208,
     "code": "conveyor_belt",
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",

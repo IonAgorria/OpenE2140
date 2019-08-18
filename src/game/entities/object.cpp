@@ -20,3 +20,22 @@ void Object::simulationChanged() {
 void Object::draw() {
     ImageComponent::draw(renderer);
 }
+
+void Spinner::simulationChanged() {
+    Object::simulationChanged();
+
+    if (isActive()) {
+        //Setup the animation
+        setAnimationFromSprite("default");
+    }
+}
+
+void Spinner::update() {
+    Entity::update();
+
+    //Check if animation finished, flip the image and reverse the animation
+    if (animation && animation->isFinished()) {
+        animation->reverse = !animation->reverse;
+        imageFlipX = clockwise == animation->reverse;
+    }
+}

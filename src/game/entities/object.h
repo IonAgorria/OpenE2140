@@ -4,8 +4,6 @@
 #ifndef OPENE2140_OBJECT_H
 #define OPENE2140_OBJECT_H
 
-#include "game/core/constants.h"
-#include "engine/simulation/entities/entity_factory.h"
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/entities/entity.h"
@@ -28,6 +26,21 @@ public:
  */
 CLASS_ENTITY(Object, Tree)
 public:
+};
+
+/**
+ * Spinner object
+ */
+CLASS_ENTITY(Object, Spinner)
+public:
+    /**
+     * Controls if spinner is clockwise or counterclockwise
+     */
+    bool clockwise = true;
+
+    void simulationChanged() override;
+
+    void update() override;
 };
 
 #endif //OPENE2140_OBJECT_H

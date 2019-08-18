@@ -37,6 +37,8 @@ class ObjectFactory: public IEntityFactory {
         if (config) {
             if (config->type == "tree") {
                 return std::make_shared<Tree>();
+            } else if (config->type == "attachment_spinner") {
+                return std::make_shared<Spinner>();
             }
         }
         return std::make_shared<Object>();

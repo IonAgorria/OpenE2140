@@ -111,6 +111,16 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
     simulation->addEntity(entityPtr);
+    entityPtr = entityManager->makeEntity({0, 207});
+    entityPtr->setPosition({32, 32});
+    simulation->addEntity(entityPtr);
+    entityPtr = entityManager->makeEntity({0, 207});
+    entityPtr->setPosition({32, 64 + 32});
+    dynamic_cast<Spinner*>(entityPtr.get())->clockwise = false;
+    simulation->addEntity(entityPtr);
+    entityPtr = entityManager->makeEntity({0, 206});
+    entityPtr->setPosition({64 + 32, 64 + 32});
+    simulation->addEntity(entityPtr);
 
     //Show main window
     window->show();

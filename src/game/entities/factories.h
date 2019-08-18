@@ -26,12 +26,7 @@ class ObjectFactory: public IEntityFactory {
     }
 
     std::vector<std::string> getVariants() const override {
-        return {"0", "1", "2", "3", "4", "5", "6"};
-    }
-
-    asset_path_t assembleAssetPath(const asset_path_t& path, const std::string& variant, const std::string& index) const override {
-        //Use special variant handling
-        return (path.empty() ? (getAssetPath() + variant + "/") : path) + index;
+        return {"0/", "1/", "2/", "3/", "4/", "5/", "6/"};
     }
 
     entity_kind_t getKind() const override {

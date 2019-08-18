@@ -25,6 +25,14 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
     //Duration of image groups
     duration_t defaultDuration = getData("duration").is_number_unsigned()
                                ? getData("duration").get<duration_t>() : 0;
+    //Load variants
+    std::vector<std::string> variants {""};
+    config_data_t variantsData = getData("variants");
+    if (variantsData.is_boolean() && variantsData.get<bool>()) {
+        variants = factory->getVariants();
+    } else if (variantsData.is_array()) {
+        variants = variantsData.get<std::vector<std::string>>();
+    }
 
     //Parse the sprites
     config_data_t spritesData = getData("sprites");
@@ -40,7 +48,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                     std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
                     spriteGroup->duration = defaultDuration;
                     spriteGroup->loop = false;
-                    const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
+                    const asset_path_t imagePath = factory->assembleAssetPath(defaultPath, variant, std::to_string(index));
                     Image* image = factory->getImage(imagePath);
                     if (image) {
                         spriteGroup->images.emplace_back(image);
@@ -64,7 +72,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                             continue;
                         }
                         unsigned int index = element.get<unsigned int>();
-                        const asset_path_t imagePath = factory->assembleAssetPath("", variant, std::to_string(index));
+                        const asset_path_t imagePath = factory->assembleAssetPath(defaultPath, variant, std::to_string(index));
                         Image* image = factory->getImage(imagePath);
                         if (image) {
                             spriteGroup->images.emplace_back(image);
@@ -104,7 +112,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 bool loop = value["loop"].is_boolean() && value["loop"].get<bool>();
 
                 //Iterate each collection (set of images)
-                for (std::string& variant : factory->getVariants()) {
+                for (asset_path_t& variant : variants) {
                     unsigned int end = index;
                     for (unsigned int ci = 0; ci < collections; ++ci) {
                         //Get the current index as start

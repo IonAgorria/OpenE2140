@@ -25,12 +25,16 @@ namespace Color {
     const ColorRGBA SHADOW_MAIN            {0x00, 0x00, 0x00, 0x60};
     const ColorRGBA SHADOW_EXTRA           {0x00, 0x00, 0x00, 0x40};
     const ColorRGBA MAP_ORE_COLOR          {0x80, 0x80, 0x00, 0xFF};
+    /**
+     * HSV values to mix with player base color
+     * Take must be care to maintain the gradual change between palette colors and avoid banding or oversaturation
+     */
     const ColorHSV PLAYER[] {
-            {0, 1.0f, 0.30f},
-            {0, 1.0f, 0.40f},
-            {0, 1.0f, 0.50f},
-            {0, 1.0f, 0.60f},
-            {0, 1.0f, 0.80f}
+            {0, 1.00f, 0.30f},
+            {0, 1.00f, 0.40f},
+            {0, 1.00f, 0.50f},
+            {0, 1.00f, 0.60f},
+            {0, 1.00f, 0.70f}
     };
 }
 

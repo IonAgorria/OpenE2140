@@ -27,6 +27,7 @@ void PaletteComponent::setup() {
     hasPlayer = config->getData<bool>("palette_player", false);
     hasLight = config->getData<bool>("palette_light", false);
     hasShadow = config->getData<bool>("palette_shadow", false);
+    isShadowClear = config->getData<bool>("palette_shadow_clear", false);
     hasMovement = config->getData<bool>("palette_movement", false);
     hasFire = config->getData<bool>("palette_fire", false);
 
@@ -88,10 +89,10 @@ void PaletteComponent::setupShadows(const EntityConfig* config) {
     }
 
     if (shadowMain) {
-        palette->setColor(shadowMain - lowestEntry, Color::SHADOW_MAIN);
+        palette->setColor(shadowMain - lowestEntry, isShadowClear ? Color::CLEAR : Color::SHADOW_MAIN);
     }
     if (shadowExtra) {
-        palette->setColor(shadowExtra - lowestEntry, Color::SHADOW_EXTRA);
+        palette->setColor(shadowExtra - lowestEntry, isShadowClear ? Color::CLEAR : Color::SHADOW_EXTRA);
     }
 }
 

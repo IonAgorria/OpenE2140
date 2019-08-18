@@ -95,6 +95,11 @@ private:
     bool hasShadow = false;
 
     /**
+     * Is the shadow clear?
+     */
+    bool isShadowClear = false;
+
+    /**
      * Does this entity have movement based colors?
      */
     bool hasMovement = false;

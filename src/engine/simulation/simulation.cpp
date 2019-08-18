@@ -23,15 +23,15 @@ Simulation::Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<Simulatio
         error = "Parameters not set";
         return;
     }
-}
-
-void Simulation::load() {
     //Load asset
-    AssetLevel* assetLevel = engine->getAssetManager()->getAsset<AssetLevel>(this->parameters->world);
+    assetLevel = this->engine->getAssetManager()->getAsset<AssetLevel>(this->parameters->world);
     if (!assetLevel) {
         error = "World asset not found";
         return;
     }
+}
+
+void Simulation::loadWorld() {
     log->debug("Name: '" + assetLevel->name() + "'");
 
     //Load tileset
@@ -54,39 +54,59 @@ void Simulation::load() {
     if (hasError()) {
         return;
     }
+}
 
-    //Load players
-    std::vector<PlayerPrototype> levelPlayers;
-    assetLevel->players(levelPlayers);
-    error = assetLevel->getError();
-    if (hasError()) {
-        return;
-    }
-    for (PlayerPrototype& playerPrototype : levelPlayers) {
-        Faction* faction = nullptr;
-        if (playerPrototype.faction) {
-            faction = getFaction(playerPrototype.faction);
+void Simulation::loadPlayers() {
+    //Load players from parameters
+    for (auto& parametersPlayer : parameters->players) {
+        if (parametersPlayer) {
+            addPlayer(std::move(parametersPlayer));
         }
-
-        std::unique_ptr<Player> player = std::make_unique<Player>(playerPrototype.id, playerPrototype.enemies);
-        player->money = playerPrototype.money;
-        player->faction = faction;
-        addPlayer(std::move(player));
     }
 
-    //Load entities
-    std::vector<EntityPrototype> levelEntities;
-    assetLevel->entities(levelEntities);
-    error = assetLevel->getError();
-    if (hasError()) {
-        return;
-    }
-    for (EntityPrototype& entityPrototype : levelEntities) {
-        if (!entityPrototype.exists) {
-            //TODO these should be stored for later use
-            continue;
+    //Load players from level (overwrites existing players or creates news)
+    if (parameters->loadLevelContent) {
+        std::vector<PlayerPrototype> levelPlayers;
+        assetLevel->players(levelPlayers);
+        error = assetLevel->getError();
+        if (hasError()) {
+            return;
         }
-        createEntity(entityPrototype);
+        for (PlayerPrototype& playerPrototype : levelPlayers) {
+            Faction* faction = nullptr;
+            if (playerPrototype.faction) {
+                faction = getFaction(playerPrototype.faction);
+            }
+
+            Player* player = getPlayer(playerPrototype.id);
+            if (!player) {
+                std::unique_ptr playerPtr = std::make_unique<Player>(playerPrototype.id);
+                player = playerPtr.get();
+                addPlayer(std::move(playerPtr));
+            }
+            player->enemies = playerPrototype.enemies;
+            player->money = playerPrototype.money;
+            player->faction = faction;
+        }
+    }
+}
+
+void Simulation::loadEntities() {
+    if (parameters->loadLevelContent) {
+        //Load entities
+        std::vector<EntityPrototype> levelEntities;
+        assetLevel->entities(levelEntities);
+        error = assetLevel->getError();
+        if (hasError()) {
+            return;
+        }
+        for (EntityPrototype& entityPrototype : levelEntities) {
+            if (!entityPrototype.exists) {
+                //TODO these should be stored for later use
+                continue;
+            }
+            createEntity(entityPrototype);
+        }
     }
 }
 

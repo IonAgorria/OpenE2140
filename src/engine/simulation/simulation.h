@@ -16,6 +16,7 @@ class Player;
 class Engine;
 class World;
 class Renderer;
+class AssetLevel;
 
 /**
  * Contains everything inside the running game
@@ -36,6 +37,11 @@ private:
      * Engine object
      */
     std::shared_ptr<Engine> engine;
+
+    /**
+     * Asset level used for this simulation
+     */
+    AssetLevel* assetLevel;
 
     /**
      * Entities contained by this simulation
@@ -84,9 +90,19 @@ public:
     NON_COPYABLE(Simulation)
 
     /**
-     * Called when simulation should load from parameters
+     * Called when simulation should load the world
      */
-    virtual void load();
+    virtual void loadWorld();
+
+    /**
+     * Called when simulation should load players
+     */
+    void loadPlayers();
+
+    /**
+     * Called when simulation should load entities
+     */
+    void loadEntities();
 
     /**
      * Called when simulation is being updated

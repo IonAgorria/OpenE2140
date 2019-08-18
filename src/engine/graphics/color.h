@@ -106,6 +106,7 @@ struct ColorHSV {
      */
     template<typename T>
     void fromRGB(const T& color) {
+        h = s = v = 0;
         float r = static_cast<float>(color.r) / 255.0f;
         float g = static_cast<float>(color.g) / 255.0f;
         float b = static_cast<float>(color.b) / 255.0f;
@@ -118,17 +119,17 @@ struct ColorHSV {
             s = delta / max;
         } else {
             // r = g = b = 0		// s = 0, v is undefined
-            s = 0;
-            h = 0;
             return;
         }
 
-        if (r == max) {
-            h = (g - b) / delta;		// between yellow & magenta
-        } else if (g == max) {
-            h = 2 + (b - r) / delta;	// between cyan & yellow
-        } else {
-            h = 4 + (r -  g) / delta;	// between magenta & cyan
+        if (0 < delta) {
+            if (r == max) {
+                h = (g - b) / delta;        // between yellow & magenta
+            } else if (g == max) {
+                h = 2 + (b - r) / delta;    // between cyan & yellow
+            } else {
+                h = 4 + (r - g) / delta;    // between magenta & cyan
+            }
         }
 
         h *= 60;

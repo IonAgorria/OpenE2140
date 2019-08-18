@@ -68,7 +68,19 @@ void Game::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
     //Call setup
     Engine::setupSimulation(std::move(parameters));
 
+    //Load the simulation
+    simulation->loadWorld();
+    error = simulation->getError();
+    if (hasError()) return;
+
+    simulation->loadPlayers();
+    error = simulation->getError();
+    if (hasError()) return;
     setupPlayerColors();
+
+    simulation->loadEntities();
+    error = simulation->getError();
+    if (hasError()) return;
 }
 
 void Game::run() {
@@ -77,13 +89,21 @@ void Game::run() {
         return;
     }
 
+    //Prepare simulation
     //TODO
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
+    parameters->loadLevelContent = true;
     parameters->world = "LEVEL/DATA/LEVEL02";
     parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
+    std::unique_ptr<Player> player = std::make_unique<Player>(1);
+    player->color = {0xF0, 0x40, 0x40, 0xFF};
+    parameters->players.emplace_back(std::move(player));
+    player = std::make_unique<Player>(2);
+    player->color = {0x40, 0x40, 0xF0, 0xFF};
+    parameters->players.emplace_back(std::move(player));
     setupSimulation(std::move(parameters));
     if (hasError()) {
         return;
@@ -109,8 +129,8 @@ void Game::setupPlayerColors() {
         player->extraColors.clear();
         for (ColorHSV hsv : Color::PLAYER) {
             hsv.h = base.h;
-            hsv.s = base.s * hsv.s;
-            hsv.v = base.v * hsv.v;
+            hsv.s = hsv.s * base.s;
+            hsv.v = hsv.v * base.v;
             ColorRGBA paletteColor;
             hsv.toRGB(paletteColor);
             paletteColor.a = player->color.a;

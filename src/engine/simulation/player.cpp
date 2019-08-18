@@ -5,8 +5,8 @@
 #include "faction.h"
 #include "player.h"
 
-Player::Player(player_id_t id, player_mask_t enemies):
-    id(id), mask(BIT_MASK(id)), enemies(enemies) {
+Player::Player(player_id_t id):
+    id(id), mask(BIT_MASK(id)) {
 }
 
 bool Player::isEnemy(const Player* other) const {

@@ -63,7 +63,7 @@ public:
     /**
      * @return if palette is valid
      */
-    operator bool();
+    explicit operator bool();
 
     /**
      * @return palette number of colors

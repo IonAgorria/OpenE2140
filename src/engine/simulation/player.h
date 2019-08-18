@@ -39,13 +39,11 @@ public:
      */
     Faction* faction = nullptr;
 
-protected:
     /**
      * Player enemies mask, those which are enemies are marked as 1 in their bit position (determined at mask)
      */
     player_mask_t enemies = 0;
 
-public:
     /**
      * Name for this player
      */
@@ -59,7 +57,7 @@ public:
     /**
      * Constructor
      */
-    Player(player_id_t id, player_mask_t enemies = 0);
+    explicit Player(player_id_t id);
 
     /**
      * Destructor

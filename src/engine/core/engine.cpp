@@ -267,10 +267,6 @@ void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
 
     //Load stuff before doing simulation load
     loadFactions();
-
-    //Load the simulation
-    simulation->load();
-    error = simulation->getError();
 }
 
 EventHandler* Engine::getEventHandler() {

@@ -246,11 +246,14 @@ void AssetManager::processImages(
             stbrp_rect& rect = rects.at(index);
             AssetImage* assetImage = assetImages.at(index);
             Vector2 imageSize = assetImage->getImageSize();
-            if (0 > imageSize.x
-             || 0 > imageSize.y
-             || textureSize < (unsigned) imageSize.x
-             || textureSize < (unsigned) imageSize.y) {
-                error = "This asset image exceeds the maximum texture size allowed " + assetImage->getPath() + " " + imageSize.toString();
+            if (0 > imageSize.x || 0 > imageSize.y) {
+                error = "This asset image size is negative " + assetImage->getPath() + " " + imageSize.toString();
+                return;
+            }
+            //Expand the image size
+            imageSize += (EXTRA_TEXTURE_SIZE * 2);
+            if (textureSize < (unsigned) imageSize.x || textureSize < (unsigned) imageSize.y) {
+                error = "This asset image size exceeds the maximum texture size allowed " + assetImage->getPath() + " " + imageSize.toString();
                 return;
             }
             rect.id = static_cast<int>(index);
@@ -287,7 +290,13 @@ void AssetManager::processImages(
                 retryCount++;
                 continue;
             }
-            Rectangle rectangle(rect.x, rect.y, rect.w, rect.h);
+            //Since extra space was used we need to remove the extra space on each side
+            Rectangle rectangle(
+                    rect.x + EXTRA_TEXTURE_SIZE,
+                    rect.y + EXTRA_TEXTURE_SIZE,
+                    rect.w - EXTRA_TEXTURE_SIZE * 2,
+                    rect.h - EXTRA_TEXTURE_SIZE * 2
+            );
 
             //Fetch and remove asset image from queue
             std::vector<AssetImage*>::iterator it = assetImages.begin() + index;

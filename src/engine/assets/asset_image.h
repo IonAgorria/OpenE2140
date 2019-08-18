@@ -69,7 +69,7 @@ public:
      * @param image to write this asset content to
      * @return true if success
      */
-    bool assignImage(std::shared_ptr<Image> assigningImage);
+    bool assignImage(const std::shared_ptr<Image>& assigningImage);
 
     /**
      * @return palette asset related to this image asset if any

@@ -37,6 +37,8 @@
 #define MINIMUM_TEXTURE_SIZE 512
 /** Maximum texture size */
 #define MAXIMUM_TEXTURE_SIZE 8192
+/** Extra size to add when packing texture to avoid bleeding */
+#define EXTRA_TEXTURE_SIZE 2
 /** Texture unit for RGBA image texture */
 #define TEXTURE_UNIT_IMAGE_RGBA GL_TEXTURE0
 /** Texture unit for palette image texture */

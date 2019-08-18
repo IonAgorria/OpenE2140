@@ -21,14 +21,23 @@ const Vector2& AssetImage::getImageSize() const {
     return imageSize;
 }
 
-bool AssetImage::assignImage(std::shared_ptr<Image> assigningImage) {
+bool AssetImage::assignImage(const std::shared_ptr<Image>& assigningImage) {
+    if (!error.empty()) return false;
     if (assigningImage) {
         bool result = false;
-        size_t imagePixelsCount = static_cast<size_t>(imageSize.x * imageSize.y);
+        size_t imagePixelsCount = static_cast<size_t>(imageSize.x) * imageSize.y;
 
         //Check if image has palette
-        if (error.empty() && (!assetPalette != !assigningImage->getPalette())) {
+        if (!assetPalette != !assigningImage->getPalette()) {
             error = "Provided image or asset image mismatch in palette usage";
+            return false;
+        }
+
+        //Check if assigning image size matches
+        Vector2 assigningImageSize;
+        assigningImage->getRectangle().getSize(assigningImageSize);
+        if (imageSize != assigningImageSize) {
+            error = "Provided image size doesn't match with asset size";
             return false;
         }
 

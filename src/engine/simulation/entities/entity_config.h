@@ -6,7 +6,7 @@
 
 #include <unordered_map>
 #include "engine/io/log.h"
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/core/to_string.h"
 #include "engine/io/has_config_data.h"
 #include "engine/math/rectangle.h"

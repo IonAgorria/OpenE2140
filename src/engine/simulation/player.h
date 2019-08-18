@@ -5,7 +5,7 @@
 #define OPENE2140_PLAYER_H
 
 #include "engine/graphics/color.h"
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 
 class Faction;
 

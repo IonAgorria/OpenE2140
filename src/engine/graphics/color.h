@@ -5,7 +5,7 @@
 #define OPENE2140_COLOR_H
 
 #include "SDL_pixels.h"
-#include "engine/core/common.h"
+#include "engine/core/types.h"
 
 /**
  * Struct for RG color

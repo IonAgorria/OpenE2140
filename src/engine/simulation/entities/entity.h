@@ -5,7 +5,7 @@
 #define OPENE2140_ENTITY_H
 
 #include "engine/simulation/components/component.h"
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/core/to_string.h"
 #include "engine/math/rectangle.h"
 #include "engine/graphics/image.h"

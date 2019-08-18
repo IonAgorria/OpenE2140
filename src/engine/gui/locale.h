@@ -4,7 +4,8 @@
 #ifndef OPENE2140_LOCALE_H
 #define OPENE2140_LOCALE_H
 
-#include "engine/core/common.h"
+#include <unordered_map>
+#include "engine/core/macros.h"
 #include "engine/core/error_possible.h"
 #include "engine/core/to_string.h"
 

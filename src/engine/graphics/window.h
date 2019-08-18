@@ -6,7 +6,8 @@
 
 #include <SDL_video.h>
 #include <SDL_render.h>
-#include "engine/core/common.h"
+#include "engine/core/types.h"
+#include "engine/core/macros.h"
 #include "engine/core/error_possible.h"
 #include "engine/io/log.h"
 #include "engine/math/vector2.h"

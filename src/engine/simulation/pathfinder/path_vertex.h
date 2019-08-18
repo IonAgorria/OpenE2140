@@ -5,6 +5,7 @@
 #define OPENE2140_PATH_VERTEX_H
 
 #include "engine/core/types.h"
+#include "engine/core/common.h"
 
 using path_cost_t = uint16_t;
 

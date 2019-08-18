@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 8/04/18
 //
-#include "engine/core/common.h"
 #include "engine/core/utils.h"
 #include "engine/io/log.h"
 #include "asset_palette.h"

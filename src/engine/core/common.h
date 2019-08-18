@@ -11,14 +11,8 @@
 
 //Includes
 #include "macros.h"
-#include "types.h"
 #include "build_config.h"
 #include "build_config_placeholder.h"
-
-//Includes for common stuff
-#include <memory>
-#include <vector>
-#include <string>
 
 //Constants
 /** Game version string */

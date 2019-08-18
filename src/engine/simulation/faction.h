@@ -4,7 +4,7 @@
 #ifndef OPENE2140_FACTION_H
 #define OPENE2140_FACTION_H
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/io/has_config_data.h"
 
 /**

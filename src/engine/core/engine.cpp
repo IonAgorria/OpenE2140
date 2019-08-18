@@ -2,7 +2,6 @@
 // Created by Ion Agorria on 1/11/18
 //
 #include <SDL.h>
-#include "engine/core/common.h"
 #include "engine/assets/asset_manager.h"
 #include "engine/graphics/palette.h"
 #include "engine/graphics/renderer.h"

@@ -1,11 +1,11 @@
 //
 // Created by Ion Agorria on 27/04/19
 //
-#include "engine/core/common.h"
 #include "engine/simulation/entities/entity_manager.h"
 #include "engine/graphics/window.h"
 #include "engine/simulation/player.h"
 #include "engine/simulation/faction.h"
+#include "engine/simulation/world/world.h"
 #include "engine/simulation/world/tile.h"
 #include "engine/core/utils.h"
 #include "game/assets/asset_processor_wd.h"

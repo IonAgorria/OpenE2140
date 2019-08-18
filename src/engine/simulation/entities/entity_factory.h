@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ENTITY_FACTORY_H
 #define OPENE2140_ENTITY_FACTORY_H
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/core/error_possible.h"
 #include "entity_config.h"
 

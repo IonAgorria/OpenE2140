@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 12/04/18
 //
-#include "engine/core/common.h"
 #include "engine/core/utils.h"
 #include "SDL_rwops.h"
 #include "file.h"

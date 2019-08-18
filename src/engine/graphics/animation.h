@@ -4,7 +4,9 @@
 #ifndef OPENE2140_ANIMATION_H
 #define OPENE2140_ANIMATION_H
 
-#include "engine/core/common.h"
+#include <vector>
+#include "engine/core/types.h"
+#include "engine/core/macros.h"
 #include "engine/core/to_string.h"
 
 class Image;

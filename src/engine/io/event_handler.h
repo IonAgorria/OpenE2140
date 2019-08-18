@@ -4,7 +4,7 @@
 #ifndef OPENE2140_EVENTHANDLER_H
 #define OPENE2140_EVENTHANDLER_H
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/io/log.h"
 #include "event_dispatcher.h"
 

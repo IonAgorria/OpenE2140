@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/core/priority_queue.h"
 #include "path_state.h"
 #include "path_vertex.h"

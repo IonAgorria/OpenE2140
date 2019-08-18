@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 30/05/19
 //
 
+#include "engine/core/common.h"
 #include "engine/io/log.h"
 #include "asset_level_game.h"
 

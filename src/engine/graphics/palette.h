@@ -4,6 +4,7 @@
 #ifndef OPENE2140_PALETTE_H
 #define OPENE2140_PALETTE_H
 
+#include <vector>
 #include <unordered_map>
 #include "engine/core/common.h"
 #include "engine/core/error_possible.h"

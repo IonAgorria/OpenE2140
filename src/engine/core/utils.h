@@ -9,7 +9,8 @@
 #include <sstream> //MacOS requires this to avoid implicit templates in string streams
 #include <csignal>
 #include <list>
-#include "common.h"
+#include "macros.h"
+#include "types.h"
 #include "engine/io/log.h"
 
 #define DIALOG_MAX_WIDTH 150

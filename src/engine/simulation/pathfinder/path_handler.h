@@ -5,7 +5,7 @@
 #define OPENE2140_PATH_HANDLER_H
 
 #include <unordered_map>
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "path_request.h"
 
 class Tile;

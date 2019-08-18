@@ -4,7 +4,7 @@
 #ifndef OPENE2140_ENGINE_H
 #define OPENE2140_ENGINE_H
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/simulation/simulation_parameters.h"
 #include "engine/core/error_possible.h"
 #include "engine/io/log.h"

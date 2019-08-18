@@ -4,7 +4,7 @@
 #ifndef OPENE2140_WORLD_H
 #define OPENE2140_WORLD_H
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/core/error_possible.h"
 #include "engine/io/log.h"
 #include "engine/math/rectangle.h"

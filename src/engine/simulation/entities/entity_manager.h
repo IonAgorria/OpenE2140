@@ -4,7 +4,8 @@
 #ifndef OPENE2140_ENTITY_MANAGER_H
 #define OPENE2140_ENTITY_MANAGER_H
 
-#include "engine/core/common.h"
+#include "engine/core/types.h"
+#include "engine/core/macros.h"
 #include "engine/io/log.h"
 #include "engine/core/error_possible.h"
 

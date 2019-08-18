@@ -5,7 +5,7 @@
 #define OPENE2140_GUIVIEW_H
 
 #include "engine/math/rectangle.h"
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 
 /**
  * Basic element for composing GUI

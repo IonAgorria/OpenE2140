@@ -4,7 +4,7 @@
 #ifndef OPENE2140_EVENT_LISTENER_CAMERA_H
 #define OPENE2140_EVENT_LISTENER_CAMERA_H
 
-#include "engine/core/common.h"
+#include "engine/core/macros.h"
 #include "engine/io/event_handler.h"
 #include "engine/io/event_listener.h"
 

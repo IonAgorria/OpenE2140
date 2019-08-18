@@ -1,8 +1,6 @@
 //
 // Created by Ion Agorria on 12/07/19
 //
-#include "src/engine/io/log.h"
-#include "engine/simulation/entities/entity.h"
 #include "engine/simulation/entities/entity_config.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/player.h"

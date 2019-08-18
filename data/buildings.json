@@ -31,7 +31,7 @@
             "heavy_lifter",
             "hcr-m"
         ],
-        "objects": {
+        "attachments": {
             "exit": {
                 "type": "exit_ed",
                 "position": [1, 1]
@@ -58,7 +58,7 @@
             "heavy_lifter",
             "hcr-m"
         ],
-        "objects": {
+        "attachments": {
             "exit": {
                 "type": "exit_ucs",
                 "position": [0, 1]
@@ -81,8 +81,8 @@
         "consumed_energy": 400,
         "health": 1000,
         "produces": [
-            "st01b_tank",
-            "st02_tank",
+            "st_01b",
+            "st_02",
             "mt_200",
             "mt_201l",
             "ht_30_lr",
@@ -97,7 +97,7 @@
             "thunder",
             "hat"
         ],
-        "objects": {
+        "attachments": {
             "exit": {
                 "type": "exit_ed",
                 "position": [1, 0]
@@ -134,10 +134,14 @@
             "gargoil",
             "hellwind"
         ],
-        "objects": {
+        "attachments": {
             "exit": {
                 "type": "exit_ucs",
                 "position": [-1, 0]
+            },
+            "radar": {
+                "type": "radar",
+                "position": [0, 0]
             }
         },
         "sprites": {
@@ -162,12 +166,12 @@
         "consumed_energy": 200,
         "health": 700,
         "produces": [
-            "a01_android",
-            "a02_android",
-            "a03_android",
-            "a04_android"
+            "android_a01",
+            "android_a02",
+            "android_a03",
+            "android_a04"
         ],
-        "objects": {
+        "attachments": {
             "exit": {
                 "type": "exit_bio_center",
                 "position": [-1, 0]
@@ -194,7 +198,7 @@
             "silver_max",
             "silver_t"
         ],
-        "objects": {
+        "attachments": {
             "exit": {
                 "type": "exit_robot_factory",
                 "position": [-1, 0]
@@ -473,7 +477,7 @@
         "capacity": {
             "light": 6
         },
-        "objects": {
+        "attachments": {
             "conveyor_belt": {
                 "type": "conveyor_belt",
                 "position": [2, 0]
@@ -552,16 +556,23 @@
         "capacity": {
             "light": 6
         },
-        "objects": {
+        "attachments": {
             "conveyor_belt": {
                 "type": "conveyor_belt",
                 "position": [2, 0]
+            },
+            "flywheel_top": {
+                "type": "flywheel_mine",
+                "position": [0, -1]
+            },
+            "flywheel_bottom": {
+                "type": "flywheel_mine",
+                "position": [0, 1]
             }
         },
         "sprites": {
             "default": 26,
-            "damaged": 27,
-            "flywheel": [28, 29, 30, 31, 32]
+            "damaged": 27
         }
     },
     {

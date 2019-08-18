@@ -8,8 +8,7 @@
 #include "engine/simulation/components/image_component.h"
 #include "palette_component.h"
 
-void PaletteComponent::construction() {
-}
+CLASS_COMPONENT_DEFAULT(PaletteComponent)
 
 unsigned short test;
 void PaletteComponent::update() {
@@ -136,8 +135,4 @@ void PaletteComponent::setLight(bool state) {
             return;
     }
     palette->updateTexture();
-}
-
-Palette* PaletteComponent::getPalette() const {
-    return palette.get();
 }

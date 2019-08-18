@@ -2,7 +2,7 @@
 // Created by Ion Agorria on 17/08/19
 //
 #include "engine/simulation/world/world.h"
-#include "object.h"
+#include "unit.h"
 
 void Unit::simulationChanged() {
     if (isActive()) {

@@ -4,8 +4,6 @@
 #ifndef OPENE2140_UNIT_H
 #define OPENE2140_UNIT_H
 
-#include "game/core/constants.h"
-#include "engine/simulation/entities/entity_factory.h"
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/entities/entity.h"

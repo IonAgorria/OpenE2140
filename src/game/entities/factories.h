@@ -12,63 +12,6 @@
 #include "unit.h"
 
 /**
- * Building factory
- */
-class BuildingFactory: public IEntityFactory {
-    TYPE_NAME_OVERRIDE(BuildingFactory);
-
-    std::string getConfigPath() const override {
-        return "buildings.json";
-    }
-
-    std::string getAssetPath() const override {
-        return "MIX/SPRB0/";
-    }
-
-    entity_kind_t getKind() const override {
-        return ENTITY_KIND_BUILDING;
-    }
-
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
-        return std::make_shared<Building>();
-    }
-
-    void setupEntityConfig(EntityConfig* config) override {
-        //Setup the bounds from first layout of building if bounds is not set in config and layout exists
-        config_data_t layout = config->getData("layout");
-        if (!config->getData("bounds").is_array() && layout.is_array()) {
-            Rectangle bounds;
-            if (Config::getRectangle(layout[0], bounds)) {
-                config->setData("bounds", layout[0]);
-                config->bounds = bounds;
-            }
-        }
-
-        //Set config values if they are missing
-        if (!config->getData("palette_light").is_boolean()) {
-            config->setData("palette_light", true);
-        }
-        if (!config->getData("palette_player").is_boolean()) {
-            config->setData("palette_player", true);
-        }
-        if (!config->getData("palette_shadow").is_boolean()) {
-            config->setData("palette_shadow", true);
-        }
-
-        //Set palette size using the entity config data
-        if (config->getData("palette_light", false)) {
-            config->setData("palette_lowest_entry", PALETTE_BUILDING_LIGHT0);
-        } else if (config->getData("palette_player", false)) {
-            config->setData("palette_lowest_entry", PALETTE_PLAYER);
-        } else if (config->getData("palette_shadow", false)) {
-            config->setData("palette_lowest_entry", PALETTE_BUILDING_SHADOW_EXTRA);
-        }
-
-        IEntityFactory::setupEntityConfig(config);
-    }
-};
-
-/**
  * Object factory
  */
 class ObjectFactory: public IEntityFactory {
@@ -166,6 +109,63 @@ class UnitFactory: public IEntityFactory {
             config->setData("palette_lowest_entry", PALETTE_PLAYER);
         } else if (config->getData("palette_shadow", false)) {
             config->setData("palette_lowest_entry", PALETTE_UNIT_SHADOW);
+        }
+
+        IEntityFactory::setupEntityConfig(config);
+    }
+};
+
+/**
+ * Building factory
+ */
+class BuildingFactory: public IEntityFactory {
+    TYPE_NAME_OVERRIDE(BuildingFactory);
+
+    std::string getConfigPath() const override {
+        return "buildings.json";
+    }
+
+    std::string getAssetPath() const override {
+        return "MIX/SPRB0/";
+    }
+
+    entity_kind_t getKind() const override {
+        return ENTITY_KIND_BUILDING;
+    }
+
+    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+        return std::make_shared<Building>();
+    }
+
+    void setupEntityConfig(EntityConfig* config) override {
+        //Setup the bounds from first layout of building if bounds is not set in config and layout exists
+        config_data_t layout = config->getData("layout");
+        if (!config->getData("bounds").is_array() && layout.is_array()) {
+            Rectangle bounds;
+            if (Config::getRectangle(layout[0], bounds)) {
+                config->setData("bounds", layout[0]);
+                config->bounds = bounds;
+            }
+        }
+
+        //Set config values if they are missing
+        if (!config->getData("palette_light").is_boolean()) {
+            config->setData("palette_light", true);
+        }
+        if (!config->getData("palette_player").is_boolean()) {
+            config->setData("palette_player", true);
+        }
+        if (!config->getData("palette_shadow").is_boolean()) {
+            config->setData("palette_shadow", true);
+        }
+
+        //Set palette size using the entity config data
+        if (config->getData("palette_light", false)) {
+            config->setData("palette_lowest_entry", PALETTE_BUILDING_LIGHT0);
+        } else if (config->getData("palette_player", false)) {
+            config->setData("palette_lowest_entry", PALETTE_PLAYER);
+        } else if (config->getData("palette_shadow", false)) {
+            config->setData("palette_lowest_entry", PALETTE_BUILDING_SHADOW_EXTRA);
         }
 
         IEntityFactory::setupEntityConfig(config);

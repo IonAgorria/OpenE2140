@@ -180,7 +180,7 @@ public:
     /**
      * Flush counter
      */
-    size_t flushes;
+    size_t flushes = 0;
 
     /**
      * Constructs loader

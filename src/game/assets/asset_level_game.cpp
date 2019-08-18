@@ -307,8 +307,8 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
             error = "Error reading entity type\n" + error;
             return;
         }
-        //Skip this entity if index doesn't match
-        if (index != i) {
+        //Skip this entity if index doesn't match or type is 0
+        if (index != i || type == 0) {
             continue;
         }
 

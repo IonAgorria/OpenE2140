@@ -1,9 +1,5 @@
 [
   {
-    "id": 0,
-    "sprites": {}
-  },
-  {
     "id": 69,
     "type": "mine",
     "sprites": {

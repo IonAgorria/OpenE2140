@@ -1,8 +1,8 @@
 //
 // Created by Ion Agorria on 13/06/19
 //
-#ifndef OPENE2140_PLAYER_SETUP_COMPONENT_H
-#define OPENE2140_PLAYER_SETUP_COMPONENT_H
+#ifndef OPENE2140_PALETTE_COMPONENT_H
+#define OPENE2140_PALETTE_COMPONENT_H
 
 #include "game/core/constants.h"
 #include "engine/graphics/color.h"
@@ -67,8 +67,7 @@ namespace Color {
 /**
  * Handles palette setup per entity type
  */
-class PaletteComponent {
-CLASS_COMPONENT_BODY(Entity, PaletteComponent)
+CLASS_COMPONENT(Entity, PaletteComponent)
 private:
     /**
      * Palette controlled by this component
@@ -107,19 +106,6 @@ private:
 
 public:
     /**
-     * Destructor
-     */
-    ~PaletteComponent() = default;
-
-    void construction();
-
-    void setup();
-
-    void simulationChanged();
-
-    void update();
-
-    /**
      * Does setup for shadow colors
      * @param config
      */
@@ -131,11 +117,6 @@ public:
      * @param state
      */
     void setLight(bool state);
-
-    /**
-     * @return extra palette in component if any
-     */
-    Palette* getPalette() const;
 };
 
-#endif //OPENE2140_PLAYER_SETUP_COMPONENT_H
+#endif //OPENE2140_PALETTE_COMPONENT_H

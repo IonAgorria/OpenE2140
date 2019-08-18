@@ -62,6 +62,11 @@ The following game assets must be present in WD file or directory form:
 ## Completed
 - World/map code and drawing of map tiles
 - Basic entity implementation
+- Custom player colors
+- Basic palette setup such as light, player and shadow
+- Trees and other map objects
+- Config load/save
+- Units and buildings stats
 
 ## Roadmap
 - Entity attachment
@@ -82,6 +87,7 @@ The following game assets must be present in WD file or directory form:
     - Tracking the current target with turret
 - Attack order
 - Add ingame menu for viewing player stuff
+- Refinery and Power plant smoke
 - Building construction and deployment
 - Factories build queue
 - Writing game data (sprites of units, weapons and other missing data)

@@ -29,6 +29,10 @@ void Animation::setFrames(const std::vector<Image*>& images) {
     checkCurrent();
 }
 
+size_t Animation::getSize() const {
+    return frames.size();
+}
+
 size_t Animation::getCurrentIndex() const {
     return current;
 }
@@ -47,42 +51,36 @@ bool Animation::isFinished() const {
     return !loop && isEnd();
 }
 
-void Animation::update(duration_t delta) {
+bool Animation::update(duration_t delta) {
     if (isFinished()) {
-        return;
+        return false;
     }
+    bool changed = false;
     //Decrement left
     left -= delta;
-    //Loop until left is positive
-    while (left <= 0) {
+    if (left <= 0) {
         left = 0;
         if (isFinished()) {
-            break;
+            return false;
         }
-        duration_t step = duration;
         if (reverse) {
             if (isEnd()) { //Need to change roll if we are in end
                 current = frames.size();
-                left += step;
             } else { //Current frame time over
                 current--;
-                left += step;
             }
         } else {
             if (isEnd()) { //Need to change roll if we are in end
                 current = 0;
-                left += step;
             } else { //Current frame time over
                 current++;
-                left += step;
             }
         }
+        changed = true;
+        left = duration;
         checkCurrent();
-        if (step <= 0) {
-            //Avoid infinite loop
-            break;
-        }
     }
+    return changed;
 }
 
 std::string Animation::toString() const {

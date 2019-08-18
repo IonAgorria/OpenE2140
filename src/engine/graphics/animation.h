@@ -61,6 +61,9 @@ public:
      */
     void setFrames(const std::vector<Image*>& images);
 
+    /** return frame count */
+    size_t getSize() const;
+
     /** return current frame index */
     size_t getCurrentIndex() const;
 
@@ -81,8 +84,9 @@ public:
      * Updates animation
      *
      * @param delta The time in ms since the last update.
+     * @return if frame was updated
      */
-    void update(duration_t delta);
+    bool update(duration_t delta);
 
     /*
      * IToString

@@ -2,13 +2,8 @@
 // Created by Ion Agorria on 27/04/19
 //
 #include "engine/core/common.h"
-#include "engine/assets/asset_manager.h"
 #include "engine/simulation/entities/entity_manager.h"
-#include "engine/graphics/palette.h"
-#include "engine/graphics/renderer.h"
 #include "engine/graphics/window.h"
-#include "engine/io/event_handler.h"
-#include "engine/simulation/simulation.h"
 #include "engine/simulation/player.h"
 #include "engine/simulation/faction.h"
 #include "engine/simulation/world/tile.h"
@@ -99,10 +94,10 @@ void Game::run() {
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
-    player->color = {0xF0, 0x40, 0x40, 0xFF};
+    player->color = {0x88, 0x1e, 0x12, 0xFF};
     parameters->players.emplace_back(std::move(player));
     player = std::make_unique<Player>(2);
-    player->color = {0x40, 0x40, 0xF0, 0xFF};
+    player->color = {0x55, 0x88, 0, 0xFF};
     parameters->players.emplace_back(std::move(player));
     setupSimulation(std::move(parameters));
     if (hasError()) {
@@ -128,9 +123,10 @@ void Game::setupPlayerColors() {
         base.fromRGB(player->color);
         player->extraColors.clear();
         for (ColorHSV hsv : Color::PLAYER) {
-            hsv.h = base.h;
+            hsv.h = hsv.h + base.h;
             hsv.s = hsv.s * base.s;
             hsv.v = hsv.v * base.v;
+            hsv.check();
             ColorRGBA paletteColor;
             hsv.toRGB(paletteColor);
             paletteColor.a = player->color.a;
@@ -144,5 +140,5 @@ void Game::setReactorCrate(Tile& tile) {
     BIT_ON(tile.tileFlags, TILE_FLAG_IMMUTABLE);
     tile.isImageDirty = true;
     //TODO set damage type and destroy any entity inside
-    //TODO mark the surrounding tiles a radiactive
+    //TODO mark the surrounding tiles a radiactived
 }

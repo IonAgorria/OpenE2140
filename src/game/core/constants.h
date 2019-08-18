@@ -24,12 +24,13 @@
 namespace Color {
     const ColorRGBA SHADOW_MAIN            {0x00, 0x00, 0x00, 0x60};
     const ColorRGBA SHADOW_EXTRA           {0x00, 0x00, 0x00, 0x40};
+    const ColorRGBA MAP_ORE_COLOR          {0x80, 0x80, 0x00, 0xFF};
     const ColorHSV PLAYER[] {
-            {120, 1.0f, 0.3f},
-            {96, 1.0f, 0.5f},
-            {80, 1.0f, 0.6f},
-            {80, 1.0f, 0.75f},
-            {80, 1.0f, 0.9f}
+            {0, 1.0f, 0.30f},
+            {0, 1.0f, 0.40f},
+            {0, 1.0f, 0.50f},
+            {0, 1.0f, 0.60f},
+            {0, 1.0f, 0.80f}
     };
 }
 

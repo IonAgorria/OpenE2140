@@ -92,6 +92,12 @@ void Simulation::loadPlayers() {
 }
 
 void Simulation::loadEntities() {
+    std::shared_ptr<Entity> entityPtr = engine->getEntityManager()->makeEntity({2, 19});
+    entityPtr->setPosition({96 + 64, 96 + 64});
+    PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
+    component->setPlayer(getPlayer(1));
+    addEntity(entityPtr);
+
     if (parameters->loadLevelContent) {
         //Load entities
         std::vector<EntityPrototype> levelEntities;

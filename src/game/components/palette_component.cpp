@@ -67,7 +67,7 @@ void PaletteComponent::simulationChanged() {
 
     //Setup the rest
     setupShadows(config);
-    palette->setColor(0xFF - lowestEntry, Color::CLEAR);
+    palette->setColor(0xFF - lowestEntry, Color::BLACK);
     palette->updateTexture();
 }
 

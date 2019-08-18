@@ -101,6 +101,17 @@ struct ColorHSV {
     float s = 0;
     float v = 0;
 
+    void check() {
+        if (h < 0) {
+            h += 360;
+        }
+        if (360 <= h) {
+            h -= 360;
+        }
+        s = std::max(0.f, std::min(1.f, s));
+        v = std::max(0.f, std::min(1.f, v));
+    }
+
     /**
      * Sets this color from RGBA
      */
@@ -133,9 +144,7 @@ struct ColorHSV {
         }
 
         h *= 60;
-        if (h < 0) {
-            h += 360;
-        }
+        check();
     }
 
     /**

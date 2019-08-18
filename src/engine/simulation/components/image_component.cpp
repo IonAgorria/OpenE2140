@@ -15,10 +15,11 @@ void ImageComponent::simulationChanged() {
 
 void ImageComponent::update() {
     if (animationPlay && animation) {
-        animation->update(GAME_DELTA);
-        image = animation->getCurrentFrame();
-        if (image) {
-            image->getRectangle().getSize(imageSize);
+        if (animation->update(GAME_DELTA)) {
+            image = animation->getCurrentFrame();
+            if (image) {
+                image->getRectangle().getSize(imageSize);
+            }
         }
     }
 }
@@ -27,7 +28,10 @@ void ImageComponent::draw(Renderer* renderer) {
     if (image) {
         Vector2 position = base->getPosition();
         position += imageOffset;
-        renderer->drawImage(position, imageSize, imageDirection, *image, extraPalette.get());
+        Vector2 size = imageSize;
+        if (imageFlipX) size.x *= -1;
+        if (imageFlipY) size.y *= -1;
+        renderer->drawImage(position, size, imageDirection, *image, extraPalette.get());
     }
 }
 

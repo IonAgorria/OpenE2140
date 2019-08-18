@@ -45,6 +45,16 @@ public:
     float imageDirection = 0;
 
     /**
+     * Image flip X state
+     */
+    bool imageFlipX = false;
+
+    /**
+     * Image flip Y state
+     */
+    bool imageFlipY = false;
+
+    /**
      * Optional palette to provide when drawing image
      */
     std::shared_ptr<Palette> extraPalette;

@@ -207,6 +207,7 @@ std::string Image::toString() const {
 
 std::string Image::toStringContent() const {
     return " Rectangle: " + rectangle.toString()
+         + " Texture: " + std::to_string(texture)
          + " With palette: " + std::to_string(withPalette)
          + " Palette: " + (palette ? palette->toString() : "null")
             ;

@@ -55,6 +55,10 @@ unsigned long Palette::length() const {
     return colors.size();
 }
 
+bool Palette::isExtra() const {
+    return extra;
+}
+
 bool Palette::setColors(const Palette* palette, unsigned int srcIndex, unsigned int dstIndex, unsigned int length) {
     for (size_t i = 0; i < length; ++i) {
         ColorRGBA color;
@@ -146,7 +150,8 @@ std::string Palette::toString() const {
 }
 
 std::string Palette::toStringContent() const {
-    return " Count: " + std::to_string(length())
+    return " Length: " + std::to_string(length())
          + " Extra: " + std::to_string(extra)
+         + " Texture: " + std::to_string(texture)
             ;
 }

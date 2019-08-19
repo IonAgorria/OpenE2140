@@ -72,6 +72,11 @@ public:
     unsigned long length() const;
 
     /**
+     * @return true if palette is extra
+     */
+    bool isExtra() const;
+
+    /**
      * Sets this palette from other palette
      *
      * @param srcIndex the first color source index

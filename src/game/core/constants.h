@@ -19,6 +19,16 @@
 #define ENTITY_KIND_EFFECT 5
 
 /**
+ * Constants for palette indexes with special meaning
+ */
+#define PALETTE_MAX_INDEX 0xFF
+//Player coloring entries
+#define PALETTE_PLAYER 0xF8
+#define PALETTE_PLAYER_AMOUNT 5
+//Shadow
+#define PALETTE_SHADOW 0xFE
+
+/**
  * Namespace for color constants
  */
 #include "engine/graphics/color.h"

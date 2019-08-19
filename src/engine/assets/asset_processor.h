@@ -60,6 +60,11 @@ public:
      * Processes intermediate assets if they can be converted to different assets
      */
     virtual void processIntermediates();
+
+    /**
+     * Called when assets are refreshed
+     */
+    virtual void refreshAssets();
 };
 
 #endif //OPENE2140_ASSET_PROCESSOR_H

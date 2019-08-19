@@ -53,6 +53,7 @@ void Game::setupAssetManager() {
 void Game::setupEntityManager() {
     //Register factories
     entityManager->addEntityFactory(std::make_unique<ObjectFactory>());
+    entityManager->addEntityFactory(std::make_unique<UnitFactory>());
     entityManager->addEntityFactory(std::make_unique<BuildingFactory>());
     entityManager->addEntityFactory(std::make_unique<AttachmentFactory>());
 

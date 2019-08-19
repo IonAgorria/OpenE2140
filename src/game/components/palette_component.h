@@ -8,16 +8,6 @@
 #include "engine/graphics/color.h"
 #include "engine/simulation/components/component.h"
 
-/**
- * Constants for palette indexes with special meaning
- */
-#define PALETTE_MAX_INDEX 0xFF
-//Player coloring entries
-#define PALETTE_PLAYER 0xF8
-#define PALETTE_PLAYER_AMOUNT 5
-//Shadow
-#define PALETTE_SHADOW 0xFE
-
 /*
  * Unit entries
  */

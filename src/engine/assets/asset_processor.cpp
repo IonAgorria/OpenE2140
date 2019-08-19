@@ -64,5 +64,7 @@ int IAssetProcessor::scanContainerDir(const std::string& path, const std::string
 }
 
 void IAssetProcessor::processIntermediates() {
+}
 
+void IAssetProcessor::refreshAssets() {
 }

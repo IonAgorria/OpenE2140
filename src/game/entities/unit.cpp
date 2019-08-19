@@ -11,7 +11,7 @@ void Unit::simulationChanged() {
         bounds.setCenter(position, Vector2(world->tileSize));
 
         //Load image TODO
-        setImageFromSprite("default");
+        setImageFromSprite("default_0");
     }
 
     Entity::simulationChanged();

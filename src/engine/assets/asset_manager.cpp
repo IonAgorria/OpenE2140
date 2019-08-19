@@ -215,6 +215,13 @@ void AssetManager::refreshAssets() {
     log->debug("Processing {0} palette images", assetImages.size());
     processImages(textureSize, batchSize, assetImagesWithPalettes, true);
     if (!error.empty()) return;
+
+    //Refresh the images with processors
+    for (std::unique_ptr<IAssetProcessor>& processor : processors) {
+        processor->refreshAssets();
+        error = processor->getError();
+        if (!error.empty()) return;
+    }
 }
 
 void AssetManager::processImages(

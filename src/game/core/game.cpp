@@ -12,6 +12,7 @@
 #include "game/assets/asset_processor_datpal.h"
 #include "game/assets/asset_processor_level.h"
 #include "game/assets/asset_processor_mix.h"
+#include "game/assets/asset_processor_fixes.h"
 #include "game/entities/factories.h"
 #include "game/io/event_listener_camera.h"
 #include "game/io/event_listener_debug.h"
@@ -35,6 +36,7 @@ void Game::setupAssetManager() {
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorDatPal>());
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorLevel>());
     assetManager->addAssetProcessor(std::make_unique<AssetProcessorMIX>());
+    assetManager->addAssetProcessor(std::make_unique<AssetProcessorFixes>());
 
     //Load assets
     assetManager->registerAssetContainer("PIRO", true);

@@ -100,6 +100,7 @@ opene2140_src = [
     'src/game/assets/asset_processor_level.cpp',
     'src/game/assets/asset_processor_wd.cpp',
     'src/game/assets/asset_processor_mix.cpp',
+    'src/game/assets/asset_processor_fixes.cpp',
     'src/game/assets/asset_level_game.cpp',
     'src/game/components/palette_component.cpp',
     'src/game/entities/object.cpp',

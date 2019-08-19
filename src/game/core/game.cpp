@@ -54,6 +54,7 @@ void Game::setupEntityManager() {
     //Register factories
     entityManager->addEntityFactory(std::make_unique<ObjectFactory>());
     entityManager->addEntityFactory(std::make_unique<BuildingFactory>());
+    entityManager->addEntityFactory(std::make_unique<AttachmentFactory>());
 
     //Call setup
     Engine::setupEntityManager();
@@ -111,14 +112,14 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
     simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({0, 207});
+    entityPtr = entityManager->makeEntity({ENTITY_KIND_ATTACHMENT, 7});
     entityPtr->setPosition({32, 32});
     simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({0, 207});
+    entityPtr = entityManager->makeEntity({ENTITY_KIND_ATTACHMENT, 7});
     entityPtr->setPosition({32, 64 + 32});
     dynamic_cast<Spinner*>(entityPtr.get())->clockwise = false;
     simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({0, 206});
+    entityPtr = entityManager->makeEntity({ENTITY_KIND_ATTACHMENT, 6});
     entityPtr->setPosition({64 + 32, 64 + 32});
     simulation->addEntity(entityPtr);
 

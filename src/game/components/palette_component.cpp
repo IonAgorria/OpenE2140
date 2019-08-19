@@ -76,13 +76,11 @@ void PaletteComponent::setupShadows(const EntityConfig* config) {
     size_t shadowExtra = 0;
     switch (config->kind) {
         case ENTITY_KIND_OBJECT:
-            shadowMain = PALETTE_OBJECT_SHADOW;
-            break;
         case ENTITY_KIND_UNIT:
-            shadowMain = PALETTE_UNIT_SHADOW;
+            shadowMain = PALETTE_SHADOW;
             break;
         case ENTITY_KIND_BUILDING:
-            shadowMain = PALETTE_BUILDING_SHADOW;
+            shadowMain = PALETTE_SHADOW;
             shadowExtra = PALETTE_BUILDING_SHADOW_EXTRA;
             break;
 

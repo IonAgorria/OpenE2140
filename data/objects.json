@@ -2,7 +2,6 @@
   {
     "id": 69,
     "type": "mine",
-    "variants": true,
     "sprites": {
       "default": [69, 70]
     }
@@ -10,7 +9,6 @@
   {
     "id": 73,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 73
     }
@@ -18,7 +16,6 @@
   {
     "id": 74,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 74
     }
@@ -26,7 +23,6 @@
   {
     "id": 75,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 75
     }
@@ -34,7 +30,6 @@
   {
     "id": 76,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 76
     }
@@ -42,7 +37,6 @@
   {
     "id": 77,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 77
     }
@@ -50,7 +44,6 @@
   {
     "id": 78,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 78
     }
@@ -58,7 +51,6 @@
   {
     "id": 79,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 79
     }
@@ -66,7 +58,6 @@
   {
     "id": 80,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 80
     }
@@ -74,7 +65,6 @@
   {
     "id": 81,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 81
     }
@@ -82,7 +72,6 @@
   {
     "id": 82,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 82
     }
@@ -90,7 +79,6 @@
   {
     "id": 83,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 83
     }
@@ -98,7 +86,6 @@
   {
     "id": 84,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 84
     }
@@ -106,7 +93,6 @@
   {
     "id": 85,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 85
     }
@@ -114,7 +100,6 @@
   {
     "id": 86,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 86
     }
@@ -122,7 +107,6 @@
   {
     "id": 87,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 87
     }
@@ -130,7 +114,6 @@
   {
     "id": 88,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 88
     }
@@ -138,7 +121,6 @@
   {
     "id": 89,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 89
     }
@@ -146,7 +128,6 @@
   {
     "id": 90,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 90
     }
@@ -154,7 +135,6 @@
   {
     "id": 91,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 91
     }
@@ -162,7 +142,6 @@
   {
     "id": 92,
     "type": "wall",
-    "variants": true,
     "sprites": {
       "default": 92
     }
@@ -170,7 +149,6 @@
   {
     "id": 93,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 93
     }
@@ -178,7 +156,6 @@
   {
     "id": 94,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 94
     }
@@ -186,7 +163,6 @@
   {
     "id": 95,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 95
     }
@@ -194,7 +170,6 @@
   {
     "id": 96,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 96
     }
@@ -202,7 +177,6 @@
   {
     "id": 97,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 97
     }
@@ -210,7 +184,6 @@
   {
     "id": 98,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 98
     }
@@ -218,7 +191,6 @@
   {
     "id": 99,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 99
     }
@@ -226,7 +198,6 @@
   {
     "id": 100,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 100
     }
@@ -234,7 +205,6 @@
   {
     "id": 101,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 101
     }
@@ -242,7 +212,6 @@
   {
     "id": 102,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 102
     }
@@ -250,7 +219,6 @@
   {
     "id": 103,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 103
     }
@@ -258,7 +226,6 @@
   {
     "id": 104,
     "type": "tree",
-    "variants": true,
     "sprites": {
       "default": 104
     }
@@ -266,7 +233,6 @@
   {
     "id": 105,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 105
     }
@@ -274,7 +240,6 @@
   {
     "id": 106,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 106
     }
@@ -282,7 +247,6 @@
   {
     "id": 107,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 107
     }
@@ -290,7 +254,6 @@
   {
     "id": 108,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 108
     }
@@ -298,7 +261,6 @@
   {
     "id": 109,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 109
     }
@@ -306,7 +268,6 @@
   {
     "id": 110,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 110
     }
@@ -314,7 +275,6 @@
   {
     "id": 111,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 111
     }
@@ -322,7 +282,6 @@
   {
     "id": 112,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 112
     }
@@ -330,7 +289,6 @@
   {
     "id": 113,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 113
     }
@@ -338,7 +296,6 @@
   {
     "id": 114,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 114
     }
@@ -346,7 +303,6 @@
   {
     "id": 115,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 115
     }
@@ -354,7 +310,6 @@
   {
     "id": 116,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 116
     }
@@ -362,7 +317,6 @@
   {
     "id": 117,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 117
     }
@@ -370,7 +324,6 @@
   {
     "id": 118,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 118
     }
@@ -378,7 +331,6 @@
   {
     "id": 119,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 119
     }
@@ -386,118 +338,8 @@
   {
     "id": 120,
     "type": "pipe",
-    "variants": true,
     "sprites": {
       "default": 120
-    }
-  },
-  {
-    "id": 200,
-    "code": "exit_ed",
-    "type":"attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "exit_0": 76,
-      "exit_1": 77,
-      "exit_2": 78,
-      "exit_3_top": 79,
-      "exit_3_bottom": 80,
-      "exit_3_platform": 81
-    }
-  },
-  {
-    "id": 201,
-    "code": "exit_ucs",
-    "type": "attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "exit_0": 82,
-      "exit_1": 83,
-      "exit_2": 84,
-      "exit_3_top": 85,
-      "exit_3_bottom": 86,
-      "exit_3_platform": 87
-    }
-  },
-  {
-    "id": 202,
-    "code": "exit_water",
-    "type": "attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "default": 88,
-      "damaged": 89
-    }
-  },
-  {
-    "id": 203,
-    "code": "exit_bio_center",
-    "type": "attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "exit_0": 37,
-      "exit_1": 38
-    }
-  },
-  {
-    "id": 204,
-    "code": "exit_robot_factory",
-    "type": "attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "exit_0": 59,
-      "exit_1": 60
-    }
-  },
-  {
-    "id": 205,
-    "code": "nuclear_reactor",
-    "type": "attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "default": 2,
-      "damaged": 3
-    }
-  },
-  {
-    "id": 206,
-    "code": "radar",
-    "type": "attachment_spinner",
-    "sprites_path": "MIX/SPRU0/",
-    "palette_shadow": true,
-    "palette_shadow_clear": true,
-    "sprites": {
-      "default": {
-        "index": 587,
-        "length": 9,
-        "duration": 100
-      }
-    }
-  },
-  {
-    "id": 207,
-    "code": "flywheel_mine",
-    "type": "attachment_spinner",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "default": {
-        "index": 28,
-        "length": 5,
-        "duration": 200
-      }
-    }
-  },
-  {
-    "id": 208,
-    "code": "conveyor_belt",
-    "type": "attachment",
-    "sprites_path": "MIX/SPRB0/",
-    "sprites": {
-      "head": 8,
-      "body": {
-        "index": 9,
-        "length": 3
-      }
     }
   }
 ]

@@ -71,6 +71,7 @@ The following game assets must be present in WD file or directory form:
 ## Roadmap
 - Entity attachment
     - Building exits
+- Entity health/max/damage
 - Entity selection
 - Unit factory
 - Mobile units

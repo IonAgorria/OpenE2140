@@ -26,12 +26,14 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
     duration_t defaultDuration = getData("duration").is_number_unsigned()
                                ? getData("duration").get<duration_t>() : 0;
     //Load variants
-    std::vector<std::string> variants {""};
+    std::vector<std::string> variants;
     config_data_t variantsData = getData("variants");
-    if (variantsData.is_boolean() && variantsData.get<bool>()) {
-        variants = factory->getVariants();
+    if (variantsData.is_boolean() && !variantsData.get<bool>()) {
+        variants = {""};
     } else if (variantsData.is_array()) {
         variants = variantsData.get<std::vector<std::string>>();
+    } else {
+        variants = factory->getVariants();
     }
 
     //Parse the sprites
@@ -42,7 +44,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
             if (value.is_number_unsigned()) {
                 //If its just a number then use it as index for a single image
                 unsigned int index = value.get<unsigned int>();
-                for (std::string& variant : factory->getVariants()) {
+                for (std::string& variant : variants) {
 
                     //Get image
                     std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
@@ -62,7 +64,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 }
             } else if (value.is_array()) {
                 //If its a array then use it as a collection of indexes
-                for (std::string& variant : factory->getVariants()) {
+                for (std::string& variant : variants) {
                     std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
                     spriteGroup->duration = defaultDuration;
                     spriteGroup->loop = false;

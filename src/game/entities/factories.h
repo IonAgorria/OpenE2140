@@ -10,6 +10,7 @@
 #include "building.h"
 #include "object.h"
 #include "unit.h"
+#include "attachment.h"
 
 /**
  * Object factory
@@ -26,7 +27,7 @@ class ObjectFactory: public IEntityFactory {
     }
 
     std::vector<std::string> getVariants() const override {
-        return {"0/", "1/", "2/", "3/", "4/", "5/", "6/"};
+        return {"0", "1", "2", "3", "4", "5", "6"};
     }
 
     entity_kind_t getKind() const override {
@@ -37,8 +38,6 @@ class ObjectFactory: public IEntityFactory {
         if (config) {
             if (config->type == "tree") {
                 return std::make_shared<Tree>();
-            } else if (config->type == "attachment_spinner") {
-                return std::make_shared<Spinner>();
             }
         }
         return std::make_shared<Object>();
@@ -53,7 +52,7 @@ class ObjectFactory: public IEntityFactory {
 
         //Set palette size using the entity config data
         if (config->getData("palette_shadow", false)) {
-            config->setData("palette_lowest_entry", PALETTE_OBJECT_SHADOW);
+            config->setData("palette_lowest_entry", PALETTE_SHADOW);
         }
 
         IEntityFactory::setupEntityConfig(config);
@@ -105,7 +104,7 @@ class UnitFactory: public IEntityFactory {
         } else if (config->getData("palette_player", false)) {
             config->setData("palette_lowest_entry", PALETTE_PLAYER);
         } else if (config->getData("palette_shadow", false)) {
-            config->setData("palette_lowest_entry", PALETTE_UNIT_SHADOW);
+            config->setData("palette_lowest_entry", PALETTE_SHADOW);
         }
 
         IEntityFactory::setupEntityConfig(config);
@@ -166,6 +165,30 @@ class BuildingFactory: public IEntityFactory {
         }
 
         IEntityFactory::setupEntityConfig(config);
+    }
+};
+
+/**
+ * Attachment factory
+ */
+class AttachmentFactory: public IEntityFactory {
+    TYPE_NAME_OVERRIDE(AttachmentFactory);
+
+    std::string getConfigPath() const override {
+        return "attachments.json";
+    }
+
+    entity_kind_t getKind() const override {
+        return ENTITY_KIND_ATTACHMENT;
+    }
+
+    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+        if (config) {
+            if (config->type == "attachment_spinner") {
+                return std::make_shared<Spinner>();
+            }
+        }
+        return std::make_shared<Attachment>();
     }
 };
 

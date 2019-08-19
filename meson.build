@@ -104,6 +104,8 @@ opene2140_src = [
     'src/game/components/palette_component.cpp',
     'src/game/entities/object.cpp',
     'src/game/entities/building.cpp',
+    'src/game/entities/unit.cpp',
+    'src/game/entities/attachment.cpp',
     'src/game/io/event_listener_camera.cpp',
     'src/game/io/event_listener_debug.cpp',
     'src/game/core/game.cpp',

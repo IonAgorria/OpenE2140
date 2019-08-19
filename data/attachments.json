@@ -1,0 +1,111 @@
+[
+  {
+    "id": 0,
+    "code": "exit_ed",
+    "type":"attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": 76,
+      "exit_1": 77,
+      "exit_2": 78,
+      "exit_3_top": 79,
+      "exit_3_bottom": 80,
+      "exit_3_platform": 81
+    }
+  },
+  {
+    "id": 1,
+    "code": "exit_ucs",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": 82,
+      "exit_1": 83,
+      "exit_2": 84,
+      "exit_3_top": 85,
+      "exit_3_bottom": 86,
+      "exit_3_platform": 87
+    }
+  },
+  {
+    "id": 2,
+    "code": "exit_water",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "default": 88,
+      "damaged": 89
+    }
+  },
+  {
+    "id": 3,
+    "code": "exit_bio_center",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": 37,
+      "exit_1": 38
+    }
+  },
+  {
+    "id": 4,
+    "code": "exit_robot_factory",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "exit_0": 59,
+      "exit_1": 60
+    }
+  },
+  {
+    "id": 5,
+    "code": "nuclear_reactor",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "default": 2,
+      "damaged": 3
+    }
+  },
+  {
+    "id": 6,
+    "code": "radar",
+    "type": "attachment_spinner",
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_shadow_clear": true,
+    "sprites": {
+      "default": {
+        "index": 587,
+        "length": 9,
+        "duration": 100
+      }
+    }
+  },
+  {
+    "id": 7,
+    "code": "flywheel_mine",
+    "type": "attachment_spinner",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "default": {
+        "index": 28,
+        "length": 5,
+        "duration": 200
+      }
+    }
+  },
+  {
+    "id": 8,
+    "code": "conveyor_belt",
+    "type": "attachment",
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "head": 8,
+      "body": {
+        "index": 9,
+        "length": 3
+      }
+    }
+  }
+]

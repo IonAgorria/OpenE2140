@@ -15,12 +15,8 @@
 //Player coloring entries
 #define PALETTE_PLAYER 0xF8
 #define PALETTE_PLAYER_AMOUNT 5
-
-/*
- * Object entries
- */
-//Object shadow
-#define PALETTE_OBJECT_SHADOW 0xFE
+//Shadow
+#define PALETTE_SHADOW 0xFE
 
 /*
  * Unit entries
@@ -38,8 +34,6 @@
 #define PALETTE_UNIT_LIGHT 0xF7
 //TODO
 #define PALETTE_UNIT_UNKNOWN 0xFD
-//Unit shadow
-#define PALETTE_UNIT_SHADOW 0xFE
 
 /*
  * Building entries
@@ -51,7 +45,6 @@
 #define PALETTE_BUILDING_LIGHT3 0xF7
 //Building shadow tones
 #define PALETTE_BUILDING_SHADOW_EXTRA 0xFD
-#define PALETTE_BUILDING_SHADOW 0xFE
 
 /**
  * Color definitions

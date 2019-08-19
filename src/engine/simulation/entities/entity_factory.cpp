@@ -63,7 +63,7 @@ std::vector<std::string> IEntityFactory::getVariants() const {
 }
 
 asset_path_t IEntityFactory::assembleAssetPath(const asset_path_t& path, const std::string& variant, const std::string& index) const {
-    return (path.empty() ? getAssetPath() : path) + variant + index;
+    return (path.empty() ? getAssetPath() : path) + (variant.empty() ? "" : variant + "/") + index;
 }
 
 std::string IEntityFactory::assembleGroupCode(const std::string& name, const std::string& variant, const std::string& collection) const {

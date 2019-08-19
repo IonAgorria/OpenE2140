@@ -28,19 +28,4 @@ CLASS_ENTITY(Object, Tree)
 public:
 };
 
-/**
- * Spinner object
- */
-CLASS_ENTITY(Object, Spinner)
-public:
-    /**
-     * Controls if spinner is clockwise or counterclockwise
-     */
-    bool clockwise = true;
-
-    void simulationChanged() override;
-
-    void update() override;
-};
-
 #endif //OPENE2140_OBJECT_H

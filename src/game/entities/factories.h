@@ -13,9 +13,15 @@
 #include "attachment.h"
 
 /**
+ * Abstract common factory
+ */
+class ACommonEntityFactory: public IEntityFactory {
+};
+
+/**
  * Object factory
  */
-class ObjectFactory: public IEntityFactory {
+class ObjectFactory: public ACommonEntityFactory {
     TYPE_NAME_OVERRIDE(ObjectFactory);
 
     std::string getConfigPath() const override {
@@ -55,14 +61,14 @@ class ObjectFactory: public IEntityFactory {
             config->setData("palette_lowest_entry", PALETTE_SHADOW);
         }
 
-        IEntityFactory::setupEntityConfig(config);
+        ACommonEntityFactory::setupEntityConfig(config);
     }
 };
 
 /**
  * Unit factory
  */
-class UnitFactory: public IEntityFactory {
+class UnitFactory: public ACommonEntityFactory {
     TYPE_NAME_OVERRIDE(UnitFactory);
 
     std::string getConfigPath() const override {
@@ -107,7 +113,7 @@ class UnitFactory: public IEntityFactory {
             config->setData("palette_lowest_entry", PALETTE_SHADOW);
         }
 
-        IEntityFactory::setupEntityConfig(config);
+        ACommonEntityFactory::setupEntityConfig(config);
     }
 };
 
@@ -171,7 +177,7 @@ class BuildingFactory: public IEntityFactory {
 /**
  * Attachment factory
  */
-class AttachmentFactory: public IEntityFactory {
+class AttachmentFactory: public ACommonEntityFactory {
     TYPE_NAME_OVERRIDE(AttachmentFactory);
 
     std::string getConfigPath() const override {

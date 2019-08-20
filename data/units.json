@@ -1382,7 +1382,7 @@
         ],
         "attachments": {
             "radar": {
-                "type": "radar",
+                "code": "radar",
                 "position": [0, 0]
             }
         },

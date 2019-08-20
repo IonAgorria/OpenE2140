@@ -123,7 +123,7 @@ public:
             return nullptr;
         }
         //Get asset and cast if need
-        Asset* asset = (*it).second.get();
+        Asset* asset = it->second.get();
         return dynamic_cast<T*>(asset);
     }
 

@@ -13,8 +13,7 @@ void FactionComponent::setup() {
 }
 
 void FactionComponent::simulationChanged() {
-    Simulation* simulation = base->getSimulation();
-    if (simulation) {
+    if (base->isActive()) {
         PlayerComponent* playerComponent = castBase<PlayerComponent>();
         if (!faction && playerComponent) {
             Player* player = playerComponent->getPlayer();

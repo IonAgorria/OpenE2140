@@ -136,11 +136,11 @@
         ],
         "attachments": {
             "exit": {
-                "type": "exit_ucs",
+                "code": "exit_ucs",
                 "position": [-1, 0]
             },
             "radar": {
-                "type": "radar",
+                "code": "radar",
                 "position": [0, 0]
             }
         },

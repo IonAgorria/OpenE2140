@@ -159,7 +159,7 @@ SpriteGroup* EntityConfig::getSprite(const std::string& spriteCode) const {
         //Not found
         return nullptr;
     }
-    return (*it).second.get();
+    return it->second.get();
 }
 
 void EntityConfig::loadBounds() {

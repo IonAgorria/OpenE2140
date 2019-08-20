@@ -47,6 +47,7 @@ void IEntityFactory::loadConfig(const std::string& path) {
         entityConfig->id = id;
         entityConfig->loadData(data, this);
         setupEntityConfig(entityConfig.get());
+        configCodes[entityConfig->type] = id;
         configs[id].swap(entityConfig);
     }
 }
@@ -77,14 +78,29 @@ void IEntityFactory::setManager(EntityManager* current) {
     manager = current;
 }
 
-std::shared_ptr<Entity> IEntityFactory::makeEntity(entity_type_id_t id) {
+std::shared_ptr<Entity> IEntityFactory::makeEntity(const entity_type_t& type) {
+    std::shared_ptr<Entity> entity;
+    //Get entity type id
+    entity_type_id_t id;
+    if (type.code.empty()) {
+        id = type.id;
+    } else {
+        auto it = configCodes.find(type.code);
+        if (it == configCodes.end()) {
+            //Not found
+            error = "Entity config not found for code: " + type.code;
+            return entity;
+        } else {
+            id = it->second;
+        }
+    }
     //Get the config for entity instance
     EntityConfig* config = nullptr;
     if (id < configs.size()) {
         config = configs[id].get();
     }
     //Call the implementation
-    std::shared_ptr<Entity> entity = instanceEntity(id, config);
+    entity = instanceEntity(id, config);
     //Only setup if entity was instanced
     if (!config) {
         error = "Entity config not found for id: " + std::to_string(id);

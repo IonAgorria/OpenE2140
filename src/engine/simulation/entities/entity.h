@@ -71,6 +71,11 @@ protected:
     bool disable;
 
     /**
+     * Parent of this entity which is attached to if any
+     */
+    Entity* parent;
+
+    /**
      * Add components method forwarding so extended entities can override them
      */
     COMPONENT_METHODS(COMPONENT_METHOD_FORWARD_VIRTUAL)
@@ -140,6 +145,16 @@ public:
      * @return entity config if any
      */
     const EntityConfig* getConfig() const;
+
+    /**
+     * Sets this entity parent
+     */
+    void setParent(Entity* entity);
+
+    /**
+     * @return entity parent if any
+     */
+    Entity* getParent() const;
 
     /**
      * @return entity simulation if any

@@ -39,10 +39,11 @@ using entity_kind_t = uint32_t;
 /** Unique id inside the kind domain */
 using entity_type_id_t = uint32_t;
 
-/** Entity type id (kind + type id inside kind) */
+/** Entity type id (kind + type id or code inside kind) */
 struct entity_type_t {
     entity_kind_t kind = 0;
     entity_type_id_t id = 0;
+    std::string code = "";
 };
 
 /** Entity direction */

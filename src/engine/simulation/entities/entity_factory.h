@@ -32,6 +32,11 @@ protected:
     std::vector<std::unique_ptr<EntityConfig>> configs;
 
     /**
+     * Mapping for code to ids, this allows fast lookup of codes
+     */
+    std::unordered_map<std::string,entity_type_id_t> configCodes;
+
+    /**
      * Instantiation of entity by the factory implementation
      *
      * @param id
@@ -120,10 +125,10 @@ public:
     /**
      * Handles the entity request
      *
-     * @param id type of entity in this factory kind domain
+     * @param type of entity in this factory kind domain
      * @return entity created
      */
-    std::shared_ptr<Entity> makeEntity(entity_type_id_t id);
+    std::shared_ptr<Entity> makeEntity(const entity_type_t& type);
 
     /**
      * Obtains log for this factory

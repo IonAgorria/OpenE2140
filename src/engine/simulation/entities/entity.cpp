@@ -52,6 +52,14 @@ Simulation* Entity::getSimulation() const {
     return simulation;
 }
 
+void Entity::setParent(Entity* entity) {
+    parent = entity;
+}
+
+Entity* Entity::getParent() const {
+    return parent;
+}
+
 void Entity::addedToSimulation(Simulation* sim) {
     simulation = sim;
     renderer = simulation->getRenderer();

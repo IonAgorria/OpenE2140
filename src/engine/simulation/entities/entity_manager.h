@@ -73,7 +73,7 @@ public:
      * @param type to create
      * @return entity created, might point to null if none was build
      */
-    std::shared_ptr<Entity> makeEntity(entity_type_t type);
+    std::shared_ptr<Entity> makeEntity(const entity_type_t& type);
 
     /**
      * Obtain the asset manager

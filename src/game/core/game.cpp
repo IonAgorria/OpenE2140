@@ -93,8 +93,8 @@ void Game::run() {
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
     parameters->loadLevelContent = true;
-    parameters->world = "LEVEL/DATA/LEVEL02";
-    parameters->world = "LEVEL/DATA/LEVEL06";
+    parameters->world = "LEVEL/DATA/LEVEL01";
+    //parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
@@ -110,20 +110,14 @@ void Game::run() {
     }
 
     //Create some entities
-    std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({2, 19});
-    entityPtr->setPosition({32, 64 * 7 + 32});
+    std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 19});
+    entityPtr->setPosition({64 * 1 + 32, 64 * 8 + 32});
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
-    simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({ENTITY_KIND_ATTACHMENT, 7});
-    entityPtr->setPosition({32, 32});
-    simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({ENTITY_KIND_ATTACHMENT, 7});
-    entityPtr->setPosition({32, 64 + 32});
-    dynamic_cast<Spinner*>(entityPtr.get())->clockwise = false;
-    simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({ENTITY_KIND_ATTACHMENT, 6});
-    entityPtr->setPosition({64 + 32, 64 + 32});
+    simulation->addEntity(entityPtr);entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 3});
+    entityPtr->setPosition({64 * 6 + 32, 64 * 6 + 32});
+    component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
+    component->setPlayer(simulation->getPlayer(1));
     simulation->addEntity(entityPtr);
 
     //Show main window

@@ -52,13 +52,13 @@ void EntityManager::load() {
     log->debug("Loaded entity manager");
 }
 
-std::shared_ptr<Entity> EntityManager::makeEntity(entity_type_t type) {
+std::shared_ptr<Entity> EntityManager::makeEntity(const entity_type_t& type) {
     std::unique_ptr<IEntityFactory>& factory = factories[type.kind];
     std::shared_ptr<Entity> entity;
     if (factory) {
-        entity = factory->makeEntity(type.id);
+        entity = factory->makeEntity(type);
         if (factory->hasError()) {
-            log->warn("Error when making new entity with type {0}:{1}:\n{2}", type.kind, type.id, factory->getError());
+            log->warn("Error when making new entity with type {0} {1} {2}:\n{3}", type.kind, type.id, type.code, factory->getError());
         }
     }
     return entity;

@@ -137,11 +137,11 @@
         "attachments": {
             "exit": {
                 "code": "exit_ucs",
-                "position": [-1, 0]
+                "position": [-32, 32]
             },
             "radar": {
                 "code": "radar",
-                "position": [0, 0]
+                "position": [3, -62]
             }
         },
         "sprites": {

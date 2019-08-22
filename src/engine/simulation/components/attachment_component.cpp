@@ -30,16 +30,18 @@ void AttachmentComponent::simulationChanged() {
         if (attachments.is_object()) {
             entity_kind_t kind = config->getData("attachments_kind", 0);
             for (auto entry = attachments.begin(); entry != attachments.end(); ++entry) {
+                //Read the attachment entry and get the type
                 config_data_t entryValue = entry.value();
                 if (!entryValue.is_object()) continue;
                 std::string code = entryValue["code"].get<std::string>();
-                Vector2 position;
-                Config::getVector2(entryValue["code"], position);
                 entity_type_t type = {kind, 0, code};
+
+                //Create the entity and attach it
                 std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(type);
-                if (!entity) continue;
-                entity->setPosition(position);
-                attachEntity(entity);
+                AttachmentPoint& attachment = attachEntity(entity);
+
+                //Set the position
+                Config::getVector2(entryValue["position"], attachment.position);
             }
         }
     } else {
@@ -48,33 +50,62 @@ void AttachmentComponent::simulationChanged() {
 }
 
 void AttachmentComponent::update() {
+    //Update the position of each entity and propagate update
+    for (const auto& attachment : attached) {
+        Entity* entity = attachment.entity.get();
+        Vector2 position = base->getPosition();
+        position += attachment.position;
+        entity->setPosition(position);
+        entity->update();
+    }
 }
 
-const std::vector<std::shared_ptr<Entity>>& AttachmentComponent::getAttached() const {
+const std::vector<AttachmentPoint>& AttachmentComponent::getAttached() const {
     return attached;
 }
 
-void AttachmentComponent::attachEntity(const std::shared_ptr<Entity>& entity) {
+AttachmentPoint& AttachmentComponent::attachEntity(const std::shared_ptr<Entity>& entity) {
+    //Create attachment point and set entity
+    AttachmentPoint& attachment = attached.emplace_back();
+    attachment.entity = entity;
+
+    //Subscribe entity to simulation and set parent to us
     Simulation* simulation = base->getSimulation();
     if (simulation && !entity->isActive()) {
         simulation->addEntity(entity);
     }
-    attached.emplace_back(entity);
     entity->setParent(base);
+
+    return attachment;
 }
 
 void AttachmentComponent::detachEntity(const std::shared_ptr<Entity>& entity) {
+    //Find and remove it
+    bool found = false;
+    for (auto it = attached.begin(); it != attached.end(); ++it) {
+        if (it->entity == entity) {
+            attached.erase(it);
+            found = true;
+            break;
+        }
+    }
+
+    //If wasn't found then don't do anything
+    if (!found) {
+        return;
+    }
+
+    //Remove it from simulation and unset the parent
     Simulation* simulation = base->getSimulation();
     if (simulation && entity->isActive()) {
         simulation->removeEntity(entity);
     }
-    Utils::eraseElementFromVector(attached, entity);
     entity->setParent(nullptr);
 }
 
 void AttachmentComponent::detachEntities() {
-    const std::vector<std::shared_ptr<Entity>> toRemove(attached);
-    for (const std::shared_ptr<Entity>& entity : toRemove) {
-        detachEntity(entity);
+    const std::vector<AttachmentPoint> toRemove(attached);
+    for (const auto& attachment : toRemove) {
+        detachEntity(attachment.entity);
     }
 }

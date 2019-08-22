@@ -11,26 +11,31 @@
 class Entity;
 class Faction;
 
+struct AttachmentPoint {
+    std::shared_ptr<Entity> entity;
+    Vector2 position;
+};
+
 /**
  * Allows entities to be attached to this entity
  */
 CLASS_COMPONENT(Entity, AttachmentComponent)
 protected:
     /**
-     * Faction for this entity
+     * Attached entities at this entity
      */
-    std::vector<std::shared_ptr<Entity>> attached;
+    std::vector<AttachmentPoint> attached;
 
 public:
     /**
      * @return attached entities
      */
-    const std::vector<std::shared_ptr<Entity>>& getAttached() const;
+    const std::vector<AttachmentPoint>& getAttached() const;
 
     /**
      * Attaches entity to this entity which the component belongs
      */
-    void attachEntity(const std::shared_ptr<Entity>& entity);
+    AttachmentPoint& attachEntity(const std::shared_ptr<Entity>& entity);
 
     /**
      * Detaches entity to this entity which the component belongs

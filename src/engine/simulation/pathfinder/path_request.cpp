@@ -3,7 +3,7 @@
 //
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/world/world.h"
-#include "engine/simulation/entities/entity.h"
+#include "src/engine/simulation/entity.h"
 #include "engine/simulation/world/tile.h"
 #include "path_request.h"
 

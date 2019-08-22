@@ -6,7 +6,7 @@
 
 #include <memory>
 #include <vector>
-#include "engine/simulation/components/component.h"
+#include "component.h"
 
 class Entity;
 class Faction;

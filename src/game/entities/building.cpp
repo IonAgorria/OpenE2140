@@ -3,7 +3,7 @@
 //
 #include "engine/io/config.h"
 #include "engine/simulation/world/world.h"
-#include "engine/simulation/entities/entity_config.h"
+#include "src/engine/entities/entity_config.h"
 #include "building.h"
 
 void Building::simulationChanged() {

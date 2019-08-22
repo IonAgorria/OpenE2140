@@ -38,12 +38,12 @@ public:
     /**
      * Constructs loader
      */
-    EntityManager(std::shared_ptr<Engine> entity);
+    explicit EntityManager(std::shared_ptr<Engine> engine);
 
     /**
      * Destructs loader and cleans any loaded assets
      */
-    ~EntityManager();
+    ~EntityManager() override;
 
     /**
      * Disable copy/move

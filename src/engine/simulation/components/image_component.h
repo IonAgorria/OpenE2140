@@ -8,7 +8,7 @@
 #include "engine/graphics/animation.h"
 #include "engine/graphics/palette.h"
 #include "engine/simulation/simulation.h"
-#include "engine/simulation/components/image_component.h"
+#include "image_component.h"
 
 class Entity;
 class Image;

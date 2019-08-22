@@ -6,7 +6,7 @@
 #include "entity_factory.h"
 #include "entity_manager.h"
 
-EntityManager::EntityManager(std::shared_ptr<Engine> engine): engine(engine) {
+EntityManager::EntityManager(std::shared_ptr<Engine> engine): engine(std::move(engine)) {
     log = Log::get("Entities");
 }
 

@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 13/06/19
 //
-#include "engine/simulation/entities/entity_config.h"
+#include "src/engine/entities/entity_config.h"
 #include "engine/simulation/world/world.h"
 #include "attachment.h"
 

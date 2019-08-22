@@ -3,7 +3,7 @@
 //
 
 #include "engine/simulation/player.h"
-#include "engine/simulation/entities/entity_config.h"
+#include "src/engine/entities/entity_config.h"
 #include "engine/simulation/components/player_component.h"
 #include "engine/simulation/components/image_component.h"
 #include "palette_component.h"

@@ -2,7 +2,7 @@
 // Created by Ion Agorria on 29/06/19
 //
 
-#include "entity.h"
+#include "src/engine/simulation/entity.h"
 #include "engine/assets/asset_manager.h"
 #include "entity_manager.h"
 #include "entity_factory.h"

@@ -6,7 +6,7 @@
 
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/image_component.h"
-#include "engine/simulation/entities/entity.h"
+#include "src/engine/simulation/entity.h"
 #include "game/components/palette_component.h"
 
 /**

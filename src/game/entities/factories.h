@@ -6,7 +6,7 @@
 
 #include "engine/io/config.h"
 #include "game/core/constants.h"
-#include "engine/simulation/entities/entity_factory.h"
+#include "src/engine/entities/entity_factory.h"
 #include "building.h"
 #include "object.h"
 #include "unit.h"

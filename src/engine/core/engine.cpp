@@ -10,7 +10,7 @@
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/faction.h"
 #include "engine/simulation/world/world.h"
-#include "engine/simulation/entities/entity_manager.h"
+#include "src/engine/entities/entity_manager.h"
 #include "engine/io/event_handler.h"
 #include "engine/core/utils.h"
 #include "engine/io/timer.h"

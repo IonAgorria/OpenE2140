@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 12/07/19
 //
-#include "engine/simulation/entities/entity_config.h"
+#include "src/engine/entities/entity_config.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/player.h"
 #include "player_component.h"

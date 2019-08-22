@@ -5,8 +5,8 @@
 #include "engine/io/config.h"
 #include "engine/core/utils.h"
 #include "engine/simulation/simulation.h"
-#include "engine/simulation/entities/entity.h"
-#include "engine/simulation/entities/entity_config.h"
+#include "src/engine/simulation/entity.h"
+#include "src/engine/entities/entity_config.h"
 #include "attachment_component.h"
 
 void AttachmentComponent::construction() {

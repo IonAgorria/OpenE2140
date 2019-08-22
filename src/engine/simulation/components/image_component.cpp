@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 08/08/19
 //
-#include "engine/simulation/entities/entity_config.h"
+#include "src/engine/entities/entity_config.h"
 #include "engine/graphics/animation.h"
 #include "image_component.h"
 

@@ -6,7 +6,7 @@
 #include "entity_factory.h"
 #include "entity_config.h"
 
-void EntityConfig::loadData(const config_data_t& configData, const IEntityFactory* factory) {
+void EntityConfig::loadEntityData(const config_data_t& configData, const IEntityFactory* factory) {
     IHasConfigData::loadData(configData);
     code = getData<const std::string>("code", "");
     type = getData<const std::string>("type", "");

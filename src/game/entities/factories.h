@@ -16,6 +16,13 @@
  * Abstract common factory
  */
 class ACommonEntityFactory: public IEntityFactory {
+public:
+    void setupEntityConfig(EntityConfig* config) override {
+        //Set config values if they are missing
+        config->setData("attachments_kind", config_data_t(ENTITY_KIND_ATTACHMENT));
+
+        IEntityFactory::setupEntityConfig(config);
+    }
 };
 
 /**
@@ -33,7 +40,7 @@ class ObjectFactory: public ACommonEntityFactory {
     }
 
     std::vector<std::string> getVariants() const override {
-        return {"0", "1", "2", "3", "4", "5", "6"};
+        return ENTITY_OBJECTS_VARIANTS;
     }
 
     entity_kind_t getKind() const override {
@@ -52,7 +59,7 @@ class ObjectFactory: public ACommonEntityFactory {
     void setupEntityConfig(EntityConfig* config) override {
         //Set config values if they are missing
         if (!config->getData("palette_shadow").is_boolean()
-        && (config->type == "tree" || config->type == "wall" || config->type == "pipe")) {
+        && (config->type == "wall" || config->type == "pipe")) {
             config->setData("palette_shadow", true);
         }
 
@@ -120,7 +127,7 @@ class UnitFactory: public ACommonEntityFactory {
 /**
  * Building factory
  */
-class BuildingFactory: public IEntityFactory {
+class BuildingFactory: public ACommonEntityFactory {
     TYPE_NAME_OVERRIDE(BuildingFactory);
 
     std::string getConfigPath() const override {
@@ -136,6 +143,14 @@ class BuildingFactory: public IEntityFactory {
     }
 
     std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+        if (config) {
+            if (config->type == "construction_factory"
+            || config->type == "light_factory"
+            || config->type == "heavy_factory"
+            || config->type == "heavy_factory") {
+                return std::make_shared<Factory>();
+            }
+        }
         return std::make_shared<Building>();
     }
 
@@ -170,7 +185,7 @@ class BuildingFactory: public IEntityFactory {
             config->setData("palette_lowest_entry", PALETTE_BUILDING_SHADOW_EXTRA);
         }
 
-        IEntityFactory::setupEntityConfig(config);
+        ACommonEntityFactory::setupEntityConfig(config);
     }
 };
 

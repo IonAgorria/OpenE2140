@@ -96,6 +96,7 @@ opene2140_src = [
     'src/engine/simulation/components/faction_component.cpp',
     'src/engine/simulation/components/player_component.cpp',
     'src/engine/simulation/components/image_component.cpp',
+    'src/engine/simulation/components/attachment_component.cpp',
     'src/game/assets/asset_processor_datpal.cpp',
     'src/game/assets/asset_processor_level.cpp',
     'src/game/assets/asset_processor_wd.cpp',

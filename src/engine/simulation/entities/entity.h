@@ -106,6 +106,11 @@ public:
     virtual void setup(EntityConfig* newConfig);
 
     /**
+     * @return entity id
+     */
+    entity_id_t getID() const;
+
+    /**
      * @return entity position
      */
     const Vector2& getPosition() const;

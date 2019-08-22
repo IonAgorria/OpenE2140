@@ -10,16 +10,33 @@
 
 void AssetProcessorFixes::refreshAssets() {
     //Fix the radar sprites shadow by removing it since it looks weird when doing full turn
-    std::shared_ptr<Image> radar = manager->getImage("MIX/SPRU0/587");
-    if (radar) {
-        std::shared_ptr<Palette> radarPalette = radar->getPalette();
-        std::shared_ptr<Palette> palette = std::make_shared<Palette>(radarPalette->length(), radarPalette->isExtra());
-        palette->setColors(radarPalette.get());
+    std::shared_ptr<Image> baseImage = manager->getImage("MIX/SPRU0/587");
+    if (baseImage) {
+        std::shared_ptr<Palette> basePalette = baseImage->getPalette();
+        std::shared_ptr<Palette> palette = std::make_shared<Palette>(basePalette->length(), basePalette->isExtra());
+        palette->setColors(basePalette.get());
         palette->setColor(PALETTE_SHADOW, Color::CLEAR);
         palette->updateTexture();
         for (int i = 587; i <= 596; ++i) {
             std::shared_ptr<Image> image = manager->getImage("MIX/SPRU0/" + std::to_string(i));
             image->setPalette(palette);
+        }
+    }
+    //Add shadow to objects
+    for (std::string variant : ENTITY_OBJECTS_VARIANTS) {
+        //Trees
+        baseImage = manager->getImage("MIX/SPRO" + variant + "/93");
+        if (baseImage) {
+            std::shared_ptr<Palette> basePalette = baseImage->getPalette();
+            std::shared_ptr<Palette> palette = std::make_shared<Palette>(basePalette->length(), basePalette->isExtra());
+            palette->setColors(basePalette.get());
+            palette->setColor(PALETTE_SHADOW, Color::SHADOW_MAIN);
+            palette->updateTexture();
+            for (int i = 93; i <= 104; ++i)  {
+                std::shared_ptr<Image> image = manager->getImage("MIX/SPRO" + variant + "/" + std::to_string(i));
+                if (!image) continue;
+                image->setPalette(palette);
+            }
         }
     }
 }

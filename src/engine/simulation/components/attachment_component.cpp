@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 20/8/19
 //
 
+#include "engine/io/config.h"
 #include "engine/core/utils.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/entities/entity.h"
@@ -30,12 +31,15 @@ void AttachmentComponent::simulationChanged() {
             entity_kind_t kind = config->getData("attachments_kind", 0);
             for (auto entry = attachments.begin(); entry != attachments.end(); ++entry) {
                 config_data_t entryValue = entry.value();
-                if (!entryValue.is_object()) {
-                    continue;
-                }
-                //TODO get code from obj and set position after creating entity
-                entity_type_t type = {kind, 0, ""};
-                base->getSimulation()->createEntity(type);
+                if (!entryValue.is_object()) continue;
+                std::string code = entryValue["code"].get<std::string>();
+                Vector2 position;
+                Config::getVector2(entryValue["code"], position);
+                entity_type_t type = {kind, 0, code};
+                std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(type);
+                if (!entity) continue;
+                entity->setPosition(position);
+                attachEntity(entity);
             }
         }
     } else {
@@ -52,7 +56,7 @@ const std::vector<std::shared_ptr<Entity>>& AttachmentComponent::getAttached() c
 
 void AttachmentComponent::attachEntity(const std::shared_ptr<Entity>& entity) {
     Simulation* simulation = base->getSimulation();
-    if (simulation) {
+    if (simulation && !entity->isActive()) {
         simulation->addEntity(entity);
     }
     attached.emplace_back(entity);
@@ -61,7 +65,7 @@ void AttachmentComponent::attachEntity(const std::shared_ptr<Entity>& entity) {
 
 void AttachmentComponent::detachEntity(const std::shared_ptr<Entity>& entity) {
     Simulation* simulation = base->getSimulation();
-    if (simulation) {
+    if (simulation && entity->isActive()) {
         simulation->removeEntity(entity);
     }
     Utils::eraseElementFromVector(attached, entity);
@@ -70,7 +74,7 @@ void AttachmentComponent::detachEntity(const std::shared_ptr<Entity>& entity) {
 
 void AttachmentComponent::detachEntities() {
     const std::vector<std::shared_ptr<Entity>> toRemove(attached);
-    for (const std::shared_ptr<Entity>& entity : attached) {
+    for (const std::shared_ptr<Entity>& entity : toRemove) {
         detachEntity(entity);
     }
 }

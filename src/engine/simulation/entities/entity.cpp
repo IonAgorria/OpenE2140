@@ -20,6 +20,10 @@ void Entity::setup(EntityConfig* newConfig) {
     componentsSetup();
 }
 
+entity_id_t Entity::getID() const {
+    return id;
+}
+
 const Vector2& Entity::getPosition() const {
     return position;
 }

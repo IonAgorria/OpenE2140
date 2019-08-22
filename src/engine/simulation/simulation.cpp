@@ -112,8 +112,9 @@ void Simulation::loadEntities() {
 
 Simulation::~Simulation() {
     log->debug("Closing");
-    for (std::shared_ptr<Entity>& entity : entities) {
-        entity->removedFromSimulation();
+    std::vector<std::shared_ptr<Entity>> toRemove(entities);
+    for (std::shared_ptr<Entity>& entity : toRemove) {
+        //entity->removedFromSimulation();
     }
     entities.clear();
     if (world) {
@@ -167,7 +168,7 @@ entity_id_t Simulation::nextEntityID() {
     return lastEntityID;
 }
 
-void Simulation::createEntity(const EntityPrototype& entityPrototype) {
+std::shared_ptr<Entity> Simulation::createEntity(const EntityPrototype& entityPrototype) {
     std::shared_ptr<Entity> entityPtr = engine->getEntityManager()->makeEntity(entityPrototype.type);
     if (entityPtr) {
         Entity* entity = entityPtr.get();
@@ -187,21 +188,29 @@ void Simulation::createEntity(const EntityPrototype& entityPrototype) {
         }
         addEntity(entityPtr);
     }
+    return entityPtr;
 }
 
-void Simulation::createEntity(const entity_type_t& entityType) {
+std::shared_ptr<Entity> Simulation::createEntity(const entity_type_t& entityType) {
     std::shared_ptr<Entity> entity = engine->getEntityManager()->makeEntity(entityType);
     if (entity) {
         addEntity(entity);
     }
+    return entity;
 }
 
 void Simulation::addEntity(const std::shared_ptr<Entity>& entity) {
+    if (entity->isActive()) {
+        log->warn("Attempted to add already active entity {0} to simulation", entity->getID());
+    }
     entities.emplace_back(entity);
     entity->addedToSimulation(this);
 }
 
 void Simulation::removeEntity(const std::shared_ptr<Entity>& entity) {
+    if (!entity->isActive()) {
+        log->warn("Attempted to remove non active entity {0} from simulation", entity->getID());
+    }
     Utils::eraseElementFromVector(entities, entity);
     entity->removedFromSimulation();
 }

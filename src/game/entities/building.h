@@ -8,12 +8,9 @@
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/components/faction_component.h"
 #include "engine/simulation/components/player_component.h"
+#include "engine/simulation/components/attachment_component.h"
 #include "game/components/palette_component.h"
 #include "engine/simulation/entities/entity.h"
-
-class Building;
-CLASS_COMPONENT(Building, BuildingComponent)
-};
 
 /**
  * Building entity
@@ -22,7 +19,8 @@ CLASS_ENTITY_COMPONENTS(Entity, Building,
                         PlayerComponent,
                         FactionComponent,
                         ImageComponent,
-                        PaletteComponent
+                        PaletteComponent,
+                        AttachmentComponent
 )
 public:
     void simulationChanged() override;
@@ -33,6 +31,13 @@ public:
      * Selects current sprite
      */
     void chooseSprite();
+};
+
+/**
+ * Factory object
+ */
+CLASS_ENTITY(Building, Factory)
+public:
 };
 
 #endif //OPENE2140_BUILDING_H

@@ -10,7 +10,7 @@
 #include "engine/assets/asset_manager.h"
 #include "engine/io/log.h"
 
-class EntityPrototype;
+struct EntityPrototype;
 class Faction;
 class Player;
 class Engine;
@@ -134,12 +134,12 @@ public:
     /**
      * Creates a new entity and adds to simulation
      */
-    void createEntity(const EntityPrototype& entityPrototype);
+    std::shared_ptr<Entity> createEntity(const EntityPrototype& entityPrototype);
 
     /**
      * Creates a new entity and adds to simulation
      */
-    void createEntity(const entity_type_t& entityType);
+    std::shared_ptr<Entity> createEntity(const entity_type_t& entityType);
 
     /**
      * Adds entity to simulation

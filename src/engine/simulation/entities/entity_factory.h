@@ -24,7 +24,7 @@ protected:
     /**
      * Entity manager which this belongs to
      */
-    EntityManager* manager;
+    EntityManager* manager = nullptr;
 
     /**
      * Loaded configs for entity types which this factory instances
@@ -58,7 +58,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~IEntityFactory() = default;
+    ~IEntityFactory() override = default;
 
     /**
      * Disable copy

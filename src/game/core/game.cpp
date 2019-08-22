@@ -98,10 +98,10 @@ void Game::run() {
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
-    player->color = {0x60, 0xA0, 0x20, 0xFF};
+    player->color = {{0x60, 0xA0, 0x20, 0xFF}};
     parameters->players.emplace_back(std::move(player));
     player = std::make_unique<Player>(2);
-    player->color = {0xFF, 0x40, 0x40, 0xFF};
+    player->color = {{0xFF, 0x40, 0x40, 0xFF}};
     parameters->players.emplace_back(std::move(player));
 
     setupSimulation(std::move(parameters));

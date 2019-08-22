@@ -45,9 +45,9 @@ void IEntityFactory::loadConfig(const std::string& path) {
         std::unique_ptr<EntityConfig> entityConfig = std::make_unique<EntityConfig>();
         entityConfig->kind = getKind();
         entityConfig->id = id;
-        entityConfig->loadData(data, this);
+        entityConfig->loadEntityData(data, this);
         setupEntityConfig(entityConfig.get());
-        configCodes[entityConfig->type] = id;
+        configCodes[entityConfig->code] = id;
         configs[id].swap(entityConfig);
     }
 }

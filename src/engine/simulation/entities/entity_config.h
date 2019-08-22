@@ -63,7 +63,7 @@ public:
      * @param configData data store as entity config
      * @param factory which this entity config is being configured from
      */
-    void loadData(const config_data_t& configData, const IEntityFactory* factory);
+    void loadEntityData(const config_data_t& configData, const IEntityFactory* factory);
 
     /**
      * Disable copy/move

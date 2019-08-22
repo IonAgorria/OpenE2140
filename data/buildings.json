@@ -33,7 +33,7 @@
         ],
         "attachments": {
             "exit": {
-                "type": "exit_ed",
+                "code": "exit_ed",
                 "position": [1, 1]
             }
         },
@@ -60,7 +60,7 @@
         ],
         "attachments": {
             "exit": {
-                "type": "exit_ucs",
+                "code": "exit_ucs",
                 "position": [0, 1]
             }
         },
@@ -99,7 +99,7 @@
         ],
         "attachments": {
             "exit": {
-                "type": "exit_ed",
+                "code": "exit_ed",
                 "position": [1, 0]
             }
         },
@@ -173,7 +173,7 @@
         ],
         "attachments": {
             "exit": {
-                "type": "exit_bio_center",
+                "code": "exit_bio_center",
                 "position": [-1, 0]
             }
         },
@@ -200,7 +200,7 @@
         ],
         "attachments": {
             "exit": {
-                "type": "exit_robot_factory",
+                "code": "exit_robot_factory",
                 "position": [-1, 0]
             }
         },
@@ -447,13 +447,13 @@
         "health": 600,
         "upgrades": [
             {
-                "type": "nuclear_reactor",
+                "code": "nuclear_reactor",
                 "required_technology": "nuclear_reactor",
                 "price": 500,
                 "location": [2, 0]
             },
             {
-                "type": "nuclear_reactor",
+                "code": "nuclear_reactor",
                 "required_technology": "nuclear_reactor",
                 "price": 500,
                 "location": [2, 1]
@@ -479,7 +479,7 @@
         },
         "attachments": {
             "conveyor_belt": {
-                "type": "conveyor_belt",
+                "code": "conveyor_belt",
                 "position": [2, 0]
             }
         },
@@ -558,15 +558,15 @@
         },
         "attachments": {
             "conveyor_belt": {
-                "type": "conveyor_belt",
+                "code": "conveyor_belt",
                 "position": [2, 0]
             },
             "flywheel_top": {
-                "type": "flywheel_mine",
+                "code": "flywheel_mine",
                 "position": [0, -1]
             },
             "flywheel_bottom": {
-                "type": "flywheel_mine",
+                "code": "flywheel_mine",
                 "position": [0, 1]
             }
         },

@@ -28,14 +28,16 @@
 //Shadow
 #define PALETTE_SHADOW 0xFE
 
+#define ENTITY_OBJECTS_VARIANTS {"0", "1", "2", "3", "4", "5", "6"}
+
 /**
  * Namespace for color constants
  */
 #include "engine/graphics/color.h"
 namespace Color {
-    const ColorRGBA SHADOW_MAIN            {0x00, 0x00, 0x00, 0x40};
-    const ColorRGBA SHADOW_EXTRA           {0x00, 0x00, 0x00, 0x20};
-    const ColorRGBA MAP_ORE_COLOR          {0x80, 0x80, 0x00, 0xFF};
+    const ColorRGBA SHADOW_MAIN            {{0x00, 0x00, 0x00, 0x40}};
+    const ColorRGBA SHADOW_EXTRA           {{0x00, 0x00, 0x00, 0x20}};
+    const ColorRGBA MAP_ORE_COLOR          {{0x80, 0x80, 0x00, 0xFF}};
     /**
      * HSV values to mix with player base color
      * Take must be care to maintain the gradual change between palette colors and avoid banding or oversaturation

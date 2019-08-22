@@ -168,8 +168,11 @@ public:
 
     /**
      * Called when entity is added to simulation
+     *
+     * @param entityID allocated for this entity
+     * @param simulation which entity was added to
      */
-    void addedToSimulation(Simulation* simulation);
+    void addedToSimulation(entity_id_t entityID, Simulation* simulation);
 
     /**
      * Called when entity is removed from simulation

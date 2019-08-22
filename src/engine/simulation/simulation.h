@@ -17,6 +17,7 @@ class Engine;
 class World;
 class Renderer;
 class AssetLevel;
+class EntityStore;
 
 /**
  * Contains everything inside the running game
@@ -46,7 +47,7 @@ private:
     /**
      * Entities contained by this simulation
      */
-    std::vector<std::shared_ptr<Entity>> entities;
+    std::unique_ptr<EntityStore> entityStore;
 
     /**
      * World for this simulation
@@ -62,11 +63,6 @@ private:
      * Players for this simulation
      */
     std::vector<std::unique_ptr<Player>> players;
-
-    /**
-     * Last used entity id
-     */
-    entity_id_t lastEntityID = 0;
 
 public:
     /**
@@ -122,19 +118,14 @@ public:
     virtual void draw(const Rectangle& viewport);
 
     /**
-     * @return entities in simulation
+     * @return entities store in simulation
      */
-    const std::vector<std::shared_ptr<Entity>>& getEntities() const;
+    EntityStore* getEntitiesStore() const;
 
     /**
      * @return World instance in simulation
      */
     World* getWorld() const;
-
-    /**
-     * @return the next entity ID
-     */
-    entity_id_t nextEntityID();
 
     /**
      * Creates a new entity and adds to simulation

@@ -8,6 +8,7 @@
 #include "faction.h"
 #include "player.h"
 #include "entity.h"
+#include "entity_store.h"
 #include "components/player_component.h"
 #include "src/engine/entities/entity_manager.h"
 #include "world/world.h"
@@ -92,6 +93,8 @@ void Simulation::loadPlayers() {
 }
 
 void Simulation::loadEntities() {
+    entityStore = std::make_unique<EntityStore>();
+
     //Load entities from level
     if (parameters->loadLevelContent) {
         std::vector<EntityPrototype> levelEntities;
@@ -116,11 +119,11 @@ Simulation::~Simulation() {
 
 void Simulation::close() {
     log->debug("Closing");
-    std::vector<std::shared_ptr<Entity>> toRemove(entities);
+    std::vector<std::shared_ptr<Entity>> toRemove(entityStore->getEntities());
     for (std::shared_ptr<Entity>& entity : toRemove) {
         entity->removedFromSimulation();
     }
-    entities.clear();
+    entityStore->clear();
     if (world) {
         world.reset();
     }
@@ -128,7 +131,7 @@ void Simulation::close() {
 
 void Simulation::update() {
     world->update();
-    for (std::shared_ptr<Entity>& entity : entities) {
+    for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
         entity->update();
     }
 }
@@ -148,7 +151,7 @@ void Simulation::draw(const Rectangle& viewport) {
     world->draw(renderer, rectangle);
 
     //Draw entities
-    for (std::shared_ptr<Entity>& entity : entities) {
+    for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
         const Rectangle& bounds = entity->getBounds();
         if (rectangle.isOverlap(bounds)) {
             entity->draw();
@@ -159,17 +162,12 @@ void Simulation::draw(const Rectangle& viewport) {
     }
 }
 
-const std::vector<std::shared_ptr<Entity>>& Simulation::getEntities() const {
-    return entities;
+EntityStore* Simulation::getEntitiesStore() const {
+    return entityStore.get();
 }
 
 World* Simulation::getWorld() const {
     return world.get();
-}
-
-entity_id_t Simulation::nextEntityID() {
-    lastEntityID++;
-    return lastEntityID;
 }
 
 std::shared_ptr<Entity> Simulation::createEntity(const EntityPrototype& entityPrototype) {
@@ -207,15 +205,15 @@ void Simulation::addEntity(const std::shared_ptr<Entity>& entity) {
     if (entity->isActive()) {
         log->warn("Attempted to add already active entity {0} to simulation", entity->getID());
     }
-    entities.emplace_back(entity);
-    entity->addedToSimulation(this);
+    entity_id_t id = entityStore->add(entity);
+    entity->addedToSimulation(id, this);
 }
 
 void Simulation::removeEntity(const std::shared_ptr<Entity>& entity) {
     if (!entity->isActive()) {
         log->warn("Attempted to remove non active entity {0} from simulation", entity->getID());
     }
-    Utils::eraseElementFromVector(entities, entity);
+    entityStore->remove(entity);
     entity->removedFromSimulation();
 }
 

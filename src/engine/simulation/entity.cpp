@@ -63,10 +63,10 @@ Entity* Entity::getParent() const {
     return parent;
 }
 
-void Entity::addedToSimulation(Simulation* sim) {
+void Entity::addedToSimulation(entity_id_t entityID, Simulation* sim) {
+    id = entityID;
     simulation = sim;
     renderer = simulation->getRenderer();
-    id = simulation->nextEntityID();
     active = true;
     simulationChanged();
 }

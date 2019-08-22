@@ -75,8 +75,10 @@ Window::Window() {
     if (!error.empty()) return;
 
     //Enable debug output
-    glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(OpenGLCallback, 0);
+    if (glDebugMessageCallback != nullptr) {
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(OpenGLCallback, 0);
+    }
 
     //Print some strings related to GL
     log->debug("GL_VERSION: {0}", glGetString(GL_VERSION));

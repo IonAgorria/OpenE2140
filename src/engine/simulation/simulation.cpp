@@ -114,7 +114,7 @@ Simulation::~Simulation() {
     log->debug("Closing");
     std::vector<std::shared_ptr<Entity>> toRemove(entities);
     for (std::shared_ptr<Entity>& entity : toRemove) {
-        //entity->removedFromSimulation();
+        entity->removedFromSimulation();
     }
     entities.clear();
     if (world) {

@@ -9,9 +9,8 @@ Entity::Entity() {
 }
 
 Entity::~Entity() {
-    if (id || simulation) {
-        Log::get("Simulation")->warn("Entity was destructed without being removed from simulation");
-        removedFromSimulation();
+    if (active || id || simulation) {
+        Log::get("Simulation")->warn("Entity {0} was destructed without being removed from simulation", toString());
     }
 }
 
@@ -116,7 +115,9 @@ std::string Entity::toString() const {
 }
 
 std::string Entity::toStringContent() const {
-    return " ID: " + std::to_string(id) +
-           " Position: " + position.toString()
-            ;
+    return "ID: " + std::to_string(id) +
+           " Active: " + std::to_string(active) +
+           (parent ? " Parent: " + std::to_string(parent->id) : "") +
+           " Position: " + position.toString() +
+           "";
 }

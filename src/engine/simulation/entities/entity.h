@@ -88,7 +88,7 @@ public:
     /**
      * Entity destructor
      */
-    ~Entity() override;
+    virtual ~Entity();
 
     /**
      * Disable copy

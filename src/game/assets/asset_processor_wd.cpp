@@ -93,7 +93,8 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
         }
 
         //Get the name in safe way (ensure index is inside block or stop if null terminator is seen)
-        std::string recordName = std::string(name);
+        std::string recordName = std::string(name) + "/";
+        size_t oldLength = recordName.length();
         for (unsigned int nameIndex = record.nameOffset; nameIndex < namesBlockSize; ++nameIndex) {
             byte_t& c = namesBlock[nameIndex];
             if (c == '\0') break;
@@ -101,7 +102,7 @@ int AssetProcessorWD::scanContainerWD(const std::string& path, const std::string
         }
 
         //Check if name is empty
-        if (name.length() == recordName.length()) {
+        if (oldLength == recordName.length()) {
             error = "Name is empty at file record " + std::to_string(recordIndex);
             return -1;
         }

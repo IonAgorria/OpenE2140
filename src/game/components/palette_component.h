@@ -40,11 +40,11 @@
  * Color definitions
  */
 namespace Color {
-    const ColorRGBA BUILDING_LIGHT0_ON {25, 25, 185, 255};
-    const ColorRGBA BUILDING_LIGHT1_ON {45, 45, 205, 255};
-    const ColorRGBA BUILDING_LIGHT2_ON {65, 65, 225, 255};
-    const ColorRGBA BUILDING_LIGHT3_ON {85, 85, 245, 255};
-    const ColorRGBA BUILDING_LIGHT_OFF {0, 0, 10, 255};
+    const ColorRGBA BUILDING_LIGHT0_ON {{25, 25, 185, 255}};
+    const ColorRGBA BUILDING_LIGHT1_ON {{45, 45, 205, 255}};
+    const ColorRGBA BUILDING_LIGHT2_ON {{65, 65, 225, 255}};
+    const ColorRGBA BUILDING_LIGHT3_ON {{85, 85, 245, 255}};
+    const ColorRGBA BUILDING_LIGHT_OFF {{0, 0, 10, 255}};
 }
 
 /**

@@ -91,6 +91,7 @@ void Engine::close() {
         menu.reset();
     }
     if (simulation) {
+        simulation->close();
         simulation.reset();
     }
     if (renderer) {

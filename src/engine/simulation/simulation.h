@@ -110,6 +110,11 @@ public:
     virtual void update();
 
     /**
+     * Called when simulation is being closed
+     */
+    virtual void close();
+
+    /**
      * Draws this simulation
      *
      * @param viewport the rectangle to draw

@@ -111,6 +111,10 @@ void Simulation::loadEntities() {
 }
 
 Simulation::~Simulation() {
+    close();
+}
+
+void Simulation::close() {
     log->debug("Closing");
     std::vector<std::shared_ptr<Entity>> toRemove(entities);
     for (std::shared_ptr<Entity>& entity : toRemove) {

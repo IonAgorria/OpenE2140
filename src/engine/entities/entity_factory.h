@@ -37,14 +37,6 @@ protected:
     std::unordered_map<std::string,entity_type_id_t> configCodes;
 
     /**
-     * Instantiation of entity by the factory implementation
-     *
-     * @param id
-     * @return
-     */
-    virtual std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) = 0;
-
-    /**
      * Attempts to load a config
      */
     void loadConfig(const std::string& path);
@@ -123,12 +115,28 @@ public:
     virtual entity_kind_t getKind() const = 0;
 
     /**
-     * Handles the entity request
+     * Obtain config for entity id
      *
-     * @param type of entity in this factory kind domain
-     * @return entity created
+     * @param id of entity type
+     * @return config if found
      */
-    std::shared_ptr<Entity> makeEntity(const entity_type_t& type);
+    EntityConfig* getConfig(entity_type_id_t id);
+
+    /**
+     * Obtain config for entity code
+     *
+     * @param code of entity type
+     * @return config if found
+     */
+    EntityConfig* getConfigCode(const std::string& code);
+
+    /**
+     * Instantiation of entity by the factory implementation
+     *
+     * @param config of entity to instantiate
+     * @return entity
+     */
+    virtual std::shared_ptr<Entity> instanceEntity(EntityConfig* config) = 0;
 
     /**
      * Obtains log for this factory

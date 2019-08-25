@@ -47,7 +47,7 @@ class ObjectFactory: public ACommonEntityFactory {
         return ENTITY_KIND_OBJECT;
     }
 
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+    std::shared_ptr<Entity> instanceEntity(EntityConfig* config) override {
         if (config) {
             if (config->type == "tree") {
                 return std::make_shared<Tree>();
@@ -90,7 +90,7 @@ class UnitFactory: public ACommonEntityFactory {
         return ENTITY_KIND_UNIT;
     }
 
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+    std::shared_ptr<Entity> instanceEntity(EntityConfig* config) override {
         return std::make_shared<Unit>();
     }
 
@@ -142,7 +142,7 @@ class BuildingFactory: public ACommonEntityFactory {
         return ENTITY_KIND_BUILDING;
     }
 
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+    std::shared_ptr<Entity> instanceEntity(EntityConfig* config) override {
         if (config) {
             if (config->type == "construction_factory"
             || config->type == "light_factory"
@@ -203,7 +203,7 @@ class AttachmentFactory: public ACommonEntityFactory {
         return ENTITY_KIND_ATTACHMENT;
     }
 
-    std::shared_ptr<Entity> instanceEntity(entity_type_id_t id, EntityConfig* config) override {
+    std::shared_ptr<Entity> instanceEntity(EntityConfig* config) override {
         if (config) {
             if (config->type == "attachment_spinner") {
                 return std::make_shared<Spinner>();

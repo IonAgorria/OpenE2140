@@ -3,10 +3,9 @@
 //
 
 #include "engine/io/config.h"
-#include "engine/core/utils.h"
 #include "engine/simulation/simulation.h"
-#include "src/engine/simulation/entity.h"
-#include "src/engine/entities/entity_config.h"
+#include "engine/simulation/entity.h"
+#include "engine/entities/entity_config.h"
 #include "attachment_component.h"
 
 void AttachmentComponent::construction() {
@@ -34,10 +33,9 @@ void AttachmentComponent::simulationChanged() {
                 config_data_t entryValue = entry.value();
                 if (!entryValue.is_object()) continue;
                 std::string code = entryValue["code"].get<std::string>();
-                entity_type_t type = {kind, 0, code};
 
                 //Create the entity and attach it
-                std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(type);
+                std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(kind, code);
                 AttachmentPoint& attachment = attachEntity(entity);
 
                 //Set the position

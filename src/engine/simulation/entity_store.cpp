@@ -5,64 +5,49 @@
 #include "entity.h"
 #include "entity_store.h"
 
-#include <utility>
-
-#define ENTITY_STORE_LOOKNEAR 10
-
 void EntityStore::clear() {
     entities.clear();
 }
 
 std::shared_ptr<Entity> EntityStore::getEntity(entity_id_t id) const {
     std::shared_ptr<Entity> entity;
-    if (0 < id && id < entities.size()) {
-        entity = entities[id];
-    }
+    auto it = entitiesMap.find(id);
+    if (it != entitiesMap.end()) {
+        entity = it->second; }
     return entity;
+}
+
+const std::vector<std::shared_ptr<Entity>>& EntityStore::getEntitiesByType(const entity_type_t& type) {
+    return entitiesTypeMap[entityKeyFromType(type)];
 }
 
 const std::vector<std::shared_ptr<Entity>>& EntityStore::getEntities() const {
     return entities;
 }
 
-entity_id_t EntityStore::add(std::shared_ptr<Entity> entity) {
-    updateLowestID();
-    lastEntityID = lowestID;
-    entities[lowestID] = std::move(entity);
+entity_id_t EntityStore::add(const std::shared_ptr<Entity>& entity) {
+    lastEntityID++;
+    entities.emplace_back(entity);
+    entitiesMap[lastEntityID] = entity;
     return lastEntityID;
 }
 
-void EntityStore::remove(std::shared_ptr<Entity> entity) {
+void EntityStore::remove(const std::shared_ptr<Entity>& entity) {
     Utils::eraseElementFromVector(entities, entity);
+    auto it = entitiesMap.find(entity->getID());
+    if (it != entitiesMap.end()) {
+        entitiesMap.erase(it);
+    }
 }
 
-void EntityStore::updateLowestID() {
-    //Check if current ID is already valid by chance
-    if (0 < lowestID
-    && lowestID < entities.size()
-    && !entities[lowestID]) {
-        return;
-    }
+entity_type_t EntityStore::entityTypeFromKey(entity_type_key_t key) {
+    return {
+            static_cast<entity_kind_t>((key >> 32) & 0xFFFFFFFF),
+            static_cast<entity_type_id_t>(key & 0xFFFFFFFF),
+    };
+}
 
-    //First next try by searching some near entries if they are empty
-    entity_id_t minID = lastEntityID < ENTITY_STORE_LOOKNEAR ? 1 : lastEntityID - ENTITY_STORE_LOOKNEAR;
-    entity_id_t maxID = std::min(lastEntityID + ENTITY_STORE_LOOKNEAR, static_cast<entity_id_t>(entities.size()));
-    for (lowestID = minID; lowestID < maxID; ++lowestID) {
-        if (!entities[lowestID]) {
-            //Free, stop
-            return;
-        }
-    }
-
-    //Lets try transversing the entire array
-    for (lowestID = 1; lowestID < entities.size(); ++lowestID) {
-        if (!entities[lowestID]) {
-            //Free, stop
-            return;
-        }
-    }
-
-    //None found, lets grow it and set the lowest ID too
-    lowestID = entities.empty() ? 1 : entities.size();
-    entities.resize(lowestID + 1);
+entity_type_key_t EntityStore::entityKeyFromType(const entity_type_t& type) {
+    return (static_cast<entity_type_key_t>(type.kind) << 32)
+           | static_cast<entity_type_key_t>(type.id);
 }

@@ -201,6 +201,14 @@ std::shared_ptr<Entity> Simulation::createEntity(const entity_type_t& entityType
     return entity;
 }
 
+std::shared_ptr<Entity> Simulation::createEntity(entity_kind_t entityKind, const std::string& entityCode) {
+    std::shared_ptr<Entity> entity = engine->getEntityManager()->makeEntity(entityKind, entityCode);
+    if (entity) {
+        addEntity(entity);
+    }
+    return entity;
+}
+
 void Simulation::addEntity(const std::shared_ptr<Entity>& entity) {
     if (entity->isActive()) {
         log->warn("Attempted to add already active entity {0} to simulation", entity->getID());

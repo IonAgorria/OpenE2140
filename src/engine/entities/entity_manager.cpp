@@ -5,6 +5,8 @@
 #include "engine/core/engine.h"
 #include "entity_factory.h"
 #include "entity_manager.h"
+#include "entity_config.h"
+#include "engine/simulation/entity.h"
 
 EntityManager::EntityManager(std::shared_ptr<Engine> engine): engine(std::move(engine)) {
     log = Log::get("Entities");
@@ -52,14 +54,38 @@ void EntityManager::load() {
     log->debug("Loaded entity manager");
 }
 
+std::shared_ptr<Entity> EntityManager::makeEntity(EntityConfig* config) {
+    std::unique_ptr<IEntityFactory>& factory = factories[config->kind];
+    std::shared_ptr<Entity> entity;
+    if (factory) {
+        entity = factory->instanceEntity(config);
+        error = factory->getError();
+        if (entity) {
+            entity->setup(config);
+        }
+        if (hasError()) {
+            log->warn("Error when making new entity with config {0}:\n{1}", config->toString(), getError());
+        }
+    }
+    return entity;
+}
+
 std::shared_ptr<Entity> EntityManager::makeEntity(const entity_type_t& type) {
     std::unique_ptr<IEntityFactory>& factory = factories[type.kind];
     std::shared_ptr<Entity> entity;
     if (factory) {
-        entity = factory->makeEntity(type);
-        if (factory->hasError()) {
-            log->warn("Error when making new entity with type {0} {1} {2}:\n{3}", type.kind, type.id, type.code, factory->getError());
-        }
+        EntityConfig* config = factory->getConfig(type.id);
+        entity = makeEntity(config);
+    }
+    return entity;
+}
+
+std::shared_ptr<Entity> EntityManager::makeEntity(entity_kind_t kind, const std::string& code) {
+    std::unique_ptr<IEntityFactory>& factory = factories[kind];
+    std::shared_ptr<Entity> entity;
+    if (factory) {
+        EntityConfig* config = factory->getConfigCode(code);
+        entity = makeEntity(config);
     }
     return entity;
 }

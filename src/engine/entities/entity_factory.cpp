@@ -2,7 +2,6 @@
 // Created by Ion Agorria on 29/06/19
 //
 
-#include "src/engine/simulation/entity.h"
 #include "engine/assets/asset_manager.h"
 #include "entity_manager.h"
 #include "entity_factory.h"
@@ -78,38 +77,21 @@ void IEntityFactory::setManager(EntityManager* current) {
     manager = current;
 }
 
-std::shared_ptr<Entity> IEntityFactory::makeEntity(const entity_type_t& type) {
-    std::shared_ptr<Entity> entity;
-    //Get entity type id
-    entity_type_id_t id;
-    if (type.code.empty()) {
-        id = type.id;
-    } else {
-        auto it = configCodes.find(type.code);
-        if (it == configCodes.end()) {
-            //Not found
-            error = "Entity config not found for code: " + type.code;
-            return entity;
-        } else {
-            id = it->second;
-        }
-    }
-    //Get the config for entity instance
+EntityConfig* IEntityFactory::getConfig(const entity_type_id_t id) {
     EntityConfig* config = nullptr;
     if (id < configs.size()) {
         config = configs[id].get();
     }
-    //Call the implementation
-    entity = instanceEntity(id, config);
-    //Only setup if entity was instanced
-    if (!config) {
-        error = "Entity config not found for id: " + std::to_string(id);
-    } else if (!entity) {
-        error = "Entity not created for id: " + std::to_string(id);
+    return config;
+}
+
+EntityConfig* IEntityFactory::getConfigCode(const std::string& code) {
+    auto it = configCodes.find(code);
+    if (it == configCodes.end()) {
+        return nullptr;
     } else {
-        entity->setup(config);
+        return getConfig(it->second);
     }
-    return entity;
 }
 
 log_ptr IEntityFactory::getLog() const {

@@ -43,8 +43,10 @@ using entity_type_id_t = uint32_t;
 struct entity_type_t {
     entity_kind_t kind = 0;
     entity_type_id_t id = 0;
-    std::string code = "";
 };
+
+/** Entity type key made from type struct fields */
+using entity_type_key_t = uint64_t;
 
 /** Entity direction */
 using entity_direction_t = uint32_t;

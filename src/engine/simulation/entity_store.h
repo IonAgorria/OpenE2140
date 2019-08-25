@@ -22,19 +22,19 @@ protected:
     std::vector<std::shared_ptr<Entity>> entities;
 
     /**
-     * Lowest usable ID
+     * Entity map to vector
      */
-    entity_id_t lowestID = 0;
+    std::unordered_map<entity_id_t, std::shared_ptr<Entity>> entitiesMap;
+
+    /**
+     * Entity map to vector
+     */
+    std::unordered_map<entity_type_key_t, std::vector<std::shared_ptr<Entity>>> entitiesTypeMap;
 
     /**
      * Last used entity id
      */
     entity_id_t lastEntityID = 0;
-
-    /**
-     * Does a internal lookup to find the lowest usable ID
-     */
-    void updateLowestID();
 
 public:
     /**
@@ -71,18 +71,33 @@ public:
     const std::vector<std::shared_ptr<Entity>>& getEntities() const;
 
     /**
+     * @return all entities in store that have the same type
+     */
+    const std::vector<std::shared_ptr<Entity>>& getEntitiesByType(const entity_type_t& type);
+
+    /**
      * Does insertion to entity store
      *
      * @param entity to add
      */
-    entity_id_t add(std::shared_ptr<Entity> entity);
+    entity_id_t add(const std::shared_ptr<Entity>& entity);
 
     /**
      * Does removal from entity store
      *
      * @param entity to remove
      */
-    void remove(std::shared_ptr<Entity> entity);
+    void remove(const std::shared_ptr<Entity>& entity);
+
+    /**
+     * Transforms entity type key to entity type
+     */
+    static entity_type_t entityTypeFromKey(entity_type_key_t key);
+
+    /**
+     * Transforms entity type to entity type key
+     */
+    static entity_type_key_t entityKeyFromType(const entity_type_t& type);
 };
 
 #endif //OPENE2140_ENTITY_STORE_H

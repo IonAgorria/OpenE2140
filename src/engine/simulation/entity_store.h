@@ -22,14 +22,14 @@ protected:
     std::vector<std::shared_ptr<Entity>> entities;
 
     /**
-     * Entity map to vector
+     * Entity ids to pointer map
      */
     std::unordered_map<entity_id_t, std::shared_ptr<Entity>> entitiesMap;
 
     /**
-     * Entity map to vector
+     * Entities grouped by kind which contain entities grouped by type id
      */
-    std::unordered_map<entity_type_key_t, std::vector<std::shared_ptr<Entity>>> entitiesTypeMap;
+    std::vector<std::vector<std::vector<std::shared_ptr<Entity>>>> entitiesType;
 
     /**
      * Last used entity id
@@ -73,7 +73,17 @@ public:
     /**
      * @return all entities in store that have the same type
      */
-    const std::vector<std::shared_ptr<Entity>>& getEntitiesByType(const entity_type_t& type);
+    std::vector<std::shared_ptr<Entity>>* getEntitiesByType(const entity_type_t& type);
+
+    /**
+     * @return all entities in store that have the same kind
+     */
+    const std::vector<std::vector<std::shared_ptr<Entity>>>* getEntitiesByKind(entity_kind_t kind) const;
+
+    /**
+     * @return all entities in store that have the same type
+     */
+    const std::vector<std::shared_ptr<Entity>>* getEntitiesByType(const entity_type_t& type) const;
 
     /**
      * Does insertion to entity store
@@ -88,16 +98,6 @@ public:
      * @param entity to remove
      */
     void remove(const std::shared_ptr<Entity>& entity);
-
-    /**
-     * Transforms entity type key to entity type
-     */
-    static entity_type_t entityTypeFromKey(entity_type_key_t key);
-
-    /**
-     * Transforms entity type to entity type key
-     */
-    static entity_type_key_t entityKeyFromType(const entity_type_t& type);
 };
 
 #endif //OPENE2140_ENTITY_STORE_H

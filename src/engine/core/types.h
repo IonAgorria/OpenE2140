@@ -45,9 +45,6 @@ struct entity_type_t {
     entity_type_id_t id = 0;
 };
 
-/** Entity type key made from type struct fields */
-using entity_type_key_t = uint64_t;
-
 /** Entity direction */
 using entity_direction_t = uint32_t;
 

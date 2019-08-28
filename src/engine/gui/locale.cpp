@@ -31,6 +31,11 @@ void Locale::load(const std::string& path) {
 }
 
 const std::string& Locale::getText(const std::string& key) {
+    auto it = texts.find(key);
+    if (it == texts.end()) {
+        //Not found
+        texts[key] = "?_" + key + "_?";
+    }
     return texts[key];
 }
 

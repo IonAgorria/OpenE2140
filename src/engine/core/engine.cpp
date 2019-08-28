@@ -428,12 +428,12 @@ void Engine::loadFactions() {
     }
 }
 
-const std::string Engine::getText(const std::string& key) {
+const std::string& Engine::getText(const std::string& key) {
     if (locale) {
         const std::string& text = locale->getText(key);
         if (!text.empty()) {
             return text;
         }
     }
-    return "?_" + key + "_?";
+    return key;
 }

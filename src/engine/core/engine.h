@@ -251,7 +251,7 @@ public:
     /**
      * @return translated text for provided text key
      */
-    const std::string getText(const std::string& key);
+    const std::string& getText(const std::string& key);
 };
 
 #endif //OPENE2140_ENGINE_H

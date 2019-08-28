@@ -2,7 +2,7 @@
 // Created by Ion Agorria on 11/05/19
 //
 #include "engine/core/utils.h"
-#include "guiview.h"
+#include "gui_view.h"
 #include <algorithm>
 
 GUIView::GUIView() {
@@ -18,8 +18,8 @@ const std::vector<std::unique_ptr<GUIView>>& GUIView::getViews() const {
 }
 
 void GUIView::addView(std::unique_ptr<GUIView> view) {
-    views.emplace_back(std::move(view));
     view->moved(this);
+    views.emplace_back(std::move(view));
 }
 
 std::unique_ptr<GUIView> GUIView::removeView(GUIView* view) {
@@ -45,6 +45,18 @@ void GUIView::removeViews() {
 
 void GUIView::moved(GUIView* newParent) {
     this->parent = newParent;
+    //Handle root
+    if (!newParent) {
+        this->root = nullptr;
+    } else if (newParent->root) {
+        this->root = newParent->root;
+    } else {
+        this->root = newParent;
+    }
+    //Update childs
+    for (std::unique_ptr<GUIView>& view : views) {
+        view->moved(this);
+    }
 }
 
 void GUIView::show() {

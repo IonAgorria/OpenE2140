@@ -8,7 +8,7 @@
 #include "game/core/game.h"
 #include "event_listener_camera.h"
 
-EventListenerCamera::EventListenerCamera(std::shared_ptr<Game> game): game(game) {
+EventListenerCamera::EventListenerCamera(const std::shared_ptr<Game>& game): game(game) {
     keyUp = game->getKeyBind("W");
     keyLeft = game->getKeyBind("A");
     keyDown = game->getKeyBind("S");
@@ -21,7 +21,7 @@ EventListenerCamera::~EventListenerCamera() {
     }
 }
 
-bool EventListenerCamera::update() {
+bool EventListenerCamera::eventUpdate() {
     //Nothing to do
     if (keyMovement.zero() && mouseMovement.zero()) return false;
     game->updateCamera(game->getCamera() + keyMovement + mouseMovement);

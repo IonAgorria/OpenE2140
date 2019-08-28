@@ -6,7 +6,7 @@
 #include "engine/graphics/palette.h"
 #include "engine/graphics/renderer.h"
 #include "engine/graphics/window.h"
-#include "engine/gui/guimenu.h"
+#include "engine/gui/gui_menu.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/faction.h"
 #include "engine/simulation/world/world.h"
@@ -197,7 +197,7 @@ void Engine::update() {
     eventHandler->poll();
 
     //Update event handlers
-    eventHandler->update();
+    eventHandler->eventUpdate();
 
     //Update simulation
     if (simulation) {

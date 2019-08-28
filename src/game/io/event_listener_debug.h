@@ -29,7 +29,7 @@ public:
     /**
      * Event handler constructor
      */
-    explicit EventListenerDebug(std::shared_ptr<Game> game);
+    explicit EventListenerDebug(const std::shared_ptr<Game>& game);
 
     /**
      * Destroys event handler

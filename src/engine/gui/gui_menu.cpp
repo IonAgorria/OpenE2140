@@ -3,13 +3,7 @@
 //
 
 #include "engine/core/engine.h"
-#include "guimenu.h"
-
-GUIMenu::GUIMenu(std::shared_ptr<Engine> engine): engine(engine) {
-}
-
-GUIMenu::~GUIMenu() {
-}
+#include "gui_menu.h"
 
 bool GUIMenu::eventMouseClick(Window* window, int x, int y, int button, bool press) {
     return GUIView::mouseClick(x, y, button, press);
@@ -25,4 +19,9 @@ bool GUIMenu::eventMouseMove(Window* window, int x, int y) {
 
 bool GUIMenu::eventKeyChange(Window* window, input_key_t& key) {
     return GUIView::keyChange(key);
+}
+
+void GUIMenu::update() {
+    eventUpdate();
+    GUIView::update();
 }

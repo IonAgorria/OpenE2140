@@ -1,8 +1,8 @@
 //
 // Created by Ion Agorria on 11/05/19
 //
-#ifndef OPENE2140_GUIVIEW_H
-#define OPENE2140_GUIVIEW_H
+#ifndef OPENE2140_GUI_VIEW_H
+#define OPENE2140_GUI_VIEW_H
 
 #include "engine/math/rectangle.h"
 #include "engine/core/macros.h"
@@ -16,6 +16,11 @@ protected:
      * View rectangle
      */
     Rectangle rectangle;
+
+    /**
+     * Root view for this view
+     */
+    GUIView* root;
 
     /**
      * Parent view for this view
@@ -128,4 +133,4 @@ public:
     virtual bool keyChange(input_key_t& key);
 };
 
-#endif //OPENE2140_GUIVIEW_H
+#endif //OPENE2140_GUI_VIEW_H

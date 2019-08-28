@@ -1,11 +1,11 @@
 //
 // Created by Ion Agorria on 11/05/19
 //
-#ifndef OPENE2140_GUIMENU_H
-#define OPENE2140_GUIMENU_H
+#ifndef OPENE2140_GUI_MENU_H
+#define OPENE2140_GUI_MENU_H
 
 #include "engine/io/event_listener.h"
-#include "guiview.h"
+#include "gui_view.h"
 
 class Engine;
 
@@ -13,27 +13,27 @@ class Engine;
  * A menu contains the different UI elements and current state one at a time including their transitions
  */
 class GUIMenu: public GUIView, public IEventListener {
-private:
-    /**
-     * Engine object
-     */
-    std::shared_ptr<Engine> engine;
-
 public:
     /**
      * Constructor
      */
-    GUIMenu(std::shared_ptr<Engine> engine);
+    GUIMenu() = default;
 
     /**
      * Destructor
      */
-    virtual ~GUIMenu();
+    ~GUIMenu() override = default;
 
     /**
      * Disable copy
      */
     NON_COPYABLE(GUIMenu)
+
+    /*
+     * GUIView overrides
+     */
+
+    void update() override;
 
     /*
      * IEventListener overrides
@@ -48,4 +48,4 @@ public:
     bool eventKeyChange(Window* window, input_key_t& key) override;
 };
 
-#endif //OPENE2140_GUIMENU_H
+#endif //OPENE2140_GUI_MENU_H

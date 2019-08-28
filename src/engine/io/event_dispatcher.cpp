@@ -4,10 +4,10 @@
 #include "engine/graphics/window.h"
 #include "event_dispatcher.h"
 
-bool EventDispatcher::update() {
+bool EventDispatcher::eventUpdate() {
     bool handled = false;
     for (std::unique_ptr<IEventListener>& listener : listeners) {
-        handled = listener->update();
+        handled = listener->eventUpdate();
         if (handled) {
             break;
         }

@@ -24,7 +24,7 @@ public:
      *
      * @return true if handled to stop propagation
      */
-    virtual bool update();
+    virtual bool eventUpdate();
 
     /**
      * Called when window is changed (resized or made visible)

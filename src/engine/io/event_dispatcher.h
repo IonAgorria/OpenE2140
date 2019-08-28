@@ -17,7 +17,7 @@ protected:
      */
     std::vector<std::unique_ptr<IEventListener>> listeners;
 public:
-    bool update() override;
+    bool eventUpdate() override;
 
     bool eventWindowChanged(Window* window) override;
 

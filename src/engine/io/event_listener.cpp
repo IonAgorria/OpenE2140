@@ -5,7 +5,7 @@
 #include "engine/graphics/window.h"
 #include "event_listener.h"
 
-bool IEventListener::update() {
+bool IEventListener::eventUpdate() {
     return false;
 }
 

@@ -41,19 +41,19 @@ public:
     /**
      * Event handler constructor
      */
-    EventListenerCamera(std::shared_ptr<Game> game);
+    explicit EventListenerCamera(const std::shared_ptr<Game>& game);
 
     /**
      * Destroys event handler
      */
-    virtual ~EventListenerCamera();
+    ~EventListenerCamera() override;
 
     /**
      * Disable copy
      */
     NON_COPYABLE(EventListenerCamera)
 
-    bool update() override;
+    bool eventUpdate() override;
 
     bool eventMouseMove(Window* window, int x, int y) override;
 

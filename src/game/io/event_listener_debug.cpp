@@ -7,7 +7,7 @@
 #include "engine/simulation/world/world.h"
 #include "event_listener_debug.h"
 
-EventListenerDebug::EventListenerDebug(std::shared_ptr<Game> game): game(game) {
+EventListenerDebug::EventListenerDebug(const std::shared_ptr<Game>& game): game(game) {
     keyDebugEntities = game->getKeyBind("F2");
     keyDebugTiles = game->getKeyBind("F3");
 }

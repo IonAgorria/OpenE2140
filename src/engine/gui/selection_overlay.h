@@ -17,11 +17,6 @@ struct ColorRGBA;
 class SelectionOverlay: public Overlay {
 protected:
     /**
-     * Current selected entities
-     */
-    std::set<std::shared_ptr<Entity>> selection;
-
-    /**
      * Active selection rectangle
      */
     Rectangle rectangle;
@@ -39,6 +34,11 @@ protected:
     ColorRGBA enemyColor = Color::RED;
 
 public:
+    /**
+     * Current selected entities
+     */
+    std::set<std::shared_ptr<Entity>> selection;
+
     /**
      * Constructor
      */

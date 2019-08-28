@@ -1,6 +1,7 @@
 //
 // Created by Ion Agorria on 27/04/19
 //
+#include <src/engine/gui/selection_overlay.h>
 #include "src/engine/entities/entity_manager.h"
 #include "engine/graphics/window.h"
 #include "engine/simulation/player.h"
@@ -98,6 +99,7 @@ void Game::run() {
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
+    userPlayer = player->id;
     player->color = {{0x60, 0xA0, 0x20, 0xFF}};
     parameters->players.emplace_back(std::move(player));
     player = std::make_unique<Player>(2);
@@ -114,7 +116,9 @@ void Game::run() {
     entityPtr->setPosition({64 * 1 + 32, 64 * 8 + 32});
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
-    simulation->addEntity(entityPtr);entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 3});
+    simulation->addEntity(entityPtr);
+    dynamic_cast<SelectionOverlay*>(overlays[0].get())->selection.emplace(entityPtr);
+    entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 3});
     entityPtr->setPosition({64 * 6 + 32, 64 * 6 + 32});
     component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
@@ -157,4 +161,9 @@ void Game::setReactorCrate(Tile& tile) {
     tile.isImageDirty = true;
     //TODO set damage type and destroy any entity inside
     //TODO mark the surrounding tiles a radiactive
+}
+
+void Game::setupOverlays() {
+    Engine::setupOverlays();
+    overlays.emplace_back(std::make_unique<SelectionOverlay>(this_shared_ptr<Engine>()));
 }

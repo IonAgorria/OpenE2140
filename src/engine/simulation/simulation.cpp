@@ -132,6 +132,10 @@ void Simulation::close() {
 void Simulation::update() {
     world->update();
     for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
+        if (entity->getParent()) {
+            //Parent already updates their entities
+            continue;
+        }
         entity->update();
     }
 }

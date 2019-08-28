@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 20/8/19
 //
 
+#include "engine/core/macros.h"
 #include "engine/io/config.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/entity.h"
@@ -14,7 +15,7 @@ void AttachmentComponent::construction() {
 AttachmentComponent::~AttachmentComponent() {
     //Cleanup lefotovers
     if (!attached.empty()) {
-        Log::get()->warn("Attached entities when entity {0} was destroyed", base->getID());
+        BUG("Attached entities when entity {0} was destroyed", base->getID());
         detachEntities();
     }
 }

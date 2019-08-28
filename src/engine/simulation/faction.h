@@ -26,6 +26,26 @@ public:
      * Name for this faction
      */
     std::string name;
+
+    /**
+     * Constructor
+     */
+    explicit Faction(faction_id_t id);
+
+    /**
+     * Destructor
+     */
+    ~Faction() override = default;
+
+    /**
+     * Disable copy
+     */
+    NON_COPYABLE(Faction)
+
+    /**
+     * Type name
+     */
+    TYPE_NAME(Faction)
 };
 
 #endif //OPENE2140_FACTION_H

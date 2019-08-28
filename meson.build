@@ -87,6 +87,7 @@ opene2140_src = [
     'src/engine/entities/entity_factory.cpp',
     'src/engine/simulation/simulation.cpp',
     'src/engine/simulation/player.cpp',
+    'src/engine/simulation/faction.cpp',
     'src/engine/simulation/entity_store.cpp',
     'src/engine/simulation/entity.cpp',
     'src/engine/simulation/world/tile.cpp',

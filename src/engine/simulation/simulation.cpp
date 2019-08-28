@@ -141,23 +141,14 @@ void Simulation::update() {
 }
 
 void Simulation::draw(const Rectangle& viewport) {
-    //Obtain a slightly bigger rectangle
-    int tileSize = world->tileSize;
-    Rectangle rectangle(
-        viewport.x - tileSize,
-        viewport.y - tileSize,
-        viewport.w + tileSize * 2,
-        viewport.h + tileSize * 2
-    );
-
     //Draw world
     Renderer* renderer = getRenderer();
-    world->draw(renderer, rectangle);
+    world->draw(renderer, viewport);
 
     //Draw entities
     for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
         const Rectangle& bounds = entity->getBounds();
-        if (rectangle.isOverlap(bounds)) {
+        if (viewport.isOverlap(bounds)) {
             entity->draw();
             if (debugEntities) {
                 renderer->drawRectangle(bounds, 2, Color::DEBUG_ENTITIES);

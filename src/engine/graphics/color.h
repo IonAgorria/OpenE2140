@@ -93,8 +93,6 @@ struct ColorRGBA: public SDL_Color {
 
 /**
  * Struct for HSV color
- *
- * https://www.cs.rit.edu/~ncs/color/t_convert.html
  */
 struct ColorHSV {
     float h = 0;
@@ -114,6 +112,8 @@ struct ColorHSV {
 
     /**
      * Sets this color from RGBA
+     *
+     * https://www.cs.rit.edu/~ncs/color/t_convert.html
      */
     template<typename T>
     void fromRGB(const T& color) {
@@ -164,9 +164,9 @@ struct ColorHSV {
             return;
         }
 
-        h /= 60;			// sector 0 to 5
+        h /= 60; // sector 0 to 5
         i = std::floor(h);
-        f = h - static_cast<float>(i);			// factorial part of h
+        f = h - static_cast<float>(i); // factorial part of h
         p = v * (1 - s);
         q = v * (1 - s * f);
         t = v * (1 - s * (1 - f));

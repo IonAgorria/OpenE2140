@@ -209,12 +209,25 @@ void Engine::draw() {
     //Clear
     window->clear();
 
-    //Draw the simulation if any
+    //Draw the simulation content if any
     if (simulation) {
         Rectangle viewport = renderer->getViewport();
+
+        //Setup the camera by setting the corner of viewport
         viewport.setPosition(camera);
         renderer->changeCamera(camera.x, camera.y);
-        simulation->draw(viewport);
+
+        //Obtain a slightly bigger rectangle
+        int tileSize = simulation->getWorld()->tileSize;
+        Rectangle rectangle(
+                viewport.x - tileSize,
+                viewport.y - tileSize,
+                viewport.w + tileSize * 2,
+                viewport.h + tileSize * 2
+        );
+
+        //Draw simulation
+        simulation->draw(rectangle);
     }
 
     //Draw/update UI
@@ -419,8 +432,7 @@ void Engine::loadFactions() {
     //Load each faction config
     for (nlohmann::json& data : config.data) {
         entity_type_id_t id = data.value("id", 0);
-        std::unique_ptr<Faction> faction = std::make_unique<Faction>();
-        faction->id = id;
+        std::unique_ptr<Faction> faction = std::make_unique<Faction>(id);
         faction->code = data.value("code", "");
         faction->name = getText("faction."+faction->code);
         faction->loadData(data["data"]);

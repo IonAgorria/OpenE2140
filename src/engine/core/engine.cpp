@@ -16,6 +16,7 @@
 #include "engine/io/timer.h"
 #include "engine/io/config.h"
 #include "engine/gui/locale.h"
+#include "engine/gui/overlay.h"
 #include "engine.h"
 
 int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
@@ -182,6 +183,10 @@ void Engine::run() {
     entityManager = std::make_unique<EntityManager>(this_ptr);
     setupEntityManager();
 
+    //Setup GUI
+    //TODO should show the main menu
+    setupGUI();
+
     //Write config back
     saveConfig();
     if (hasError()) {
@@ -202,6 +207,11 @@ void Engine::update() {
     //Update simulation
     if (simulation) {
         simulation->update();
+
+        //Update overlays
+        for (auto& overlay : overlays) {
+            overlay->update();
+        }
     }
 }
 
@@ -228,6 +238,11 @@ void Engine::draw() {
 
         //Draw simulation
         simulation->draw(rectangle);
+
+        //Draw overlays
+        for (auto& overlay : overlays) {
+            overlay->draw(rectangle);
+        }
     }
 
     //Draw/update UI
@@ -275,11 +290,25 @@ void Engine::setupEntityManager() {
 }
 
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
+    //Clear any overlay
+    overlays.clear();
+
+    //Create simulation instance
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), std::move(parameters));
     error = simulation->getError();
+    if (hasError()) return;
 
     //Load stuff before doing simulation load
     loadFactions();
+
+    //Setup overlays
+    setupOverlays();
+}
+
+void Engine::setupGUI() {
+}
+
+void Engine::setupOverlays() {
 }
 
 EventHandler* Engine::getEventHandler() {
@@ -448,4 +477,11 @@ const std::string& Engine::getText(const std::string& key) {
         }
     }
     return key;
+}
+
+Player* Engine::getUserPlayer() {
+    if (userPlayer && simulation) {
+        return simulation->getPlayer(userPlayer);
+    }
+    return nullptr;
 }

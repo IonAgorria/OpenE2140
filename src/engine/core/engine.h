@@ -21,6 +21,7 @@ class Simulation;
 class Timer;
 class GUIMenu;
 class Locale;
+class Overlay;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -88,6 +89,16 @@ protected:
     std::unique_ptr<Locale> locale;
 
     /**
+     * Overlays applied to engine drawing
+     */
+    std::vector<std::unique_ptr<Overlay>> overlays;
+
+    /**
+     * ID of current player being controller by user
+     */
+    player_id_t userPlayer;
+
+    /**
      * Called when engine is requested to close
      */
     virtual void close();
@@ -133,11 +144,21 @@ protected:
     virtual void setupEntityManager();
 
     /**
-     * Called from engine to setup Simulation
+     * Called from engine to setup GUI elements
+     */
+    virtual void setupGUI();
+
+    /**
+     * Should be called to setup Simulation
      *
      * @param parameters
      */
     virtual void setupSimulation(std::unique_ptr<SimulationParameters> parameters);
+
+    /**
+     * Called from engine to setup overlays
+     */
+    virtual void setupOverlays();
 
     /**
      * Called from engine to load engine config
@@ -252,6 +273,11 @@ public:
      * @return translated text for provided text key
      */
     const std::string& getText(const std::string& key);
+
+    /**
+     * @return player controlled by user if any
+     */
+    Player* getUserPlayer();
 };
 
 #endif //OPENE2140_ENGINE_H

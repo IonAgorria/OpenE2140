@@ -218,6 +218,7 @@ void Engine::update() {
 void Engine::draw() {
     //Clear
     window->clear();
+    visibleEntities.clear();
 
     //Draw the simulation content if any
     if (simulation) {
@@ -234,7 +235,7 @@ void Engine::draw() {
         extraRectangle.grow(simulation->getWorld()->tileSize);
 
         //Draw simulation
-        simulation->draw(extraRectangle);
+        simulation->draw(extraRectangle, visibleEntities);
 
         //Draw overlays
         for (auto& overlay : overlays) {
@@ -498,4 +499,8 @@ Player* Engine::getUserPlayer() {
         return simulation->getPlayer(userPlayer);
     }
     return nullptr;
+}
+
+const std::vector<std::shared_ptr<Entity>>& Engine::getVisibleEntities() {
+    return visibleEntities;
 }

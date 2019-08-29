@@ -140,7 +140,7 @@ void Simulation::update() {
     }
 }
 
-void Simulation::draw(const Rectangle& rectangle) {
+void Simulation::draw(const Rectangle& rectangle, std::vector<std::shared_ptr<Entity>>& visibleEntities) {
     //Draw world
     Renderer* renderer = getRenderer();
     world->draw(renderer, rectangle);
@@ -149,6 +149,7 @@ void Simulation::draw(const Rectangle& rectangle) {
     for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
         const Rectangle& bounds = entity->getBounds();
         if (rectangle.isOverlap(bounds)) {
+            visibleEntities.emplace_back(entity);
             entity->draw();
             if (debugEntities) {
                 renderer->drawRectangle(bounds, 2, Color::DEBUG_ENTITIES);

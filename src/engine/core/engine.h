@@ -22,6 +22,7 @@ class Timer;
 class GUIMenu;
 class Locale;
 class Overlay;
+class Entity;
 
 /**
  * Contains the central game code that calls and coordinates the subsystems
@@ -92,6 +93,11 @@ protected:
      * Overlays applied to engine drawing
      */
     std::vector<std::shared_ptr<Overlay>> overlays;
+
+    /**
+     * The entities drawn in last frame
+     */
+    std::vector<std::shared_ptr<Entity>> visibleEntities;
 
     /**
      * ID of current player being controller by user
@@ -192,6 +198,7 @@ protected:
      * Loads factions from data
      */
     virtual void loadFactions();
+
 public:
     /**
      * Main engine entry point, does the basic initializations
@@ -290,6 +297,11 @@ public:
      * @return player controlled by user if any
      */
     Player* getUserPlayer();
+
+    /**
+     * @return visible entities drawn from last frame
+     */
+    const std::vector<std::shared_ptr<Entity>>& getVisibleEntities();
 };
 
 #endif //OPENE2140_ENGINE_H

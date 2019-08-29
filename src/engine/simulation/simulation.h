@@ -114,8 +114,9 @@ public:
      * Draws this simulation
      *
      * @param rectangle the visible rectangle to draw
+     * @param visibleEntities stores the drawn entities
      */
-    virtual void draw(const Rectangle& rectangle);
+    virtual void draw(const Rectangle& rectangle, std::vector<std::shared_ptr<Entity>>& visibleEntities);
 
     /**
      * @return entities store in simulation

@@ -250,6 +250,11 @@ public:
     void setCenter(const Vector2& center, const Vector2& size);
 
     /**
+     * Grows the rectangle by provided width each side
+     */
+    void grow(int width);
+
+    /**
      * Checks if a position is inside this rectangle
      *
      * @param x position

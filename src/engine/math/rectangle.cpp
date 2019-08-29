@@ -215,6 +215,13 @@ void Rectangle::setCenter(const Vector2& center, const Vector2& size) {
     this->y = center.y - h / 2;
 }
 
+void Rectangle::grow(int width) {
+    this->x -= width;
+    this->y -= width;
+    this->w += width * 2;
+    this->h += width * 2;
+}
+
 bool Rectangle::isInside(int px, int py) const {
     return x <= px && px <= x + w
         && y <= py && py <= y + h;

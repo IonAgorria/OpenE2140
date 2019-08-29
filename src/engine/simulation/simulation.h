@@ -113,9 +113,9 @@ public:
     /**
      * Draws this simulation
      *
-     * @param viewport the rectangle to draw
+     * @param rectangle the visible rectangle to draw
      */
-    virtual void draw(const Rectangle& viewport);
+    virtual void draw(const Rectangle& rectangle);
 
     /**
      * @return entities store in simulation

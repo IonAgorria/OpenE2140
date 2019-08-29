@@ -280,6 +280,13 @@ public:
     const std::string& getText(const std::string& key);
 
     /**
+     * Obtain the camera rectangle
+     *
+     * @param rectangle
+     */
+    void getCameraRectangle(Rectangle& rectangle);
+
+    /**
      * @return player controlled by user if any
      */
     Player* getUserPlayer();

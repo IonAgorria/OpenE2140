@@ -140,15 +140,15 @@ void Simulation::update() {
     }
 }
 
-void Simulation::draw(const Rectangle& viewport) {
+void Simulation::draw(const Rectangle& rectangle) {
     //Draw world
     Renderer* renderer = getRenderer();
-    world->draw(renderer, viewport);
+    world->draw(renderer, rectangle);
 
     //Draw entities
     for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
         const Rectangle& bounds = entity->getBounds();
-        if (viewport.isOverlap(bounds)) {
+        if (rectangle.isOverlap(bounds)) {
             entity->draw();
             if (debugEntities) {
                 renderer->drawRectangle(bounds, 2, Color::DEBUG_ENTITIES);

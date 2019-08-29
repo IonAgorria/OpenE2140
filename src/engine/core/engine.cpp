@@ -221,27 +221,24 @@ void Engine::draw() {
 
     //Draw the simulation content if any
     if (simulation) {
-        Rectangle viewport = renderer->getViewport();
+        //Get the camera rectangle
+        Rectangle cameraRectangle;
+        getCameraRectangle(cameraRectangle);
 
-        //Setup the camera by setting the corner of viewport
-        viewport.setPosition(camera);
+        //Update renderer camera
         renderer->changeCamera(camera.x, camera.y);
 
         //Obtain a slightly bigger rectangle
-        int tileSize = simulation->getWorld()->tileSize;
-        Rectangle rectangle(
-                viewport.x - tileSize,
-                viewport.y - tileSize,
-                viewport.w + tileSize * 2,
-                viewport.h + tileSize * 2
-        );
+        //This avoids seeing empty parts of world when scrolling
+        Rectangle extraRectangle(cameraRectangle);
+        extraRectangle.grow(simulation->getWorld()->tileSize);
 
         //Draw simulation
-        simulation->draw(rectangle);
+        simulation->draw(extraRectangle);
 
         //Draw overlays
         for (auto& overlay : overlays) {
-            overlay->draw(rectangle);
+            overlay->draw(cameraRectangle);
         }
     }
 
@@ -487,6 +484,13 @@ const std::string& Engine::getText(const std::string& key) {
         }
     }
     return key;
+}
+
+void Engine::getCameraRectangle(Rectangle& rectangle) {
+    //Setup the viewport by setting the corner from camera
+    rectangle.set(renderer->getViewport());
+    rectangle.x += camera.x;
+    rectangle.y += camera.y;
 }
 
 Player* Engine::getUserPlayer() {

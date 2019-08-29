@@ -11,11 +11,16 @@ void Building::simulationChanged() {
         World* world = simulation->getWorld();
 
         //Set the building bounds
-        bounds += Rectangle(position, Vector2());
         world->toWorldRectangle(config->bounds, bounds, false);
+        bounds += Rectangle(position);
 
         //Set position to the center of bounds
         bounds.getCenter(position);
+
+        //Apply offset after setting center
+        Rectangle offset;
+        config->getRectangle("offset", offset);
+        bounds += offset;
 
         //Layout setup to claim tiles
         config_data_t layout = config->getData("layout");

@@ -468,6 +468,7 @@
         "code": "refinery",
         "faction": null,
         "bounds": [0, 0, 3, 2],
+        "offset": [8, -8, 32, 16],
         "layout": [
             [0, 0, 2, 1],
             [2, 0, 1, 1]

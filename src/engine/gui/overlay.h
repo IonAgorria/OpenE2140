@@ -36,8 +36,16 @@ public:
      */
     NON_COPYABLE_NOR_MOVABLE(Overlay)
 
+    /**
+     * Updates overlay
+     */
     virtual void update() = 0;
 
+    /**
+     * Called when this overlay should draw
+     *
+     * @param viewport the visible rectangle to draw
+     */
     virtual void draw(const Rectangle& viewport) = 0;
 };
 

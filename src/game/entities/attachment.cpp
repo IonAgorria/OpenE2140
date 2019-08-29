@@ -6,6 +6,9 @@
 #include "attachment.h"
 
 void Attachment::simulationChanged() {
+    if (isActive()) {
+        disable = true;
+    }
 }
 
 void Attachment::draw() {

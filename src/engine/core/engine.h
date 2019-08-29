@@ -30,11 +30,6 @@ class Entity;
 class Engine: public std::enable_shared_from_this<Engine>, public IErrorPossible, public IHasConfigData {
 protected:
     /**
-     * Log for game
-     */
-    log_ptr log;
-
-    /**
      * Camera where player is looking
      */
     Vector2 camera;
@@ -200,6 +195,11 @@ protected:
     virtual void loadFactions();
 
 public:
+    /**
+     * Log for engine
+     */
+    log_ptr log;
+
     /**
      * Main engine entry point, does the basic initializations
      *

@@ -11,6 +11,11 @@
 
 struct ColorRGBA;
 
+struct SelectionState {
+    std::shared_ptr<Entity> entity;
+    ColorRGBA color;
+};
+
 /**
  * Overlay for selection
  */
@@ -19,7 +24,12 @@ protected:
     /**
      * Active selection rectangle
      */
-    Rectangle rectangle;
+    Rectangle selectingRectangle;
+
+    /**
+     * Current selected entities
+     */
+    std::unordered_map<entity_id_t, SelectionState> selection;
 
     /** Color for neutral entities */
     ColorRGBA neutralColor = Color::WHITE;
@@ -33,12 +43,10 @@ protected:
     /** Color for enemy entities */
     ColorRGBA enemyColor = Color::RED;
 
-public:
-    /**
-     * Current selected entities
-     */
-    std::set<std::shared_ptr<Entity>> selection;
+    /** Flag for additive mode */
+    bool additive = false;
 
+public:
     /**
      * Constructor
      */
@@ -51,7 +59,29 @@ public:
 
     void update() override;
 
-    void draw(const Rectangle& viewport) override;
+    void draw(const Rectangle& rectangle) override;
+
+    /**
+     * Adds an entity to selection
+     *
+     * @param entity to add
+     */
+    void addEntity(const std::shared_ptr<Entity>& entity);
+
+    /**
+     * Removes an entity from selection
+     *
+     * @param id of entity
+     */
+    void removeEntity(entity_id_t id);
+
+    /**
+     * Returns if entity is already selected
+     *
+     * @param id of entity
+     * @return if selected
+     */
+    bool isSelected(entity_id_t id);
 
     /*
      * IEventListener overrides

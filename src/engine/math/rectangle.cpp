@@ -17,6 +17,13 @@ Rectangle::Rectangle(const Vector2& position, const Vector2& size): SDL_Rect() {
     this->h = size.y;
 }
 
+Rectangle::Rectangle(const Vector2& position): SDL_Rect() {
+    this->x = position.x;
+    this->y = position.y;
+    this->w = 0;
+    this->h = 0;
+}
+
 Rectangle::Rectangle(const Rectangle& rectangle): SDL_Rect(rectangle) {
     this->x = rectangle.x;
     this->y = rectangle.y;
@@ -176,9 +183,19 @@ void Rectangle::setPosition(const Vector2& position) {
     this->y = position.y;
 }
 
+void Rectangle::setPosition(const Rectangle& position) {
+    this->x = position.x;
+    this->y = position.y;
+}
+
 void Rectangle::setSize(const Vector2& size) {
     this->w = size.x;
     this->h = size.y;
+}
+
+void Rectangle::setSize(const Rectangle& size) {
+    this->w = size.w;
+    this->h = size.h;
 }
 
 void Rectangle::setCenter(int x, int y) {
@@ -209,11 +226,11 @@ bool Rectangle::isInside(const Vector2& v) const {
 }
 
 bool Rectangle::isInside(const Rectangle& rectangle) const {
-    float xmin = rectangle.x;
-    float xmax = xmin + rectangle.w;
+    int xmin = rectangle.x;
+    int xmax = xmin + rectangle.w;
 
-    float ymin = rectangle.y;
-    float ymax = ymin + rectangle.h;
+    int ymin = rectangle.y;
+    int ymax = ymin + rectangle.h;
 
     return xmin > x && xmin < x + w && xmax > x && xmax < x + w
         && ymin > y && ymin < y + h && ymax > y && ymax < y + h;

@@ -29,6 +29,13 @@ public:
     Rectangle(const Vector2& position, const Vector2& size);
 
     /**
+     * Constructs a new rectangle
+     *
+     * @param position of rectangle
+     */
+    explicit Rectangle(const Vector2& position);
+
+    /**
      * Constructs a new rectangle from another
      *
      * @param rectangle to copy
@@ -199,11 +206,25 @@ public:
     void setPosition(const Vector2& position);
 
     /**
+     * Sets rectangle position
+     *
+     * @param position of rectangle
+     */
+    void setPosition(const Rectangle& position);
+
+    /**
      * Sets rectangle size
      *
      * @param size of rectangle
      */
     void setSize(const Vector2& size);
+
+    /**
+     * Sets rectangle size
+     *
+     * @param size of rectangle
+     */
+    void setSize(const Rectangle& size);
 
     /**
      * Sets rectangle center

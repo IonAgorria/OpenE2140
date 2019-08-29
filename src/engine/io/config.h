@@ -68,7 +68,16 @@ public:
      * @param vector to write
      * @return if successful
      */
-    static bool getVector2(config_data_t& section, Vector2& vector);
+    static bool getVector2(const config_data_t& section, Vector2& vector);
+
+    /**
+     * Writes vector to config data entry
+     *
+     * @param vector to read from
+     * @param section to write
+     * @return if successful
+     */
+    static void setVector2(const Vector2& vector, config_data_t& section);
 
     /**
      * Reads rectangle from config data entry
@@ -77,7 +86,7 @@ public:
      * @param rectangle to write
      * @return if successful
      */
-    static bool getRectangle(config_data_t& section, Rectangle& rectangle);
+    static bool getRectangle(const config_data_t& section, Rectangle& rectangle);
 
     /**
      * Writes rectangle to config data entry
@@ -86,7 +95,7 @@ public:
      * @param section to write
      * @return if successful
      */
-    static void setRectangle(Rectangle& rectangle, config_data_t& section);
+    static void setRectangle(const Rectangle& rectangle, config_data_t& section);
 
     /**
      * Disable copy/move

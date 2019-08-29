@@ -2,7 +2,6 @@
 // Created by Ion Agorria on 5/08/19
 //
 
-#include "engine/io/config.h"
 #include "entity_factory.h"
 #include "entity_config.h"
 
@@ -163,8 +162,7 @@ SpriteGroup* EntityConfig::getSprite(const std::string& spriteCode) const {
 }
 
 void EntityConfig::loadBounds() {
-    config_data_t boundsData = getData("bounds");
-    if (!Config::getRectangle(boundsData, bounds)) {
+    if (!getRectangle("bounds", bounds)) {
         //Default if none was loaded
         bounds.set(0, 0, 1, 1);
     }

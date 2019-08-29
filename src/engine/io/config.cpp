@@ -56,7 +56,7 @@ void Config::write() {
     file->close();
 }
 
-bool Config::getVector2(config_data_t& section, Vector2& vector) {
+bool Config::getVector2(const config_data_t& section, Vector2& vector) {
     if (!section.is_array()) return false;
     if (section.size() < 2) return false;
     vector.set(
@@ -66,7 +66,14 @@ bool Config::getVector2(config_data_t& section, Vector2& vector) {
     return true;
 }
 
-bool Config::getRectangle(config_data_t& section, Rectangle& rectangle) {
+void Config::setVector2(const Vector2& vector2, config_data_t& section) {
+    std::vector<int> boundsArray;
+    section = config_data_t(boundsArray);
+    section[0] = vector2.x;
+    section[1] = vector2.y;
+}
+
+bool Config::getRectangle(const config_data_t& section, Rectangle& rectangle) {
     if (!section.is_array()) return false;
     if (section.size() < 4) return false;
     rectangle.set(
@@ -78,7 +85,7 @@ bool Config::getRectangle(config_data_t& section, Rectangle& rectangle) {
     return true;
 }
 
-void Config::setRectangle(Rectangle& rectangle, config_data_t& section) {
+void Config::setRectangle(const Rectangle& rectangle, config_data_t& section) {
     std::vector<int> boundsArray;
     section = config_data_t(boundsArray);
     section[0] = rectangle.x;

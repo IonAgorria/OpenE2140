@@ -4,6 +4,7 @@
 #ifndef OPENE2140_HAS_CONFIG_DATA_H
 #define OPENE2140_HAS_CONFIG_DATA_H
 
+#include "config.h"
 #include "engine/core/types.h"
 
 /**
@@ -118,6 +119,58 @@ public:
     /** @return the data dirty state */
     bool isDataDirty() {
         return dataDirty;
+    }
+
+    /*
+     * Helpers
+     */
+
+    /**
+     * Reads vector2 from config key
+     *
+     * @param key to read from
+     * @param vector to write
+     * @return if successful
+     */
+    bool getVector2(const config_key_t& key, Vector2& vector) const {
+        return Config::getVector2(getData(key), vector);
+    }
+
+    /**
+     * Writes vector to config key
+     *
+     * @param vector to read from
+     * @param key to write
+     * @return if successful
+     */
+    void setVector2(const Vector2& vector, config_key_t& key) {
+        config_data_t data(nullptr);
+        Config::setVector2(vector, data);
+        setData(key, data);
+    }
+
+    /**
+     * Reads rectangle from config key
+     *
+     * @param key to read from
+     * @param rectangle to write
+     * @return if successful
+     */
+    bool getRectangle(const config_key_t& key, Rectangle& rectangle) const {
+        return Config::getRectangle(getData(key), rectangle);
+    }
+
+    /**
+     * Writes rectangle to config key
+     *
+     * @param rectangle to read from
+     * @param key to write
+     * @return if successful
+     */
+    void setRectangle(const Rectangle& rectangle, config_key_t& key) {
+        config_data_t data(nullptr);
+        Config::setRectangle(rectangle, data);
+        setData(key, data);
     }
 };
 

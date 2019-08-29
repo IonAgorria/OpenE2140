@@ -28,24 +28,17 @@ public:
     /**
      * Event handler constructor
      */
-    EventHandler(std::shared_ptr<Engine> engine);
+    explicit EventHandler(std::shared_ptr<Engine> engine);
 
     /**
      * Destroys event handler
      */
-    virtual ~EventHandler();
+    ~EventHandler() override;
 
     /**
      * Disable copy
      */
     NON_COPYABLE_NOR_MOVABLE(EventHandler)
-
-    /**
-     * Registers event listener
-     *
-     * @param listener to register
-     */
-    void addEventListener(std::unique_ptr<IEventListener> processor);
 
     /**
      * @return if close is requested

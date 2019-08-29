@@ -309,6 +309,16 @@ void Engine::setupGUI() {
 }
 
 void Engine::setupOverlays() {
+    for (auto& overlay : overlays) {
+        eventHandler->addEventListener(overlay);
+    }
+}
+
+void Engine::clearOverlays() {
+    for (auto& overlay : overlays) {
+        eventHandler->removeEventListener(overlay);
+    }
+    overlays.clear();
 }
 
 EventHandler* Engine::getEventHandler() {

@@ -15,8 +15,22 @@ protected:
     /**
      * Listeners to send events
      */
-    std::vector<std::unique_ptr<IEventListener>> listeners;
+    std::vector<std::shared_ptr<IEventListener>> listeners;
 public:
+    /**
+     * Registers event listener
+     *
+     * @param listener to register
+     */
+    void addEventListener(std::shared_ptr<IEventListener> listener);
+
+    /**
+     * Removes event listener
+     *
+     * @param listener to remove
+     */
+    void removeEventListener(std::shared_ptr<IEventListener> listener);
+
     bool eventUpdate() override;
 
     bool eventWindowChanged(Window* window) override;

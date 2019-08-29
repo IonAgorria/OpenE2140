@@ -8,7 +8,7 @@
 #include "event_dispatcher.h"
 #include "event_handler.h"
 
-EventHandler::EventHandler(std::shared_ptr<Engine> engine): engine(engine) {
+EventHandler::EventHandler(std::shared_ptr<Engine> engine): engine(std::move(engine)) {
     log = Log::get("EventHandler");
     closing = false;
 }
@@ -19,10 +19,6 @@ EventHandler::~EventHandler() {
         engine.reset();
     }
     listeners.clear();
-}
-
-void EventHandler::addEventListener(std::unique_ptr<IEventListener> listener) {
-    listeners.push_back(std::move(listener));
 }
 
 bool EventHandler::isClosing() {

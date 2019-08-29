@@ -1,8 +1,8 @@
 //
 // Created by Ion Agorria on 27/04/19
 //
-#include <src/engine/gui/selection_overlay.h>
-#include "src/engine/entities/entity_manager.h"
+#include "engine/gui/selection_overlay.h"
+#include "engine/entities/entity_manager.h"
 #include "engine/graphics/window.h"
 #include "engine/simulation/player.h"
 #include "engine/simulation/faction.h"
@@ -22,9 +22,9 @@
 void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
-    eventHandler->addEventListener(std::make_unique<EventListenerCamera>(this_ptr));
+    eventHandler->addEventListener(std::make_shared<EventListenerCamera>(this_ptr));
     if (Utils::isFlag(FLAG_DEBUG)) {
-        eventHandler->addEventListener(std::make_unique<EventListenerDebug>(this_ptr));
+        eventHandler->addEventListener(std::make_shared<EventListenerDebug>(this_ptr));
     }
 
     //Call setup
@@ -83,6 +83,14 @@ void Game::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
     if (hasError()) return;
 }
 
+void Game::setupOverlays() {
+    //Register overlays
+    overlays.emplace_back(std::make_shared<SelectionOverlay>(this_shared_ptr<Engine>()));
+
+    //Call setup
+    Engine::setupOverlays();
+}
+
 void Game::run() {
     Engine::run();
     if (hasError()) {
@@ -117,7 +125,6 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
     simulation->addEntity(entityPtr);
-    dynamic_cast<SelectionOverlay*>(overlays[0].get())->selection.emplace(entityPtr);
     entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 3});
     entityPtr->setPosition({64 * 6 + 32, 64 * 6 + 32});
     component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
@@ -161,9 +168,4 @@ void Game::setReactorCrate(Tile& tile) {
     tile.isImageDirty = true;
     //TODO set damage type and destroy any entity inside
     //TODO mark the surrounding tiles a radiactive
-}
-
-void Game::setupOverlays() {
-    Engine::setupOverlays();
-    overlays.emplace_back(std::make_unique<SelectionOverlay>(this_shared_ptr<Engine>()));
 }

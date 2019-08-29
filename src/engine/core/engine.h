@@ -91,7 +91,7 @@ protected:
     /**
      * Overlays applied to engine drawing
      */
-    std::vector<std::unique_ptr<Overlay>> overlays;
+    std::vector<std::shared_ptr<Overlay>> overlays;
 
     /**
      * ID of current player being controller by user
@@ -159,6 +159,11 @@ protected:
      * Called from engine to setup overlays
      */
     virtual void setupOverlays();
+
+    /**
+     * Called from engine to clear set overlays
+     */
+    virtual void clearOverlays();
 
     /**
      * Called from engine to load engine config

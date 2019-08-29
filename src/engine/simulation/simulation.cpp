@@ -171,7 +171,7 @@ std::shared_ptr<Entity> Simulation::createEntity(const EntityPrototype& entityPr
         Entity* entity = entityPtr.get();
         //Basic stuff
         Vector2 position;
-        world->toWorldVector(entityPrototype.position, position);
+        world->toWorldVector(entityPrototype.position, position, true);
         entity->setPosition(position);
         entity->setDirection(entityPrototype.direction);
         entity->setDisable(entityPrototype.disabled);

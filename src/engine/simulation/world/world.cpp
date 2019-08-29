@@ -179,8 +179,11 @@ void World::toTileVector(const Vector2& vector, Vector2& result) {
     result.set(vector.x / tileSize, vector.y / tileSize);
 }
 
-void World::toWorldVector(const Vector2& vector, Vector2& result) {
-    result.set(vector.x * tileSize + tileSizeHalf, vector.y * tileSize + tileSizeHalf);
+void World::toWorldVector(const Vector2& vector, Vector2& result, bool center) {
+    result.set(vector.x * tileSize, vector.y * tileSize);
+    if (center) {
+        result += tileSizeHalf;
+    }
 }
 
 void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
@@ -190,11 +193,15 @@ void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
     );
 }
 
-void World::toWorldRectangle(const Rectangle& rectangle, Rectangle& result) {
+void World::toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center) {
     result.set(
-            rectangle.x * tileSize - tileSizeHalf, rectangle.y * tileSize - tileSizeHalf,
+            rectangle.x * tileSize, rectangle.y * tileSize,
             rectangle.w * tileSize, rectangle.h * tileSize
     );
+    if (!center) {
+        result.x -= tileSizeHalf;
+        result.y -= tileSizeHalf;
+    }
 }
 
 Image* World::calculateTileImage(Tile& tile) {

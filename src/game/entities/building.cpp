@@ -11,8 +11,8 @@ void Building::simulationChanged() {
         World* world = simulation->getWorld();
 
         //Set the building bounds
-        world->toWorldRectangle(config->bounds, bounds);
         bounds += Rectangle(position, Vector2());
+        world->toWorldRectangle(config->bounds, bounds, false);
 
         //Set position to the center of bounds
         bounds.getCenter(position);

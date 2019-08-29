@@ -167,9 +167,10 @@ public:
      *
      * @param vector to convert
      * @param result to write result
+     * @param center should the position be centered to tile?
      * @return tile if valid
      */
-    void toWorldVector(const Vector2& vector, Vector2& result);
+    void toWorldVector(const Vector2& vector, Vector2& result, bool center);
 
     /**
      * Translates world rectangle to tile rectangle
@@ -185,9 +186,10 @@ public:
      *
      * @param rectangle to convert
      * @param result to write result
+     * @param center should the position be centered to tile?
      * @return tile if valid
      */
-    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result);
+    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center);
 
     /**
      * Calculates the image for the tile

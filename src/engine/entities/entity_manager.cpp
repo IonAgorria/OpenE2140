@@ -55,17 +55,21 @@ void EntityManager::load() {
 }
 
 std::shared_ptr<Entity> EntityManager::makeEntity(EntityConfig* config) {
-    std::unique_ptr<IEntityFactory>& factory = factories[config->kind];
     std::shared_ptr<Entity> entity;
-    if (factory) {
-        entity = factory->instanceEntity(config);
-        error = factory->getError();
-        if (entity) {
-            entity->setup(config);
+    if (config) {
+        std::unique_ptr<IEntityFactory>& factory = factories[config->kind];
+        if (factory) {
+            entity = factory->instanceEntity(config);
+            error = factory->getError();
+            if (entity) {
+                entity->setup(config);
+            }
+            if (hasError()) {
+                log->warn("Error when making new entity with config {0}:\n{1}", config->toString(), getError());
+            }
         }
-        if (hasError()) {
-            log->warn("Error when making new entity with config {0}:\n{1}", config->toString(), getError());
-        }
+    } else {
+        BUG("Attempted to make a new entity with null config");
     }
     return entity;
 }

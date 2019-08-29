@@ -10,7 +10,7 @@ Entity::Entity() {
 
 Entity::~Entity() {
     if (active || id || simulation) {
-        Log::get("Simulation")->warn("Entity {0} was destructed without being removed from simulation", toString());
+        BUG("Entity {0} was destructed without being removed from simulation", toString());
     }
 }
 

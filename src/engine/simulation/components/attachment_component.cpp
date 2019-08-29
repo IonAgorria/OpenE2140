@@ -37,6 +37,7 @@ void AttachmentComponent::simulationChanged() {
 
                 //Create the entity and attach it
                 std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(kind, code);
+                if (!entity) continue;
                 AttachmentPoint& attachment = attachEntity(entity);
 
                 //Set the position

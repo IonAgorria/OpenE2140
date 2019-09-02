@@ -7,8 +7,9 @@
 #include <set>
 #include "engine/graphics/color.h"
 #include "engine/simulation/entity.h"
-#include "overlay.h"
+#include "src/engine/gui/gui_view.h"
 
+class SimulationView;
 struct ColorRGBA;
 
 struct SelectionState {
@@ -19,12 +20,22 @@ struct SelectionState {
 /**
  * Overlay for selection
  */
-class SelectionOverlay: public Overlay {
+class SelectionOverlay: public GUIView {
 protected:
+    /**
+     * Game root pointer
+     */
+    GUIGameRoot* gameRoot;
+
     /**
      * Active selection rectangle
      */
-    Rectangle selectingRectangle;
+    std::unique_ptr<Rectangle> selectingRectangle;
+
+    /**
+     * Last mouse position in the world
+     */
+    std::unique_ptr<Vector2> mousePosition;
 
     /**
      * Current selected entities
@@ -47,19 +58,6 @@ protected:
     bool additive = false;
 
 public:
-    /**
-     * Constructor
-     */
-    explicit SelectionOverlay(std::shared_ptr<Engine> engine);
-
-    /**
-     * Destructor
-     */
-    ~SelectionOverlay() override = default;
-
-    void update() override;
-
-    void draw(const Rectangle& rectangle) override;
 
     /**
      * Adds an entity to selection
@@ -84,10 +82,22 @@ public:
     bool isSelected(entity_id_t id);
 
     /*
+     * GUIView overrides
+     */
+
+    void rootChanged() override;
+
+    void update() override;
+
+    void draw() override;
+
+    /*
      * IEventListener overrides
      */
 
-    bool eventMouseClick(Window* window, int x, int y, int button, bool press) override;
+    bool mouseClick(int x, int y, int button, bool press) override;
+
+    bool mouseMove(int x, int y) override;
 };
 
 #endif //OPENE2140_SELECTION_OVERLAY_H

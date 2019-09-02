@@ -1,7 +1,7 @@
 //
 // Created by Ion Agorria on 27/04/19
 //
-#include "engine/gui/selection_overlay.h"
+#include "engine/gui/gui_root.h"
 #include "engine/entities/entity_manager.h"
 #include "engine/graphics/window.h"
 #include "engine/simulation/player.h"
@@ -15,14 +15,13 @@
 #include "game/assets/asset_processor_mix.h"
 #include "game/assets/asset_processor_fixes.h"
 #include "game/entities/factories.h"
-#include "game/io/event_listener_camera.h"
 #include "game/io/event_listener_debug.h"
+#include "game/gui/game_layout.h"
 #include "game.h"
 
 void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
-    eventHandler->addEventListener(std::make_shared<EventListenerCamera>(this_ptr));
     if (Utils::isFlag(FLAG_DEBUG)) {
         eventHandler->addEventListener(std::make_shared<EventListenerDebug>(this_ptr));
     }
@@ -83,12 +82,9 @@ void Game::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
     if (hasError()) return;
 }
 
-void Game::setupOverlays() {
-    //Register overlays
-    overlays.emplace_back(std::make_shared<SelectionOverlay>(this_shared_ptr<Engine>()));
-
+void Game::setupGUI() {
     //Call setup
-    Engine::setupOverlays();
+    Engine::setupGUI();
 }
 
 void Game::run() {
@@ -107,7 +103,6 @@ void Game::run() {
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
-    userPlayer = player->id;
     player->color = {{0x60, 0xA0, 0x20, 0xFF}};
     parameters->players.emplace_back(std::move(player));
     player = std::make_unique<Player>(2);
@@ -130,6 +125,9 @@ void Game::run() {
     component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(simulation->getPlayer(1));
     simulation->addEntity(entityPtr);
+
+    //Register GUI
+    setGUI(std::make_shared<GameLayout>());
 
     //Show main window
     window->show();

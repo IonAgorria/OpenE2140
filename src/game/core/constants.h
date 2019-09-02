@@ -5,7 +5,6 @@
 #define OPENE2140_CONSTANTS_H
 
 #define MONEY_PER_CONTAINER 200
-#define CAMERA_SPEED 10
 #define TILE_SIZE 64
 
 /**

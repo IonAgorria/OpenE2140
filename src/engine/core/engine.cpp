@@ -6,7 +6,7 @@
 #include "engine/graphics/palette.h"
 #include "engine/graphics/renderer.h"
 #include "engine/graphics/window.h"
-#include "engine/gui/gui_menu.h"
+#include "engine/gui/gui_root.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/faction.h"
 #include "engine/simulation/world/world.h"
@@ -16,7 +16,6 @@
 #include "engine/io/timer.h"
 #include "engine/io/config.h"
 #include "engine/gui/locale.h"
-#include "engine/gui/overlay.h"
 #include "engine.h"
 
 int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
@@ -88,8 +87,8 @@ void Engine::close() {
     if (eventHandler) {
         eventHandler.reset();
     }
-    if (menu) {
-        menu.reset();
+    if (guiRoot) {
+        guiRoot.reset();
     }
     if (simulation) {
         simulation->close();
@@ -198,55 +197,31 @@ void Engine::update() {
     //Update timer
     timer->update();
 
+    //Update simulation
+    if (simulation) {
+        simulation->update();
+    }
+
+    //Update UI
+    if (guiRoot) {
+        guiRoot->update();
+    }
+
     //Poll input
     eventHandler->poll();
 
     //Update event handlers
     eventHandler->eventUpdate();
-
-    //Update simulation
-    if (simulation) {
-        simulation->update();
-
-        //Update overlays
-        for (auto& overlay : overlays) {
-            overlay->update();
-        }
-    }
 }
 
 void Engine::draw() {
     //Clear
     window->clear();
-    visibleEntities.clear();
 
-    //Draw the simulation content if any
-    if (simulation) {
-        //Get the camera rectangle
-        Rectangle cameraRectangle;
-        getCameraRectangle(cameraRectangle);
-
-        //Update renderer camera
-        renderer->changeCamera(camera.x, camera.y);
-
-        //Obtain a slightly bigger rectangle
-        //This avoids seeing empty parts of world when scrolling
-        Rectangle extraRectangle(cameraRectangle);
-        extraRectangle.grow(simulation->getWorld()->tileSize);
-
-        //Draw simulation
-        simulation->draw(extraRectangle, visibleEntities);
-
-        //Draw overlays
-        for (auto& overlay : overlays) {
-            overlay->draw(cameraRectangle);
-        }
-    }
-
-    //Draw/update UI
-    if (menu) {
+    //Draw UI
+    if (guiRoot) {
         renderer->changeCamera(0, 0);
-        menu->draw();
+        guiRoot->draw();
     }
 
     //Flush renderer
@@ -288,9 +263,6 @@ void Engine::setupEntityManager() {
 }
 
 void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
-    //Clear any overlay
-    overlays.clear();
-
     //Create simulation instance
     simulation = std::make_unique<Simulation>(this_shared_ptr<Engine>(), std::move(parameters));
     error = simulation->getError();
@@ -298,25 +270,9 @@ void Engine::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
 
     //Load stuff before doing simulation load
     loadFactions();
-
-    //Setup overlays
-    setupOverlays();
 }
 
 void Engine::setupGUI() {
-}
-
-void Engine::setupOverlays() {
-    for (auto& overlay : overlays) {
-        eventHandler->addEventListener(overlay);
-    }
-}
-
-void Engine::clearOverlays() {
-    for (auto& overlay : overlays) {
-        eventHandler->removeEventListener(overlay);
-    }
-    overlays.clear();
 }
 
 EventHandler* Engine::getEventHandler() {
@@ -341,32 +297,6 @@ EntityManager* Engine::getEntityManager() {
 
 Simulation* Engine::getSimulation() {
     return simulation.get();
-}
-
-Vector2& Engine::getCamera() {
-    return camera;
-}
-
-void Engine::updateCamera(const Vector2& newCamera) {
-    this->camera.set(newCamera);
-
-    //Limit camera movement by world bounds
-    if (simulation && renderer) {
-        Rectangle viewport = renderer->getViewport();
-        Rectangle worldRectangle = simulation->getWorld()->getWorldRectangle();
-        Vector2 max(
-            worldRectangle.w - viewport.w,
-            worldRectangle.h - viewport.h
-        );
-        if (camera.x < worldRectangle.x) camera.x = worldRectangle.x;
-        if (camera.y < worldRectangle.y) camera.y = worldRectangle.y;
-        if (max.x < camera.x) camera.x = max.x;
-        if (max.y < camera.y) camera.y = max.y;
-    }
-
-    //Never let to be less than 0
-    if (camera.x < 0) camera.x = 0;
-    if (camera.y < 0) camera.y = 0;
 }
 
 input_key_code_t Engine::getKeyBind(const std::string& name) {
@@ -487,20 +417,15 @@ const std::string& Engine::getText(const std::string& key) {
     return key;
 }
 
-void Engine::getCameraRectangle(Rectangle& rectangle) {
-    //Setup the viewport by setting the corner from camera
-    rectangle.set(renderer->getViewport());
-    rectangle.x += camera.x;
-    rectangle.y += camera.y;
-}
-
-Player* Engine::getUserPlayer() {
-    if (userPlayer && simulation) {
-        return simulation->getPlayer(userPlayer);
+void Engine::setGUI(std::shared_ptr<GUIRoot> root) {
+    if (guiRoot) {
+        eventHandler->removeEventListener(guiRoot);
+        guiRoot->rootActive(std::shared_ptr<Engine>());
+        guiRoot.reset();
     }
-    return nullptr;
-}
-
-const std::vector<std::shared_ptr<Entity>>& Engine::getVisibleEntities() {
-    return visibleEntities;
+    if (root) {
+        guiRoot = std::move(root);
+        guiRoot->rootActive(this_shared_ptr<Engine>());
+        eventHandler->addEventListener(guiRoot);
+    }
 }

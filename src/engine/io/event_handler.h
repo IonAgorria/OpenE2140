@@ -60,7 +60,7 @@ public:
      * @param code key code to get name from
      * @return name for key
      */
-    static std::string getNameFromCode(const input_key_code_t code);
+    static std::string getNameFromCode(input_key_code_t code);
 
     /*
      * EventDispatcher overrides

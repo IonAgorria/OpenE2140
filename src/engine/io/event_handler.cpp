@@ -127,9 +127,6 @@ bool EventHandler::eventWindowChanged(Window* window) {
         renderer->changeViewport(0, 0, size.x, size.y);
     }
 
-    //Update camera
-    engine->updateCamera(engine->getCamera());
-
     return EventDispatcher::eventWindowChanged(window);
 }
 

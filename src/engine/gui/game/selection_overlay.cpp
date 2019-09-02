@@ -6,13 +6,21 @@
 #include "engine/io/log.h"
 #include "engine/graphics/renderer.h"
 #include "engine/simulation/components/player_component.h"
+#include "src/engine/gui/gui_root.h"
+#include "gui_game_root.h"
 #include "selection_overlay.h"
 
-SelectionOverlay::SelectionOverlay(std::shared_ptr<Engine> engine) : Overlay(std::move(engine)) {
+void SelectionOverlay::rootChanged() {
+    GUIView::rootChanged();
+    parentRectangle = true;
+    gameRoot = dynamic_cast<GUIGameRoot*>(root);
+    if (root && !gameRoot) {
+        BUG("View root is not game root");
+    }
 }
 
 void SelectionOverlay::update() {
-    Player* userPlayer = engine->getUserPlayer();
+    Player* userPlayer = gameRoot->getUserPlayer();
     if (!userPlayer) {
         return;
     }
@@ -49,17 +57,20 @@ void SelectionOverlay::update() {
         //Move to next
         ++it;
     }
+
+    GUIView::update();
 }
 
-void SelectionOverlay::draw(const Rectangle& rectangle) {
-    Renderer* renderer = engine->getRenderer();
+void SelectionOverlay::draw() {
     for (const auto& pair : selection) {
         auto& state = pair.second;
         const Rectangle& bounds = state.entity->getBounds();
         if (rectangle.isOverlap(bounds)) {
-            renderer->drawRectangle(bounds, 2, state.color);
+            renderer->drawRectangle(bounds, 1.0f, state.color);
         }
     }
+
+    GUIView::draw();
 }
 
 void SelectionOverlay::addEntity(const std::shared_ptr<Entity>& entity) {
@@ -74,20 +85,17 @@ bool SelectionOverlay::isSelected(entity_id_t id) {
     return selection.find(id) != selection.end();
 }
 
-bool SelectionOverlay::eventMouseClick(Window* window, int x, int y, int button, bool press) {
+bool SelectionOverlay::mouseClick(int x, int y, int button, bool press) {
     //Only release
     if (press) return false;
-
-    //Translate the position from window to world
-    Vector2 position(x, y);
-    position += engine->getCamera();
+    auto engine = root->getEngine();
 
     //Since only visible entities could have been selected we only check those
     bool handled = false;
-    for (auto& entity : engine->getVisibleEntities()) {
+    for (auto& entity : gameRoot->visibleEntities) {
         //Get and check if click was inside bounds
         const Rectangle& bounds = entity->getBounds();
-        if (bounds.isInside(position)) {
+        if (bounds.isInside(*mousePosition)) {
             engine->log->debug("Selected {0}", entity->toString());
 
             //Skip
@@ -107,4 +115,16 @@ bool SelectionOverlay::eventMouseClick(Window* window, int x, int y, int button,
     }
 
     return handled;
+}
+
+bool SelectionOverlay::mouseMove(int x, int y) {
+    //Translate the position from window to world
+    if (!mousePosition) {
+        mousePosition = std::make_unique<Vector2>(x, y);
+    } else {
+        mousePosition->set(x, y);
+    }
+    *mousePosition += gameRoot->getCamera();
+
+    return false;
 }

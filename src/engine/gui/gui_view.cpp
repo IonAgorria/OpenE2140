@@ -1,13 +1,13 @@
 //
 // Created by Ion Agorria on 11/05/19
 //
+#include "engine/core/engine.h"
 #include "engine/core/utils.h"
+#include "gui_root.h"
 #include "gui_view.h"
 #include <algorithm>
 
-GUIView::GUIView() {
-
-}
+GUIView::GUIView() = default;
 
 GUIView::~GUIView() {
     removeViews();
@@ -45,17 +45,42 @@ void GUIView::removeViews() {
 
 void GUIView::moved(GUIView* newParent) {
     this->parent = newParent;
-    //Handle root
-    if (!newParent) {
-        this->root = nullptr;
-    } else if (newParent->root) {
-        this->root = newParent->root;
-    } else {
-        this->root = newParent;
+    //Set root if parent has, else unset
+    if (parent && parent->root) {
+        if (root != parent->root) {
+            root = parent->root;
+            rootChanged();
+        }
+    } else if (root) {
+        root = nullptr;
+        rootChanged();
     }
-    //Update childs
+}
+
+void GUIView::rootChanged() {
+    //Set renderer
+    if (root) {
+        renderer = root->getEngine()->getRenderer();
+    } else {
+        renderer = nullptr;
+    }
+    //Propagate the change to childs
     for (std::unique_ptr<GUIView>& view : views) {
-        view->moved(this);
+        view->root = root;
+        view->rootChanged();
+    }
+}
+
+const Rectangle& GUIView::getRectangle() const {
+    return rectangle;
+}
+
+void GUIView::setRectangle(const Rectangle& newRectangle) {
+    rectangle = newRectangle;
+    for (std::unique_ptr<GUIView>& view : views) {
+        if (view->parentRectangle) {
+            view->setRectangle(rectangle);
+        }
     }
 }
 

@@ -19,9 +19,8 @@ class EventHandler;
 class Renderer;
 class Simulation;
 class Timer;
-class GUIMenu;
+class GUIRoot;
 class Locale;
-class Overlay;
 class Entity;
 
 /**
@@ -29,11 +28,6 @@ class Entity;
  */
 class Engine: public std::enable_shared_from_this<Engine>, public IErrorPossible, public IHasConfigData {
 protected:
-    /**
-     * Camera where player is looking
-     */
-    Vector2 camera;
-
     /**
      * Event handler to receive window events
      */
@@ -72,7 +66,7 @@ protected:
     /**
      * Current active menu if any
      */
-    std::unique_ptr<GUIMenu> menu;
+    std::shared_ptr<GUIRoot> guiRoot;
 
     /**
      * Available locale and their name
@@ -83,21 +77,6 @@ protected:
      * Current locale
      */
     std::unique_ptr<Locale> locale;
-
-    /**
-     * Overlays applied to engine drawing
-     */
-    std::vector<std::shared_ptr<Overlay>> overlays;
-
-    /**
-     * The entities drawn in last frame
-     */
-    std::vector<std::shared_ptr<Entity>> visibleEntities;
-
-    /**
-     * ID of current player being controller by user
-     */
-    player_id_t userPlayer;
 
     /**
      * Called when engine is requested to close
@@ -157,16 +136,6 @@ protected:
     virtual void setupSimulation(std::unique_ptr<SimulationParameters> parameters);
 
     /**
-     * Called from engine to setup overlays
-     */
-    virtual void setupOverlays();
-
-    /**
-     * Called from engine to clear set overlays
-     */
-    virtual void clearOverlays();
-
-    /**
      * Called from engine to load engine config
      */
     virtual void loadConfig();
@@ -188,6 +157,13 @@ protected:
      * @param persistent sets the locale in the config as current
      */
     virtual void setLocale(const std::string& code, bool persistent);
+
+    /**
+     * Sets the GUI root as current
+     *
+     * @param code locale code to set as current
+     */
+    virtual void setGUI(std::shared_ptr<GUIRoot> root);
 
     /**
      * Loads factions from data
@@ -217,7 +193,7 @@ public:
     /**
      * Destructor
      */
-    ~Engine();
+    ~Engine() override;
 
     /**
      * Disable copy/move
@@ -265,18 +241,6 @@ public:
     Simulation* getSimulation();
 
     /**
-     * @return camera
-     */
-    Vector2& getCamera();
-
-    /**
-     * Updates the engine camera
-     *
-     * @param camera to set
-     */
-    void updateCamera(const Vector2& camera);
-
-    /**
      * @return key code for provided bind
      */
     input_key_code_t getKeyBind(const std::string& name);
@@ -285,23 +249,6 @@ public:
      * @return translated text for provided text key
      */
     const std::string& getText(const std::string& key);
-
-    /**
-     * Obtain the camera rectangle
-     *
-     * @param rectangle
-     */
-    void getCameraRectangle(Rectangle& rectangle);
-
-    /**
-     * @return player controlled by user if any
-     */
-    Player* getUserPlayer();
-
-    /**
-     * @return visible entities drawn from last frame
-     */
-    const std::vector<std::shared_ptr<Entity>>& getVisibleEntities();
 };
 
 #endif //OPENE2140_ENGINE_H

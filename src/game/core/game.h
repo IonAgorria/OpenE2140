@@ -24,7 +24,7 @@ protected:
 
     void setupSimulation(std::unique_ptr<SimulationParameters> parameters) override;
 
-    void setupOverlays() override;
+    void setupGUI() override;
 
     /**
      * Setup player extra colors as palette colors

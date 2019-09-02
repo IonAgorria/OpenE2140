@@ -4,8 +4,14 @@
 #ifndef OPENE2140_GUI_VIEW_H
 #define OPENE2140_GUI_VIEW_H
 
+#include <memory>
+#include <vector>
 #include "engine/math/rectangle.h"
 #include "engine/core/macros.h"
+#include "engine/core/types.h"
+
+class GUIRoot;
+class Renderer;
 
 /**
  * Basic element for composing GUI
@@ -18,14 +24,24 @@ protected:
     Rectangle rectangle;
 
     /**
+     * Inherits the parent rectangle?
+     */
+    bool parentRectangle = false;
+
+    /**
+     * Renderer to use when drawing this view
+     */
+    Renderer* renderer = nullptr;
+
+    /**
      * Root view for this view
      */
-    GUIView* root;
+    GUIRoot* root = nullptr;
 
     /**
      * Parent view for this view
      */
-    GUIView* parent;
+    GUIView* parent = nullptr;
 
     /**
      * Views inside this view
@@ -72,6 +88,23 @@ public:
      * Called when view parent is changed
      */
     virtual void moved(GUIView* newParent);
+
+    /**
+     * Called when root is changed
+     */
+    virtual void rootChanged();
+
+    /**
+     * @return view rectangle
+     */
+    const Rectangle& getRectangle() const;
+
+    /**
+     * Sets view rectangle
+     *
+     * @param newRectangle
+     */
+    void setRectangle(const Rectangle& newRectangle);
 
     /**
      * Called when view is show

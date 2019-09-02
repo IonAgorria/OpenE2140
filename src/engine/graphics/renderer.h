@@ -204,6 +204,7 @@ public:
 
     /**
      * Updates viewport for renderer
+     * Causes flush
      *
      * @param x
      * @param y
@@ -219,6 +220,7 @@ public:
 
     /**
      * Updates camera for renderer
+     * Causes flush
      *
      * @param width
      * @param height

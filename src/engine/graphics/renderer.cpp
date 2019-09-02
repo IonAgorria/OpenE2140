@@ -768,6 +768,7 @@ bool Renderer::flush() {
 }
 
 void Renderer::changeViewport(int x, int y, int width, int height) {
+    flush();
     viewport.set(x, y, width, height);
     glViewport(x, y, width, height);
     projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f, 3.0f);
@@ -778,6 +779,7 @@ const Rectangle& Renderer::getViewport() const {
 }
 
 void Renderer::changeCamera(int x, int y) {
+    flush();
     view = glm::translate(glm::mat4(1.0f), glm::vec3(-x, -y, -2));
 }
 

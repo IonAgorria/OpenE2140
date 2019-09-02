@@ -21,10 +21,6 @@ void SelectionOverlay::rootChanged() {
 
 void SelectionOverlay::update() {
     Player* userPlayer = gameRoot->getUserPlayer();
-    if (!userPlayer) {
-        return;
-    }
-
     for (auto it = selection.begin(); it != selection.end(); ) {
         SelectionState& state = it->second;
         std::shared_ptr<Entity>& selected = state.entity;
@@ -44,7 +40,7 @@ void SelectionOverlay::update() {
 
         //Handle player info
         Player* player = component->getPlayer();
-        if (!player) {
+        if (!userPlayer || !player) {
             state.color = neutralColor;
         } else if (player == userPlayer) {
             state.color = ownColor;
@@ -87,34 +83,34 @@ bool SelectionOverlay::isSelected(entity_id_t id) {
 
 bool SelectionOverlay::mouseClick(int x, int y, int button, bool press) {
     //Only release
-    if (press) return false;
-    auto engine = root->getEngine();
+    if (!press) {
+        auto engine = root->getEngine();
 
-    //Since only visible entities could have been selected we only check those
-    bool handled = false;
-    for (auto& entity : gameRoot->visibleEntities) {
-        //Get and check if click was inside bounds
-        const Rectangle& bounds = entity->getBounds();
-        if (bounds.isInside(*mousePosition)) {
-            engine->log->debug("Selected {0}", entity->toString());
+        //Since only visible entities could have been selected we only check those
+        for (auto& entity : gameRoot->visibleEntities) {
+            //Get and check if click was inside bounds
+            const Rectangle& bounds = entity->getBounds();
+            if (bounds.isInside(*mousePosition)) {
+                engine->log->debug("Selected {0}", entity->toString());
 
-            //Skip
-            if (entity->isDisable()) {
-                continue;
-            }
+                //Skip
+                if (entity->isDisable()) {
+                    continue;
+                }
 
-            //Add if not selected, remove if not in additive mode
-            if (!isSelected(entity->getID())) {
-                addEntity(entity);
-                return true;
-            } else if (!additive) {
-                removeEntity(entity->getID());
-                return true;
+                //Add if not selected, remove if not in additive mode
+                if (!isSelected(entity->getID())) {
+                    addEntity(entity);
+                    return true;
+                } else if (!additive) {
+                    removeEntity(entity->getID());
+                    return true;
+                }
             }
         }
     }
 
-    return handled;
+    return GUIView::mouseClick(x, y, button, press);
 }
 
 bool SelectionOverlay::mouseMove(int x, int y) {
@@ -126,5 +122,5 @@ bool SelectionOverlay::mouseMove(int x, int y) {
     }
     *mousePosition += gameRoot->getCamera();
 
-    return false;
+    return GUIView::mouseMove(x, y);
 }

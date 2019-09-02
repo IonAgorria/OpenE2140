@@ -94,7 +94,7 @@ void Game::run() {
     }
 
     //Prepare simulation
-    //TODO
+    //TODO this is only for testings
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
     parameters->loadLevelContent = true;
@@ -115,19 +115,22 @@ void Game::run() {
     }
 
     //Create some entities
+    Player* playerPtr = simulation->getPlayer(1);
     std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 19});
     entityPtr->setPosition({64 * 1 + 32, 64 * 8 + 32});
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
-    component->setPlayer(simulation->getPlayer(1));
+    component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
     entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 3});
     entityPtr->setPosition({64 * 6 + 32, 64 * 6 + 32});
     component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
-    component->setPlayer(simulation->getPlayer(1));
+    component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
 
-    //Register GUI
-    setGUI(std::make_shared<GameLayout>());
+    //Do like we are launching the game GUI
+    auto gameLayout = std::make_shared<GameLayout>();
+    gameLayout->setUserPlayer(playerPtr);
+    setGUI(gameLayout);
 
     //Show main window
     window->show();

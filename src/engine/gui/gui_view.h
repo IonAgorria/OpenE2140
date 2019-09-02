@@ -29,6 +29,11 @@ protected:
     bool parentRectangle = false;
 
     /**
+     * Is the mouse currently inside the view
+     */
+    bool mouseIsInside = false;
+
+    /**
      * Renderer to use when drawing this view
      */
     Renderer* renderer = nullptr;
@@ -145,6 +150,13 @@ public:
      * @return true if handled to stop propagation
      */
     virtual bool mouseWheel(int x, int y);
+
+    /**
+     * Called when mouse enters or leaves view
+     *
+     * @param state true if inside
+     */
+    virtual void mouseOver(bool state);
 
     /**
      * Called when mouse movement occurs

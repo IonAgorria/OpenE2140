@@ -73,7 +73,9 @@ public:
      * IEventListener overrides
      */
 
-    bool eventWindowChanged(Window* window);
+    bool eventWindowChanged(Window* window) override;
+
+    bool eventWindowFocus(Window* window, bool focus) override;
 
     bool eventMouseClick(Window* window, int x, int y, int button, bool press) override;
 

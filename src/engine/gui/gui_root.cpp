@@ -44,6 +44,14 @@ bool GUIRoot::eventWindowChanged(Window* window) {
     return false;
 }
 
+bool GUIRoot::eventWindowFocus(Window* window, bool focus) {
+    //Remove any mouse inside
+    if (!focus && mouseIsInside) {
+        GUIView::mouseOver(false);
+    }
+    return false;
+}
+
 bool GUIRoot::eventMouseClick(Window* window, int x, int y, int button, bool press) {
     return GUIView::mouseClick(x, y, button, press);
 }

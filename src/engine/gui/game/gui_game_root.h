@@ -59,6 +59,11 @@ public:
      */
     Player* getUserPlayer();
 
+    /**
+     * Set player controlled by user
+     */
+    void setUserPlayer(Player* player);
+
     /*
      * IEventListener overrides
      */

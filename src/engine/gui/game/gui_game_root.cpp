@@ -44,6 +44,10 @@ Player* GUIGameRoot::getUserPlayer() {
     return userPlayer;
 }
 
+void GUIGameRoot::setUserPlayer(Player* player) {
+    userPlayer = player;
+}
+
 bool GUIGameRoot::eventWindowChanged(Window* window) {
     //Refresh camera since window has changed
     setCamera(camera);

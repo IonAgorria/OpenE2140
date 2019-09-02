@@ -69,8 +69,12 @@ The following game assets must be present in WD file or directory form:
 - Units and buildings stats
 
 ## Roadmap
+- Use fixed point numbers
+- Use delta for updates
 - Entity attachment
     - Building exits
+    - Conveyor belt
+    - Unit turret
 - Entity health/max/damage
 - Unit factory
 - Mobile units

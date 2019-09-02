@@ -34,7 +34,7 @@ void CameraView::update() {
 
 bool CameraView::mouseMove(int x, int y) {
     //TODO
-    return false;
+    return GUIView::mouseMove(x, y);
 }
 
 bool CameraView::keyChange(input_key_t& key) {
@@ -60,5 +60,6 @@ bool CameraView::keyChange(input_key_t& key) {
             keyMovement.x = 0;
         }
     }
-    return false;
+
+    return GUIView::keyChange(key);
 }

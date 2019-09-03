@@ -6,6 +6,8 @@
 
 void Unit::simulationChanged() {
     if (isActive()) {
+        setSelectable(true);
+
         //Set bounds
         World* world = simulation->getWorld();
         bounds.setCenter(position, Vector2(world->tileSize));

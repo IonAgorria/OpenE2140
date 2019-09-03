@@ -10,6 +10,10 @@
 #include "gui_game_root.h"
 #include "selection_overlay.h"
 
+bool SelectionOverlay::canSelect(const std::shared_ptr<Entity>& entity) {
+    return entity->isActive() && entity->isSelectable();
+}
+
 void SelectionOverlay::rootChanged() {
     GUIView::rootChanged();
     gameRoot = dynamic_cast<GUIGameRoot*>(root);
@@ -19,34 +23,14 @@ void SelectionOverlay::rootChanged() {
 }
 
 void SelectionOverlay::update() {
-    Player* userPlayer = gameRoot->getUserPlayer();
     for (auto it = selection.begin(); it != selection.end(); ) {
         SelectionState& state = it->second;
         std::shared_ptr<Entity>& selected = state.entity;
 
         //Remove selection if certain conditions are met
-        if (!selected->isActive() || selected->isDisable()) {
+        if (!canSelect(selected)) {
             it = selection.erase(it);
             continue;
-        }
-
-        //Get component if any
-        PlayerComponent* component = GET_COMPONENT(selected.get(), PlayerComponent);
-        if (!component) {
-            it = selection.erase(it);
-            continue;
-        }
-
-        //Handle player info
-        Player* player = component->getPlayer();
-        if (!userPlayer || !player) {
-            state.color = neutralColor;
-        } else if (player == userPlayer) {
-            state.color = ownColor;
-        } else if (userPlayer->isEnemy(player)) {
-            state.color = enemyColor;
-        } else {
-            state.color = allyColor;
         }
 
         //Move to next
@@ -85,7 +69,30 @@ void SelectionOverlay::layout() {
 }
 
 void SelectionOverlay::addEntity(const std::shared_ptr<Entity>& entity) {
-    selection[entity->getID()] = {entity, neutralColor};
+    if (!canSelect(entity)) {
+        return;
+    }
+    //Get player component, if missing then don't add this entity
+    PlayerComponent* component = GET_COMPONENT(entity.get(), PlayerComponent);
+    if (!component) {
+        return;
+    }
+
+    //Handle player info
+    Player* userPlayer = gameRoot->getUserPlayer();
+    Player* player = component->getPlayer();
+    ColorRGBA& color = neutralColor;
+    if (!userPlayer || !player) {
+        color = neutralColor;
+    } else if (player == userPlayer) {
+        color = ownColor;
+    } else if (userPlayer->isEnemy(player)) {
+        color = enemyColor;
+    } else {
+        color = allyColor;
+    }
+
+    selection[entity->getID()] = {entity, color};
 }
 
 void SelectionOverlay::removeEntity(entity_id_t id) {
@@ -110,11 +117,6 @@ bool SelectionOverlay::mouseClick(int x, int y, mouse_button_t button, bool pres
             const Rectangle& bounds = entity->getBounds();
             if (bounds.isInside(worldPosition)) {
                 engine->log->debug("Selected {0}", entity->toString());
-
-                //Skip
-                if (entity->isDisable()) {
-                    continue;
-                }
 
                 //Add if not selected, remove if not in additive mode
                 if (!isSelected(entity->getID())) {

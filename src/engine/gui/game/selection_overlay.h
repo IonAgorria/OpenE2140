@@ -52,6 +52,13 @@ protected:
     /** Flag for additive mode */
     bool additive = false;
 
+    /**
+     * Method that checks if entity can be selected, used for filtering unselectable entities
+     * @param entity
+     * @return
+     */
+    bool canSelect(const std::shared_ptr<Entity>& entity);
+
 public:
 
     /**

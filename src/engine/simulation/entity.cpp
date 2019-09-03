@@ -90,7 +90,7 @@ void Entity::update() {
 void Entity::draw() {
 }
 
-bool Entity::isActive() {
+bool Entity::isActive() const {
     return active;
 }
 
@@ -100,6 +100,14 @@ bool Entity::isDisable() const {
 
 void Entity::setDisable(bool newDisable) {
     disable = newDisable;
+}
+
+bool Entity::isSelectable() const {
+    return selectable;
+}
+
+void Entity::setSelectable(bool newSelectable) {
+    selectable = newSelectable;
 }
 
 Tile* Entity::getTile() {

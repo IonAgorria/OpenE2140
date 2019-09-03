@@ -63,12 +63,17 @@ protected:
     /**
      * Flag for active state
      */
-    bool active;
+    bool active = false;
 
     /**
      * Flag for disable state
      */
-    bool disable;
+    bool disable = false;
+
+    /**
+     * Flag for selectable
+     */
+    bool selectable = false;
 
     /**
      * Parent of this entity which is attached to if any
@@ -197,7 +202,7 @@ public:
     /**
      * @return true if entity is considered active (has ID and is inside simulation)
      */
-    bool isActive();
+    bool isActive() const;
 
     /**
      * @return true if entity is considered disabled
@@ -210,6 +215,18 @@ public:
      * @param newDisable state to set
      */
     void setDisable(bool newDisable);
+
+    /**
+     * @return true if entity is considered selectable
+     */
+    bool isSelectable() const;
+
+    /**
+     * Sets this entity selectable
+     *
+     * @param newSelectable state to set
+     */
+    void setSelectable(bool newSelectable);
 
     /**
      * In case of none this method will return null

@@ -7,7 +7,9 @@
 
 void Attachment::simulationChanged() {
     if (isActive()) {
-        disable = true;
+        //Make it disabled by default
+        setDisable(true);
+        setSelectable(false);
     }
 }
 

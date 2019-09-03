@@ -8,6 +8,8 @@
 
 void Building::simulationChanged() {
     if (isActive()) {
+        setSelectable(true);
+
         World* world = simulation->getWorld();
 
         //Set the building bounds

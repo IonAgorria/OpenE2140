@@ -3,6 +3,7 @@
     "id": 0,
     "code": "exit_ed",
     "type":"attachment",
+    "size": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": 76,
@@ -17,6 +18,7 @@
     "id": 1,
     "code": "exit_ucs",
     "type": "attachment",
+    "size": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": 82,
@@ -30,6 +32,7 @@
   {
     "id": 2,
     "code": "exit_water",
+    "size": [32, 32],
     "type": "attachment",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
@@ -41,6 +44,7 @@
     "id": 3,
     "code": "exit_bio_center",
     "type": "attachment",
+    "size": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": 37,
@@ -51,6 +55,7 @@
     "id": 4,
     "code": "exit_robot_factory",
     "type": "attachment",
+    "size": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "exit_0": 59,
@@ -61,6 +66,7 @@
     "id": 5,
     "code": "nuclear_reactor",
     "type": "attachment",
+    "size": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": 2,
@@ -71,6 +77,7 @@
     "id": 6,
     "code": "radar",
     "type": "attachment_spinner",
+    "size": [26, 26],
     "sprites_path": "MIX/SPRU0/",
     "palette_shadow": true,
     "palette_shadow_clear": true,
@@ -86,6 +93,7 @@
     "id": 7,
     "code": "flywheel_mine",
     "type": "attachment_spinner",
+    "size": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": {
@@ -99,6 +107,7 @@
     "id": 8,
     "code": "conveyor_belt",
     "type": "attachment",
+    "size": [48, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "head": 8,

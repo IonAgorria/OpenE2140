@@ -34,6 +34,9 @@ public:
 
     /**
      * Attaches entity to this entity which the component belongs
+     *
+     * @param entity the entity to attach
+     * @return the struct containint attachment data
      */
     AttachmentPoint& attachEntity(const std::shared_ptr<Entity>& entity);
 

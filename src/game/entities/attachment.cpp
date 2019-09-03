@@ -10,7 +10,17 @@ void Attachment::simulationChanged() {
         //Make it disabled by default
         setDisable(true);
         setSelectable(false);
+
+        //Set bounds
+        Vector2 size;
+        config->getVector2("size", size);
+        bounds.setCenter(position, size);
     }
+}
+
+void Attachment::update() {
+    bounds.setCenter(position);
+    Entity::update();
 }
 
 void Attachment::draw() {
@@ -19,10 +29,6 @@ void Attachment::draw() {
 
 void Spinner::simulationChanged() {
     if (isActive()) {
-        //Set bounds
-        World* world = simulation->getWorld();
-        bounds.setCenter(position, Vector2(world->tileSize));
-
         //Setup the animation
         setAnimationFromSprite("default");
         animation->reverse = !clockwise;
@@ -32,7 +38,7 @@ void Spinner::simulationChanged() {
 }
 
 void Spinner::update() {
-    Entity::update();
+    Attachment::update();
     if (!animation) {
         return;
     }

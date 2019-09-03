@@ -17,6 +17,8 @@ CLASS_ENTITY_COMPONENTS(Entity, Attachment,
 public:
     void simulationChanged() override;
 
+    void update() override;
+
     void draw() override;
 };
 

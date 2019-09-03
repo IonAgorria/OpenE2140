@@ -481,7 +481,7 @@
         "attachments": {
             "conveyor_belt": {
                 "code": "conveyor_belt",
-                "position": [2, 0]
+                "position": [110, -20]
             }
         },
         "sprites": {

@@ -13,7 +13,7 @@ void AttachmentComponent::construction() {
 }
 
 AttachmentComponent::~AttachmentComponent() {
-    //Cleanup lefotovers
+    //Cleanup leftovers
     if (!attached.empty()) {
         BUG("Attached entities when entity {0} was destroyed", base->getID());
         detachEntities();

@@ -18,7 +18,7 @@ const std::vector<std::unique_ptr<GUIView>>& GUIView::getViews() const {
 }
 
 void GUIView::addView(std::unique_ptr<GUIView> view) {
-    view->moved(this);
+    view->parentChanged(this);
     views.emplace_back(std::move(view));
 }
 
@@ -27,7 +27,7 @@ std::unique_ptr<GUIView> GUIView::removeView(GUIView* view) {
     if (view) {
         result = Utils::erasePointerFromVector(views, view);
         if (result) {
-            result->moved(nullptr);
+            result->parentChanged(nullptr);
         }
     }
     return result;
@@ -43,7 +43,7 @@ void GUIView::removeViews() {
     }
 }
 
-void GUIView::moved(GUIView* newParent) {
+void GUIView::parentChanged(GUIView* newParent) {
     this->parent = newParent;
     //Set root if parent has, else unset
     if (parent && parent->root) {
@@ -64,6 +64,7 @@ void GUIView::rootChanged() {
     } else {
         renderer = nullptr;
     }
+
     //Propagate the change to childs
     for (std::unique_ptr<GUIView>& view : views) {
         view->root = root;
@@ -77,10 +78,19 @@ const Rectangle& GUIView::getRectangle() const {
 
 void GUIView::setRectangle(const Rectangle& newRectangle) {
     rectangle = newRectangle;
+
+    //Set root position to our rectangle position
+    rectangle.getPosition(rootPosition);
+
+    //If parent is present then add the root position
+    if (parent) {
+        rootPosition += parent->rootPosition;
+    }
+}
+
+void GUIView::layout() {
     for (std::unique_ptr<GUIView>& view : views) {
-        if (view->parentRectangle) {
-            view->setRectangle(rectangle);
-        }
+        view->layout();
     }
 }
 
@@ -108,10 +118,18 @@ void GUIView::draw() {
     }
 }
 
-bool GUIView::mouseClick(int x, int y, int button, bool press) {
+bool GUIView::mouseClick(int x, int y, mouse_button_t button, bool press) {
     bool handled = false;
+    if (press) {
+        mousePressingButton = button;
+    } else {
+        mousePressingButton = 0;
+    }
     for (std::unique_ptr<GUIView>& view : views) {
         if (view->rectangle.isInside(x, y)) {
+            //Pass position using local coordinates
+            x -= rectangle.x;
+            y -= rectangle.y;
             handled = view->mouseClick(x, y, button, press);
             if (handled) {
                 break;
@@ -146,6 +164,10 @@ void GUIView::mouseOver(bool state) {
             return;
         }
 
+        //Release pending mouse button
+        if (mousePressingButton) {
+            mouseClick(mousePosition->x, mousePosition->y, mousePressingButton, false);
+        }
 
         //Remove over inside any view
         for (std::unique_ptr<GUIView>& view : views) {
@@ -168,11 +190,15 @@ bool GUIView::mouseMove(int x, int y) {
     bool handled = false;
     for (std::unique_ptr<GUIView>& view : views) {
         if (!handled && view->rectangle.isInside(x, y)) {
+            //Pass position using local coordinates
+            x -= rectangle.x;
+            y -= rectangle.y;
             handled = view->mouseMove(x, y);
         } else if (view->mousePosition) {
             view->mouseOver(false);
         }
     }
+
     return handled;
 }
 

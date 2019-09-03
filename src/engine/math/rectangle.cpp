@@ -140,9 +140,19 @@ void Rectangle::getPosition(Vector2& vector) const {
     vector.y = this->y;
 }
 
+void Rectangle::getPosition(Rectangle& rectangle) const {
+    rectangle.x = this->x;
+    rectangle.y = this->y;
+}
+
 void Rectangle::getSize(Vector2& vector) const {
     vector.x = this->w;
     vector.y = this->h;
+}
+
+void Rectangle::getSize(Rectangle& rectangle) const {
+    rectangle.x = this->w;
+    rectangle.y = this->h;
 }
 
 void Rectangle::getCenter(Vector2& vector) const {

@@ -10,7 +10,6 @@
 void CameraView::rootChanged() {
     GUIView::rootChanged();
 
-    parentRectangle = true;
     gameRoot = dynamic_cast<GUIGameRoot*>(root);
     if (root && !gameRoot) {
         BUG("View root is not game root");
@@ -22,6 +21,16 @@ void CameraView::rootChanged() {
     keyLeft = engine->getKeyBind("A");
     keyDown = engine->getKeyBind("S");
     keyRight = engine->getKeyBind("D");
+}
+
+void CameraView::layout() {
+    //Copy the rectangle of parent
+    if (parent) {
+        Rectangle rectangle;
+        rectangle.setSize(parent->getRectangle());
+        setRectangle(rectangle);
+    }
+    GUIView::layout();
 }
 
 void CameraView::update() {

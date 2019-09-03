@@ -46,7 +46,7 @@ bool EventDispatcher::eventWindowFocus(Window* window, bool state) {
     return handled;
 }
 
-bool EventDispatcher::eventMouseClick(Window* window, int x, int y, int button, bool press) {
+bool EventDispatcher::eventMouseClick(Window* window, int x, int y, mouse_button_t button, bool press) {
     bool handled = false;
     for (auto& listener : listeners) {
         handled = listener->eventMouseClick(window, x, y, button, press);

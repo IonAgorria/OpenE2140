@@ -17,7 +17,7 @@ bool IEventListener::eventWindowFocus(Window* window, bool state) {
     return false;
 }
 
-bool IEventListener::eventMouseClick(Window* window, int x, int y, int button, bool press) {
+bool IEventListener::eventMouseClick(Window* window, int x, int y, mouse_button_t button, bool press) {
     return false;
 }
 

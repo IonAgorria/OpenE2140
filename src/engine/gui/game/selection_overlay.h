@@ -82,6 +82,8 @@ public:
 
     void rootChanged() override;
 
+    void layout() override;
+
     void update() override;
 
     void draw() override;

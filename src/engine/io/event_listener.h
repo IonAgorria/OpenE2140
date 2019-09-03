@@ -55,7 +55,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool eventMouseClick(Window* window, int x, int y, int button, bool press);
+    virtual bool eventMouseClick(Window* window, int x, int y, mouse_button_t button, bool press);
 
     /**
      * Called when mouse wheel/scroll occurs

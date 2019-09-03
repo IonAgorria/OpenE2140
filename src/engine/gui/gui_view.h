@@ -19,19 +19,19 @@ class Renderer;
 class GUIView {
 protected:
     /**
-     * View rectangle
+     * View rectangle in parent relative coordinates
      */
     Rectangle rectangle;
 
     /**
-     * Inherits the parent rectangle?
+     * View rectangle in root coordinates
      */
-    bool parentRectangle = false;
+    Vector2 rootPosition;
 
     /**
-     * Is the mouse currently inside the view
+     * Current pressing mouse button
      */
-    bool mouseIsInside = false;
+    mouse_button_t mousePressingButton = 0;
 
     /**
      * Mouse position inside the view if any
@@ -98,7 +98,7 @@ public:
     /**
      * Called when view parent is changed
      */
-    virtual void moved(GUIView* newParent);
+    virtual void parentChanged(GUIView* newParent);
 
     /**
      * Called when root is changed
@@ -116,6 +116,11 @@ public:
      * @param newRectangle
      */
     void setRectangle(const Rectangle& newRectangle);
+
+    /**
+     * Called when view and subviews layout should be updated
+     */
+    virtual void layout();
 
     /**
      * Called when view is show
@@ -146,7 +151,7 @@ public:
      * @param press or release
      * @return true if handled to stop propagation
      */
-    virtual bool mouseClick(int x, int y, int button, bool press);
+    virtual bool mouseClick(int x, int y, mouse_button_t button, bool press);
 
     /**
      * Called when mouse wheel/scroll occurs

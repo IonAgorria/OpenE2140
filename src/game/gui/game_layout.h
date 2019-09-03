@@ -14,8 +14,6 @@
  */
 class GameLayout: public GUIGameRoot {
 public:
-
-
     void rootActive(std::shared_ptr<Engine> engine) override {
         GUIGameRoot::rootActive(engine);
         if (engine) {
@@ -28,15 +26,11 @@ public:
 
     }
 
-    bool eventWindowChanged(Window* window) override {
-        bool handled = GUIGameRoot::eventWindowChanged(window);
-
-        //TODO layout views
+    void layout() override {
         for (auto& view : views) {
             view->setRectangle(rectangle);
         }
-
-        return handled;
+        GUIGameRoot::layout();
     }
 };
 

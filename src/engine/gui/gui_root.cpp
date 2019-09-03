@@ -40,7 +40,9 @@ void GUIRoot::update() {
 }
 
 bool GUIRoot::eventWindowChanged(Window* window) {
+    //Set root full screen and layout the views
     setRectangle(renderer->getViewport());
+    layout();
     return false;
 }
 
@@ -52,7 +54,7 @@ bool GUIRoot::eventWindowFocus(Window* window, bool focus) {
     return false;
 }
 
-bool GUIRoot::eventMouseClick(Window* window, int x, int y, int button, bool press) {
+bool GUIRoot::eventMouseClick(Window* window, int x, int y, mouse_button_t button, bool press) {
     return GUIView::mouseClick(x, y, button, press);
 }
 

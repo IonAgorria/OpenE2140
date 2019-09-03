@@ -153,11 +153,25 @@ public:
     void getPosition(Vector2& vector) const;
 
     /**
+     * Get rectangle position
+     *
+     * @param rectangle to write to
+     */
+    void getPosition(Rectangle& rectangle) const;
+
+    /**
      * Get rectangle size
      *
      * @param vector to write to
      */
     void getSize(Vector2& vector) const;
+
+    /**
+     * Get rectangle size
+     *
+     * @param rectangle to write to
+     */
+    void getSize(Rectangle& rectangle) const;
 
     /**
      * Get rectangle center

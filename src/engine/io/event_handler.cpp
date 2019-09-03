@@ -40,7 +40,8 @@ void EventHandler::poll() {
             case SDL_MOUSEBUTTONUP: {
                 eventMouseClick(
                         window,
-                        event.button.x, event.button.y,
+                        event.button.x,
+                        event.button.y,
                         event.button.button,
                         event.button.state == SDL_PRESSED
                 );
@@ -135,7 +136,7 @@ bool EventHandler::eventWindowFocus(Window* window, bool state) {
     return EventDispatcher::eventWindowFocus(window, state);
 }
 
-bool EventHandler::eventMouseClick(Window* window, int x, int y, int button, bool press) {
+bool EventHandler::eventMouseClick(Window* window, int x, int y, mouse_button_t button, bool press) {
     log->debug("Mouse button: {0} at {1}x{2} {3}", button, x, y, press ? "press" : "release");
     return EventDispatcher::eventMouseClick(window, x, y, button, press);
 }

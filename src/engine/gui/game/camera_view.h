@@ -46,6 +46,8 @@ public:
      * GUIView overrides
      */
 
+    void layout() override;
+
     void update() override;
 
     bool mouseMove(int x, int y) override;

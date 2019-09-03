@@ -37,7 +37,7 @@ public:
 
     bool eventWindowFocus(Window* window, bool focus) override;
 
-    bool eventMouseClick(Window* window, int x, int y, int button, bool press) override;
+    bool eventMouseClick(Window* window, int x, int y, mouse_button_t button, bool press) override;
 
     bool eventMouseWheel(Window* window, int x, int y) override;
 

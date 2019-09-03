@@ -12,7 +12,6 @@
 
 void SelectionOverlay::rootChanged() {
     GUIView::rootChanged();
-    parentRectangle = true;
     gameRoot = dynamic_cast<GUIGameRoot*>(root);
     if (root && !gameRoot) {
         BUG("View root is not game root");
@@ -73,6 +72,16 @@ void SelectionOverlay::draw() {
     }
 
     GUIView::draw();
+}
+
+void SelectionOverlay::layout() {
+    //Copy the rectangle of parent
+    if (parent) {
+        Rectangle rectangle;
+        rectangle.setSize(parent->getRectangle());
+        setRectangle(rectangle);
+    }
+    GUIView::layout();
 }
 
 void SelectionOverlay::addEntity(const std::shared_ptr<Entity>& entity) {

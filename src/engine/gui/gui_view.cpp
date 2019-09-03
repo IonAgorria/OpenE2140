@@ -135,28 +135,41 @@ bool GUIView::mouseWheel(int x, int y) {
 }
 
 void GUIView::mouseOver(bool state) {
-    if (mouseIsInside == state) return;
-    mouseIsInside = state;
-
-    //Remove any pending stuff
-
-    //Remove over inside any view
-    for (std::unique_ptr<GUIView>& view : views) {
-        if (view->mouseIsInside) {
-            view->mouseOver(false);
+    //Handle state
+    if (state) {
+        if (mousePosition) {
+            return;
         }
+        mousePosition = std::make_unique<Vector2>();
+    } else {
+        if (!mousePosition) {
+            return;
+        }
+
+
+        //Remove over inside any view
+        for (std::unique_ptr<GUIView>& view : views) {
+            if (view->mousePosition) {
+                view->mouseOver(false);
+            }
+        }
+        mousePosition.reset();
     }
 }
 
 bool GUIView::mouseMove(int x, int y) {
-    if (!mouseIsInside) {
+    if (!mousePosition) {
+        //Got inside
         mouseOver(true);
     }
+    mousePosition->set(x, y);
+
+    //Propagate event to subviews
     bool handled = false;
     for (std::unique_ptr<GUIView>& view : views) {
         if (!handled && view->rectangle.isInside(x, y)) {
             handled = view->mouseMove(x, y);
-        } else if (view->mouseIsInside) {
+        } else if (view->mousePosition) {
             view->mouseOver(false);
         }
     }

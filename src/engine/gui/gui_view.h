@@ -34,6 +34,12 @@ protected:
     bool mouseIsInside = false;
 
     /**
+     * Mouse position inside the view if any
+     * It's also used to know if mouse is inside view
+     */
+    std::unique_ptr<Vector2> mousePosition;
+
+    /**
      * Renderer to use when drawing this view
      */
     Renderer* renderer = nullptr;

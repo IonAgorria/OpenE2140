@@ -33,11 +33,6 @@ protected:
     std::unique_ptr<Rectangle> selectingRectangle;
 
     /**
-     * Last mouse position in the world
-     */
-    std::unique_ptr<Vector2> mousePosition;
-
-    /**
      * Current selected entities
      */
     std::unordered_map<entity_id_t, SelectionState> selection;
@@ -95,9 +90,7 @@ public:
      * IEventListener overrides
      */
 
-    bool mouseClick(int x, int y, int button, bool press) override;
-
-    bool mouseMove(int x, int y) override;
+    bool mouseClick(int x, int y, mouse_button_t button, bool press) override;
 };
 
 #endif //OPENE2140_SELECTION_OVERLAY_H

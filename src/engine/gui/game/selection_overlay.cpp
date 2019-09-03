@@ -58,10 +58,16 @@ void SelectionOverlay::update() {
 }
 
 void SelectionOverlay::draw() {
+    //Get the camera rectangle
+    Rectangle cameraRectangle;
+    gameRoot->getCameraRectangle(cameraRectangle);
+
     for (const auto& pair : selection) {
         auto& state = pair.second;
         const Rectangle& bounds = state.entity->getBounds();
-        if (rectangle.isOverlap(bounds)) {
+
+        //Check if visible
+        if (cameraRectangle.isOverlap(bounds)) {
             renderer->drawRectangle(bounds, 1.0f, state.color);
         }
     }
@@ -81,16 +87,19 @@ bool SelectionOverlay::isSelected(entity_id_t id) {
     return selection.find(id) != selection.end();
 }
 
-bool SelectionOverlay::mouseClick(int x, int y, int button, bool press) {
+bool SelectionOverlay::mouseClick(int x, int y, mouse_button_t button, bool press) {
     //Only release
-    if (!press) {
+    if (!press && mousePosition) {
         auto engine = root->getEngine();
+
+        //Translate the position from window to world
+        Vector2 worldPosition = *mousePosition + gameRoot->getCamera();
 
         //Since only visible entities could have been selected we only check those
         for (auto& entity : gameRoot->visibleEntities) {
             //Get and check if click was inside bounds
             const Rectangle& bounds = entity->getBounds();
-            if (bounds.isInside(*mousePosition)) {
+            if (bounds.isInside(worldPosition)) {
                 engine->log->debug("Selected {0}", entity->toString());
 
                 //Skip
@@ -111,16 +120,4 @@ bool SelectionOverlay::mouseClick(int x, int y, int button, bool press) {
     }
 
     return GUIView::mouseClick(x, y, button, press);
-}
-
-bool SelectionOverlay::mouseMove(int x, int y) {
-    //Translate the position from window to world
-    if (!mousePosition) {
-        mousePosition = std::make_unique<Vector2>(x, y);
-    } else {
-        mousePosition->set(x, y);
-    }
-    *mousePosition += gameRoot->getCamera();
-
-    return GUIView::mouseMove(x, y);
 }

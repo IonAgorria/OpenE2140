@@ -4,7 +4,7 @@
 #ifndef OPENE2140_TYPES_H
 #define OPENE2140_TYPES_H
 
-#include <stdint.h>
+#include <cstdint>
 /** Byte type */
 using byte_t = uint8_t;
 using byte_array_t = byte_t[];
@@ -78,6 +78,11 @@ struct size_16_t {
  * Type for key code
  */
 using input_key_code_t = int32_t;
+
+/**
+ * Type for mouse button index
+ */
+using mouse_button_t = uint8_t;
 
 /**
  * Struct for key input data

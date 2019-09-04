@@ -102,4 +102,12 @@ public:
     void setAnimationFromSprite(const std::string& code, bool restart = true);
 };
 
+/**
+ * This allows to set several image components into a single entity
+ * @tparam N
+ */
+template<unsigned int N>
+CLASS_COMPONENT_INHERIT(Entity, ImageComponent, ImageComponentSlotted)
+};
+
 #endif //OPENE2140_IMAGE_COMPONENT_H

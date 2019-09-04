@@ -149,6 +149,10 @@ class BuildingFactory: public ACommonEntityFactory {
             || config->type == "heavy_factory"
             || config->type == "heavy_factory") {
                 return std::make_shared<Factory>();
+            } else if (config->code == "mine") {
+                return std::make_shared<Mine>();
+            } else if (config->code == "refinery") {
+                return std::make_shared<Refinery>();
             }
         }
         return std::make_shared<Building>();
@@ -205,11 +209,15 @@ class AttachmentFactory: public ACommonEntityFactory {
 
     std::shared_ptr<Entity> instanceEntity(EntityConfig* config) override {
         if (config) {
-            if (config->type == "attachment_spinner") {
+            if (config->type == "spinner") {
                 return std::make_shared<Spinner>();
+            } else if (config->type == "turret") {
+                return std::make_shared<Spinner>();
+            } else if (config->code == "conveyor_belt") {
+                return std::make_shared<ConveyorBelt>();
             }
         }
-        return std::make_shared<Attachment>();
+        return std::shared_ptr<Entity>();
     }
 };
 

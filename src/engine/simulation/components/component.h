@@ -91,11 +91,19 @@ class T_COMPONENT { \
     COMPONENT_METHODS(COMPONENT_METHOD_DECLARATION)
 
 /**
- * Macro for component class definition with empty constructor/destructor
+ * Macro for component class body with empty constructor/destructor
  */
 #define CLASS_COMPONENT_DEFAULT(T_COMPONENT) \
     void T_COMPONENT::construction() {}; \
     T_COMPONENT::~T_COMPONENT() = default;
+
+/**
+ * Macro for component class definition that inherits from a existing component class
+ */
+#define CLASS_COMPONENT_INHERIT(T_BASE, T_PARENT, T_COMPONENT) \
+class T_COMPONENT: public T_PARENT { \
+public: \
+    T_COMPONENT(T_BASE* base): T_PARENT(base) {};
 
 /**
  * Macro for component dynamic casting from entity

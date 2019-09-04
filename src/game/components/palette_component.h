@@ -105,6 +105,11 @@ public:
      * @param state
      */
     void setLight(bool state);
+
+    /**
+     * @return palette
+     */
+    std::shared_ptr<Palette> getPalette();
 };
 
 #endif //OPENE2140_PALETTE_COMPONENT_H

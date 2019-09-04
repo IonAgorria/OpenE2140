@@ -31,10 +31,14 @@ void PaletteComponent::setup() {
     hasMovement = config->getData<bool>("palette_movement", false);
     hasFire = config->getData<bool>("palette_fire", false);
 
-    //Create palette and set it to image component
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    //Create palette
     palette = std::make_shared<Palette>((PALETTE_MAX_INDEX+1) - lowestEntry, true);
-    imageComponent->extraPalette = palette;
+
+    //Set it to image component if any
+    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    if (imageComponent) {
+        imageComponent->extraPalette = palette;
+    }
 }
 
 void PaletteComponent::simulationChanged() {
@@ -134,4 +138,8 @@ void PaletteComponent::setLight(bool state) {
             return;
     }
     palette->updateTexture();
+}
+
+std::shared_ptr<Palette> PaletteComponent::getPalette() {
+    return palette;
 }

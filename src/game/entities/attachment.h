@@ -10,23 +10,9 @@
 #include "game/components/palette_component.h"
 
 /**
- * Entity that is created as a attachment or part of another entity
+ * Spinner object that is constantly animated to gimmick a rotating object
  */
-CLASS_ENTITY_COMPONENTS(Entity, Attachment,
-                        ImageComponent)
-public:
-    void simulationChanged() override;
-
-    void update() override;
-
-    void draw() override;
-};
-
-/**
- * Spinner object
- */
-CLASS_ENTITY(Attachment, Spinner)
-public:
+CLASS_ENTITY_COMPONENTS(Entity, Spinner, ImageComponent)
     /**
      * Controls if spinner is clockwise or counterclockwise
      */
@@ -35,6 +21,28 @@ public:
     void simulationChanged() override;
 
     void update() override;
+
+    void draw() override;
+};
+
+/**
+ * Conveyor belt object used in mine and refinery
+ */
+CLASS_ENTITY_COMPONENTS(Entity, ConveyorBelt,
+                      ImageComponentSlotted<0>,
+                      ImageComponentSlotted<1>)
+public:
+    /**
+     * Controls if animation is left or right
+     * TODO set this to default anim direction
+     */
+    bool left = false;
+
+    void simulationChanged() override;
+
+    void update() override;
+
+    void draw() override;
 };
 
 #endif //OPENE2140_ATTACHMENT_H

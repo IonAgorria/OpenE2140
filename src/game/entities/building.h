@@ -34,9 +34,23 @@ public:
 };
 
 /**
- * Factory object
+ * Factory object, manufactures mobile units
  */
 CLASS_ENTITY(Building, Factory)
+public:
+};
+
+/**
+ * Mine object, produces ore from ground deposits
+ */
+CLASS_ENTITY(Building, Mine)
+public:
+};
+
+/**
+ * Refinery object, processes ore from mine to money
+ */
+CLASS_ENTITY(Building, Refinery)
 public:
 };
 

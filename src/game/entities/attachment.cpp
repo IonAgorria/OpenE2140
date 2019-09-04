@@ -5,27 +5,6 @@
 #include "engine/simulation/world/world.h"
 #include "attachment.h"
 
-void Attachment::simulationChanged() {
-    if (isActive()) {
-        //Make it disabled by default
-        setDisable(true);
-        setSelectable(false);
-
-        //Set bounds
-        Vector2 size;
-        config->getVector2("size", size);
-        setBounds(size);
-    }
-}
-
-void Attachment::update() {
-    Entity::update();
-}
-
-void Attachment::draw() {
-    ImageComponent::draw(renderer);
-}
-
 void Spinner::simulationChanged() {
     if (isActive()) {
         //Setup the animation
@@ -33,11 +12,11 @@ void Spinner::simulationChanged() {
         animation->reverse = !clockwise;
     }
 
-    Attachment::simulationChanged();
+    Entity::simulationChanged();
 }
 
 void Spinner::update() {
-    Attachment::update();
+    Entity::update();
     if (!animation) {
         return;
     }
@@ -57,4 +36,29 @@ void Spinner::update() {
             imageOffset.x = 0;
         }
     }
+}
+
+void Spinner::draw() {
+    ImageComponent::draw(renderer);
+}
+
+void ConveyorBelt::simulationChanged() {
+    if (isActive()) {
+        ImageComponentSlotted<0>::setImageFromSprite("head");
+        ImageComponentSlotted<1>::setAnimationFromSprite("body");
+        if (parent) {
+            PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
+            ImageComponentSlotted<0>::extraPalette = paletteComponent->getPalette();
+            ImageComponentSlotted<1>::extraPalette = paletteComponent->getPalette();
+        }
+    }
+}
+
+void ConveyorBelt::update() {
+    Entity::update();
+}
+
+void ConveyorBelt::draw() {
+    ImageComponentSlotted<0>::draw(renderer);
+    ImageComponentSlotted<1>::draw(renderer);
 }

@@ -77,12 +77,16 @@ AttachmentPoint& AttachmentComponent::attachEntity(const std::shared_ptr<Entity>
     AttachmentPoint& attachment = attached.emplace_back();
     attachment.entity = entity;
 
-    //Subscribe entity to simulation and set parent to us
+    //Make it disabled and unselecteable by default and set parent to us
+    entity->setDisable(true);
+    entity->setSelectable(false);
+    entity->setParent(base);
+
+    //Subscribe entity to simulation
     Simulation* simulation = base->getSimulation();
     if (simulation && !entity->isActive()) {
         simulation->addEntity(entity);
     }
-    entity->setParent(base);
     base->changesCount++;
 
     return attachment;

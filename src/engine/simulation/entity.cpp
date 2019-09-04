@@ -29,6 +29,7 @@ const Vector2& Entity::getPosition() const {
 
 void Entity::setPosition(const Vector2& newPosition) {
     position.set(newPosition);
+    changesCount++;
 }
 
 entity_direction_t Entity::getDirection() const {
@@ -37,6 +38,7 @@ entity_direction_t Entity::getDirection() const {
 
 void Entity::setDirection(entity_direction_t newDirection) {
     direction = newDirection;
+    changesCount++;
 }
 
 const Rectangle& Entity::getBounds() const {
@@ -45,6 +47,7 @@ const Rectangle& Entity::getBounds() const {
 
 void Entity::setBounds(const Rectangle& newBounds) {
     bounds.set(newBounds);
+    changesCount++;
 }
 
 const EntityConfig* Entity::getConfig() const {
@@ -57,6 +60,7 @@ Simulation* Entity::getSimulation() const {
 
 void Entity::setParent(Entity* entity) {
     parent = entity;
+    changesCount++;
 }
 
 Entity* Entity::getParent() const {
@@ -100,6 +104,7 @@ bool Entity::isDisable() const {
 
 void Entity::setDisable(bool newDisable) {
     disable = newDisable;
+    changesCount++;
 }
 
 bool Entity::isSelectable() const {
@@ -108,6 +113,7 @@ bool Entity::isSelectable() const {
 
 void Entity::setSelectable(bool newSelectable) {
     selectable = newSelectable;
+    changesCount++;
 }
 
 Tile* Entity::getTile() {

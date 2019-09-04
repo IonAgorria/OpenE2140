@@ -15,6 +15,8 @@ class Simulation;
 class Renderer;
 class EntityConfig;
 
+using entity_changes_count_t = uint16_t;
+
 /**
  * Base entity in game, this is the common interface between world and entities
  */
@@ -85,6 +87,11 @@ protected:
      */
     COMPONENT_METHODS(COMPONENT_METHOD_FORWARD_VIRTUAL)
 public:
+    /**
+     * Every time a change occurs in entity this count is incremented
+     */
+    entity_changes_count_t changesCount = 0;
+
     /**
      * Entity constructor
      */

@@ -24,8 +24,8 @@ void AttachmentComponent::setup() {
 }
 
 void AttachmentComponent::simulationChanged() {
-    const EntityConfig* config = base->getConfig();
     if (base->isActive()) {
+        const EntityConfig* config = base->getConfig();
         config_data_t attachments = config->getData("attachments");
         if (attachments.is_object()) {
             entity_kind_t kind = config->getData("attachments_kind", 0);
@@ -50,12 +50,20 @@ void AttachmentComponent::simulationChanged() {
 }
 
 void AttachmentComponent::update() {
-    //Update the position of each entity and propagate update
+    //Check if anything changed
+    if (lastChangesCount != base->changesCount) {
+        lastChangesCount = base->changesCount;
+        for (const auto& attachment : attached) {
+            Entity* entity = attachment.entity.get();
+            Vector2 position = base->getPosition();
+            position += attachment.position;
+            entity->setPosition(position);
+        }
+    }
+
+    //Propagate update
     for (const auto& attachment : attached) {
         Entity* entity = attachment.entity.get();
-        Vector2 position = base->getPosition();
-        position += attachment.position;
-        entity->setPosition(position);
         entity->update();
     }
 }
@@ -75,6 +83,7 @@ AttachmentPoint& AttachmentComponent::attachEntity(const std::shared_ptr<Entity>
         simulation->addEntity(entity);
     }
     entity->setParent(base);
+    base->changesCount++;
 
     return attachment;
 }
@@ -101,6 +110,7 @@ void AttachmentComponent::detachEntity(const std::shared_ptr<Entity>& entity) {
         simulation->removeEntity(entity);
     }
     entity->setParent(nullptr);
+    base->changesCount++;
 }
 
 void AttachmentComponent::detachEntities() {

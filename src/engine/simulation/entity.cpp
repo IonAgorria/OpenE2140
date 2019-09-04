@@ -3,6 +3,7 @@
 //
 #include "engine/core/utils.h"
 #include "engine/simulation/simulation.h"
+#include "engine/entities/entity_config.h"
 #include "entity.h"
 
 Entity::Entity() {
@@ -73,6 +74,7 @@ void Entity::addedToSimulation(entity_id_t entityID, Simulation* sim) {
     simulation = sim;
     renderer = simulation->getRenderer();
     active = true;
+    bounds.set(config->bounds);
     simulationChanged();
 }
 

@@ -76,7 +76,7 @@
   {
     "id": 6,
     "code": "radar",
-    "type": "attachment_spinner",
+    "type": "spinner",
     "bounds": [26, 26],
     "sprites_path": "MIX/SPRU0/",
     "palette_shadow": true,
@@ -92,7 +92,7 @@
   {
     "id": 7,
     "code": "flywheel_mine",
-    "type": "attachment_spinner",
+    "type": "spinner",
     "bounds": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {

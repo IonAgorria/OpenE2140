@@ -156,7 +156,7 @@ public:
      *
      * @param newBounds bounds to set
      */
-    void setBounds(const Rectangle& newBounds);
+    void setBounds(const Vector2& newBounds);
 
     /**
      * @return entity config if any

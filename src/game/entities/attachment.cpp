@@ -14,12 +14,11 @@ void Attachment::simulationChanged() {
         //Set bounds
         Vector2 size;
         config->getVector2("size", size);
-        bounds.setCenter(position, size);
+        setBounds(size);
     }
 }
 
 void Attachment::update() {
-    bounds.setCenter(position);
     Entity::update();
 }
 

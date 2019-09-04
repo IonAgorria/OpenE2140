@@ -10,7 +10,7 @@ void Unit::simulationChanged() {
 
         //Set bounds
         World* world = simulation->getWorld();
-        bounds.setCenter(position, Vector2(world->tileSize));
+        setBounds(Vector2(world->tileSize));
 
         //Load image TODO
         setImageFromSprite("default_0");

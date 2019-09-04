@@ -29,6 +29,7 @@ const Vector2& Entity::getPosition() const {
 
 void Entity::setPosition(const Vector2& newPosition) {
     position.set(newPosition);
+    bounds.setCenter(newPosition);
     changesCount++;
 }
 
@@ -45,8 +46,8 @@ const Rectangle& Entity::getBounds() const {
     return bounds;
 }
 
-void Entity::setBounds(const Rectangle& newBounds) {
-    bounds.set(newBounds);
+void Entity::setBounds(const Vector2& newBounds) {
+    bounds.setCenter(position, newBounds);
     changesCount++;
 }
 

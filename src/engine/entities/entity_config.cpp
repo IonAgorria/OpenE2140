@@ -162,9 +162,16 @@ SpriteGroup* EntityConfig::getSprite(const std::string& spriteCode) const {
 }
 
 void EntityConfig::loadBounds() {
+    //First attempt to read a rectangle
     if (!getRectangle("bounds", bounds)) {
-        //Default if none was loaded
-        bounds.set(0, 0, 1, 1);
+        Vector2 size;
+        if (getVector2("bounds", size)) {
+            //Attempt to read is a vector of size
+            bounds.setSize(size);
+        } else {
+            //Default if none was loaded
+            bounds.set(0, 0, 1, 1);
+        }
     }
 }
 

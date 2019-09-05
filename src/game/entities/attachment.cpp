@@ -62,3 +62,23 @@ void ConveyorBelt::draw() {
     ImageComponentSlotted<0>::draw(renderer);
     ImageComponentSlotted<1>::draw(renderer);
 }
+
+void Turret::simulationChanged() {
+    if (isActive()) {
+        //Setup the animation
+        setImageFromSprite("default");
+    }
+
+    Entity::simulationChanged();
+}
+
+void Turret::update() {
+    Entity::update();
+    if (!animation) {
+        return;
+    }
+}
+
+void Turret::draw() {
+    ImageComponent::draw(renderer);
+}

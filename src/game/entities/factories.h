@@ -212,7 +212,7 @@ class AttachmentFactory: public ACommonEntityFactory {
             if (config->type == "spinner") {
                 return std::make_shared<Spinner>();
             } else if (config->type == "turret") {
-                return std::make_shared<Spinner>();
+                return std::make_shared<Turret>();
             } else if (config->code == "conveyor_belt") {
                 return std::make_shared<ConveyorBelt>();
             }

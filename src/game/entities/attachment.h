@@ -45,4 +45,15 @@ public:
     void draw() override;
 };
 
+/**
+ * Turret attachment for an armed entity
+ */
+CLASS_ENTITY_COMPONENTS(Entity, Turret, ImageComponent)
+    void simulationChanged() override;
+
+    void update() override;
+
+    void draw() override;
+};
+
 #endif //OPENE2140_ATTACHMENT_H

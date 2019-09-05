@@ -331,11 +331,19 @@
         "health": 150,
         "upgrades": [
             {
+                "code": "turret_laser",
+                "replaces": "turret",
+                "position": [0, 0],
                 "required_technology": "laser_cannon",
-                "price": 200,
-                "weapon": "laser"
+                "price": 200
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "turret_medium_mg_dual",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": 51,
             "damaged": 52
@@ -355,11 +363,19 @@
         "health": 150,
         "upgrades": [
             {
+                "code": "turret_light_rockets_base",
+                "replaces": "turret",
+                "position": [0, 0],
                 "required_technology": "rocket_engine",
-                "price": 200,
-                "weapon": "rocket"
+                "price": 200
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "turret_medium_mg_dual",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": 72,
             "damaged": 73
@@ -379,11 +395,18 @@
         "health": 300,
         "upgrades": [
             {
+                "code": "turret_heavy_ion",
+                "replaces": "turret",
                 "required_technology": "ion_cannon",
-                "price": 300,
-                "weapon": "ion"
+                "price": 300
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "turret_heavy_rockets",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": 53,
             "damaged": 54
@@ -403,11 +426,18 @@
         "health": 300,
         "upgrades": [
             {
+                "code": "turret_plasma",
+                "replaces": "turret",
                 "required_technology": "plasma_cannon",
-                "price": 200,
-                "weapon": "plasma"
+                "price": 300
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "turret_heavy_rockets",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": 74,
             "damaged": 75
@@ -425,6 +455,12 @@
         ],
         "consumed_energy": 50,
         "health": 900,
+        "attachments": {
+            "turret": {
+                "code": "turret_pillbox",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": 49,
             "damaged": 50
@@ -493,16 +529,33 @@
         "id": 20,
         "code": "air_base",
         "faction": null,
+        "bounds": [0, 0, 3, 2],
         "layout": [
-            [0, 0, 2, 2]
+            [0, 0, 2, 2],
+            [2, 0, 1, 1],
+            [-1, 1, 1, 1]
         ],
         "consumed_energy": 200,
         "health": 500,
+        "attachments": {
+            "pad_left": {
+                "code": "air_base_pad",
+                "position": [-20, -10],
+                "config": {
+                    "left": true
+                }
+            },
+            "pad_right": {
+                "code": "air_base_pad",
+                "position": [-20, -10],
+                "config": {
+                    "left": false
+                }
+            }
+        },
         "sprites": {
             "default": 14,
-            "damaged": 15,
-            "pad_left": 16,
-            "pad_right": 17
+            "damaged": 15
         }
     },
     {
@@ -564,11 +617,17 @@
             },
             "flywheel_top": {
                 "code": "flywheel_mine",
-                "position": [0, -1]
+                "position": [0, -1],
+                "config": {
+                    "clockwise": true
+                }
             },
             "flywheel_bottom": {
                 "code": "flywheel_mine",
-                "position": [0, 1]
+                "position": [0, 1],
+                "config": {
+                    "clockwise": false
+                }
             }
         },
         "sprites": {

@@ -116,5 +116,490 @@
         "length": 3
       }
     }
+  },
+  {
+    "id": 9,
+    "code": "turret_ht_33_r",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "heavy_rocket",
+            "total_ammo": 3,
+            "reload_ammo": 3,
+            "reload_time": 2,
+            "damage": 80
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 342,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 10,
+    "code": "turret_mt_201l",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "laser",
+            "total_ammo": 10,
+            "reload_ammo": 10,
+            "reload_time": 2,
+            "damage": 8
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 351,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 11,
+    "code": "turret_mt_200",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "cannon",
+            "total_ammo": 1,
+            "reload_ammo": 1,
+            "reload_time": 1,
+            "damage": 25
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 360,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 12,
+    "code": "turret_st_01b",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "cannon",
+            "total_ammo": 1,
+            "reload_ammo": 1,
+            "reload_time": 1,
+            "damage": 15
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 369,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 13,
+    "code": "turret_heavy_rockets_plain",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 378,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 14,
+    "code": "turret_light_rockets_plain",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "rocket",
+            "total_ammo": 3,
+            "reload_ammo": 3,
+            "reload_time": 2,
+            "damage": 20
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 387,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 15,
+    "code": "turret_light_rockets",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+                    {
+                        "type": "rocket",
+                        "total_ammo": 3,
+                        "reload_ammo": 3,
+                        "reload_time": 2,
+                        "damage": 20
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 396,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 16,
+    "code": "turret_ht_30_lr",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "laser",
+            "total_ammo": 10,
+            "reload_ammo": 10,
+            "reload_time": 2,
+            "damage": 8
+        },
+        {
+            "type": "laser",
+            "total_ammo": 10,
+            "reload_ammo": 10,
+            "reload_time": 2,
+            "damage": 8
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 405,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 17,
+    "code": "turret_heavy_ion",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "ion",
+            "total_ammo": 1,
+            "reload_ammo": 1,
+            "reload_time": 2,
+            "damage": 130
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 414,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 18,
+    "code": "turret_light_mg_black",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 423,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 19,
+    "code": "turret_laser",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+        {
+            "type": "laser",
+            "total_ammo": 10,
+            "reload_ammo": 10,
+            "reload_time": 2,
+            "damage": 8
+        }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 432,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 20,
+    "code": "turret_plasma",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 441,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 21,
+    "code": "turret_medium_mg_dual",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 450,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 22,
+    "code": "turret_pillbox",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 459,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 23,
+    "code": "turret_light_mg_white",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 468,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 24,
+    "code": "turret_heavy_rockets",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 478,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 25,
+    "code": "turret_tiger_assault",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 82,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 26,
+    "code": "turret_tiger_hellmaker",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 91,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 27,
+    "code": "turret_spider",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+            {
+                "code": "left",
+                "type": "plasma",
+                "group": 0,
+                "total_ammo": 12,
+                "reload_ammo": 10,
+                "reload_time": 3,
+                "damage": 15
+            },
+            {
+                "code": "right",
+                "type": "plasma",
+                "group": 0,
+                "total_ammo": 12,
+                "reload_ammo": 10,
+                "reload_time": 3,
+                "damage": 15
+            }
+        ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 100,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 28,
+    "code": "turret_spider_ii",
+    "type": "turret",
+    "bounds": [26, 26],
+        "weapons": [
+            {
+                "code": "left",
+                "type": "heavy_rocket",
+                "group": 0,
+                "total_ammo": 2,
+                "reload_ammo": 1,
+                "reload_time": 2,
+                "damage": 15
+            },
+            {
+                "code": "right",
+                "type": "heavy_rocket",
+                "group": 1,
+                "total_ammo": 2,
+                "reload_ammo": 1,
+                "reload_time": 2,
+                "damage": 15
+            }
+        ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "sprites": {
+      "default": {
+        "index": 1162,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 29,
+    "code": "turret_t100",
+    "type": "turret",
+    "bounds": [26, 26],
+    "weapons": [
+      {
+        "type": "mg",
+        "total_ammo": 10,
+        "reload_ammo": 7,
+        "reload_time": 2,
+        "damage": 1
+      }
+    ],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 558,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 30,
+    "code": "turret_heavy_cannon_tank",
+    "type": "turret",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_fire": true,
+    "sprites": {
+      "default": {
+        "index": 1242,
+        "collections": 9
+      }
+    }
+  },
+  {
+    "id": 31,
+    "code": "rotor",
+    "type": "spinner",
+    "bounds": [26, 26],
+    "sprites_path": "MIX/SPRU0/",
+    "palette_shadow": true,
+    "palette_shadow_clear": true,
+    "sprites": {
+      "default": {
+        "index": 649,
+        "length": 4,
+        "duration": 100
+      },
+      "ghost": {
+        "index": 653,
+        "length": 2,
+        "duration": 100
+      }
+    }
+  },
+  {
+    "id": 32,
+    "code": "air_base_pad",
+    "type": "attachment",
+    "bounds": [32, 32],
+    "sprites_path": "MIX/SPRB0/",
+    "sprites": {
+      "left": 16,
+      "right": 17
+    }
   }
 ]

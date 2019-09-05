@@ -510,7 +510,10 @@
                 "reload_time": 1,
                 "damage": 1
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 31,
@@ -530,7 +533,10 @@
                 "reload_time": 2,
                 "damage": 25
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 32,
@@ -551,7 +557,10 @@
                 "reload_time": 2,
                 "damage": 15
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id":33,
@@ -568,7 +577,10 @@
                 "type": "bomb",
                 "damage": 200
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 34,
@@ -595,7 +607,10 @@
                 "reload_time": 2,
                 "damage": 10
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 35,
@@ -615,7 +630,10 @@
                 "reload_time": 2,
                 "damage": 25
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 36,
@@ -636,7 +654,10 @@
                 "reload_time": 2,
                 "damage": 80
             }
-        ]
+        ],
+        "sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 37,
@@ -647,7 +668,10 @@
         "required_technology": "ai_mine",
         "price": 100,
         "armor": null,
-        "health": 28
+        "health": 28,
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 38,
@@ -658,7 +682,10 @@
         "required_technology": null,
         "price": 0,
         "armor": null,
-        "health": 30
+        "health": 30,
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 39,
@@ -669,7 +696,10 @@
         "required_technology": null,
         "price": 0,
         "armor": null,
-        "health": 30
+        "health": 30,
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 40,
@@ -680,7 +710,10 @@
         "required_technology": null,
         "price": 0,
         "armor": null,
-        "health": 30
+        "health": 30,
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 41,
@@ -692,15 +725,18 @@
         "price": 130,
         "armor": "light",
         "health": 80,
-        "weapons": [
-            {
-                "type": "mg",
-                "total_ammo": 10,
-                "reload_ammo": 7,
-                "reload_time": 2,
-                "damage": 1
+        "attachments": {
+            "turret": {
+                "code": "turret_t100",
+                "position": [0, 0]
             }
-        ]
+        },
+        "sprites": {
+            "default": {
+                "index": 549,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 42,
@@ -721,7 +757,10 @@
                 "reload_time": 2,
                 "damage": 1
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 43,
@@ -743,7 +782,10 @@
                 "position": [0, 0],
                 "damage": 25
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 44,
@@ -755,20 +797,12 @@
         "price": 300,
         "armor": "light",
         "health": 200,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "cannon",
-                        "total_ammo": 1,
-                        "reload_ammo": 1,
-                        "reload_time": 1,
-                        "damage": 15
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_st_01b",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 288,
@@ -786,20 +820,12 @@
         "price": 350,
         "armor": "light",
         "health": 200,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "rocket",
-                        "total_ammo": 3,
-                        "reload_ammo": 3,
-                        "reload_time": 2,
-                        "damage": 20
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_light_rockets",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 288,
@@ -907,20 +933,12 @@
         "price": 500,
         "armor": "medium",
         "health": 300,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "cannon",
-                        "total_ammo": 1,
-                        "reload_ammo": 1,
-                        "reload_time": 1,
-                        "damage": 25
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_mt_200",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 306,
@@ -938,20 +956,12 @@
         "price": 800,
         "armor": "heavy",
         "health": 300,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "laser",
-                        "total_ammo": 10,
-                        "reload_ammo": 10,
-                        "reload_time": 2,
-                        "damage": 8
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_mt_201l",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 306,
@@ -969,26 +979,12 @@
         "price": 1500,
         "armor": "heavy",
         "health": 400,
-        "weapons": [
-            {
-                "code": "left",
-                "type": "plasma",
-                "group": 0,
-                "total_ammo": 12,
-                "reload_ammo": 10,
-                "reload_time": 3,
-                "damage": 15
-            },
-            {
-                "code": "right",
-                "type": "plasma",
-                "group": 0,
-                "total_ammo": 12,
-                "reload_ammo": 10,
-                "reload_time": 3,
-                "damage": 15
+        "attachments": {
+            "turret": {
+                "code": "turret_spider",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 45,
@@ -1017,26 +1013,12 @@
         "price": 1700,
         "armor": "heavy",
         "health": 400,
-        "weapons": [
-            {
-                "code": "left",
-                "type": "heavy_rocket",
-                "group": 0,
-                "total_ammo": 2,
-                "reload_ammo": 1,
-                "reload_time": 2,
-                "damage": 15
-            },
-            {
-                "code": "right",
-                "type": "heavy_rocket",
-                "group": 1,
-                "total_ammo": 2,
-                "reload_ammo": 1,
-                "reload_time": 2,
-                "damage": 15
+        "attachments": {
+            "turret": {
+                "code": "turret_spider_ii",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "collections": 9,
@@ -1061,39 +1043,16 @@
         "price": 1500,
         "armor": "heavy",
         "health": 600,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "laser",
-                        "total_ammo": 10,
-                        "reload_ammo": 10,
-                        "reload_time": 2,
-                        "damage": 8
-                    },
-                    {
-                        "type": "laser",
-                        "total_ammo": 10,
-                        "reload_ammo": 10,
-                        "reload_time": 2,
-                        "damage": 8
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_ht_30_lr",
+                "position": [0, 0]
             },
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "rocket",
-                        "total_ammo": 3,
-                        "reload_ammo": 3,
-                        "reload_time": 2,
-                        "damage": 20
-                    }
-                ]
+            "turret_rockets": {
+                "code": "turret_light_rockets_plain",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 333,
@@ -1111,20 +1070,12 @@
         "price": 1200,
         "armor": "heavy",
         "health": 600,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "heavy_rocket",
-                        "total_ammo": 3,
-                        "reload_ammo": 3,
-                        "reload_time": 2,
-                        "damage": 80
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_ht_33_r",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 333,
@@ -1142,20 +1093,12 @@
         "price": 1200,
         "armor": "heavy",
         "health": 600,
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "ion",
-                        "total_ammo": 1,
-                        "reload_ammo": 1,
-                        "reload_time": 2,
-                        "damage": 130
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_heavy_ion",
+                "position": [0, 0]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 333,
@@ -1189,7 +1132,17 @@
                     }
                 ]
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 567,
+                "collections": 9
+            },
+            "open": {
+                "index": 576,
+                "length": 2
+            }
+        }
     },
     {
         "id": 56,
@@ -1206,6 +1159,24 @@
         "capacity": {
             "light": 6,
             "heavy": 1
+        },
+        "sprites": {
+            "default": {
+                "index": 187,
+                "collections": 9
+            },
+            "open_top": {
+                "index": 196,
+                "length": 2
+            },
+            "open_right": {
+                "index": 198,
+                "length": 2
+            },
+            "open_bottom": {
+                "index": 200,
+                "length": 2
+            }
         }
     },
     {
@@ -1221,6 +1192,12 @@
         "unit_transport": true,
         "capacity": {
             "light": 6
+        },
+        "sprites": {
+            "default": {
+                "index": 277,
+                "collections": 9
+            }
         }
     },
     {
@@ -1236,6 +1213,12 @@
         "unit_transport": true,
         "capacity": {
             "light": 4
+        },
+        "sprites": {
+            "default": {
+                "index": 266,
+                "collections": 9
+            }
         }
     },
     {
@@ -1282,7 +1265,13 @@
                 "reload_time": 1,
                 "damage": 3
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 531,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 61,
@@ -1294,7 +1283,17 @@
         "required_technology": null,
         "price": 400,
         "armor": "medium",
-        "health": 400
+        "health": 400,
+        "sprites": {
+            "default": {
+                "index": 245,
+                "collections": 9
+            },
+            "open": {
+                "index": 254,
+                "length": 3
+            }
+        }
     },
     {
         "id": 62,
@@ -1332,7 +1331,13 @@
                 ]
             }
         ],
-        "palette_light": true
+        "palette_light": true,
+        "sprites": {
+            "default": {
+                "index": 608,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 64,
@@ -1358,7 +1363,13 @@
                 ]
             }
         ],
-        "palette_light": true
+        "palette_light": true,
+        "sprites": {
+            "default": {
+                "index": 523,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 65,
@@ -1388,7 +1399,7 @@
         },
         "sprites": {
             "default": {
-                "index": 878,
+                "index": 578,
                 "collections": 9
             }
         }
@@ -1408,7 +1419,13 @@
                 "type": "shadow",
                 "range": 4
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 540,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 67,
@@ -1429,7 +1446,13 @@
                 "reload_time": 1,
                 "damage": 90
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 625,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 68,
@@ -1446,6 +1469,24 @@
         "capacity": {
             "light": 6,
             "heavy": 1
+        },
+        "sprites": {
+            "default": {
+                "index": 634,
+                "collections": 9
+            },
+            "open_top": {
+                "index": 643,
+                "length": 2
+            },
+            "open_right": {
+                "index": 645,
+                "length": 2
+            },
+            "open_bottom": {
+                "index": 647,
+                "length": 2
+            }
         }
     },
     {
@@ -1459,32 +1500,22 @@
         "armor": "heavy",
         "health": 800,
         "movement": "water",
-        "turrets": [
-            {
-                "position": [0, 10],
-                "weapons": [
-                    {
-                        "type": "heavy_rocket",
-                        "total_ammo": 3,
-                        "reload_ammo": 3,
-                        "reload_time": 2,
-                        "damage": 80
-                    }
-                ]
+        "attachments": {
+            "turret_front": {
+                "code": "turret_heavy_rockets_plain",
+                "position": [0, 10]
             },
-            {
-                "position": [0, -10],
-                "weapons": [
-                    {
-                        "type": "rocket",
-                        "total_ammo": 3,
-                        "reload_ammo": 3,
-                        "reload_time": 2,
-                        "damage": 20
-                    }
-                ]
+            "turret_back": {
+                "code": "turret_heavy_rockets_plain",
+                "position": [0, -10]
             }
-        ]
+        },
+        "sprites": {
+            "default": {
+                "index": 486,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 70,
@@ -1505,7 +1536,13 @@
                 "reload_time": 1,
                 "damage": 90
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 495,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 71,
@@ -1518,7 +1555,13 @@
         "price": 700,
         "armor": "medium",
         "health": 260,
-        "movement": "water"
+        "movement": "water",
+        "sprites": {
+            "default": {
+                "index": 616,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 72,
@@ -1539,6 +1582,12 @@
                 "damage": 20
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "rotor",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": {
                 "index": 324,
@@ -1556,7 +1605,17 @@
         "price": 1000,
         "armor": "medium",
         "health": 200,
-        "movement": "air"
+        "movement": "air",
+        "sprites": {
+            "default": {
+                "index": 597,
+                "collections": 9
+            },
+            "open": {
+                "index": 605,
+                "length": 2
+            }
+        }
     },
     {
         "id": 74,
@@ -1577,6 +1636,12 @@
                 "damage": 2
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "rotor",
+                "position": [0, 0]
+            }
+        },
         "palette_fire": true,
         "sprites": {
             "default": {
@@ -1605,7 +1670,13 @@
                 "reload_time": 2,
                 "damage": 2
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 513,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 76,
@@ -1618,7 +1689,13 @@
         "armor": "heavy",
         "palette_movement": true,
         "movement": "air",
-        "health": 150
+        "health": 150,
+        "sprites": {
+            "default": {
+                "index": 504,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 77,
@@ -1631,7 +1708,14 @@
         "price": 800,
         "armor": "medium",
         "health": 300,
-        "movement": "air"
+        "movement": "air",
+        "sprites": {
+            "default": {
+                "index": 235,
+                "collections": 9
+            },
+            "open": 244
+        }
     },
     {
         "id": 78,
@@ -1643,7 +1727,7 @@
         "price": 900,
         "armor": "medium",
         "health": 50,
-        "TODO_palette_movement": true,
+        "palette_movement": true,
         "movement": "air",
         "weapons": [
             {
@@ -1662,7 +1746,13 @@
                 "reload_time": 5,
                 "damage": 80
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 1251,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 79,
@@ -1693,7 +1783,13 @@
                 "reload_time": 5,
                 "damage": 80
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 1224,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 80,
@@ -1705,8 +1801,14 @@
         "price": 2300,
         "armor": "medium",
         "health": 300,
-        "TODO_palette_movement": true,
-        "movement": "air"
+        "palette_movement": true,
+        "movement": "air",
+        "sprites": {
+            "default": {
+                "index": 1260,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 81,
@@ -1744,7 +1846,13 @@
                     }
                 ]
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 1233,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 82,
@@ -1775,7 +1883,10 @@
                 "reload_time": 8,
                 "damage": 20
             }
-        ]
+        ],
+		"sprites": {
+            "TODO": 0
+        }
     },
     {
         "id": 83,
@@ -1792,7 +1903,13 @@
                 "type": "bomb",
                 "damage": 300
             }
-        ]
+        ],
+        "sprites": {
+            "default": {
+                "index": 1215,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 84,

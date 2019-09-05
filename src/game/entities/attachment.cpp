@@ -9,7 +9,9 @@ void Spinner::simulationChanged() {
     if (isActive()) {
         //Setup the animation
         setAnimationFromSprite("default");
-        animation->reverse = !clockwise;
+        if (animation) {
+            animation->reverse = !clockwise;
+        }
     }
 
     Entity::simulationChanged();

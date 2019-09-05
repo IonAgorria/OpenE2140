@@ -12,6 +12,7 @@ class Entity;
 class Faction;
 
 struct AttachmentPoint {
+    std::string code;
     std::shared_ptr<Entity> entity;
     Vector2 position;
 };
@@ -41,10 +42,11 @@ public:
     /**
      * Attaches entity to this entity which the component belongs
      *
+     * @param code
      * @param entity the entity to attach
      * @return the struct containint attachment data
      */
-    AttachmentPoint& attachEntity(const std::shared_ptr<Entity>& entity);
+    AttachmentPoint& attachEntity(const std::string& code, const std::shared_ptr<Entity>& entity);
 
     /**
      * Detaches entity to this entity which the component belongs

@@ -134,14 +134,14 @@ public:
     std::shared_ptr<Entity> createEntity(const EntityPrototype& entityPrototype);
 
     /**
-     * Creates a new entity and adds to simulation
+     * Creates a new entity and optionally adds to simulation
      */
-    std::shared_ptr<Entity> createEntity(const entity_type_t& entityType);
+    std::shared_ptr<Entity> createEntity(const entity_type_t& entityType, bool addToSimulation = false);
 
     /**
-     * Creates a new entity and adds to simulation
+     * Creates a new entity and optionally adds to simulation
      */
-    std::shared_ptr<Entity> createEntity(entity_kind_t entityKind, const std::string& entityCode);
+    std::shared_ptr<Entity> createEntity(entity_kind_t entityKind, const std::string& entityCode, bool addToSimulation = false);
 
     /**
      * Adds entity to simulation

@@ -189,17 +189,21 @@ std::shared_ptr<Entity> Simulation::createEntity(const EntityPrototype& entityPr
     return entityPtr;
 }
 
-std::shared_ptr<Entity> Simulation::createEntity(const entity_type_t& entityType) {
+std::shared_ptr<Entity> Simulation::createEntity(
+        const entity_type_t& entityType,
+        bool addToSimulation) {
     std::shared_ptr<Entity> entity = engine->getEntityManager()->makeEntity(entityType);
-    if (entity) {
+    if (addToSimulation && entity) {
         addEntity(entity);
     }
     return entity;
 }
 
-std::shared_ptr<Entity> Simulation::createEntity(entity_kind_t entityKind, const std::string& entityCode) {
+std::shared_ptr<Entity> Simulation::createEntity(
+        entity_kind_t entityKind, const std::string& entityCode,
+        bool addToSimulation) {
     std::shared_ptr<Entity> entity = engine->getEntityManager()->makeEntity(entityKind, entityCode);
-    if (entity) {
+    if (addToSimulation && entity) {
         addEntity(entity);
     }
     return entity;

@@ -36,9 +36,9 @@ void AttachmentComponent::simulationChanged() {
                 std::string code = entryValue["code"].get<std::string>();
 
                 //Create the entity and attach it
-                std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(kind, code);
+                std::shared_ptr<Entity> entity = base->getSimulation()->createEntity(kind, code, false);
                 if (!entity) continue;
-                AttachmentPoint& attachment = attachEntity(entity);
+                AttachmentPoint& attachment = attachEntity(entry.key(), entity);
 
                 //Set the position
                 Config::getVector2(entryValue["position"], attachment.position);
@@ -72,17 +72,18 @@ const std::vector<AttachmentPoint>& AttachmentComponent::getAttached() const {
     return attached;
 }
 
-AttachmentPoint& AttachmentComponent::attachEntity(const std::shared_ptr<Entity>& entity) {
+AttachmentPoint& AttachmentComponent::attachEntity(const std::string& code, const std::shared_ptr<Entity>& entity) {
     //Create attachment point and set entity
     AttachmentPoint& attachment = attached.emplace_back();
+    attachment.code = code;
     attachment.entity = entity;
 
-    //Make it disabled and unselecteable by default and set parent to us
+    //Make it disabled and not selectable by default and set parent to us
     entity->setDisable(true);
     entity->setSelectable(false);
     entity->setParent(base);
 
-    //Subscribe entity to simulation
+    //Subscribe entity to simulation if wasn't added already
     Simulation* simulation = base->getSimulation();
     if (simulation && !entity->isActive()) {
         simulation->addEntity(entity);

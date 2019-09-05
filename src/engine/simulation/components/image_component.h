@@ -106,7 +106,7 @@ public:
  * This allows to set several image components into a single entity
  * @tparam N
  */
-template<unsigned int N>
+template<unsigned int N = 0>
 CLASS_COMPONENT_INHERIT(Entity, ImageComponent, ImageComponentSlotted)
 };
 

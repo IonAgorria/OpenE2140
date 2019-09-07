@@ -66,6 +66,7 @@ void Game::setupEntityManager() {
 void Game::setupSimulation(std::unique_ptr<SimulationParameters> parameters) {
     //Call setup
     Engine::setupSimulation(std::move(parameters));
+    if (hasError()) return;
 
     //Load the simulation
     simulation->loadWorld();
@@ -100,8 +101,9 @@ void Game::run() {
     parameters->loadLevelContent = true;
     parameters->world = "LEVEL/DATA/LEVEL01";
     //parameters->world = "LEVEL/DATA/LEVEL06";
-    //parameters->world = "LEVEL/DATA/LEVEL351";
+    parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
+    //parameters->world = "LEVEL2/DATA/LEVEL511";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
     player->color = {{0x60, 0xA0, 0x20, 0xFF}};
     parameters->players.emplace_back(std::move(player));
@@ -121,7 +123,7 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 3});
+    entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 23});
     entityPtr->setPosition({64 * 6 + 32, 64 * 6 + 32});
     component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);

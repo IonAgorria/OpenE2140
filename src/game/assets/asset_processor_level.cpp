@@ -15,7 +15,7 @@ void AssetProcessorLevel::processIntermediates() {
         asset_path_t assetPath = pair.first;
 
         //Check if its level
-        if (Utils::startsWith(assetPath, "LEVEL/DATA/LEVEL") && !Utils::endsWith(assetPath, ".INI")) {
+        if ((Utils::startsWith(assetPath, "LEVEL/DATA/LEVEL") || Utils::startsWith(assetPath, "LEVEL2/DATA/LEVEL")) && !Utils::endsWith(assetPath, ".INI")) {
             assets[assetPath] = pair.second.get();
         }
     }

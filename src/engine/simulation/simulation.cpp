@@ -119,11 +119,13 @@ Simulation::~Simulation() {
 
 void Simulation::close() {
     log->debug("Closing");
-    std::vector<std::shared_ptr<Entity>> toRemove(entityStore->getEntities());
-    for (std::shared_ptr<Entity>& entity : toRemove) {
-        entity->removedFromSimulation();
+    if (entityStore) {
+        std::vector<std::shared_ptr<Entity>> toRemove(entityStore->getEntities());
+        for (std::shared_ptr<Entity>& entity : toRemove) {
+            entity->removedFromSimulation();
+        }
+        entityStore->clear();
     }
-    entityStore->clear();
     if (world) {
         world.reset();
     }

@@ -1,345 +1,209 @@
 [
   {
-    "id": 69,
-    "type": "mine",
+    "id": 2,
+    "code": "ore",
+    "type": "ore",
+    "variants": false,
+    "sprites_path": "MIX/SPRU0/",
+    "health": 20,
     "sprites": {
-      "default": [69, 70]
+      "default": {
+        "index": 257,
+        "collections": 9
+      }
     }
   },
   {
-    "id": 73,
+    "id": 7,
+    "code": "tree_0",
+    "type": "tree",
+    "passable_infantry": true,
+    "sprites": {
+      "default": 93,
+      "damaged": 99
+    }
+  },
+  {
+    "id": 8,
+    "code": "tree_1",
+    "type": "tree",
+    "passable_infantry": true,
+    "sprites": {
+      "default": 94,
+      "damaged": 100
+    }
+  },
+  {
+    "id": 9,
+    "code": "tree_2",
+    "type": "tree",
+    "passable_infantry": true,
+    "sprites": {
+      "default": 95,
+      "damaged": 101
+    }
+  },
+  {
+    "id": 10,
+    "code": "tree_3",
+    "type": "tree",
+    "passable_infantry": true,
+    "sprites": {
+      "default": 96,
+      "damaged": 102
+    }
+  },
+  {
+    "id": 11,
+    "code": "tree_4",
+    "type": "tree",
+    "passable_infantry": true,
+    "sprites": {
+      "default": 97,
+      "damaged": 103
+    }
+  },
+  {
+    "id": 12,
+    "code": "tree_5",
+    "type": "tree",
+    "passable_infantry": true,
+    "sprites": {
+      "default": 98,
+      "damaged": 104
+    }
+  },
+  {
+    "id": 15,
     "type": "wall",
     "sprites": {
       "default": 73
     }
   },
   {
-    "id": 74,
-    "type": "wall",
-    "sprites": {
-      "default": 74
-    }
-  },
-  {
-    "id": 75,
-    "type": "wall",
-    "sprites": {
-      "default": 75
-    }
-  },
-  {
-    "id": 76,
-    "type": "wall",
-    "sprites": {
-      "default": 76
-    }
-  },
-  {
-    "id": 77,
-    "type": "wall",
-    "sprites": {
-      "default": 77
-    }
-  },
-  {
-    "id": 78,
-    "type": "wall",
-    "sprites": {
-      "default": 78
-    }
-  },
-  {
-    "id": 79,
-    "type": "wall",
-    "sprites": {
-      "default": 79
-    }
-  },
-  {
-    "id": 80,
-    "type": "wall",
-    "sprites": {
-      "default": 80
-    }
-  },
-  {
-    "id": 81,
-    "type": "wall",
-    "sprites": {
-      "default": 81
-    }
-  },
-  {
-    "id": 82,
-    "type": "wall",
-    "sprites": {
-      "default": 82
-    }
-  },
-  {
-    "id": 83,
-    "type": "wall",
-    "sprites": {
-      "default": 83
-    }
-  },
-  {
-    "id": 84,
-    "type": "wall",
-    "sprites": {
-      "default": 84
-    }
-  },
-  {
-    "id": 85,
-    "type": "wall",
-    "sprites": {
-      "default": 85
-    }
-  },
-  {
-    "id": 86,
-    "type": "wall",
-    "sprites": {
-      "default": 86
-    }
-  },
-  {
-    "id": 87,
-    "type": "wall",
-    "sprites": {
-      "default": 87
-    }
-  },
-  {
-    "id": 88,
-    "type": "wall",
-    "sprites": {
-      "default": 88
-    }
-  },
-  {
-    "id": 89,
-    "type": "wall",
-    "sprites": {
-      "default": 89
-    }
-  },
-  {
-    "id": 90,
-    "type": "wall",
-    "sprites": {
-      "default": 90
-    }
-  },
-  {
-    "id": 91,
-    "type": "wall",
-    "sprites": {
-      "default": 91
-    }
-  },
-  {
-    "id": 92,
-    "type": "wall",
-    "sprites": {
-      "default": 92
-    }
-  },
-  {
-    "id": 93,
-    "type": "tree",
-    "sprites": {
-      "default": 93
-    }
-  },
-  {
-    "id": 94,
-    "type": "tree",
-    "sprites": {
-      "default": 94
-    }
-  },
-  {
-    "id": 95,
-    "type": "tree",
-    "sprites": {
-      "default": 95
-    }
-  },
-  {
-    "id": 96,
-    "type": "tree",
-    "sprites": {
-      "default": 96
-    }
-  },
-  {
-    "id": 97,
-    "type": "tree",
-    "sprites": {
-      "default": 97
-    }
-  },
-  {
-    "id": 98,
-    "type": "tree",
-    "sprites": {
-      "default": 98
-    }
-  },
-  {
-    "id": 99,
-    "type": "tree",
-    "sprites": {
-      "default": 99
-    }
-  },
-  {
-    "id": 100,
-    "type": "tree",
-    "sprites": {
-      "default": 100
-    }
-  },
-  {
-    "id": 101,
-    "type": "tree",
-    "sprites": {
-      "default": 101
-    }
-  },
-  {
-    "id": 102,
-    "type": "tree",
-    "sprites": {
-      "default": 102
-    }
-  },
-  {
-    "id": 103,
-    "type": "tree",
-    "sprites": {
-      "default": 103
-    }
-  },
-  {
-    "id": 104,
-    "type": "tree",
-    "sprites": {
-      "default": 104
-    }
-  },
-  {
-    "id": 105,
+    "id": 30,
     "type": "pipe",
+    "passable_infantry": true,
     "sprites": {
       "default": 105
     }
   },
   {
-    "id": 106,
+    "id": 31,
     "type": "pipe",
+    "passable_infantry": true,
     "sprites": {
       "default": 106
     }
   },
   {
-    "id": 107,
+    "id": 32,
     "type": "pipe",
+    "passable_infantry": true,
     "sprites": {
       "default": 107
     }
   },
   {
-    "id": 108,
+    "id": 33,
     "type": "pipe",
     "sprites": {
       "default": 108
     }
   },
   {
-    "id": 109,
+    "id": 34,
     "type": "pipe",
     "sprites": {
       "default": 109
     }
   },
   {
-    "id": 110,
+    "id": 35,
     "type": "pipe",
     "sprites": {
       "default": 110
     }
   },
   {
-    "id": 111,
+    "id": 36,
     "type": "pipe",
     "sprites": {
       "default": 111
     }
   },
   {
-    "id": 112,
+    "id": 37,
     "type": "pipe",
     "sprites": {
       "default": 112
     }
   },
   {
-    "id": 113,
+    "id": 38,
     "type": "pipe",
     "sprites": {
       "default": 113
     }
   },
   {
-    "id": 114,
+    "id": 39,
     "type": "pipe",
     "sprites": {
       "default": 114
     }
   },
   {
-    "id": 115,
+    "id": 40,
     "type": "pipe",
     "sprites": {
       "default": 115
     }
   },
   {
-    "id": 116,
+    "id": 41,
     "type": "pipe",
     "sprites": {
       "default": 116
     }
   },
   {
-    "id": 117,
+    "id": 42,
     "type": "pipe",
     "sprites": {
       "default": 117
     }
   },
   {
-    "id": 118,
+    "id": 43,
     "type": "pipe",
+    "passable_infantry": true,
     "sprites": {
       "default": 118
     }
   },
   {
-    "id": 119,
+    "id": 44,
     "type": "pipe",
+    "passable_infantry": true,
     "sprites": {
       "default": 119
     }
   },
   {
-    "id": 120,
+    "id": 45,
     "type": "pipe",
+    "passable_infantry": true,
     "sprites": {
       "default": 120
+    }
+  },
+  {
+    "id": 100,
+    "code": "mine",
+    "type": "mine",
+    "sprites": {
+      "default": [69, 70]
     }
   }
 ]

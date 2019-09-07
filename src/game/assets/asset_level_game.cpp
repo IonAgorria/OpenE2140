@@ -283,10 +283,10 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
             error = "Error reading entity index\n" + error;
             return;
         }
-        //Read unknown1
-        unsigned short unknown1 = 0;
-        if (!readAll(unknown1)) {
-            error = "Error reading entity unknown1\n" + error;
+        //Read type
+        unsigned short type = 0;
+        if (!readAll(type)) {
+            error = "Error reading entity type\n" + error;
             return;
         }
         //Read x
@@ -301,14 +301,14 @@ void AssetLevelGame::entities(std::vector<EntityPrototype>& entities) {
             error = "Error reading entity y\n" + error;
             return;
         }
-        //Read type
-        unsigned short type = 0;
-        if (!readAll(type)) {
-            error = "Error reading entity type\n" + error;
+        //Read sprite
+        unsigned short sprite = 0;
+        if (!readAll(sprite)) {
+            error = "Error reading entity sprite\n" + error;
             return;
         }
-        //Skip this entity if index doesn't match or type is 0
-        if (index != i || type == 0) {
+        //Skip this entity if index doesn't match or sprite is 0
+        if (index != i || sprite == 0) {
             continue;
         }
 

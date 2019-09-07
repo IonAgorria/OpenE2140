@@ -1305,7 +1305,19 @@
         "required_technology": "fast_repairing",
         "price": 800,
         "armor": "medium",
-        "health": 200
+        "health": 200,
+        "attachments": {
+            "turret": {
+                "code": "turret_hcr-m",
+                "position": [0, 0]
+            }
+        },
+        "sprites": {
+            "default": {
+                "index": 202,
+                "collections": 9
+            }
+        }
     },
     {
         "id": 63,
@@ -1318,19 +1330,12 @@
         "price": 700,
         "armor": "medium",
         "health": 300,
-        "turrets": [
-            {
-                "weapons": [
-                    {
-                        "type": "mg",
-                        "total_ammo": 5,
-                        "reload_ammo": 5,
-                        "reload_time": 1,
-                        "damage": 1
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_light_mg_white",
+                "position": [0, 0]
             }
-        ],
+        },
         "palette_light": true,
         "sprites": {
             "default": {
@@ -1350,19 +1355,12 @@
         "price": 700,
         "armor": "heavy",
         "health": 300,
-        "turrets": [
-            {
-                "weapons": [
-                    {
-                        "type": "mg",
-                        "total_ammo": 5,
-                        "reload_ammo": 5,
-                        "reload_time": 1,
-                        "damage": 1
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_light_mg_white",
+                "position": [0, 0]
             }
-        ],
+        },
         "palette_light": true,
         "sprites": {
             "default": {

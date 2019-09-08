@@ -10,6 +10,7 @@
 #include "engine/simulation/components/player_component.h"
 #include "engine/simulation/components/attachment_component.h"
 #include "game/components/palette_component.h"
+#include "game/components/sprite_damage_component.h"
 #include "src/engine/simulation/entity.h"
 
 /**
@@ -20,17 +21,13 @@ CLASS_ENTITY_COMPONENTS(Entity, Building,
                         FactionComponent,
                         ImageComponent,
                         PaletteComponent,
+                        SpriteDamageComponent,
                         AttachmentComponent
 )
 public:
     void simulationChanged() override;
 
     void draw() override;
-
-    /**
-     * Selects current sprite
-     */
-    void chooseSprite();
 };
 
 /**

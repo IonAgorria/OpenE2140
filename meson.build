@@ -111,6 +111,7 @@ opene2140_src = [
     'src/game/assets/asset_processor_fixes.cpp',
     'src/game/assets/asset_level_game.cpp',
     'src/game/components/palette_component.cpp',
+    'src/game/components/sprite_damage_component.cpp',
     'src/game/entities/object.cpp',
     'src/game/entities/building.cpp',
     'src/game/entities/unit.cpp',

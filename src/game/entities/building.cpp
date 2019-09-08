@@ -35,21 +35,9 @@ void Building::simulationChanged() {
                 //TODO
             }
         }
-
-        //Set the rest
-        chooseSprite();
     }
 
     Entity::simulationChanged();
-}
-
-void Building::chooseSprite() {
-    //Load default sprites
-    if (0 < maxHealth && currentHealth < (maxHealth / 2)) {
-        setImageFromSprite("damaged");
-    } else {
-        setImageFromSprite("default");
-    }
 }
 
 void Building::draw() {

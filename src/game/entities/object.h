@@ -6,8 +6,9 @@
 
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/image_component.h"
-#include "src/engine/simulation/entity.h"
+#include "engine/simulation/entity.h"
 #include "game/components/palette_component.h"
+#include "game/components/sprite_damage_component.h"
 
 /**
  * Simple object with simple image
@@ -24,8 +25,24 @@ public:
 /**
  * Tree object
  */
-CLASS_ENTITY(Object, Tree)
+CLASS_ENTITY_COMPONENTS(Entity, Tree,
+                        ImageComponent,
+                        SpriteDamageComponent,
+                        PaletteComponent)
 public:
+    void draw() override;
+};
+
+/**
+ * Wall object
+ */
+CLASS_ENTITY_COMPONENTS(Entity, Wall,
+                        ImageComponentSlotted<0>,
+                        ImageComponentSlotted<1>,
+                        ImageComponentSlotted<2>,
+                        ImageComponentSlotted<3>)
+public:
+    void draw() override;
 };
 
 #endif //OPENE2140_OBJECT_H

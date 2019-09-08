@@ -51,6 +51,8 @@ class ObjectFactory: public ACommonEntityFactory {
         if (config) {
             if (config->type == "tree") {
                 return std::make_shared<Tree>();
+            } else if (config->type == "wall") {
+                return std::make_shared<Wall>();
             }
         }
         return std::make_shared<Object>();

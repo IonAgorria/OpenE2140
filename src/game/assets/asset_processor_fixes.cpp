@@ -24,6 +24,8 @@ void AssetProcessorFixes::refreshAssets() {
     }
     //Add shadow to objects
     for (std::string variant : ENTITY_OBJECTS_VARIANTS) {
+        //Walls
+        //TODO
         //Trees
         baseImage = manager->getImage("MIX/SPRO" + variant + "/93");
         if (baseImage) {

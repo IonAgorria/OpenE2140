@@ -20,3 +20,14 @@ void Object::simulationChanged() {
 void Object::draw() {
     ImageComponent::draw(renderer);
 }
+
+void Tree::draw() {
+    ImageComponent::draw(renderer);
+}
+
+void Wall::draw() {
+    ImageComponentSlotted<0>::draw(renderer);
+    ImageComponentSlotted<1>::draw(renderer);
+    ImageComponentSlotted<2>::draw(renderer);
+    ImageComponentSlotted<3>::draw(renderer);
+}

@@ -43,6 +43,7 @@ public:
     std::string type;
     Rectangle bounds;
     entity_health_t health;
+    bool hasVariants;
 
     /**
      * Sprites data

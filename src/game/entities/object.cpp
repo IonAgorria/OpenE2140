@@ -25,6 +25,10 @@ void Tree::draw() {
     ImageComponent::draw(renderer);
 }
 
+void Ore::draw() {
+    ImageComponent::draw(renderer);
+}
+
 void Wall::draw() {
     ImageComponentSlotted<0>::draw(renderer);
     ImageComponentSlotted<1>::draw(renderer);

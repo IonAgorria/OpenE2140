@@ -9,6 +9,7 @@
 #include "engine/simulation/entity.h"
 #include "game/components/palette_component.h"
 #include "game/components/sprite_damage_component.h"
+#include "game/components/movement_component.h"
 
 /**
  * Simple object with simple image
@@ -28,6 +29,17 @@ public:
 CLASS_ENTITY_COMPONENTS(Entity, Tree,
                         ImageComponent,
                         SpriteDamageComponent,
+                        PaletteComponent)
+public:
+    void draw() override;
+};
+
+/**
+ * Ore object
+ */
+CLASS_ENTITY_COMPONENTS(Entity, Ore,
+                        ImageComponent,
+                        MovementComponent,
                         PaletteComponent)
 public:
     void draw() override;

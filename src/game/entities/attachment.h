@@ -6,8 +6,9 @@
 
 #include "engine/simulation/components/component.h"
 #include "engine/simulation/components/image_component.h"
-#include "src/engine/simulation/entity.h"
+#include "engine/simulation/entity.h"
 #include "game/components/palette_component.h"
+#include "game/components/movement_component.h"
 
 /**
  * Spinner object that is constantly animated to gimmick a rotating object
@@ -46,9 +47,39 @@ public:
 };
 
 /**
+ * Building exit opened when entity comes out
+ *
+ * TODO copy health values from water base so both show as damaged
+ */
+CLASS_ENTITY_COMPONENTS(Entity, BuildingExit,
+                        ImageComponent)
+public:
+    void update() override;
+
+    void draw() override;
+};
+
+/**
+ * Building exit where entities come from underground
+ *
+ * TODO there should be a way to mask a image, maybe redrawing world tiles under? changing renderer?
+ */
+CLASS_ENTITY_COMPONENTS(Entity, BuildingExitUnderground,
+                        ImageComponentSlotted<0>,
+                        ImageComponentSlotted<1>,
+                        ImageComponentSlotted<2>)
+public:
+    void update() override;
+
+    void draw() override;
+};
+
+/**
  * Turret attachment for an armed entity
  */
-CLASS_ENTITY_COMPONENTS(Entity, Turret, ImageComponent)
+CLASS_ENTITY_COMPONENTS(Entity, Turret,
+                        ImageComponent,
+                        MovementComponent)
     void simulationChanged() override;
 
     void update() override;

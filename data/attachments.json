@@ -2,7 +2,7 @@
   {
     "id": 0,
     "code": "exit_ed",
-    "type": "attachment",
+    "type": "building_exit_underground",
     "bounds": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
@@ -17,7 +17,7 @@
   {
     "id": 1,
     "code": "exit_ucs",
-    "type": "attachment",
+    "type": "building_exit_underground",
     "bounds": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
@@ -33,7 +33,7 @@
     "id": 2,
     "code": "exit_water",
     "bounds": [32, 32],
-    "type": "attachment",
+    "type": "building_exit",
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "default": 88,
@@ -43,7 +43,7 @@
   {
     "id": 3,
     "code": "exit_bio_center",
-    "type": "attachment",
+    "type": "building_exit",
     "bounds": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
@@ -54,7 +54,7 @@
   {
     "id": 4,
     "code": "exit_robot_factory",
-    "type": "attachment",
+    "type": "building_exit",
     "bounds": [32, 32],
     "sprites_path": "MIX/SPRB0/",
     "sprites": {

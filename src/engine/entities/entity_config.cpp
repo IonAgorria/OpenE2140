@@ -9,8 +9,7 @@ void EntityConfig::loadEntityData(const config_data_t& configData, const IEntity
     IHasConfigData::loadData(configData);
     code = getData<const std::string>("code", "");
     type = getData<const std::string>("type", "");
-    health = getData<entity_health_t>("health", "");
-    hasVariants = false;
+    health = getData<entity_health_t>("health", 0);
     loadSprites(factory);
     loadBounds();
 }
@@ -27,16 +26,23 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
     duration_t defaultDuration = getData("duration").is_number_unsigned()
                                ? getData("duration").get<duration_t>() : 0;
     //Load variants
-    hasVariants = true;
     std::vector<std::string> variants;
     config_data_t variantsData = getData("variants");
     if (variantsData.is_boolean() && !variantsData.get<bool>()) {
-        hasVariants = false;
         variants = {""};
     } else if (variantsData.is_array()) {
         variants = variantsData.get<std::vector<std::string>>();
     } else {
         variants = factory->getVariants();
+    }
+
+    //Set flag if there is a variant
+    hasVariants = false;
+    for (std::string& variant : variants) {
+        if (!variant.empty()) {
+            hasVariants = true;
+            break;
+        }
     }
 
     //Parse the sprites

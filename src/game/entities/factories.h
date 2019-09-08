@@ -5,8 +5,8 @@
 #define OPENE2140_FACTORIES_H
 
 #include "engine/io/config.h"
+#include "engine/entities/entity_factory.h"
 #include "game/core/constants.h"
-#include "src/engine/entities/entity_factory.h"
 #include "building.h"
 #include "object.h"
 #include "unit.h"
@@ -51,6 +51,8 @@ class ObjectFactory: public ACommonEntityFactory {
         if (config) {
             if (config->type == "tree") {
                 return std::make_shared<Tree>();
+            } else if (config->type == "ore") {
+                return std::make_shared<Ore>();
             } else if (config->type == "wall") {
                 return std::make_shared<Wall>();
             }
@@ -215,6 +217,10 @@ class AttachmentFactory: public ACommonEntityFactory {
                 return std::make_shared<Spinner>();
             } else if (config->type == "turret") {
                 return std::make_shared<Turret>();
+            } else if (config->type == "building_exit") {
+                return std::make_shared<BuildingExit>();
+            } else if (config->type == "building_exit_underground") {
+                return std::make_shared<BuildingExitUnderground>();
             } else if (config->code == "conveyor_belt") {
                 return std::make_shared<ConveyorBelt>();
             }

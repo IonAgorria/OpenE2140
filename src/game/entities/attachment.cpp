@@ -65,20 +65,31 @@ void ConveyorBelt::draw() {
     ImageComponentSlotted<1>::draw(renderer);
 }
 
-void Turret::simulationChanged() {
-    if (isActive()) {
-        //Setup the animation
-        setImageFromSprite("default");
-    }
+void BuildingExit::update() {
+    Entity::update();
+}
 
+void BuildingExit::draw() {
+    ImageComponent::draw(renderer);
+}
+
+
+void BuildingExitUnderground::update() {
+    Entity::update();
+}
+
+void BuildingExitUnderground::draw() {
+    ImageComponentSlotted<0>::draw(renderer);
+    ImageComponentSlotted<1>::draw(renderer);
+    ImageComponentSlotted<2>::draw(renderer);
+}
+
+void Turret::simulationChanged() {
     Entity::simulationChanged();
 }
 
 void Turret::update() {
     Entity::update();
-    if (!animation) {
-        return;
-    }
 }
 
 void Turret::draw() {

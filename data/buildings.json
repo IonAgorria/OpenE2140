@@ -539,18 +539,12 @@
         "health": 500,
         "attachments": {
             "pad_left": {
-                "code": "air_base_pad",
-                "position": [-20, -10],
-                "config": {
-                    "left": true
-                }
+                "code": "air_base_pad_left",
+                "position": [-20, -10]
             },
             "pad_right": {
-                "code": "air_base_pad",
-                "position": [-20, -10],
-                "config": {
-                    "left": false
-                }
+                "code": "air_base_pad_right",
+                "position": [-20, -10]
             }
         },
         "sprites": {
@@ -613,21 +607,15 @@
         "attachments": {
             "conveyor_belt": {
                 "code": "conveyor_belt",
-                "position": [2, 0]
+                "position": [100, 50]
             },
             "flywheel_top": {
                 "code": "flywheel_mine",
-                "position": [0, -1],
-                "config": {
-                    "clockwise": true
-                }
+                "position": [-10, 10]
             },
             "flywheel_bottom": {
                 "code": "flywheel_mine",
-                "position": [0, 1],
-                "config": {
-                    "clockwise": false
-                }
+                "position": [-10, 50]
             }
         },
         "sprites": {

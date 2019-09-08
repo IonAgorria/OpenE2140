@@ -857,6 +857,12 @@
                 "damage": 15
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "turret_tiger_assault",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": {
                 "index": 45,
@@ -868,10 +874,6 @@
                 "collections": 5,
                 "length": 8,
                 "separation": 1
-            },
-            "turret": {
-                "index": 82,
-                "collections": 9
             }
         }
     },
@@ -905,6 +907,12 @@
                 "damage": 7
             }
         ],
+        "attachments": {
+            "turret": {
+                "code": "turret_tiger_hellmaker",
+                "position": [0, 0]
+            }
+        },
         "sprites": {
             "default": {
                 "index": 45,
@@ -916,10 +924,6 @@
                 "collections": 5,
                 "length": 8,
                 "separation": 1
-            },
-            "turret": {
-                "index": 91,
-                "collections": 9
             }
         }
     },
@@ -996,10 +1000,6 @@
                 "collections": 5,
                 "length": 8,
                 "separation": 1
-            },
-            "turret": {
-                "index": 101,
-                "collections": 9
             }
         }
     },
@@ -1025,7 +1025,7 @@
                 "index": 45,
                 "separation": 8
             },
-            "walking": {
+            "moving": {
                 "collections": 5,
                 "index": 37,
                 "length": 8,

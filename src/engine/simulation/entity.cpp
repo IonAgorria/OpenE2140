@@ -58,6 +58,7 @@ void Entity::setBounds(const Vector2& newBounds) {
 void Entity::setMaxHealth(entity_health_t newHealth) {
     if (newHealth < currentHealth) currentHealth = newHealth;
     maxHealth = newHealth;
+    changesCount++;
 }
 
 entity_health_t Entity::getMaxHealth() {
@@ -67,6 +68,7 @@ entity_health_t Entity::getMaxHealth() {
 void Entity::setCurrentHealth(entity_health_t newHealth) {
     if (maxHealth < newHealth) newHealth = maxHealth;
     currentHealth = newHealth;
+    changesCount++;
 }
 
 entity_health_t Entity::getCurrentHealth() {
@@ -137,6 +139,16 @@ void Entity::simulationChanged() {
 
 void Entity::update() {
     componentsUpdate();
+
+    //Check if anything changed to update sprite
+    if (lastChangesCount != changesCount) {
+        lastChangesCount = changesCount;
+        entityChanged();
+    }
+}
+
+void Entity::entityChanged() {
+    componentsEntityChanged();
 }
 
 void Entity::draw() {

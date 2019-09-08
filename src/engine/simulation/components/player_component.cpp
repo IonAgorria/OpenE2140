@@ -14,6 +14,9 @@ void PlayerComponent::simulationChanged() {
 void PlayerComponent::update() {
 }
 
+void PlayerComponent::entityChanged() {
+}
+
 Player* PlayerComponent::getPlayer() {
     return player;
 }

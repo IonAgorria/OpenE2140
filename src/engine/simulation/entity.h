@@ -93,6 +93,12 @@ protected:
     Entity* parent;
 
     /**
+     * Last changes count since last update
+     * This way we can know when to update
+     */
+    entity_changes_count_t lastChangesCount = 0;
+
+    /**
      * Add components method forwarding so extended entities can override them
      */
     COMPONENT_METHODS(COMPONENT_METHOD_FORWARD_VIRTUAL)
@@ -253,6 +259,11 @@ public:
      * Updates the entity state
      */
     virtual void update();
+
+    /**
+     * Called when entity is changed according to it's hangesCount
+     */
+    virtual void entityChanged();
 
     /**
      * Called when this entity is requested to draw

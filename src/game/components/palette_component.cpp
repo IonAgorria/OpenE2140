@@ -75,6 +75,9 @@ void PaletteComponent::simulationChanged() {
     palette->updateTexture();
 }
 
+void PaletteComponent::entityChanged() {
+}
+
 void PaletteComponent::setupShadows(const EntityConfig* config) {
     size_t shadowMain = 0;
     size_t shadowExtra = 0;

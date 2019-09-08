@@ -24,6 +24,9 @@ void ImageComponent::update() {
     }
 }
 
+void ImageComponent::entityChanged() {
+}
+
 void ImageComponent::draw(Renderer* renderer) {
     if (image) {
         Vector2 position = base->getPosition();

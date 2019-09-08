@@ -50,21 +50,20 @@ void AttachmentComponent::simulationChanged() {
 }
 
 void AttachmentComponent::update() {
-    //Check if anything changed
-    if (lastChangesCount != base->changesCount) {
-        lastChangesCount = base->changesCount;
-        for (const auto& attachment : attached) {
-            Entity* entity = attachment.entity.get();
-            Vector2 position = base->getPosition();
-            position += attachment.position;
-            entity->setPosition(position);
-        }
-    }
-
-    //Propagate update
+    //Propagate update call
     for (const auto& attachment : attached) {
         Entity* entity = attachment.entity.get();
         entity->update();
+    }
+}
+
+void AttachmentComponent::entityChanged() {
+    //Update the entities
+    for (const auto& attachment : attached) {
+        Entity* entity = attachment.entity.get();
+        Vector2 position = base->getPosition();
+        position += attachment.position;
+        entity->setPosition(position);
     }
 }
 

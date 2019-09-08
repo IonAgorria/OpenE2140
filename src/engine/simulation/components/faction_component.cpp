@@ -31,6 +31,9 @@ void FactionComponent::simulationChanged() {
 void FactionComponent::update() {
 }
 
+void FactionComponent::entityChanged() {
+}
+
 Faction* FactionComponent::getFaction() {
     return faction;
 }

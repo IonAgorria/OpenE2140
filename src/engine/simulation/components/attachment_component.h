@@ -27,12 +27,6 @@ protected:
      */
     std::vector<AttachmentPoint> attached;
 
-    /**
-     * Last changes count since last update
-     * This way we can know when to update the childs
-     */
-    entity_changes_count_t lastChangesCount = 0;
-
 public:
     /**
      * @return attached entities

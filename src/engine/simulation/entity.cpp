@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 2018/06/03
 //
-#include "engine/core/utils.h"
 #include "engine/simulation/simulation.h"
 #include "engine/entities/entity_config.h"
 #include "entity.h"
@@ -17,6 +16,10 @@ Entity::~Entity() {
 
 void Entity::setup(EntityConfig* newConfig) {
     config = newConfig;
+    if (config) {
+        maxHealth = config->health;
+        currentHealth = config->health;
+    }
     componentsSetup();
 }
 
@@ -50,6 +53,48 @@ const Rectangle& Entity::getBounds() const {
 void Entity::setBounds(const Vector2& newBounds) {
     bounds.setCenter(position, newBounds);
     changesCount++;
+}
+
+void Entity::setMaxHealth(entity_health_t newHealth) {
+    if (newHealth < currentHealth) currentHealth = newHealth;
+    maxHealth = newHealth;
+}
+
+entity_health_t Entity::getMaxHealth() {
+    return maxHealth;
+}
+
+void Entity::setCurrentHealth(entity_health_t newHealth) {
+    if (maxHealth < newHealth) newHealth = maxHealth;
+    currentHealth = newHealth;
+}
+
+entity_health_t Entity::getCurrentHealth() {
+    return currentHealth;
+}
+
+void Entity::addHealth(entity_health_t health) {
+    if (0 < health) {
+        setCurrentHealth(currentHealth + health);
+    }
+}
+
+void Entity::removeHealth(entity_health_t health) {
+    if (0 < health) {
+        setCurrentHealth(currentHealth - health);
+    }
+}
+
+bool Entity::hasHealth() {
+    return 0 < maxHealth;
+}
+
+bool Entity::isDamaged() {
+    return 0 < maxHealth && currentHealth < maxHealth;
+}
+
+bool Entity::isDestroyed() {
+    return 0 < maxHealth && 0 == currentHealth;
 }
 
 const EntityConfig* Entity::getConfig() const {
@@ -136,5 +181,6 @@ std::string Entity::toStringContent() const {
            " Active: " + std::to_string(active) +
            (parent ? " Parent: " + std::to_string(parent->id) : "") +
            " Position: " + position.toString() +
+           " Health: " + std::to_string(currentHealth) + "/" + std::to_string(maxHealth) + " "
            "";
 }

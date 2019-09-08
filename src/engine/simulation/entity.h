@@ -63,6 +63,16 @@ protected:
     std::vector<Tile*> tiles;
 
     /**
+     * Max health of entity or 0 for none
+     */
+    entity_health_t maxHealth;
+
+    /**
+     * Current health of entity
+     */
+    entity_health_t currentHealth;
+
+    /**
      * Flag for active state
      */
     bool active = false;
@@ -157,6 +167,49 @@ public:
      * @param newBounds bounds to set
      */
     void setBounds(const Vector2& newBounds);
+
+    /**
+     * Set entity max health
+     *
+     * @param maxHealth to set or 0 for none
+     */
+    void setMaxHealth(entity_health_t maxHealth);
+
+    /** @return entity max health */
+    entity_health_t getMaxHealth();
+
+    /**
+     * Set entity current health
+     *
+     * @param currentHealth to set
+     */
+    void setCurrentHealth(entity_health_t currentHealth);
+
+    /** @return entity current health */
+    entity_health_t getCurrentHealth();
+
+    /**
+     * Adds health to entity
+     *
+     * @param health to apply
+     */
+    void addHealth(entity_health_t health);
+
+    /**
+     * Removes health from entity
+     *
+     * @param health to remove
+     */
+    void removeHealth(entity_health_t health);
+
+    /** @return if entity has health */
+    bool hasHealth();
+
+    /** @return if entity has health and is damaged */
+    bool isDamaged();
+
+    /** @return if entity has health and is destroyed */
+    bool isDestroyed();
 
     /**
      * @return entity config if any

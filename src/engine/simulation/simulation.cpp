@@ -133,12 +133,27 @@ void Simulation::close() {
 
 void Simulation::update() {
     world->update();
+
+    std::vector<std::shared_ptr<Entity>> toRemove;
     for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
+        //Parent already handles their entities
         if (entity->getParent()) {
-            //Parent already updates their entities
             continue;
         }
+
+        //Entity is destroyed
+        if (entity->isDestroyed()) {
+            toRemove.emplace_back(entity);
+            continue;
+        }
+
+        //Update entity
         entity->update();
+    }
+
+    //Remove entities
+    for (const std::shared_ptr<Entity>& entity : toRemove) {
+        entityStore->remove(entity);
     }
 }
 

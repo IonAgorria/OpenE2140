@@ -45,9 +45,11 @@ void Building::simulationChanged() {
 
 void Building::chooseSprite() {
     //Load default sprites
-    //TODO if (health)
-    //setImageFromSprite("damaged");
-    setImageFromSprite("default");
+    if (0 < maxHealth && currentHealth < (maxHealth / 2)) {
+        setImageFromSprite("damaged");
+    } else {
+        setImageFromSprite("default");
+    }
 }
 
 void Building::draw() {

@@ -48,6 +48,9 @@ struct entity_type_t {
 /** Entity direction */
 using entity_direction_t = uint32_t;
 
+/** Entity health */
+using entity_health_t = uint16_t;
+
 /** Player ID */
 using player_id_t = uint16_t;
 

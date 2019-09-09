@@ -5,6 +5,3 @@
 [submodule "lib/stb"]
 	path = lib/stb
 	url = https://github.com/nothings/stb
-[submodule "lib/cnl"]
-	path = lib/cnl
-	url = https://github.com/johnmcfarlane/cnl

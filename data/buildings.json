@@ -146,7 +146,7 @@
         },
         "sprites": {
             "default": 55,
-            "damaged": 54
+            "damaged": 56
         },
         "weapons": [
             {

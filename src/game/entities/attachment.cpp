@@ -54,6 +54,7 @@ void ConveyorBelt::simulationChanged() {
             ImageComponentSlotted<1>::extraPalette = paletteComponent->getPalette();
         }
     }
+    Entity::simulationChanged();
 }
 
 void ConveyorBelt::update() {
@@ -73,7 +74,6 @@ void BuildingExit::draw() {
     ImageComponent::draw(renderer);
 }
 
-
 void BuildingExitUnderground::update() {
     Entity::update();
 }
@@ -85,6 +85,12 @@ void BuildingExitUnderground::draw() {
 }
 
 void Turret::simulationChanged() {
+    if (isActive()) {
+        if (parent) {
+            PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
+            ImageComponent::extraPalette = paletteComponent->getPalette();
+        }
+    }
     Entity::simulationChanged();
 }
 

@@ -800,7 +800,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_st_01b",
-                "position": [0, 0]
+                "position": [0, -5]
             }
         },
         "sprites": {
@@ -823,7 +823,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_light_rockets",
-                "position": [0, 0]
+                "position": [0, -5]
             }
         },
         "sprites": {
@@ -860,7 +860,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_tiger_assault",
-                "position": [0, 0]
+                "position": [0, -13]
             }
         },
         "sprites": {
@@ -910,7 +910,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_tiger_hellmaker",
-                "position": [0, 0]
+                "position": [0, -15]
             }
         },
         "sprites": {
@@ -1309,7 +1309,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_hcr-m",
-                "position": [0, 0]
+                "position": [0, -2]
             }
         },
         "sprites": {

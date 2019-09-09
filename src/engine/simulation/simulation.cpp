@@ -153,7 +153,7 @@ void Simulation::update() {
 
     //Remove entities
     for (const std::shared_ptr<Entity>& entity : toRemove) {
-        entityStore->remove(entity);
+        removeEntity(entity);
     }
 }
 

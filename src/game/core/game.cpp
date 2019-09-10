@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 27/04/19
 //
-#include "engine/gui/gui_root.h"
 #include "engine/entities/entity_manager.h"
 #include "engine/graphics/window.h"
 #include "engine/simulation/player.h"

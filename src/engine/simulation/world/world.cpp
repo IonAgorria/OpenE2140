@@ -8,9 +8,8 @@
 
 World::World(AssetLevel* assetLevel, std::unordered_map<unsigned int, Image*>& tilesetImages) :
     tilesetImages(std::move(tilesetImages)),
-    tilesetIndex(assetLevel->tilesetIndex()),
     tileSize(static_cast<int>(assetLevel->tileSize())),
-    tileSizeHalf(tileSize / 2)
+    tilesetIndex(assetLevel->tilesetIndex())
     {
     log = Log::get("World");
     debugTiles = Utils::isFlag(FLAG_DEBUG_ALL);
@@ -98,8 +97,9 @@ void World::update() {
     }
 }
 
-void World::draw(Renderer* renderer, const Rectangle& rectangle) {
+void World::draw(Renderer* renderer, const Rectangle& rectangle, int scaling) {
     //Do pixel to tile conversions
+    int tileSizeHalf = tileSize / 2;
     int viewX = rectangle.x + tileSizeHalf;
     int viewY = rectangle.y + tileSizeHalf;
     int tileStartX = std::max(tileRectangle.x, viewX / tileSize);
@@ -144,6 +144,10 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle) {
     }
 }
 
+int World::getTileSize() {
+    return tileSize;
+}
+
 const Rectangle& World::getRealRectangle() {
     return realRectangle;
 }
@@ -173,35 +177,6 @@ Tile* World::getTile(unsigned int x, unsigned int y) {
 
 Tile* World::getTile(const Vector2& position) {
     return getTile(position.x / tileSize, position.y / tileSize);
-}
-
-void World::toTileVector(const Vector2& vector, Vector2& result) {
-    result.set(vector.x / tileSize, vector.y / tileSize);
-}
-
-void World::toWorldVector(const Vector2& vector, Vector2& result, bool center) {
-    result.set(vector.x * tileSize, vector.y * tileSize);
-    if (center) {
-        result += tileSizeHalf;
-    }
-}
-
-void World::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
-    result.set(
-            rectangle.x / tileSize, rectangle.y / tileSize,
-            rectangle.w / tileSize, rectangle.h / tileSize
-    );
-}
-
-void World::toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center) {
-    result.set(
-            rectangle.x * tileSize, rectangle.y * tileSize,
-            rectangle.w * tileSize, rectangle.h * tileSize
-    );
-    if (!center) {
-        result.x -= tileSizeHalf;
-        result.y -= tileSizeHalf;
-    }
 }
 
 Image* World::calculateTileImage(Tile& tile) {

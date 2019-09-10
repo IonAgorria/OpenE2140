@@ -71,6 +71,16 @@ public:
     bool debugEntities = false;
 
     /**
+     * World tile size
+     */
+    int tileSize = 0;
+
+    /**
+     * World tile size half
+     */
+    int tileSizeHalf = 0;
+
+    /**
      * Constructor
      */
     Simulation(std::shared_ptr<Engine> engine, std::unique_ptr<SimulationParameters> parameters);
@@ -205,6 +215,48 @@ public:
      * @return player or null if none found
      */
     Player* getPlayer(player_id_t id) const;
+
+    /*
+     * World helpers
+     */
+
+    /**
+     * Translates world vector to tile vector
+     *
+     * @param vector to convert
+     * @param result to write result
+     * @return tile if valid
+     */
+    void toTileVector(const Vector2& vector, Vector2& result);
+
+    /**
+     * Translates tile vector to world vector
+     *
+     * @param vector to convert
+     * @param result to write result
+     * @param center should the position be centered to tile?
+     * @return tile if valid
+     */
+    void toWorldVector(const Vector2& vector, Vector2& result, bool center);
+
+    /**
+     * Translates world rectangle to tile rectangle
+     *
+     * @param rectangle to convert
+     * @param result to write result
+     * @return tile if valid
+     */
+    void toTileRectangle(const Rectangle& rectangle, Rectangle& result);
+
+    /**
+     * Translates tile rectangle to world rectangle
+     *
+     * @param rectangle to convert
+     * @param result to write result
+     * @param center should the position be centered to tile?
+     * @return tile if valid
+     */
+    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center);
 
     /*
      * AssetManager proxy

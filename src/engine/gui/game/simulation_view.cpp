@@ -33,7 +33,7 @@ void SimulationView::draw() {
         //Obtain a slightly bigger rectangle
         //This avoids seeing empty parts of world when scrolling
         Rectangle extraRectangle(cameraRectangle);
-        extraRectangle.grow(simulation->getWorld()->tileSize);
+        extraRectangle.grow(simulation->tileSize);
 
         //Draw simulation
         simulation->draw(extraRectangle, gameRoot->visibleEntities);

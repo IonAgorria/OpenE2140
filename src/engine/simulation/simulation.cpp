@@ -55,6 +55,8 @@ void Simulation::loadWorld() {
     if (hasError()) {
         return;
     }
+    tileSize = world->getTileSize();
+    tileSizeHalf = tileSize / 2;
 }
 
 void Simulation::loadPlayers() {
@@ -189,7 +191,7 @@ std::shared_ptr<Entity> Simulation::createEntity(const EntityPrototype& entityPr
         Entity* entity = entityPtr.get();
         //Basic stuff
         Vector2 position;
-        world->toWorldVector(entityPrototype.position, position, true);
+        toWorldVector(entityPrototype.position, position, true);
         entity->setPosition(position);
         entity->setDirection(entityPrototype.direction);
         entity->setDisable(entityPrototype.disabled);
@@ -288,6 +290,43 @@ std::vector<std::unique_ptr<Player>>& Simulation::getPlayers() {
 Player* Simulation::getPlayer(player_id_t id) const {
     return id < players.size() ? players[id].get() : nullptr;
 }
+
+/*
+ * World helpers
+ */
+
+void Simulation::toTileVector(const Vector2& vector, Vector2& result) {
+    result.set(vector.x / tileSize, vector.y / tileSize);
+}
+
+void Simulation::toWorldVector(const Vector2& vector, Vector2& result, bool center) {
+    result.set(vector.x * tileSize, vector.y * tileSize);
+    if (center) {
+        result += tileSizeHalf;
+    }
+}
+
+void Simulation::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
+    result.set(
+            rectangle.x / tileSize, rectangle.y / tileSize,
+            rectangle.w / tileSize, rectangle.h / tileSize
+    );
+}
+
+void Simulation::toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center) {
+    result.set(
+            rectangle.x * tileSize, rectangle.y * tileSize,
+            rectangle.w * tileSize, rectangle.h * tileSize
+    );
+    if (!center) {
+        result.x -= tileSizeHalf;
+        result.y -= tileSizeHalf;
+    }
+}
+
+/*
+ * AssetManager proxy
+ */
 
 Image* Simulation::getImage(const asset_path_t& path) const {
     return engine->getAssetManager()->getImage(path).get();

@@ -55,6 +55,11 @@ private:
      */
     std::vector<std::unique_ptr<Tile>> tiles;
 
+    /**
+     * Tile image size
+     */
+    int tileSize;
+
 public:
     /**
      * Flag for enabling debugging tiles
@@ -65,21 +70,6 @@ public:
      * Tileset index used in this world
      */
     const unsigned int tilesetIndex;
-
-    /**
-     * Tile image size
-     */
-    const int tileSize;
-
-    /**
-     * Tile image size half
-     */
-    const int tileSizeHalf;
-
-    /**
-     * World scaling
-     */
-    const int scaling = 1;
 
     /**
      * World constructor
@@ -107,7 +97,12 @@ public:
      * @param renderer to use for drawing
      * @param rectangle the rectangle to draw
      */
-    void draw(Renderer* renderer, const Rectangle& rectangle);
+    void draw(Renderer* renderer, const Rectangle& rectangle, int scaling = 1);
+
+    /**
+     * @return world tile size
+     */
+    int getTileSize();
 
     /**
      * @return real sized rectangle of this world in tiles
@@ -152,44 +147,6 @@ public:
      * @return tile if valid
      */
     Tile* getTile(const Vector2& position);
-
-    /**
-     * Translates world vector to tile vector
-     *
-     * @param vector to convert
-     * @param result to write result
-     * @return tile if valid
-     */
-    void toTileVector(const Vector2& vector, Vector2& result);
-
-    /**
-     * Translates tile vector to world vector
-     *
-     * @param vector to convert
-     * @param result to write result
-     * @param center should the position be centered to tile?
-     * @return tile if valid
-     */
-    void toWorldVector(const Vector2& vector, Vector2& result, bool center);
-
-    /**
-     * Translates world rectangle to tile rectangle
-     *
-     * @param rectangle to convert
-     * @param result to write result
-     * @return tile if valid
-     */
-    void toTileRectangle(const Rectangle& rectangle, Rectangle& result);
-
-    /**
-     * Translates tile rectangle to world rectangle
-     *
-     * @param rectangle to convert
-     * @param result to write result
-     * @param center should the position be centered to tile?
-     * @return tile if valid
-     */
-    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center);
 
     /**
      * Calculates the image for the tile

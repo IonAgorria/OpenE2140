@@ -10,10 +10,8 @@ void Building::simulationChanged() {
     if (isActive()) {
         setSelectable(true);
 
-        World* world = simulation->getWorld();
-
         //Set the building bounds
-        world->toWorldRectangle(config->bounds, bounds, false);
+        simulation->toWorldRectangle(config->bounds, bounds, false);
         bounds += Rectangle(position);
 
         //Set position to the center of bounds

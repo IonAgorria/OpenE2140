@@ -9,8 +9,7 @@ void Unit::simulationChanged() {
         setSelectable(true);
 
         //Set bounds
-        World* world = simulation->getWorld();
-        setBounds(Vector2(world->tileSize));
+        setBounds(Vector2(simulation->tileSize));
 
         //Load image TODO
         setImageFromSprite("default_0");

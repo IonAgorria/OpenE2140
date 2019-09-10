@@ -7,10 +7,10 @@
 void Object::simulationChanged() {
     if (isActive()) {
         //Set bounds
-        World* world = simulation->getWorld();
-        setBounds(Vector2(world->tileSize));
+        setBounds(Vector2(simulation->tileSize));
 
         //Load image according to tileset
+        World* world = simulation->getWorld();
         setImageFromSprite("default_" + std::to_string(world->tilesetIndex));
     }
 

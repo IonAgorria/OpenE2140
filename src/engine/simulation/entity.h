@@ -50,7 +50,7 @@ protected:
     /**
      * Entity direction which is facing
      */
-    entity_direction_t direction;
+    entity_direction_t direction = 0;
 
     /**
      * Entity bounding rectangle if any

@@ -16,6 +16,7 @@ class Image;
 /**
  * Contains animation and extra palette drawing
  */
+class ImageComponent {
 CLASS_COMPONENT(Entity, ImageComponent)
 protected:
     /**
@@ -107,6 +108,7 @@ public:
  * @tparam N
  */
 template<unsigned int N = 0>
+class ImageComponentSlotted: public ImageComponent {
 CLASS_COMPONENT_INHERIT(Entity, ImageComponent, ImageComponentSlotted)
 };
 

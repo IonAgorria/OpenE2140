@@ -10,6 +10,7 @@
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/components/attachment_component.h"
 #include "game/components/palette_component.h"
+#include "game/components/movement_component.h"
 #include "src/engine/simulation/entity.h"
 
 /**
@@ -20,6 +21,7 @@ CLASS_ENTITY_COMPONENTS(Entity, Unit,
                         FactionComponent,
                         ImageComponent,
                         PaletteComponent,
+                        MovementComponent,
                         AttachmentComponent)
 public:
     void simulationChanged() override;

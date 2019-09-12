@@ -20,6 +20,7 @@ struct AttachmentPoint {
 /**
  * Allows entities to be attached to this entity
  */
+class AttachmentComponent {
 CLASS_COMPONENT(Entity, AttachmentComponent)
 protected:
     /**

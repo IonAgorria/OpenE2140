@@ -10,9 +10,6 @@ void Unit::simulationChanged() {
 
         //Set bounds
         setBounds(Vector2(simulation->tileSize));
-
-        //Load image TODO
-        setImageFromSprite("default_0");
     }
 
     Entity::simulationChanged();

@@ -12,6 +12,7 @@ class Player;
 /**
  * Adds player data to entity and handles palette changes
  */
+class PlayerComponent {
 CLASS_COMPONENT(Entity, PlayerComponent)
 protected:
     /**

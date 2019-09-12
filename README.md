@@ -69,10 +69,10 @@ The following game assets must be present in WD file or directory form:
 - Units and buildings stats
 
 ## Roadmap
-- Use fixed point numbers
 - Use delta for updates
 - Entity attachment
     - Proper adjustments of turret offsets
+    - Rotate attachment offset with rotation
     - Building exits
     - Conveyor belt
     - Unit turret

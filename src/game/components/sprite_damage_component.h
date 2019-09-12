@@ -11,6 +11,7 @@
 /**
  * Updates the sprites according to entity health state
  */
+class SpriteDamageComponent {
 CLASS_COMPONENT(Entity, SpriteDamageComponent)
 protected:
     /**

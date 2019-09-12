@@ -295,25 +295,25 @@ Player* Simulation::getPlayer(player_id_t id) const {
  * World helpers
  */
 
-void Simulation::toTileVector(const Vector2& vector, Vector2& result) {
+void Simulation::toTileVector(const Vector2& vector, Vector2& result) const {
     result.set(vector.x / tileSize, vector.y / tileSize);
 }
 
-void Simulation::toWorldVector(const Vector2& vector, Vector2& result, bool center) {
+void Simulation::toWorldVector(const Vector2& vector, Vector2& result, bool center) const {
     result.set(vector.x * tileSize, vector.y * tileSize);
     if (center) {
         result += tileSizeHalf;
     }
 }
 
-void Simulation::toTileRectangle(const Rectangle& rectangle, Rectangle& result) {
+void Simulation::toTileRectangle(const Rectangle& rectangle, Rectangle& result) const {
     result.set(
             rectangle.x / tileSize, rectangle.y / tileSize,
             rectangle.w / tileSize, rectangle.h / tileSize
     );
 }
 
-void Simulation::toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center) {
+void Simulation::toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center) const {
     result.set(
             rectangle.x * tileSize, rectangle.y * tileSize,
             rectangle.w * tileSize, rectangle.h * tileSize
@@ -322,6 +322,20 @@ void Simulation::toWorldRectangle(const Rectangle& rectangle, Rectangle& result,
         result.x -= tileSizeHalf;
         result.y -= tileSizeHalf;
     }
+}
+
+number_t Simulation::angleWorldVectors(const Vector2& origin, const Vector2& destination) const {
+    return number_atan2(
+            number_from_int(origin.x / tileSize), number_from_int(origin.y / tileSize),
+            number_from_int(destination.x / tileSize), number_from_int(destination.y / tileSize)
+    );
+}
+
+number_t Simulation::angleTileVectors(const Vector2& origin, const Vector2& destination) const {
+    return number_atan2(
+            number_from_int(origin.x), number_from_int(origin.y),
+            number_from_int(destination.x), number_from_int(destination.y)
+    );
 }
 
 /*

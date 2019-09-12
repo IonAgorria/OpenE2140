@@ -23,7 +23,13 @@
     void COMPONENT_METHOD();
 
 /**
- * Template for virtual component method forwarder
+ * Template for virtual component method declaration
+ */
+#define COMPONENT_METHOD_DECLARATION_VIRTUAL(BASE_METHOD, COMPONENT_METHOD) \
+    virtual void COMPONENT_METHOD();
+
+/**
+ * Template for pure virtual component method forwarder
  */
 #define COMPONENT_METHOD_FORWARD_VIRTUAL(BASE_METHOD, COMPONENT_METHOD) \
     virtual void BASE_METHOD() = 0;
@@ -75,14 +81,13 @@ public: \
     template<typename T> T* castBase() { return dynamic_cast<T*>(base); };
 
 /**
- * Macro for component class definition with component methods
+ * Macro for component class with component methods
  *
  * T_BASE is the class type that will specify this component base pointer
  * If the class this component is attached to is not convertible to T_BASE a compilation error will occur due to static casting
  * T_COMPONENT name of this component type
  */
 #define CLASS_COMPONENT(T_BASE, T_COMPONENT) \
-class T_COMPONENT { \
     CLASS_COMPONENT_BODY(T_BASE, T_COMPONENT) \
     /** Called on construction */ \
     void construction(); \
@@ -99,12 +104,11 @@ class T_COMPONENT { \
     T_COMPONENT::~T_COMPONENT() = default;
 
 /**
- * Macro for component class definition that inherits from a existing component class
+ * Macro for component class that inherits from a existing component class
  */
 #define CLASS_COMPONENT_INHERIT(T_BASE, T_PARENT, T_COMPONENT) \
-class T_COMPONENT: public T_PARENT { \
 public: \
-    T_COMPONENT(T_BASE* base): T_PARENT(base) {};
+    explicit T_COMPONENT(T_BASE* base): T_PARENT(base) {};
 
 /**
  * Macro for component dynamic casting from entity

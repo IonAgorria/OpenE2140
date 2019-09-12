@@ -50,6 +50,7 @@ namespace Color {
 /**
  * Handles palette setup per entity type
  */
+class PaletteComponent {
 CLASS_COMPONENT(Entity, PaletteComponent)
 private:
     /**

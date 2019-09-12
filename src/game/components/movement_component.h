@@ -4,9 +4,7 @@
 #ifndef OPENE2140_MOVEMENT_COMPONENT_H
 #define OPENE2140_MOVEMENT_COMPONENT_H
 
-#include "engine/core/types.h"
-#include "engine/simulation/components/component.h"
-#include "engine/simulation/entity.h"
+#include "sprite_rotation_component.h"
 
 /**
  * Movement state
@@ -35,23 +33,15 @@ enum class MovementType {
  * Controls the movement and rotation of entity
  * Updates the sprites according to entity type and movement state
  */
+class MovementComponent: public SpriteRotationComponentCommon {
 CLASS_COMPONENT(Entity, MovementComponent)
 protected:
-
-    /**
-     * The sprite rotation index
-     */
-    uint8_t rotationIndex = 0;
-
     /**
      * State which entity is currently
      */
-    MovementState state;
+    MovementState state = MovementState::Standby;
 
-    /**
-     * Selects current sprite
-     */
-    void chooseSprite();
+    void chooseSprite() override;
 
 public:
 

@@ -8,7 +8,7 @@
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/entity.h"
 #include "game/components/palette_component.h"
-#include "game/components/movement_component.h"
+#include "game/components/sprite_rotation_component.h"
 
 /**
  * Spinner object that is constantly animated to gimmick a rotating object
@@ -62,8 +62,8 @@ public:
 /**
  * Building exit where entities come from underground
  *
- * TODO there should be a way to mask a image, maybe redrawing world tiles under? changing renderer?
  */
+//TODO there should be a way to mask a image, maybe redrawing world tiles under? changing renderer?
 CLASS_ENTITY_COMPONENTS(Entity, BuildingExitUnderground,
                         ImageComponentSlotted<0>,
                         ImageComponentSlotted<1>,
@@ -79,7 +79,7 @@ public:
  */
 CLASS_ENTITY_COMPONENTS(Entity, Turret,
                         ImageComponent,
-                        MovementComponent)
+                        SpriteRotationComponent)
     void simulationChanged() override;
 
     void update() override;

@@ -6,6 +6,7 @@
 
 #define MONEY_PER_CONTAINER 200
 #define TILE_SIZE 64
+#define SPRITE_ROTATION_ANGLES 9
 
 /**
  * Entity kind IDs

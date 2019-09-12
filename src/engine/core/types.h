@@ -18,11 +18,6 @@ using asset_path_t = std::string;
 using config_data_t = nlohmann::json;
 using config_key_t = nlohmann::json::object_t::key_type;
 
-/** Number types */
-#include "libfixmath/fixmath.h"
-using number_t = fix16_t;
-using Number = Fix16;
-
 /** Window ID */
 using window_id_t = uint32_t;
 
@@ -48,6 +43,7 @@ struct entity_type_t {
 };
 
 /** Entity direction */
+#include "engine/math/number.h"
 using entity_direction_t = number_t;
 
 /** Entity health */

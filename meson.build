@@ -66,6 +66,7 @@ opene2140_src = [
     'src/engine/graphics/animation.cpp',
     'src/engine/math/rectangle.cpp',
     'src/engine/math/vector2.cpp',
+    'src/engine/math/number.cpp',
     'src/engine/io/log.cpp',
     'src/engine/io/file.cpp',
     'src/engine/io/timer.cpp',
@@ -111,8 +112,9 @@ opene2140_src = [
     'src/game/assets/asset_processor_fixes.cpp',
     'src/game/assets/asset_level_game.cpp',
     'src/game/components/palette_component.cpp',
-    'src/game/components/movement_component.cpp',
+    'src/game/components/sprite_rotation_component.cpp',
     'src/game/components/sprite_damage_component.cpp',
+    'src/game/components/movement_component.cpp',
     'src/game/entities/object.cpp',
     'src/game/entities/building.cpp',
     'src/game/entities/unit.cpp',
@@ -120,6 +122,12 @@ opene2140_src = [
     'src/game/io/event_listener_debug.cpp',
     'src/game/core/game.cpp',
     'src/game/core/main.cpp',
+]
+library_src = [
+    #libfixmath
+    'lib/libfixmath/libfixmath/fix16.c',
+    'lib/libfixmath/libfixmath/fix16_trig.c',
+    'lib/libfixmath/libfixmath/fix16_sqrt.c',
 ]
 
 #Include headers
@@ -142,7 +150,7 @@ endif
 #Create executable, set definitions and link it
 opene2140_exe = executable(
     'opene2140',
-    opene2140_src,
+    opene2140_src + library_src,
     include_directories: opene2140_incs,
     dependencies: opene2140_deps,
     install: true,

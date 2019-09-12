@@ -95,6 +95,7 @@ void Turret::simulationChanged() {
 }
 
 void Turret::update() {
+    setDirection(number_add(direction, number_from_float(0.05)));
     Entity::update();
 }
 

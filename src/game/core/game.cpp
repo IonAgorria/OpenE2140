@@ -18,6 +18,9 @@
 #include "game/gui/game_layout.h"
 #include "game.h"
 
+number_t Game::SpriteRotationAngle = 0;
+number_t Game::SpriteRotationCorrection = 0;
+
 void Game::setupEventHandler() {
     //Register event listeners
     std::shared_ptr<Game> this_ptr = this_shared_ptr<Game>();
@@ -93,14 +96,18 @@ void Game::run() {
         return;
     }
 
+    //Setup static stuff
+    SpriteRotationCorrection = number_div(NUMBER_PI, number_from_int(2));
+    SpriteRotationAngle = number_div(SpriteRotationCorrection, number_from_int(SPRITE_ROTATION_ANGLES - 1));
+
     //Prepare simulation
     //TODO this is only for testings
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
     parameters->loadLevelContent = true;
     parameters->world = "LEVEL/DATA/LEVEL01";
-    //parameters->world = "LEVEL/DATA/LEVEL06";
-    parameters->world = "LEVEL/DATA/LEVEL351";
+     parameters->world = "LEVEL/DATA/LEVEL06";
+    //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     //parameters->world = "LEVEL2/DATA/LEVEL511";
     std::unique_ptr<Player> player = std::make_unique<Player>(1);
@@ -117,7 +124,7 @@ void Game::run() {
 
     //Create some entities
     Player* playerPtr = simulation->getPlayer(1);
-    std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 19});
+    std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, 46});
     entityPtr->setPosition({64 * 1 + 32, 64 * 8 + 32});
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
@@ -170,4 +177,25 @@ void Game::setReactorCrate(Tile& tile) {
     tile.isImageDirty = true;
     //TODO set damage type and destroy any entity inside
     //TODO mark the surrounding tiles a radiactive
+}
+
+bool Game::angleToSpriteIndex(number_t angle, uint16_t& index) {
+    //Apply correction
+    angle = number_wrap_angle(number_add(angle, SpriteRotationCorrection));
+    //Set ccw flag, negative north and south sprites shouldn't have ccw set
+    bool ccw = angle < NUMBER_ZERO;
+    //Convert angle to index
+    angle = number_div(number_abs(angle), SpriteRotationAngle);
+    index = number_to_int(number_floor(angle));
+    //Convert half slices to proper one
+    if (0 == index) {
+        ccw = false;
+    } else {
+        index = (index + 1) / 2;
+        if (index > SPRITE_ROTATION_ANGLES - 1) {
+            index = SPRITE_ROTATION_ANGLES - 1;
+            ccw = false;
+        }
+    }
+    return ccw;
 }

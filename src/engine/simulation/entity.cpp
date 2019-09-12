@@ -42,7 +42,7 @@ entity_direction_t Entity::getDirection() const {
 }
 
 void Entity::setDirection(entity_direction_t newDirection) {
-    direction = newDirection;
+    direction = number_wrap_angle(newDirection);
     changesCount++;
 }
 

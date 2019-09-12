@@ -12,6 +12,7 @@ class Faction;
 /**
  * Adds faction information if available from config
  */
+class FactionComponent {
 CLASS_COMPONENT(Entity, FactionComponent)
 protected:
     /**

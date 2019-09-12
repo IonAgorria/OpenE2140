@@ -4,6 +4,7 @@
 #ifndef OPENE2140_SIMULATION_H
 #define OPENE2140_SIMULATION_H
 
+#include "engine/core/types.h"
 #include "engine/core/macros.h"
 #include "entity.h"
 #include "simulation_parameters.h"
@@ -227,7 +228,7 @@ public:
      * @param result to write result
      * @return tile if valid
      */
-    void toTileVector(const Vector2& vector, Vector2& result);
+    void toTileVector(const Vector2& vector, Vector2& result) const;
 
     /**
      * Translates tile vector to world vector
@@ -237,7 +238,7 @@ public:
      * @param center should the position be centered to tile?
      * @return tile if valid
      */
-    void toWorldVector(const Vector2& vector, Vector2& result, bool center);
+    void toWorldVector(const Vector2& vector, Vector2& result, bool center) const;
 
     /**
      * Translates world rectangle to tile rectangle
@@ -246,7 +247,7 @@ public:
      * @param result to write result
      * @return tile if valid
      */
-    void toTileRectangle(const Rectangle& rectangle, Rectangle& result);
+    void toTileRectangle(const Rectangle& rectangle, Rectangle& result) const;
 
     /**
      * Translates tile rectangle to world rectangle
@@ -256,7 +257,25 @@ public:
      * @param center should the position be centered to tile?
      * @return tile if valid
      */
-    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center);
+    void toWorldRectangle(const Rectangle& rectangle, Rectangle& result, bool center) const;
+
+    /**
+     * Calculates the angle between the origin and destination in world coordinates
+     *
+     * @param origin world vector
+     * @param destination world vector
+     * @return angle
+     */
+    number_t angleWorldVectors(const Vector2& origin, const Vector2& destination) const;
+
+    /**
+     * Calculates the angle between the origin and destination in tile coordinates
+     *
+     * @param origin tile vector
+     * @param destination tile vector
+     * @return angle
+     */
+    number_t angleTileVectors(const Vector2& origin, const Vector2& destination) const;
 
     /*
      * AssetManager proxy

@@ -14,6 +14,16 @@ class Tile;
  */
 class Game: public Engine {
 protected:
+    /**
+     * Angle of sides/sprites at rotation
+     */
+    static number_t SpriteRotationAngle;
+
+    /**
+     * Correction to apply when converting rotation
+     */
+    static number_t SpriteRotationCorrection;
+
     void run() override;
 
     void setupEventHandler() override;
@@ -36,6 +46,16 @@ protected:
      * TODO move this to some world or powerplant specific class
      */
     void setReactorCrate(Tile& tile);
+
+public:
+    /**
+     * Does angle to sprite index conversion
+     *
+     * @param angle the input angle to convert
+     * @param index the result of conversion
+     * @return true if index is counter clockwise
+     */
+    static bool angleToSpriteIndex(number_t angle, uint16_t& index);
 };
 
 #endif //OPENE2140_GAME_H

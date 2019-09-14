@@ -326,15 +326,15 @@ void Simulation::toWorldRectangle(const Rectangle& rectangle, Rectangle& result,
 
 number_t Simulation::angleWorldVectors(const Vector2& origin, const Vector2& destination) const {
     return number_atan2(
-            number_from_int(origin.x / tileSize), number_from_int(origin.y / tileSize),
-            number_from_int(destination.x / tileSize), number_from_int(destination.y / tileSize)
+            int_to_number(origin.x / tileSize), int_to_number(origin.y / tileSize),
+            int_to_number(destination.x / tileSize), int_to_number(destination.y / tileSize)
     );
 }
 
 number_t Simulation::angleTileVectors(const Vector2& origin, const Vector2& destination) const {
     return number_atan2(
-            number_from_int(origin.x), number_from_int(origin.y),
-            number_from_int(destination.x), number_from_int(destination.y)
+            int_to_number(origin.x), int_to_number(origin.y),
+            int_to_number(destination.x), int_to_number(destination.y)
     );
 }
 

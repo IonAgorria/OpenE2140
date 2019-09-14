@@ -866,7 +866,7 @@
         "sprites": {
             "default": {
                 "index": 45,
-                "collections": 9,
+                "collections": 5,
                 "separation": 8
             },
             "moving": {
@@ -916,7 +916,7 @@
         "sprites": {
             "default": {
                 "index": 45,
-                "collections": 9,
+                "collections": 5,
                 "separation": 8
             },
             "moving": {
@@ -992,7 +992,7 @@
         "sprites": {
             "default": {
                 "index": 45,
-                "collections": 9,
+                "collections": 5,
                 "separation": 8
             },
             "moving": {
@@ -1021,13 +1021,13 @@
         },
         "sprites": {
             "default": {
-                "collections": 9,
                 "index": 45,
+                "collections": 5,
                 "separation": 8
             },
             "moving": {
-                "collections": 5,
                 "index": 37,
+                "collections": 5,
                 "length": 8,
                 "separation": 1
             }

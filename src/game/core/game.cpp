@@ -18,7 +18,6 @@
 #include "game/gui/game_layout.h"
 #include "game.h"
 
-number_t Game::SpriteRotationAngle = 0;
 number_t Game::SpriteRotationCorrection = 0;
 
 void Game::setupEventHandler() {
@@ -97,8 +96,7 @@ void Game::run() {
     }
 
     //Setup static stuff
-    SpriteRotationCorrection = number_div(NUMBER_PI, number_from_int(2));
-    SpriteRotationAngle = number_div(SpriteRotationCorrection, number_from_int(SPRITE_ROTATION_ANGLES - 1));
+    SpriteRotationCorrection = number_div(NUMBER_PI, int_to_number(2));
 
     //Prepare simulation
     //TODO this is only for testings
@@ -179,23 +177,24 @@ void Game::setReactorCrate(Tile& tile) {
     //TODO mark the surrounding tiles a radiactive
 }
 
-bool Game::angleToSpriteIndex(number_t angle, uint16_t& index) {
+bool Game::angleToSpriteIndex(number_t angle, number_t halfSide, uint16_t& index) {
     //Apply correction
     angle = number_wrap_angle(number_add(angle, SpriteRotationCorrection));
     //Set ccw flag, negative north and south sprites shouldn't have ccw set
     bool ccw = angle < NUMBER_ZERO;
     //Convert angle to index
-    angle = number_div(number_abs(angle), SpriteRotationAngle);
+    angle = number_div(number_abs(angle), halfSide);
     index = number_to_int(number_floor(angle));
     //Convert half slices to proper one
-    if (0 == index) {
-        ccw = false;
-    } else {
+    if (0 < index) {
         index = (index + 1) / 2;
-        if (index > SPRITE_ROTATION_ANGLES - 1) {
-            index = SPRITE_ROTATION_ANGLES - 1;
-            ccw = false;
-        }
     }
     return ccw;
+}
+
+number_t Game::angleToSpriteAngle(number_t angle, number_t side) {
+    //Do an approximate rounding
+    int16_t round = number_to_int(number_div(angle, side));
+    angle = number_mul(int_to_number(round), side);
+    return angle;
 }

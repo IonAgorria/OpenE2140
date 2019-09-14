@@ -15,11 +15,6 @@ class Tile;
 class Game: public Engine {
 protected:
     /**
-     * Angle of sides/sprites at rotation
-     */
-    static number_t SpriteRotationAngle;
-
-    /**
      * Correction to apply when converting rotation
      */
     static number_t SpriteRotationCorrection;
@@ -52,10 +47,20 @@ public:
      * Does angle to sprite index conversion
      *
      * @param angle the input angle to convert
+     * @param halfSide each side angle half
      * @param index the result of conversion
      * @return true if index is counter clockwise
      */
-    static bool angleToSpriteIndex(number_t angle, uint16_t& index);
+    static bool angleToSpriteIndex(number_t angle, number_t halfSide, uint16_t& index);
+
+    /**
+     * Does angle to sprite index approximate angle conversion
+     *
+     * @param angle the input angle to convert
+     * @param side each side angle
+     * @return the result of conversion
+     */
+    static number_t angleToSpriteAngle(number_t angle, number_t side);
 };
 
 #endif //OPENE2140_GAME_H

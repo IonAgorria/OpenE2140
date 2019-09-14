@@ -76,6 +76,7 @@ The following game assets must be present in WD file or directory form:
     - Building exits
     - Conveyor belt
     - Unit turret
+- Allow selection rectangle
 - Order processing
 - Unit factory
 - Mobile units

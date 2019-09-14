@@ -22,7 +22,7 @@ enum class MovementState {
  * Movement type
  */
 enum class MovementType {
-    GroundWheel,
+    Ground,
     GroundTank,
     GroundWalker,
     Air,
@@ -41,10 +41,15 @@ protected:
      */
     MovementState state = MovementState::Standby;
 
+    /**
+     * Type of movement
+     */
+    MovementType movementType = MovementType::Ground;
+
+
     void chooseSprite() override;
 
 public:
-
     /** @neturn entity movement state */
     MovementState getState();
 };

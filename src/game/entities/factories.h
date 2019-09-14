@@ -23,6 +23,11 @@ public:
 
         IEntityFactory::setupEntityConfig(config);
     }
+
+    void setSpriteSides(EntityConfig* config, uint16_t sides) {
+        config->setData("sprite_sides", sides);
+        config->setData("sprite_angle", number_div(NUMBER_PI, int_to_number(sides * 2)));
+    }
 };
 
 /**
@@ -122,6 +127,12 @@ class UnitFactory: public ACommonEntityFactory {
             config->setData("palette_lowest_entry", PALETTE_PLAYER);
         } else if (config->getData("palette_shadow", false)) {
             config->setData("palette_lowest_entry", PALETTE_SHADOW);
+        }
+
+        if (config->type == "walker") {
+            setSpriteSides(config, SPRITE_ROTATION_5);
+        } else {
+            setSpriteSides(config, SPRITE_ROTATION_9);
         }
 
         ACommonEntityFactory::setupEntityConfig(config);
@@ -226,6 +237,13 @@ class AttachmentFactory: public ACommonEntityFactory {
             }
         }
         return std::shared_ptr<Entity>();
+    }
+
+    void setupEntityConfig(EntityConfig* config) override {
+        if (config->type == "turret") {
+            setSpriteSides(config, SPRITE_ROTATION_9);
+        }
+        ACommonEntityFactory::setupEntityConfig(config);
     }
 };
 

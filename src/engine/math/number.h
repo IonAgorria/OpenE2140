@@ -16,9 +16,9 @@ using Number = Fix16;
 #define NUMBER_ZERO static_cast<number_t>(0)
 
 /** Definition aliases */
-#define number_from_int(X) fix16_from_int(static_cast<short>(X))
+#define int_to_number(X) fix16_from_int(static_cast<short>(X))
 #define number_to_int(X) fix16_to_int(X)
-#define number_from_float(X) fix16_from_float(X)
+#define float_to_number(X) fix16_from_float(X)
 #define number_to_float(X) fix16_to_float(X)
 #define number_add(A,B) fix16_add(A,B)
 #define number_sub(A,B) fix16_sub(A,B)

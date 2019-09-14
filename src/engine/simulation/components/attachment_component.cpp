@@ -67,8 +67,17 @@ void AttachmentComponent::entityChanged() {
     }
 }
 
-const std::vector<AttachmentPoint>& AttachmentComponent::getAttached() const {
+const std::vector<AttachmentPoint>& AttachmentComponent::getAttachments() const {
     return attached;
+}
+
+std::shared_ptr<Entity> AttachmentComponent::getAttached(const std::string& code) const {
+    for (const auto& attachment : attached) {
+        if (attachment.code == code) {
+            return attachment.entity;
+        }
+    }
+    return nullptr;
 }
 
 AttachmentPoint& AttachmentComponent::attachEntity(const std::string& code, const std::shared_ptr<Entity>& entity) {

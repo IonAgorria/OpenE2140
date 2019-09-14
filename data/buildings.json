@@ -611,11 +611,11 @@
             },
             "flywheel_top": {
                 "code": "flywheel_mine",
-                "position": [-10, 10]
+                "position": [-18, -68]
             },
             "flywheel_bottom": {
                 "code": "flywheel_mine",
-                "position": [-10, 50]
+                "position": [-41, 14]
             }
         },
         "sprites": {

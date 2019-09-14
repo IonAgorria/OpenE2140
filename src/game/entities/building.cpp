@@ -5,6 +5,7 @@
 #include "engine/simulation/world/world.h"
 #include "src/engine/entities/entity_config.h"
 #include "building.h"
+#include "attachment.h"
 
 void Building::simulationChanged() {
     if (isActive()) {
@@ -40,4 +41,25 @@ void Building::simulationChanged() {
 
 void Building::draw() {
     ImageComponent::draw(renderer);
+}
+
+void Mine::simulationChanged() {
+    //First call parent code
+    Building::simulationChanged();
+
+    if (isActive()) {
+        //Setup attached entities
+        Spinner* entity = dynamic_cast<Spinner*>(AttachmentComponent::getAttached("flywheel_bottom").get());
+        if (entity) {
+            entity->clockwise = false;
+        }
+    }
+
+}
+
+void Refinery::simulationChanged() {
+    if (isActive()) {
+    }
+
+    Building::simulationChanged();
 }

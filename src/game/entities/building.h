@@ -44,6 +44,7 @@ public:
  */
 CLASS_ENTITY(Building, Mine)
 public:
+    void simulationChanged() override;
 };
 
 /**
@@ -51,6 +52,7 @@ public:
  */
 CLASS_ENTITY(Building, Refinery)
 public:
+    void simulationChanged() override;
 };
 
 #endif //OPENE2140_BUILDING_H

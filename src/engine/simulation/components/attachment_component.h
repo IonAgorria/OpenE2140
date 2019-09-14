@@ -30,9 +30,14 @@ protected:
 
 public:
     /**
+     * @return attachment points for entities
+     */
+    const std::vector<AttachmentPoint>& getAttachments() const;
+
+    /**
      * @return attached entities
      */
-    const std::vector<AttachmentPoint>& getAttached() const;
+    std::shared_ptr<Entity> getAttached(const std::string& code) const;
 
     /**
      * Attaches entity to this entity which the component belongs

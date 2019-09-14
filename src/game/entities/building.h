@@ -8,6 +8,7 @@
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/components/faction_component.h"
 #include "engine/simulation/components/player_component.h"
+#include "engine/simulation/components/power_component.h"
 #include "engine/simulation/components/attachment_component.h"
 #include "game/components/palette_component.h"
 #include "game/components/sprite_damage_component.h"
@@ -21,6 +22,7 @@ CLASS_ENTITY_COMPONENTS(Entity, Building,
                         FactionComponent,
                         ImageComponent,
                         PaletteComponent,
+                        PowerComponent,
                         SpriteDamageComponent,
                         AttachmentComponent
 )

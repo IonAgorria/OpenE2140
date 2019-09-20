@@ -119,7 +119,7 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle, int scaling) {
             }
             int tx = x * drawTileSize;
             int ty = y * drawTileSize;
-            renderer->drawImage(
+            renderer->drawImageCenter(
                     static_cast<float>(tileSizeHalf + tx),
                     static_cast<float>(tileSizeHalf + ty),
                     static_cast<float>(drawTileSize),

@@ -34,7 +34,17 @@ void ImageComponent::draw(Renderer* renderer) {
         Vector2 size = imageSize;
         if (imageFlipX) size.x *= -1;
         if (imageFlipY) size.y *= -1;
-        renderer->drawImage(position, size, imageDirection, *image, extraPalette.get());
+        if (imageCentered) {
+            renderer->drawImageCenter(position, size, imageDirection, *image, extraPalette.get());
+        } else {
+            renderer->drawImage(position, size, *image, extraPalette.get());
+        }
+
+        /*
+        Rectangle rect(position, size);
+        if (imageCentered) rect.setCenter(position, size);
+        renderer->drawRectangle(rect, 1, Color::GREEN);
+        //*/
     }
 }
 

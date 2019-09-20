@@ -238,7 +238,7 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void drawImage(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra = nullptr);
+    void drawImage(float x, float y, float width, float height, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
      * Draws the provided image
@@ -249,7 +249,31 @@ public:
      * @param image image to draw
      * @param paletteExtra palette used to override indexed image's original palette, can be NULL
      */
-    void drawImage(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra = nullptr);
+    void drawImage(const Vector2& position, const Vector2& size, const Image& image, const Palette* paletteExtra = nullptr);
+
+    /**
+     * Draws the provided image centered to position and optional rotation
+     *
+     * @param x position of drawn image
+     * @param y position of drawn image
+     * @param width size of drawn image
+     * @param height size of drawn image
+     * @param angle angle of drawn image
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void drawImageCenter(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra = nullptr);
+
+    /**
+     * Draws the provided image centered to position and optional rotation
+     *
+     * @param position of drawn image
+     * @param size of drawn image
+     * @param angle angle of drawn image
+     * @param image image to draw
+     * @param paletteExtra palette used to override indexed image's original palette, can be NULL
+     */
+    void drawImageCenter(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra = nullptr);
 
     /**
      * Draws the provided line

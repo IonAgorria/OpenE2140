@@ -31,6 +31,11 @@ protected:
 
 public:
     /**
+     * Image centered to position state
+     */
+    bool imageCentered = true;
+
+    /**
      * Image offset from entity center
      */
     Vector2 imageOffset;

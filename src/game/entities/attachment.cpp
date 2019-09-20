@@ -47,6 +47,8 @@ void Spinner::draw() {
 
 void ConveyorBelt::simulationChanged() {
     if (isActive()) {
+        ImageComponentSlotted<0>::imageCentered = false;
+        ImageComponentSlotted<1>::imageCentered = false;
         ImageComponentSlotted<0>::setImageFromSprite("head");
         ImageComponentSlotted<1>::setAnimationFromSprite("body");
         if (parent) {

@@ -338,7 +338,64 @@ void Renderer::prepareImage(size_t indicesAmount, const Image& image, const Pale
     }
 }
 
-void Renderer::drawImage(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
+void Renderer::drawImage(float x, float y, float width, float height, const Image& image, const Palette* paletteExtra) {
+    prepareImage(6, image, paletteExtra);
+
+    //Add the indices
+    indices[indicesCount++] = verticesCount;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 2;
+    indices[indicesCount++] = verticesCount + 1;
+    indices[indicesCount++] = verticesCount + 3;
+
+    //Increment the vertices count
+    verticesCount += 4;
+
+    //Bottom left
+    vertices[verticesIndex++] = x;
+    vertices[verticesIndex++] = y;
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = 0;
+    vertices[verticesIndex++] = 0;
+
+    //Bottom right
+    vertices[verticesIndex++] = x + width;
+    vertices[verticesIndex++] = y;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v;
+    vertices[verticesIndex++] = 1;
+    vertices[verticesIndex++] = 0;
+
+    //Top left
+    vertices[verticesIndex++] = x;
+    vertices[verticesIndex++] = y + height;
+    vertices[verticesIndex++] = image.u;
+    vertices[verticesIndex++] = image.v2;
+    vertices[verticesIndex++] = 0;
+    vertices[verticesIndex++] = 1;
+
+    //Top right
+    vertices[verticesIndex++] = x + width;
+    vertices[verticesIndex++] = y + height;
+    vertices[verticesIndex++] = image.u2;
+    vertices[verticesIndex++] = image.v2;
+    vertices[verticesIndex++] = 1;
+    vertices[verticesIndex++] = 1;
+}
+
+void Renderer::drawImage(const Vector2& position, const Vector2& size, const Image& image, const Palette* paletteExtra) {
+    drawImage(
+            static_cast<float>(position.x),
+            static_cast<float>(position.y),
+            static_cast<float>(size.x),
+            static_cast<float>(size.y),
+            image, paletteExtra
+    );
+}
+
+void Renderer::drawImageCenter(float x, float y, float width, float height, float angle, const Image& image, const Palette* paletteExtra) {
     prepareImage(6, image, paletteExtra);
 
     //Add the indices
@@ -430,8 +487,8 @@ void Renderer::drawImage(float x, float y, float width, float height, float angl
     }
 }
 
-void Renderer::drawImage(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra) {
-    drawImage(
+void Renderer::drawImageCenter(const Vector2& position, const Vector2& size, float angle, const Image& image, const Palette* paletteExtra) {
+    drawImageCenter(
             static_cast<float>(position.x),
             static_cast<float>(position.y),
             static_cast<float>(size.x),

@@ -5,11 +5,19 @@
 #define OPENE2140_RECTANGLE_H
 
 #include "engine/core/to_string.h"
-#include "SDL_rect.h"
 #include "vector2.h"
 
-class Rectangle : public SDL_Rect, public IToString {
+class Rectangle : public IToString {
 public:
+    /** x value */
+    int x;
+    /** y value */
+    int y;
+    /** w value */
+    int w;
+    /** h value */
+    int h;
+
     /**
      * Constructs a new rectangle
      *
@@ -190,12 +198,12 @@ public:
     /**
      * Sets rectangle components
      *
-     * @param x value
+     * @param vx value
      * @param y value
      * @param width value
      * @param height value
      */
-    void set(int x, int y, int width, int height);
+    void set(int vx, int y, int width, int height);
 
     /**
      * Sets rectangle components

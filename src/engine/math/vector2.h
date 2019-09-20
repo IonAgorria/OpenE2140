@@ -6,13 +6,17 @@
 
 #include <string>
 #include "engine/core/to_string.h"
-#include "SDL_rect.h"
 
 /**
  * Stores 2D point
  */
-class Vector2 : public SDL_Point, public IToString {
+class Vector2 : public IToString {
 public:
+    /** x value */
+    int x;
+    /** y value */
+    int y;
+
     /**
      * Constructs a new vector
      *

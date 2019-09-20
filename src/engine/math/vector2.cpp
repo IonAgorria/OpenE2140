@@ -4,22 +4,22 @@
 #include <iostream>
 #include "vector2.h"
 
-Vector2::Vector2(int x, int y): SDL_Point() {
+Vector2::Vector2(int x, int y) {
     this->x = x;
     this->y = y;
 }
 
-Vector2::Vector2(int v): SDL_Point() {
+Vector2::Vector2(int v) {
     this->x = v;
     this->y = v;
 }
 
-Vector2::Vector2(const Vector2& vector2): SDL_Point(vector2) {
+Vector2::Vector2(const Vector2& vector2) {
     this->x = vector2.x;
     this->y = vector2.y;
 }
 
-Vector2::Vector2(): SDL_Point() {
+Vector2::Vector2() {
     this->x = 0;
     this->y = 0;
 }

@@ -2,43 +2,44 @@
 // Created by Ion Agorria on 25/03/18
 //
 #include "rectangle.h"
+#include <SDL_rect.h>
 
-Rectangle::Rectangle(int x, int y, int width, int height): SDL_Rect() {
+Rectangle::Rectangle(int x, int y, int width, int height) {
     this->x = x;
     this->y = y;
     this->w = width;
     this->h = height;
 }
 
-Rectangle::Rectangle(const Vector2& position, const Vector2& size): SDL_Rect() {
+Rectangle::Rectangle(const Vector2& position, const Vector2& size) {
     this->x = position.x;
     this->y = position.y;
     this->w = size.x;
     this->h = size.y;
 }
 
-Rectangle::Rectangle(const Vector2& position): SDL_Rect() {
+Rectangle::Rectangle(const Vector2& position) {
     this->x = position.x;
     this->y = position.y;
     this->w = 0;
     this->h = 0;
 }
 
-Rectangle::Rectangle(const Rectangle& rectangle): SDL_Rect(rectangle) {
+Rectangle::Rectangle(const Rectangle& rectangle) {
     this->x = rectangle.x;
     this->y = rectangle.y;
     this->w = rectangle.w;
     this->h = rectangle.h;
 }
 
-Rectangle::Rectangle(int v): SDL_Rect() {
+Rectangle::Rectangle(int v) {
     this->x = v;
     this->y = v;
     this->w = v;
     this->h = v;
 }
 
-Rectangle::Rectangle(): SDL_Rect() {
+Rectangle::Rectangle() {
     this->x = 0;
     this->y = 0;
     this->w = 0;
@@ -167,9 +168,9 @@ void Rectangle::set(int v) {
     this->h = v;
 }
 
-void Rectangle::set(int x, int y, int width, int height) {
-    this->x = x;
-    this->y = y;
+void Rectangle::set(int vx, int vy, int width, int height) {
+    this->x = vx;
+    this->y = vy;
     this->w = width;
     this->h = height;
 }
@@ -208,9 +209,9 @@ void Rectangle::setSize(const Rectangle& size) {
     this->h = size.h;
 }
 
-void Rectangle::setCenter(int x, int y) {
-    this->x = x - w / 2;
-    this->y = y - h / 2;
+void Rectangle::setCenter(int vx, int vy) {
+    this->x = vx - w / 2;
+    this->y = vy - h / 2;
 }
 
 void Rectangle::setCenter(const Vector2& center) {
@@ -260,15 +261,31 @@ bool Rectangle::isOverlap(const Rectangle& rectangle) const {
 }
 
 void Rectangle::getUnionRectangle(const Rectangle& rectangle, Rectangle& result) const {
-    SDL_UnionRect(this, &rectangle, &result);
+    SDL_Rect rt = {this->x, this->y, this->w, this->h};
+    SDL_Rect ro = {rectangle.x, rectangle.y, rectangle.w, rectangle.h};
+    SDL_Rect rr = {};
+    SDL_UnionRect(&rt, &ro, &rr);
+    result.x = rr.x;
+    result.y = rr.y;
+    result.w = rr.w;
+    result.h = rr.h;
 }
 
 bool Rectangle::getIntersectRectangle(const Rectangle& rectangle, Rectangle& result) const {
-    return SDL_IntersectRect(this, &rectangle, &result) == SDL_TRUE;
+    SDL_Rect rt = {this->x, this->y, this->w, this->h};
+    SDL_Rect ro = {rectangle.x, rectangle.y, rectangle.w, rectangle.h};
+    SDL_Rect rr = {};
+    bool intersect = SDL_IntersectRect(&rt, &ro, &rr) == SDL_TRUE;
+    result.x = rr.x;
+    result.y = rr.y;
+    result.w = rr.w;
+    result.h = rr.h;
+    return intersect;
 }
 
 bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) const {
-    return SDL_IntersectRectAndLine(this, &start.x, &start.y, &end.x, &end.y);
+    SDL_Rect rt = {this->x, this->y, this->w, this->h};
+    return SDL_IntersectRectAndLine(&rt, &start.x, &start.y, &end.x, &end.y);
 }
 
 std::string Rectangle::toString() const {

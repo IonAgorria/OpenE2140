@@ -14,6 +14,8 @@
  * Spinner object that is constantly animated to gimmick a rotating object
  */
 CLASS_ENTITY_COMPONENTS(Entity, Spinner, ImageComponent)
+    bool applyCorrection = false;
+
     /**
      * Controls if spinner is clockwise or counterclockwise
      */

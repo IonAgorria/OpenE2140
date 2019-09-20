@@ -7,6 +7,7 @@
 
 void Spinner::simulationChanged() {
     if (isActive()) {
+        applyCorrection = config->code == "flywheel_mine";
         //Setup the animation
         setAnimationFromSprite("default");
         if (animation) {
@@ -30,7 +31,7 @@ void Spinner::update() {
     imageFlipX = clockwise == animation->reverse;
 
     //Some sprites need compensation of X by 1 pixel
-    if (config->code == "flywheel_mine") {
+    if (applyCorrection) {
         size_t index = animation->getCurrentIndex();
         if (index < 2) {
             imageOffset.x = imageFlipX ? -1 : 1;
@@ -52,6 +53,8 @@ void ConveyorBelt::simulationChanged() {
             PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
             ImageComponentSlotted<0>::extraPalette = paletteComponent->getPalette();
             ImageComponentSlotted<1>::extraPalette = paletteComponent->getPalette();
+        } else {
+            BUG(toString() + " no parent set?");
         }
     }
     Entity::simulationChanged();
@@ -89,6 +92,8 @@ void Turret::simulationChanged() {
         if (parent) {
             PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
             ImageComponent::extraPalette = paletteComponent->getPalette();
+        } else {
+            BUG(toString() + " no parent set?");
         }
     }
     Entity::simulationChanged();

@@ -58,8 +58,14 @@ void Mine::simulationChanged() {
 }
 
 void Refinery::simulationChanged() {
-    if (isActive()) {
-    }
-
+    //First call parent code
     Building::simulationChanged();
+
+    if (isActive()) {
+        //Setup attached entities
+        ConveyorBelt* entity = dynamic_cast<ConveyorBelt*>(AttachmentComponent::getAttached("conveyor_belt").get());
+        if (entity) {
+            entity->setDirection(true);
+        }
+    }
 }

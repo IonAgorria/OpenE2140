@@ -47,17 +47,25 @@ void Spinner::draw() {
 
 void ConveyorBelt::simulationChanged() {
     if (isActive()) {
-        ImageComponentSlotted<0>::imageCentered = false;
-        ImageComponentSlotted<1>::imageCentered = false;
         ImageComponentSlotted<0>::setImageFromSprite("head");
         ImageComponentSlotted<1>::setAnimationFromSprite("body");
+        ImageComponentSlotted<0>::imageCentered = false;
+        ImageComponentSlotted<1>::imageCentered = false;
         if (parent) {
             PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
             ImageComponentSlotted<0>::extraPalette = paletteComponent->getPalette();
-            ImageComponentSlotted<1>::extraPalette = paletteComponent->getPalette();
         } else {
             BUG(toString() + " no parent set?");
         }
+
+        //Calculate the offset to align the top left corner and set the head
+        Vector2 size(bounds.w / -2, bounds.h / -2);
+        ImageComponentSlotted<0>::imageOffset = size;
+
+        //Set the body
+        config->getVector2("body_alignment", ImageComponentSlotted<1>::imageOffset);
+        ImageComponentSlotted<1>::imageOffset += size;
+        this->setRunning(false);
     }
     Entity::simulationChanged();
 }
@@ -69,6 +77,17 @@ void ConveyorBelt::update() {
 void ConveyorBelt::draw() {
     ImageComponentSlotted<0>::draw(renderer);
     ImageComponentSlotted<1>::draw(renderer);
+}
+
+void ConveyorBelt::setDirection(bool left) {
+    auto& animation = ImageComponentSlotted<1>::animation;
+    if (animation) {
+        animation->reverse = left;
+    }
+}
+
+void ConveyorBelt::setRunning(bool state) {
+    ImageComponentSlotted<1>::animationPlay = state;
 }
 
 void BuildingExit::update() {

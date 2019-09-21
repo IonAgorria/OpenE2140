@@ -35,17 +35,21 @@ CLASS_ENTITY_COMPONENTS(Entity, ConveyorBelt,
                       ImageComponentSlotted<0>,
                       ImageComponentSlotted<1>)
 public:
-    /**
-     * Controls if animation is left or right
-     * TODO set this to default anim direction
-     */
-    bool left = false;
-
     void simulationChanged() override;
 
     void update() override;
 
     void draw() override;
+
+    /**
+     * Controls if animation is left or right
+     */
+    void setDirection(bool left);
+
+    /**
+     * Controls if animation is left or right
+     */
+    void setRunning(bool state);
 };
 
 /**

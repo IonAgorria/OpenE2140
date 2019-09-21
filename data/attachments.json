@@ -107,14 +107,14 @@
     "id": 8,
     "code": "conveyor_belt",
     "type": "attachment",
-    "bounds": [48, 32],
+    "bounds": [37, 37],
+    "body_alignment": [-20, 3],
+    "duration": 500,
+    "loop": true,
     "sprites_path": "MIX/SPRB0/",
     "sprites": {
       "head": 8,
-      "body": {
-        "index": 9,
-        "length": 3
-      }
+      "body": [9, 10, 11]
     }
   },
   {

@@ -1,6 +1,7 @@
 //
 // Created by Ion Agorria on 9/8/19
 //
+#include "engine/io/log.h"
 #include "animation.h"
 
 bool Animation::isEnd() const {

@@ -517,7 +517,7 @@
         "attachments": {
             "conveyor_belt": {
                 "code": "conveyor_belt",
-                "position": [110, -20]
+                "position": [97, -15]
             }
         },
         "sprites": {
@@ -595,6 +595,7 @@
         "code": "mine",
         "faction": null,
         "bounds": [0, 0, 3, 2],
+        "offset": [0, 0, 32, 16],
         "layout": [
             [0, 0, 2, 2],
             [2, 0, 1, 1]
@@ -607,7 +608,7 @@
         "attachments": {
             "conveyor_belt": {
                 "code": "conveyor_belt",
-                "position": [100, 50]
+                "position": [95, -24]
             },
             "flywheel_top": {
                 "code": "flywheel_mine",

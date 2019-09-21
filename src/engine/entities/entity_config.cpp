@@ -24,7 +24,10 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
     }
     //Duration of image groups
     duration_t defaultDuration = getData("duration").is_number_unsigned()
-                               ? getData("duration").get<duration_t>() : 0;
+                                 ? getData("duration").get<duration_t>() : 0;
+    //Should the animations loop?
+    bool defaultLoop = getData("loop").is_boolean() && getData("loop").get<bool>();
+
     //Load variants
     std::vector<std::string> variants;
     config_data_t variantsData = getData("variants");
@@ -76,7 +79,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 for (std::string& variant : variants) {
                     std::unique_ptr<SpriteGroup> spriteGroup = std::make_unique<SpriteGroup>();
                     spriteGroup->duration = defaultDuration;
-                    spriteGroup->loop = false;
+                    spriteGroup->loop = defaultLoop;
                     for (nlohmann::json& element : value) {
                         if (!element.is_number_unsigned()) {
                             log->error("{0} sprites {1} non unsigned number found in array", toString(), entry.key());
@@ -120,7 +123,7 @@ void EntityConfig::loadSprites(const IEntityFactory* factory) {
                 duration_t duration = value["duration"].is_number_unsigned()
                                       ? value["duration"].get<duration_t>() : defaultDuration;
                 //Should the animation loop?
-                bool loop = value["loop"].is_boolean() && value["loop"].get<bool>();
+                bool loop = value["loop"].is_boolean() ? value["loop"].get<bool>() : defaultLoop;
 
                 //Iterate each collection (set of images)
                 for (asset_path_t& variant : variants) {

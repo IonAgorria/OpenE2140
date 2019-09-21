@@ -41,4 +41,17 @@ void AssetProcessorFixes::refreshAssets() {
             }
         }
     }
+    //Fix the conveyor belt black spot
+    baseImage = manager->getImage("MIX/SPRB0/9");
+    if (baseImage) {
+        std::shared_ptr<Palette> basePalette = baseImage->getPalette();
+        std::shared_ptr<Palette> palette = std::make_shared<Palette>(basePalette->length(), basePalette->isExtra());
+        palette->setColors(basePalette.get());
+        palette->setColor(PALETTE_MAX_INDEX, Color::CLEAR);
+        palette->updateTexture();
+        for (int i = 9; i <= 11; ++i) {
+            std::shared_ptr<Image> image = manager->getImage("MIX/SPRB0/" + std::to_string(i));
+            image->setPalette(palette);
+        }
+    }
 }

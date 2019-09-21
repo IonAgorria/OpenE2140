@@ -122,7 +122,7 @@ void Game::run() {
 
     //Create some entities
     Player* playerPtr = simulation->getPlayer(1);
-    std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, 46});
+    std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 19});
     entityPtr->setPosition({64 * 1 + 32, 64 * 8 + 32});
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);

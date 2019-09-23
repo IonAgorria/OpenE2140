@@ -16,7 +16,7 @@
 
 //Constants
 /** Game version string */
-#define GAME_VERSION STR(GAME_VERSION_MAJOR) "." STR(GAME_VERSION_MINOR)
+#define GAME_VERSION QUOTE_STR(GAME_VERSION_MAJOR) "." QUOTE_STR(GAME_VERSION_MINOR)
 /** Full title of this game */
 #define GAME_TITLE GAME_NAME " " GAME_VERSION
 /** Delta per game update in ms */

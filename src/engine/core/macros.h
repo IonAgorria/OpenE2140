@@ -6,7 +6,9 @@
 
 //Source https://stackoverflow.com/questions/195975/how-to-make-a-char-string-from-a-c-macros-value
 #define QUOTE(val) #val
-#define STR(val) QUOTE(val)
+#define QUOTE_STR(val) QUOTE(val)
+
+#define TO_STR(val) std::to_string(val)
 
 /** Macro for expanding begin end */
 #define BEGIN_END(container) (container).begin(), (container).end()

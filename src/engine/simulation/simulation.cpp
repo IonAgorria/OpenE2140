@@ -325,17 +325,12 @@ void Simulation::toWorldRectangle(const Rectangle& rectangle, Rectangle& result,
 }
 
 number_t Simulation::angleWorldVectors(const Vector2& origin, const Vector2& destination) const {
-    return number_atan2(
-            int_to_number(origin.x / tileSize), int_to_number(origin.y / tileSize),
-            int_to_number(destination.x / tileSize), int_to_number(destination.y / tileSize)
-    );
+    Vector2 originTile = origin / tileSize;
+    return originTile.getAngle(destination / tileSize);
 }
 
 number_t Simulation::angleTileVectors(const Vector2& origin, const Vector2& destination) const {
-    return number_atan2(
-            int_to_number(origin.x), int_to_number(origin.y),
-            int_to_number(destination.x), int_to_number(destination.y)
-    );
+    return origin.getAngle(destination);
 }
 
 /*

@@ -6,6 +6,7 @@
 
 #include <string>
 #include "engine/core/to_string.h"
+#include "number.h"
 
 /**
  * Stores 2D point
@@ -214,6 +215,39 @@ public:
      * @param vector2 to get values
      */
     void set(const Vector2& vector2);
+
+    /**
+     * Return the length of this vector.
+     *
+     * @return the length
+     */
+    number_t length() const;
+
+    /**
+     * Rotates the vector and stores result
+     *
+     * @param radians of rotation
+     * @param vector2 vector to change
+     * @return dest
+     */
+    void rotate(number_t radians, Vector2& vector2) const;
+
+    /**
+     * Sets the angle of vector and stores result
+     *
+     * @param radians of rotation
+     * @param vector to store
+     * @return dest
+     */
+    void setAngle(number_t radians, Vector2& vector) const;
+
+    /**
+     * Gets the angle between this and destination
+     *
+     * @param destination vector
+     * @return angle
+     */
+    number_t getAngle(const Vector2& destination) const;
 
     /*
      * IToString

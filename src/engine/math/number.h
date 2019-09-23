@@ -29,9 +29,19 @@ using Number = Fix16;
 #define number_abs(X) fix16_abs(X)
 #define number_sin(X) fix16_sin(X)
 #define number_cos(X) fix16_cos(X)
+#define number_sqrt(X) fix16_sqrt(X)
 
 /** Utils */
 number_t number_atan2(number_t x1, number_t y1, number_t x2, number_t y2);
 number_t number_wrap_angle(number_t angle);
+
+/**
+ * Gets the angle difference between 2 angles
+ *
+ * @param angle1 to diff
+ * @param angle2 to diff
+ * @return difference
+ */
+number_t number_angle_diff(number_t angle1, number_t angle2);
 
 #endif //OPENE2140_NUMBER_H

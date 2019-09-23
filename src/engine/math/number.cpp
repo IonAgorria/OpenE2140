@@ -17,3 +17,14 @@ number_t number_wrap_angle(number_t angle) {
     }
     return angle;
 }
+
+number_t number_angle_diff(number_t angle1, number_t angle2)  {
+    number_t d = number_sub(angle1, angle2);
+    if (NUMBER_PI < d) {
+        return number_add(d, -NUMBER_PI2);
+    } else if (d < NUMBER_PI) {
+        return number_add(d, NUMBER_PI2);
+    } else {
+        return number_add(d, NUMBER_ZERO);
+    }
+}

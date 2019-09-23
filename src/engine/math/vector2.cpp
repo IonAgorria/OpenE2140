@@ -160,3 +160,28 @@ std::string Vector2::toString() const {
 std::string Vector2::toStringContent() const {
     return std::to_string(x) + ", " + std::to_string(y);
 }
+
+number_t Vector2::length() const {
+    return number_sqrt((x * x) + (y * y));
+}
+
+void Vector2::rotate(number_t radians, Vector2& vector2) const {
+    number_t cos = number_cos(radians);
+    number_t sin = number_sin(radians);
+    number_t vx = int_to_number(x);
+    number_t vy = int_to_number(y);
+    vector2.x = number_to_int(number_add(number_mul(vx, cos), number_mul(vy, sin)));
+    vector2.y = number_to_int(number_add(number_mul(vx, sin), number_mul(vy, cos)));
+}
+
+void Vector2::setAngle(number_t radians, Vector2& vector) const {
+    vector.set(length(), 0);
+    rotate(radians, vector);
+}
+
+number_t Vector2::getAngle(const Vector2& destination) const {
+    return number_atan2(
+            int_to_number(x), int_to_number(y),
+            int_to_number(destination.x), int_to_number(destination.y)
+    );
+}

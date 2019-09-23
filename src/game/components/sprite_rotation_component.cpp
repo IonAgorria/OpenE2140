@@ -8,23 +8,25 @@
 #include "game/core/game.h"
 #include "sprite_rotation_component.h"
 
-void SpriteRotationComponentCommon::updateSpriteRotation(Entity* base) {
+void SpriteRotationComponentCommon::updateSpriteIndex(Entity* base) {
     //Check if anything changed to update sprite
     uint16_t rotationIndexNew = 0;
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
-    number_t spriteAngle = base->getConfig()->getData("sprite_angle");
-    bool ccw = Game::angleToSpriteIndex(base->getDirection(), spriteAngle, rotationIndexNew);
-    if (rotationIndex != rotationIndexNew) {
-        rotationIndex = rotationIndexNew;
+    number_t spriteAngleHalf = base->getConfig()->getData("sprite_angle_half");
+    bool ccw = Game::angleToSpriteIndex(base->getDirection(), spriteAngleHalf, rotationIndexNew);
+    if (spriteIndex != rotationIndexNew) {
+        spriteIndex = rotationIndexNew;
         uint16_t spriteSides = base->getConfig()->getData("sprite_sides");
-        if (rotationIndex == 0) {
+        if (spriteIndex == 0) {
             ccw = false;
-        } else if (rotationIndex >= spriteSides) {
+        } else if (spriteIndex >= spriteSides) {
             ccw = false;
-            rotationIndex = spriteSides;
+            spriteIndex = spriteSides;
         }
         imageComponent->imageFlipX = ccw;
         chooseSprite();
+        number_t spriteAngle = base->getConfig()->getData("sprite_angle");
+        spriteDirection = Game::angleToSpriteAngle(base->getDirection(), spriteAngle);
     }
 }
 
@@ -38,15 +40,15 @@ void SpriteRotationComponent::setup() {
 
 void SpriteRotationComponent::simulationChanged() {
     if (base->isActive()) {
-        updateSpriteRotation(base);
+        updateSpriteIndex(base);
     }
 }
 
 void SpriteRotationComponent::entityChanged() {
-    updateSpriteRotation(base);
+    updateSpriteIndex(base);
 }
 
 void SpriteRotationComponent::chooseSprite() {
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
-    imageComponent->setImageFromSprite("default_" + std::to_string(rotationIndex));
+    imageComponent->setImageFromSprite("default_" + std::to_string(spriteIndex));
 }

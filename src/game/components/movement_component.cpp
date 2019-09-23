@@ -19,20 +19,20 @@ void MovementComponent::setup() {
 void MovementComponent::simulationChanged() {
     if (base->isActive()) {
         //Setup sprite
-        updateSpriteRotation(base);
+        updateSpriteIndex(base);
     }
 }
 
 void MovementComponent::entityChanged() {
-    updateSpriteRotation(base);
+    updateSpriteIndex(base);
 }
 
 void MovementComponent::chooseSprite() {
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
     if (state == MovementState::Moving && movementType == MovementType::GroundWalker) {
-        imageComponent->setAnimationFromSprite("moving_" + std::to_string(rotationIndex));
+        imageComponent->setAnimationFromSprite("moving_" + std::to_string(spriteIndex));
     } else {
-        imageComponent->setImageFromSprite("default_" + std::to_string(rotationIndex));
+        imageComponent->setImageFromSprite("default_" + std::to_string(spriteIndex));
     }
 }
 

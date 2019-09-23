@@ -74,7 +74,6 @@ The following game assets must be present in WD file or directory form:
     - Proper adjustments of turret offsets
     - Rotate attachment offset with rotation
     - Building exits
-    - Conveyor belt
     - Unit turret
 - Allow selection rectangle
 - Order processing

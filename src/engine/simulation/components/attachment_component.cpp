@@ -58,11 +58,23 @@ void AttachmentComponent::update() {
 }
 
 void AttachmentComponent::entityChanged() {
+    if (onEntityChangeUpdate) {
+        updateAttachmentPositions();
+    }
+}
+
+void AttachmentComponent::updateAttachmentPositions(number_t angle) {
     //Update the entities
     for (const auto& attachment : attached) {
         Entity* entity = attachment.entity.get();
-        Vector2 position = base->getPosition();
-        position += attachment.position;
+        Vector2 position;
+        //Store position or rotate it
+        if (angle == NUMBER_ZERO) {
+            position = attachment.position;
+        } else {
+            attachment.position.rotate(angle, position);
+        }
+        position = base->getPosition() + position;
         entity->setPosition(position);
     }
 }

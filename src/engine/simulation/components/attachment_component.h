@@ -24,6 +24,11 @@ class AttachmentComponent {
 CLASS_COMPONENT(Entity, AttachmentComponent)
 protected:
     /**
+     * Unset this flag if attachments will be updated automatically
+     */
+    bool onEntityChangeUpdate = true;
+
+    /**
      * Attached entities at this entity
      */
     std::vector<AttachmentPoint> attached;
@@ -57,6 +62,13 @@ public:
      * Detaches all entities
      */
     void detachEntities();
+
+    /**
+     * Updates the position of attached entities
+     *
+     * @param angle to apply to positions
+     */
+    void updateAttachmentPositions(number_t angle = NUMBER_ZERO);
 };
 
 #endif //OPENE2140_ATTACHMENT_COMPONENT_H

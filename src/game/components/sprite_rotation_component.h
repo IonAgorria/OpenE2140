@@ -15,13 +15,23 @@ protected:
     /**
      * The sprite rotation index
      */
-    uint16_t rotationIndex = 0;
+    uint16_t spriteIndex = 0;
+
+    /**
+     * The sprite direction that is the result of rotation index
+     */
+    entity_direction_t spriteDirection;
+
+    /**
+     * @return entity sprite direction
+     */
+    entity_direction_t getSpriteDirection() const;
 
     /**
      * Called to check the current sprite rotation
      * @param base
      */
-    void updateSpriteRotation(Entity* base);
+    void updateSpriteIndex(Entity* base);
 
     /**
      * Selects current sprite

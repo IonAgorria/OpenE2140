@@ -26,7 +26,8 @@ public:
 
     void setSpriteSides(EntityConfig* config, uint16_t sides) {
         config->setData("sprite_sides", sides);
-        config->setData("sprite_angle", number_div(NUMBER_PI, int_to_number(sides * 2)));
+        config->setData("sprite_angle", number_div(NUMBER_PI, int_to_number(sides)));
+        config->setData("sprite_angle_half", number_div(NUMBER_PI, int_to_number(sides * 2)));
     }
 };
 

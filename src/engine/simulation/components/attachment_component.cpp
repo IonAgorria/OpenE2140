@@ -58,7 +58,7 @@ void AttachmentComponent::update() {
 }
 
 void AttachmentComponent::entityChanged() {
-    if (onEntityChangeUpdate) {
+    if (updateAttachmentOnEntityChange) {
         updateAttachmentPositions();
     }
 }

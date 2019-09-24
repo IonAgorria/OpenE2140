@@ -6,9 +6,8 @@
 
 void Unit::simulationChanged() {
     if (isActive()) {
+        updateAttachmentOnEntityChange = false;
         setSelectable(true);
-
-        //Set bounds
         setBounds(Vector2(simulation->tileSize));
     }
 

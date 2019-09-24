@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include "component.h"
+#include "engine/math/vector2.h"
 
 class Entity;
 class Faction;
@@ -24,16 +25,16 @@ class AttachmentComponent {
 CLASS_COMPONENT(Entity, AttachmentComponent)
 protected:
     /**
-     * Unset this flag if attachments will be updated automatically
-     */
-    bool onEntityChangeUpdate = true;
-
-    /**
      * Attached entities at this entity
      */
     std::vector<AttachmentPoint> attached;
 
 public:
+    /**
+     * Unset this flag if attachments will be updated outside component update
+     */
+    bool updateAttachmentOnEntityChange = true;
+
     /**
      * @return attachment points for entities
      */

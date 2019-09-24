@@ -20,12 +20,7 @@ protected:
     /**
      * The sprite direction that is the result of rotation index
      */
-    entity_direction_t spriteDirection;
-
-    /**
-     * @return entity sprite direction
-     */
-    entity_direction_t getSpriteDirection() const;
+    entity_direction_t spriteDirection = NUMBER_ZERO;
 
     /**
      * Called to check the current sprite rotation
@@ -37,6 +32,14 @@ protected:
      * Selects current sprite
      */
     virtual void chooseSprite() = 0;
+
+public:
+    /**
+     * @return entity sprite direction
+     */
+    entity_direction_t getSpriteDirection() const {
+        return spriteDirection;
+    }
 };
 
 /**

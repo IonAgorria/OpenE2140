@@ -99,9 +99,8 @@ void World::update() {
 
 void World::draw(Renderer* renderer, const Rectangle& rectangle, int scaling) {
     //Do pixel to tile conversions
-    int tileSizeHalf = tileSize / 2;
-    int viewX = rectangle.x + tileSizeHalf;
-    int viewY = rectangle.y + tileSizeHalf;
+    int viewX = rectangle.x;
+    int viewY = rectangle.y;
     int tileStartX = std::max(tileRectangle.x, viewX / tileSize);
     int tileStartY = std::max(tileRectangle.y, viewY / tileSize);
     int tileEndX = std::min(tileRectangle.w, (viewX + rectangle.w) / tileSize);
@@ -119,12 +118,11 @@ void World::draw(Renderer* renderer, const Rectangle& rectangle, int scaling) {
             }
             int tx = x * drawTileSize;
             int ty = y * drawTileSize;
-            renderer->drawImageCenter(
-                    static_cast<float>(tileSizeHalf + tx),
-                    static_cast<float>(tileSizeHalf + ty),
+            renderer->drawImage(
+                    static_cast<float>(tx),
+                    static_cast<float>(ty),
                     static_cast<float>(drawTileSize),
                     static_cast<float>(drawTileSize),
-                    0,
                     *image,
                     nullptr
             );

@@ -102,7 +102,7 @@ void Game::run() {
     //TODO this is only for testings
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
-    parameters->loadLevelContent = true;
+    parameters->loadLevelContent = false;
     parameters->world = "LEVEL/DATA/LEVEL01";
      parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";
@@ -127,11 +127,17 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
-    entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 23});
-    entityPtr->setPosition({64 * 6 + 32, 64 * 6 + 32});
-    component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
-    component->setPlayer(playerPtr);
-    simulation->addEntity(entityPtr);
+    for (unsigned int i = 41; i <= 85; ++i) {
+        entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, i});
+        if (!entityPtr) continue;
+        entityPtr->setPosition({
+            static_cast<signed>(64 * (i % 8 + 2) + 32),
+            static_cast<signed>(64 * (i / 8 + 2) + 32)
+        });
+        component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
+        component->setPlayer(playerPtr);
+        simulation->addEntity(entityPtr);
+    }
 
     //Do like we are launching the game GUI
     auto gameLayout = std::make_shared<GameLayout>();

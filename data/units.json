@@ -940,7 +940,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_mt_200",
-                "position": [0, 0]
+                "position": [0, -4]
             }
         },
         "sprites": {
@@ -1364,7 +1364,7 @@
         "palette_light": true,
         "sprites": {
             "default": {
-                "index": 523,
+                "index": 522,
                 "collections": 9
             }
         }
@@ -1498,6 +1498,7 @@
         "armor": "heavy",
         "health": 800,
         "movement": "water",
+        "attachments_update_on_change": false,
         "attachments": {
             "turret_front": {
                 "code": "turret_heavy_rockets_plain",

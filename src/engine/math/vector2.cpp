@@ -166,11 +166,11 @@ number_t Vector2::length() const {
 }
 
 void Vector2::rotate(number_t radians, Vector2& vector2) const {
-    number_t cos = number_cos(radians);
     number_t sin = number_sin(radians);
+    number_t cos = number_cos(radians);
     number_t vx = int_to_number(x);
     number_t vy = int_to_number(y);
-    vector2.x = number_to_int(number_add(number_mul(vx, cos), number_mul(vy, sin)));
+    vector2.x = number_to_int(number_sub(number_mul(vx, cos), number_mul(vy, sin)));
     vector2.y = number_to_int(number_add(number_mul(vx, sin), number_mul(vy, cos)));
 }
 

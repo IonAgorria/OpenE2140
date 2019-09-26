@@ -26,6 +26,7 @@ void AttachmentComponent::setup() {
 void AttachmentComponent::simulationChanged() {
     if (base->isActive()) {
         const EntityConfig* config = base->getConfig();
+        updateAttachmentOnEntityChange = config->getData<bool>("attachments_update_on_change", true);
         config_data_t attachments = config->getData("attachments");
         if (attachments.is_object()) {
             entity_kind_t kind = config->getData("attachments_kind", 0);

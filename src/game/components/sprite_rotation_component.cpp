@@ -14,7 +14,8 @@ void SpriteRotationComponentCommon::updateSpriteIndex(Entity* base) {
     ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
     number_t spriteAngleHalf = base->getConfig()->getData("sprite_angle_half");
     bool ccw = Game::angleToSpriteIndex(base->getDirection(), spriteAngleHalf, rotationIndexNew);
-    if (spriteIndex != rotationIndexNew) {
+    if (spriteIndex != rotationIndexNew || forceSpriteUpdate) {
+        forceSpriteUpdate = false;
         //Setup stuff
         spriteIndex = rotationIndexNew;
         uint16_t spriteSides = base->getConfig()->getData("sprite_sides");

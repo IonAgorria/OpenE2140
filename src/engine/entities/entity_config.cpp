@@ -193,9 +193,8 @@ std::string EntityConfig::toString() const {
 }
 
 std::string EntityConfig::toStringContent() const {
-    return "Kind: " + std::to_string(kind) +
-           " ID: " + std::to_string(id) +
-          (code.empty() ? "" : " Code: " + code) +
-          (type.empty() ? "" : " Type: " + type) +
+    return std::to_string(kind) + "_" + std::to_string(id) +
+          (code.empty() ? "" : " C " + code) +
+          (type.empty() ? "" : " T " + type) +
           "";
 }

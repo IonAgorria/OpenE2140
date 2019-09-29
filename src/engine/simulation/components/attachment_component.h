@@ -29,6 +29,11 @@ protected:
      */
     std::vector<AttachmentPoint> attached;
 
+    /**
+     * Offset to apply to attachments
+     */
+    Vector2 attachmentCenterOffset;
+
 public:
     /**
      * Unset this flag if attachments will be updated outside component update

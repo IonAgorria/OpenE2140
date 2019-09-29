@@ -21,8 +21,8 @@ CLASS_ENTITY_COMPONENTS(Entity, Unit,
                         FactionComponent,
                         ImageComponent,
                         PaletteComponent,
-                        MovementComponent,
-                        AttachmentComponent)
+                        AttachmentComponent,
+                        MovementComponent)
 public:
     void simulationChanged() override;
 

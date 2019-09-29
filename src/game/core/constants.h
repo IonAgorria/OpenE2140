@@ -36,8 +36,8 @@
  */
 #include "engine/graphics/color.h"
 namespace Color {
-    const ColorRGBA SHADOW_MAIN            {{0x00, 0x00, 0x00, 0x40}};
-    const ColorRGBA SHADOW_EXTRA           {{0x00, 0x00, 0x00, 0x20}};
+    const ColorRGBA SHADOW_MAIN            {{0x00, 0x00, 0x00, 0x60}};
+    const ColorRGBA SHADOW_EXTRA           {{0x00, 0x00, 0x00, 0x30}};
     const ColorRGBA MAP_ORE_COLOR          {{0x80, 0x80, 0x00, 0xFF}};
     /**
      * HSV values to mix with player base color

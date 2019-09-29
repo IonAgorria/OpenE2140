@@ -26,6 +26,7 @@ void AttachmentComponent::setup() {
 void AttachmentComponent::simulationChanged() {
     if (base->isActive()) {
         const EntityConfig* config = base->getConfig();
+        config->getVector2("attachments_center_offset", attachmentCenterOffset);
         updateAttachmentOnEntityChange = config->getData<bool>("attachments_update_on_change", true);
         config_data_t attachments = config->getData("attachments");
         if (attachments.is_object()) {
@@ -67,7 +68,6 @@ void AttachmentComponent::entityChanged() {
 void AttachmentComponent::updateAttachmentPositions(number_t angle) {
     //Update the entities
     for (const auto& attachment : attached) {
-        Entity* entity = attachment.entity.get();
         Vector2 position;
         //Store position or rotate it
         if (angle == NUMBER_ZERO) {
@@ -75,7 +75,8 @@ void AttachmentComponent::updateAttachmentPositions(number_t angle) {
         } else {
             attachment.position.rotate(angle, position);
         }
-        position = base->getPosition() + position;
+        position = base->getPosition() + position + attachmentCenterOffset;
+        Entity* entity = attachment.entity.get();
         entity->setPosition(position);
     }
 }

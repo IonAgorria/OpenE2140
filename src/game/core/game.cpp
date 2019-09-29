@@ -123,20 +123,22 @@ void Game::run() {
     //Create some entities
     Player* playerPtr = simulation->getPlayer(1);
     std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 19});
-    entityPtr->setPosition({64 * 1 + 32, 64 * 8 + 32});
+    entityPtr->setPosition({64 * 8 + 32, 64 * 8 + 32});
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
+    unsigned int y = 0;
     for (unsigned int i = 41; i <= 85; ++i) {
         entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, i});
         if (!entityPtr) continue;
         entityPtr->setPosition({
-            static_cast<signed>(64 * (i % 8 + 2) + 32),
-            static_cast<signed>(64 * (i / 8 + 2) + 32)
+            static_cast<signed>(64 * ((y % 8) + 2) + 32),
+            static_cast<signed>(64 * ((y / 8) + 2) + 32)
         });
         component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
         component->setPlayer(playerPtr);
         simulation->addEntity(entityPtr);
+        y++;
     }
 
     //Do like we are launching the game GUI

@@ -13,6 +13,11 @@ protected:
     virtual ~SpriteRotationComponentCommon() = default;
 
     /**
+     * Flag to force sprite updating
+     */
+    bool forceSpriteUpdate = true;
+
+    /**
      * The sprite rotation index
      */
     uint16_t spriteIndex = 0;

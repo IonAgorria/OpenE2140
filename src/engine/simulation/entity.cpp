@@ -190,6 +190,7 @@ std::string Entity::toString() const {
 
 std::string Entity::toStringContent() const {
     return "ID: " + std::to_string(id) +
+           (config ? " Config: " + config->toString() : "") +
            " Active: " + std::to_string(active) +
            (parent ? " Parent: " + std::to_string(parent->id) : "") +
            " Position: " + position.toString() +

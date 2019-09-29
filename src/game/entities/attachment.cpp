@@ -122,6 +122,7 @@ void Turret::simulationChanged() {
 
 void Turret::update() {
     Entity::update();
+    setDirection(number_add(getDirection(), float_to_number(-0.010)));
 }
 
 void Turret::draw() {

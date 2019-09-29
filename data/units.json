@@ -800,7 +800,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_st_01b",
-                "position": [0, -5]
+                "position": [0, -4]
             }
         },
         "sprites": {
@@ -963,7 +963,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_mt_201l",
-                "position": [0, 0]
+                "position": [0, -2]
             }
         },
         "sprites": {
@@ -1046,11 +1046,11 @@
         "attachments": {
             "turret": {
                 "code": "turret_ht_30_lr",
-                "position": [0, 0]
+                "position": [0, -9]
             },
             "turret_rockets": {
                 "code": "turret_light_rockets_plain",
-                "position": [0, 0]
+                "position": [0, -16]
             }
         },
         "sprites": {
@@ -1073,7 +1073,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_ht_33_r",
-                "position": [0, 0]
+                "position": [0, -9]
             }
         },
         "sprites": {
@@ -1211,6 +1211,7 @@
         "armor": "light",
         "health": 200,
         "unit_transport": true,
+        "palette_light": true,
         "capacity": {
             "light": 4
         },
@@ -1339,7 +1340,7 @@
         "palette_light": true,
         "sprites": {
             "default": {
-                "index": 608,
+                "index": 607,
                 "collections": 9
             }
         }
@@ -1498,21 +1499,23 @@
         "armor": "heavy",
         "health": 800,
         "movement": "water",
+        "attachments_center_offset": [0, -14],
         "attachments_update_on_change": false,
         "attachments": {
             "turret_front": {
                 "code": "turret_heavy_rockets_plain",
-                "position": [0, 10]
+                "position": [44, 0]
             },
             "turret_back": {
                 "code": "turret_heavy_rockets_plain",
-                "position": [0, -10]
+                "position": [-46, 0]
             }
         },
         "sprites": {
             "default": {
                 "index": 486,
-                "collections": 9
+                "collections": 9,
+                "offset": [-10, 0]
             }
         }
     },
@@ -1607,11 +1610,11 @@
         "movement": "air",
         "sprites": {
             "default": {
-                "index": 597,
+                "index": 596,
                 "collections": 9
             },
             "open": {
-                "index": 605,
+                "index": 604,
                 "length": 2
             }
         }

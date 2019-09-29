@@ -591,12 +591,12 @@
       "default": {
         "index": 649,
         "length": 4,
-        "duration": 100
+        "duration": 400
       },
       "ghost": {
         "index": 653,
         "length": 2,
-        "duration": 100
+        "duration": 200
       }
     }
   },
@@ -623,20 +623,10 @@
   {
     "id": 35,
     "code": "turret_hcr-m",
-    "type": "turret_repair",
+    "type": "turret",
     "bounds": [26, 26],
-    "weapons": [
-      {
-        "type": "mg",
-        "total_ammo": 5,
-        "reload_ammo": 5,
-        "reload_time": 1,
-        "damage": 1
-      }
-    ],
     "sprites_path": "MIX/SPRU0/",
     "palette_shadow": true,
-    "palette_fire": true,
     "sprites": {
       "default": {
         "index": 211,

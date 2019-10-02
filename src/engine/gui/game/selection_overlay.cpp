@@ -37,6 +37,17 @@ void SelectionOverlay::update() {
         ++it;
     }
 
+    //Calculate rectangle
+    if (selectionStart && mousePosition) {
+        Vector2 worldPosition = *mousePosition + gameRoot->getCamera();
+        selectionRectangle.set(
+                std::min(selectionStart->x, worldPosition.x),
+                std::min(selectionStart->y, worldPosition.y),
+                std::abs(selectionStart->x - worldPosition.x),
+                std::abs(selectionStart->y - worldPosition.y)
+        );
+    }
+
     GUIView::update();
 }
 
@@ -53,6 +64,13 @@ void SelectionOverlay::draw() {
         if (cameraRectangle.isOverlap(bounds)) {
             renderer->drawRectangle(bounds, 1.0f, state.color);
         }
+    }
+
+    //Check if there is a active rectangle and is big enough
+    if (selectionStart
+    && selectionRectangle.w > selectionThreshold
+    && selectionRectangle.h > selectionThreshold) {
+        renderer->drawRectangle(selectionRectangle, 1.0f, Color::WHITE);
     }
 
     GUIView::draw();
@@ -104,31 +122,45 @@ bool SelectionOverlay::isSelected(entity_id_t id) {
 }
 
 bool SelectionOverlay::mouseClick(int x, int y, mouse_button_t button, bool press) {
-    //Only release
-    if (!press && mousePosition) {
-        auto engine = root->getEngine();
 
-        //Translate the position from window to world
-        Vector2 worldPosition = *mousePosition + gameRoot->getCamera();
+    //Handle start of selection
+    if (press && !selectionStart && mousePosition) {
+        selectionStart = std::make_unique<Vector2>(*mousePosition + gameRoot->getCamera());
+    }
+
+    //Handle finish of rectangle
+    if (!press && selectionStart) {
+        auto engine = root->getEngine();
+        bool isRectangle = selectionThreshold < selectionRectangle.w && selectionThreshold < selectionRectangle.h;
+
+        //Remove previous entities if not in additive mode
+        if (!additive) {
+            selection.clear();
+        }
 
         //Since only visible entities could have been selected we only check those
         for (auto& entity : gameRoot->visibleEntities) {
-            //Get and check if click was inside bounds
-            const Rectangle& bounds = entity->getBounds();
-            if (bounds.isInside(worldPosition)) {
-                engine->log->debug("Selected {0}", entity->toString());
+            //Handle according to selection rectangle or click mode
+            bool select = isRectangle
+                    ? selectionRectangle.isInside(entity->getPosition())
+                    : entity->getBounds().isInside(*selectionStart);
 
-                //Add if not selected, remove if not in additive mode
-                if (!isSelected(entity->getID())) {
-                    addEntity(entity);
-                    return true;
-                } else if (!additive) {
-                    removeEntity(entity->getID());
-                    return true;
-                }
+            //Only add if was not previously selected
+            if (select && !isSelected(entity->getID())) {
+                engine->log->debug("Selected {0}", entity->toString());
+                addEntity(entity);
             }
         }
+
+        //Unset selection start
+        selectionRectangle.set(0);
+        selectionStart.reset();
     }
 
     return GUIView::mouseClick(x, y, button, press);
+}
+
+bool SelectionOverlay::keyChange(input_key_t& key) {
+    additive = key.shift;
+    return GUIView::keyChange(key);
 }

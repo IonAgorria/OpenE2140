@@ -72,10 +72,8 @@ The following game assets must be present in WD file or directory form:
 - Use delta for updates
 - Entity attachment
     - Proper adjustments of turret offsets
-    - Rotate attachment offset with rotation
     - Building exits
     - Unit turret
-- Allow selection rectangle
 - Order processing
 - Unit factory
 - Mobile units
@@ -96,6 +94,7 @@ The following game assets must be present in WD file or directory form:
 - Building construction and deployment
 - Factories build queue
 - Writing game data (sprites of units, weapons and other missing data)
+- Fix KT30 turrets
 - Complex orders such as patrol, ore transport, unit transport
 - Minimap to show units, buildings and ore
 - Map trees, rocks and water

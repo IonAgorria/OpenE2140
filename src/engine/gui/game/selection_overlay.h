@@ -28,9 +28,14 @@ protected:
     GUIGameRoot* gameRoot;
 
     /**
-     * Active selection rectangle
+     * Active selection start point
      */
-    std::unique_ptr<Rectangle> selectingRectangle;
+    std::unique_ptr<Vector2> selectionStart;
+
+    /**
+     * Current selection rectangle if any (selectionStart should be used to know if selection is active)
+     */
+    Rectangle selectionRectangle;
 
     /**
      * Current selected entities
@@ -48,6 +53,9 @@ protected:
 
     /** Color for enemy entities */
     ColorRGBA enemyColor = Color::RED;
+
+    /** Threshold for selection to be considered as such */
+    int selectionThreshold = 10;
 
     /** Flag for additive mode */
     bool additive = false;
@@ -100,6 +108,8 @@ public:
      */
 
     bool mouseClick(int x, int y, mouse_button_t button, bool press) override;
+
+    bool keyChange(input_key_t& key);
 };
 
 #endif //OPENE2140_SELECTION_OVERLAY_H

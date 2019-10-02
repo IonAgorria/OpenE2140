@@ -1507,15 +1507,14 @@
                 "position": [44, 0]
             },
             "turret_back": {
-                "code": "turret_heavy_rockets_plain",
+                "code": "turret_light_rockets_plain",
                 "position": [-46, 0]
             }
         },
         "sprites": {
             "default": {
                 "index": 486,
-                "collections": 9,
-                "offset": [-10, 0]
+                "collections": 9
             }
         }
     },

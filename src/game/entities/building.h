@@ -8,7 +8,7 @@
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/components/faction_component.h"
 #include "engine/simulation/components/player_component.h"
-#include "engine/simulation/components/power_component.h"
+#include "engine/simulation/components/energy_component.h"
 #include "engine/simulation/components/attachment_component.h"
 #include "game/components/palette_component.h"
 #include "game/components/sprite_damage_component.h"
@@ -22,12 +22,14 @@ CLASS_ENTITY_COMPONENTS(Entity, Building,
                         FactionComponent,
                         ImageComponent,
                         PaletteComponent,
-                        PowerComponent,
+                        EnergyComponent,
                         SpriteDamageComponent,
                         AttachmentComponent
 )
 public:
     void simulationChanged() override;
+
+    void entityChanged() override;
 
     void draw() override;
 };
@@ -45,6 +47,8 @@ public:
 CLASS_ENTITY(Building, Mine)
 public:
     void simulationChanged() override;
+
+    void entityChanged() override;
 };
 
 /**
@@ -53,6 +57,8 @@ public:
 CLASS_ENTITY(Building, Refinery)
 public:
     void simulationChanged() override;
+
+    void entityChanged() override;
 };
 
 #endif //OPENE2140_BUILDING_H

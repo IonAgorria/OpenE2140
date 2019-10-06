@@ -49,6 +49,9 @@ using entity_direction_t = number_t;
 /** Entity health */
 using entity_health_t = uint16_t;
 
+/** Entity energy */
+using entity_energy_t = int32_t;
+
 /** Player ID */
 using player_id_t = uint16_t;
 

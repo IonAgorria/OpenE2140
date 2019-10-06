@@ -136,6 +136,13 @@ void Simulation::close() {
 void Simulation::update() {
     world->update();
 
+    //Update player's energy
+    for (const std::unique_ptr<Player>& player : players) {
+        if (player) {
+            player->updateEnergy();
+        }
+    }
+
     std::vector<std::shared_ptr<Entity>> toRemove;
     for (const std::shared_ptr<Entity>& entity : entityStore->getEntities()) {
         //Parent already handles their entities

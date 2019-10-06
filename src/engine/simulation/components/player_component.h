@@ -26,9 +26,9 @@ public:
      */
     Player* getPlayer();
 
-     /**
-      * Set this entity player
-      */
+    /**
+     * Set this entity player
+     */
     void setPlayer(Player* newPlayer);
 };
 

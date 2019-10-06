@@ -24,3 +24,8 @@ void Player::addEnemy(const Player* other) {
 void Player::removeEnemy(const Player* other) {
     BIT_OFF(enemies, other->mask);
 }
+
+void Player::updateEnergy() {
+    energyPool = energyGeneration;
+    energyGeneration = 0;
+}

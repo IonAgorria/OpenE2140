@@ -25,6 +25,18 @@ public:
     const player_mask_t mask = 0;
 
     /**
+     * Energy generated in previous update
+     * To be incremented by entities
+     */
+    entity_energy_t energyGeneration;
+
+    /**
+     * Energy pool available considering the energy generation
+     * Used by entities
+     */
+    entity_energy_t energyPool;
+
+    /**
      * Main color for this player
      */
     ColorRGBA color = Color::WHITE;
@@ -91,6 +103,11 @@ public:
      * Removes player as this player enemy
      */
     void removeEnemy(const Player* other);
+
+    /**
+     * Handle the player energy
+     */
+    void updateEnergy();
 };
 
 #endif //OPENE2140_PLAYER_H

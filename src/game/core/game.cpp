@@ -102,7 +102,7 @@ void Game::run() {
     //TODO this is only for testings
     std::unique_ptr<SimulationParameters> parameters = std::make_unique<SimulationParameters>();
     parameters->seed = 1;
-    parameters->loadLevelContent = false;
+    parameters->loadLevelContent = true;
     parameters->world = "LEVEL/DATA/LEVEL01";
      parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";

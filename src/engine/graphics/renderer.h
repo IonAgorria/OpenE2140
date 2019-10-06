@@ -183,12 +183,12 @@ public:
     size_t flushes = 0;
 
     /**
-     * Constructs loader
+     * Constructor
      */
     Renderer();
 
     /**
-     * Destructs loader and cleans any loaded assets
+     * Destructor
      */
     ~Renderer() override;
 

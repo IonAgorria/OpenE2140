@@ -42,7 +42,7 @@ public:
     explicit EntityManager(std::shared_ptr<Engine> engine);
 
     /**
-     * Destructs loader and cleans any loaded assets
+     * Destructs loader
      */
     ~EntityManager() override;
 

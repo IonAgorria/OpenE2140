@@ -10,10 +10,7 @@
 
 CLASS_COMPONENT_DEFAULT(PaletteComponent)
 
-unsigned short test;
 void PaletteComponent::update() {
-    test+=10;
-    setLight(0x8000 < test);
 }
 
 void PaletteComponent::setup() {

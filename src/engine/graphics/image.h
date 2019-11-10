@@ -130,7 +130,7 @@ public:
     /**
      * @return texture id
      */
-    const GLuint getTexture() const;
+    GLuint getTexture() const;
 
     /**
      * Set the palette to use with this image

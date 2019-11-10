@@ -53,7 +53,7 @@ Image::Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image
             }
 
             //Set the initial texture data
-            size_t bufferSize = rectangle.x * rectangle.y;
+            size_t bufferSize = rectangle.w * rectangle.h;
             if (!withPalette) bufferSize *= 4;
             std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(bufferSize);
             memset(buffer.get(), 0, bufferSize);
@@ -94,14 +94,14 @@ Image::operator bool() {
 }
 
 void Image::updateUVs() {
-    u = rectangle.x / (float) textureSize.x;
-    v = rectangle.y / (float) textureSize.y;
-    u2 = (rectangle.x + rectangle.w) / (float) textureSize.x;
-    v2 = (rectangle.y + rectangle.h) / (float) textureSize.y;
+    u = static_cast<float>(rectangle.x) / static_cast<float>(textureSize.x);
+    v = static_cast<float>(rectangle.y) / static_cast<float>(textureSize.y);
+    u2 = static_cast<float>(rectangle.x + rectangle.w) / static_cast<float>(textureSize.x);
+    v2 = static_cast<float>(rectangle.y + rectangle.h) / static_cast<float>(textureSize.y);
 }
 
-void Image::setRectangle(Rectangle& newPectangle) {
-    this->rectangle = Rectangle(newPectangle);
+void Image::setRectangle(Rectangle& newRectangle) {
+    this->rectangle = Rectangle(newRectangle);
     updateUVs();
 }
 
@@ -124,7 +124,7 @@ bool Image::check(bool usePalette) {
     return true;
 }
 
-const GLuint Image::getTexture() const {
+GLuint Image::getTexture() const {
     return texture;
 }
 

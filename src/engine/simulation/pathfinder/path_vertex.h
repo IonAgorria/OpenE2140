@@ -7,8 +7,6 @@
 #include "engine/core/types.h"
 #include "engine/core/common.h"
 
-using path_cost_t = uint16_t;
-
 /**
  * Contains vertex data such as cost to goal and tile flags
  */

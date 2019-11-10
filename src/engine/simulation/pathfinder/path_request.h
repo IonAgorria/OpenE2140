@@ -84,7 +84,7 @@ public:
 
     /**
      * Returns the current status of pathfinder for the provided entity
-     * If path is available the provided vector will filled
+     * If path is available the provided vector will be filled
      *
      * @param entity which requested the path
      * @param path vector to write path if available

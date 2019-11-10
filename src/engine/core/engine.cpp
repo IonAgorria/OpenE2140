@@ -106,8 +106,11 @@ void Engine::close() {
     if (assetManager) {
         assetManager.reset();
     }
-    if (timer) {
-        timer.reset();
+    if (updateTimer) {
+        updateTimer.reset();
+    }
+    if (drawTimer) {
+        drawTimer.reset();
     }
 }
 
@@ -137,8 +140,9 @@ void Engine::run() {
         return;
     }
 
-    //Initialize timer
-    timer = std::make_unique<Timer>();
+    //Initialize timers
+    updateTimer = std::make_unique<Timer>();
+    drawTimer = std::make_unique<Timer>();
 
     //Initialize event handler
     eventHandler = std::make_unique<EventHandler>(this_ptr);
@@ -194,8 +198,12 @@ void Engine::run() {
 }
 
 void Engine::update() {
-    //Update timer
-    timer->update();
+    //Check if we should skip update
+    updateTimerElapsed = updateTimer->elapsed();
+    if (GAME_DELTA > updateTimerElapsed * 1000) {
+        return;
+    }
+    updateTimer->update();
 
     //Update simulation
     if (simulation) {
@@ -229,10 +237,15 @@ void Engine::draw() {
     size_t flushes = renderer->flushes;
     renderer->flushes = 0;
 
-    //Update window
-    float elapsed = std::max(0.0001f, timer->elapsed());
-    int fps = static_cast<int>(std::round(1.0f / elapsed));
-    window->setTitle(std::to_string(fps) + " FPS " + std::to_string(flushes) + " Flushes");
+    //Update timer and title
+    float updateElapsed = std::max(0.0001f, updateTimerElapsed);
+    float drawElapsed = std::max(0.0001f, drawTimer->elapsed());
+    int ups = static_cast<int>(std::round(1.0f / updateElapsed));
+    int fps = static_cast<int>(std::round(1.0f / drawElapsed));
+    window->setTitle(std::to_string(ups) + " UPS " + std::to_string(fps) + " FPS " + std::to_string(flushes) + " Flushes");
+    drawTimer->update();
+
+    //Update window content
     window->swap();
 }
 

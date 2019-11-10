@@ -59,9 +59,19 @@ protected:
     std::unique_ptr<Simulation> simulation;
 
     /**
-     * Stores the engine timer
+     * Stores the engine update timer
      */
-    std::unique_ptr<Timer> timer;
+    std::unique_ptr<Timer> updateTimer;
+
+    /**
+     * Last read update timer elapsed value
+     */
+    float updateTimerElapsed = 0;
+
+    /**
+     * Stores the engine draw timer
+     */
+    std::unique_ptr<Timer> drawTimer;
 
     /**
      * Current active menu if any

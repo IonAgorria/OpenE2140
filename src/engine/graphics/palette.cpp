@@ -17,29 +17,31 @@ Palette::Palette(unsigned int size, bool extra): extra(extra) {
         colors.push_back(color);
     }
 
-    //Create texture
-    glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
-    glGenTextures(1, &texture);
-    error = Utils::checkGLError();
-    if (!error.empty()) {
-        return;
-    }
-    bindTexture();
+    if (!Utils::isFlag(FLAG_HEADLESS)) {
+        //Create texture
+        glActiveTexture(extra ? TEXTURE_UNIT_PALETTE_EXTRA : TEXTURE_UNIT_PALETTE_COLORS);
+        glGenTextures(1, &texture);
+        error = Utils::checkGLError();
+        if (!error.empty()) {
+            return;
+        }
+        bindTexture();
 
-    //Repeat texture when texcoord overflows
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    error = Utils::checkGLError();
-    if (!error.empty()) {
-        return;
-    }
+        //Repeat texture when texcoord overflows
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        error = Utils::checkGLError();
+        if (!error.empty()) {
+            return;
+        }
 
-    //Pixel scaling
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    error = Utils::checkGLError();
-    if (!error.empty()) {
-        return;
+        //Pixel scaling
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        error = Utils::checkGLError();
+        if (!error.empty()) {
+            return;
+        }
     }
 }
 

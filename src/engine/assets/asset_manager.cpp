@@ -163,12 +163,15 @@ void AssetManager::processIntermediates() {
 }
 
 void AssetManager::refreshAssets() {
-    Renderer* renderer = engine->getRenderer();
-    if (!renderer) {
-        error = "Renderer is not available";
-        return;
+    unsigned int textureSize = MINIMUM_TEXTURE_SIZE;
+    if (!Utils::isFlag(FLAG_HEADLESS)) {
+        Renderer* renderer = engine->getRenderer();
+        if (!renderer) {
+            error = "Renderer is not available";
+            return;
+        }
+        textureSize = renderer->getMaxTextureSize();
     }
-    unsigned int textureSize = renderer->getMaxTextureSize();
     unsigned int batchSize = (textureSize * textureSize) / (64 * 64);
     log->debug("Using texture size {0} batch size {1}", textureSize, batchSize);
 

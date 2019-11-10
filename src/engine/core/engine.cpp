@@ -31,10 +31,12 @@ int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
         } else if (arg == "--debug_all" || arg == "-da") {
             Utils::setFlag(FLAG_DEBUG, true);
             Utils::setFlag(FLAG_DEBUG_ALL, true);
-        } else if (arg == "--parent" || arg == "-p") {
-            Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
         } else if (arg == "--debug_opengl") {
             Utils::setFlag(FLAG_DEBUG_OPENGL, true);
+        } else if (arg == "--parent" || arg == "-p") {
+            Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
+        } else if (arg == "--headless" || arg == "-hl") {
+            Utils::setFlag(FLAG_HEADLESS, true);
         } else {
             std::cout << "Unknown arg " << arg << "\n";
         }
@@ -151,28 +153,30 @@ void Engine::run() {
         return;
     }
 
-    //Initialize window
-    window = std::make_unique<Window>();
-    error = window->getError();
-    if (hasError()) {
-        error = "Error initializing window\n" + error;
-        return;
-    }
-    setupWindow();
-    if (hasError()) {
-        return;
-    }
+    if (!Utils::isFlag(FLAG_HEADLESS)) {
+        //Initialize window
+        window = std::make_unique<Window>();
+        error = window->getError();
+        if (hasError()) {
+            error = "Error initializing window\n" + error;
+            return;
+        }
+        setupWindow();
+        if (hasError()) {
+            return;
+        }
 
-    //Initialize renderer
-    renderer = std::make_unique<Renderer>();
-    error = renderer->getError();
-    if (hasError()) {
-        error = "Error initializing renderer\n" + error;
-        return;
-    }
-    setupRenderer();
-    if (hasError()) {
-        return;
+        //Initialize renderer
+        renderer = std::make_unique<Renderer>();
+        error = renderer->getError();
+        if (hasError()) {
+            error = "Error initializing renderer\n" + error;
+            return;
+        }
+        setupRenderer();
+        if (hasError()) {
+            return;
+        }
     }
 
     //Initialize asset manager
@@ -223,6 +227,11 @@ void Engine::update() {
 }
 
 void Engine::draw() {
+    //Check if window and renderer is available
+    if (!window || !renderer) {
+        return;
+    }
+
     //Clear
     window->clear();
 

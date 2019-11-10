@@ -54,6 +54,7 @@
 #define FLAG_DEBUG_ALL           static_cast<unsigned>(              0b10)
 #define FLAG_DEBUG_OPENGL        static_cast<unsigned>(             0b100)
 #define FLAG_INSTALLATION_PARENT static_cast<unsigned>(         0b1000000)
+#define FLAG_HEADLESS            static_cast<unsigned>(        0b10000000)
 /** Flags for tile states */
 #define TILE_FLAG_PASSABLE       static_cast<unsigned>(               0b1)
 #define TILE_FLAG_WATER          static_cast<unsigned>(              0b10)

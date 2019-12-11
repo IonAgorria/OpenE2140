@@ -27,6 +27,8 @@ public:
      * GUIView overrides
      */
 
+    TYPE_NAME_OVERRIDE(SimulationView);
+
     void draw() override;
 
     void rootChanged() override;

@@ -46,6 +46,8 @@ public:
      * GUIView overrides
      */
 
+    TYPE_NAME_OVERRIDE(CameraView);
+
     void layout() override;
 
     void update() override;

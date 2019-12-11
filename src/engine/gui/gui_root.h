@@ -42,16 +42,16 @@ public:
     NON_COPYABLE(GUIRoot)
 
     /**
+     * Type name
+     */
+    virtual TYPE_NAME_OVERRIDE(GUIRoot)
+
+    /**
      * Called when this root is added or removed in engine as active root
      *
      * @param state
      */
     virtual void rootActive(std::shared_ptr<Engine> engine);
-
-    /**
-     * Type name
-     */
-    virtual TYPE_NAME(GUIRoot)
 
     /**
      * @return engine pointer

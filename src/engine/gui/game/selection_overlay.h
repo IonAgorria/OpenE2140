@@ -95,6 +95,8 @@ public:
      * GUIView overrides
      */
 
+    TYPE_NAME_OVERRIDE(GUIView);
+
     void rootChanged() override;
 
     void layout() override;

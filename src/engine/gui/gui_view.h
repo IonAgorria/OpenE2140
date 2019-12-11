@@ -76,6 +76,11 @@ public:
     NON_COPYABLE(GUIView)
 
     /**
+     * Type name
+     */
+    virtual TYPE_NAME(GUIRoot)
+
+    /**
      * Return the view views
      */
     const std::vector<std::unique_ptr<GUIView>>& getViews() const;

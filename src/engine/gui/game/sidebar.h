@@ -17,6 +17,8 @@ public:
      * GUIView overrides
      */
 
+    TYPE_NAME_OVERRIDE(Sidebar);
+
     void update() override;
 
     void draw() override;

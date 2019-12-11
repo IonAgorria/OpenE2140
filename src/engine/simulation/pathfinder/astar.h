@@ -29,17 +29,17 @@ protected:
     /**
      * Current pathfinder state
      */
-    PathFinderStatus status;
+    PathFinderStatus status = PathFinderStatus::None;
 
     /**
      * The tile where the agent are is sitting
      */
-    Tile* start;
+    Tile* start = nullptr;
 
     /**
      * The tile which is desired to reach
      */
-    Tile* goal;
+    Tile* goal = nullptr;
 
     /**
      * Priority queue of vertexes or open list

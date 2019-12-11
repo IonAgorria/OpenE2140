@@ -147,7 +147,9 @@ void Game::run() {
     setGUI(gameLayout);
 
     //Show main window
-    window->show();
+    if (window) {
+        window->show();
+    }
 
     //Main loop
     log->debug("Starting loop");

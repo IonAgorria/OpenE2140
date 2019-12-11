@@ -31,10 +31,12 @@ int Engine::main(int argc, char** argv, std::shared_ptr<Engine> engine) {
         } else if (arg == "--debug_all" || arg == "-da") {
             Utils::setFlag(FLAG_DEBUG, true);
             Utils::setFlag(FLAG_DEBUG_ALL, true);
-        } else if (arg == "--parent" || arg == "-p") {
-            Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
         } else if (arg == "--debug_opengl") {
             Utils::setFlag(FLAG_DEBUG_OPENGL, true);
+        } else if (arg == "--parent" || arg == "-p") {
+            Utils::setFlag(FLAG_INSTALLATION_PARENT, true);
+        } else if (arg == "--headless" || arg == "-hl") {
+            Utils::setFlag(FLAG_HEADLESS, true);
         } else {
             std::cout << "Unknown arg " << arg << "\n";
         }
@@ -106,8 +108,11 @@ void Engine::close() {
     if (assetManager) {
         assetManager.reset();
     }
-    if (timer) {
-        timer.reset();
+    if (updateTimer) {
+        updateTimer.reset();
+    }
+    if (drawTimer) {
+        drawTimer.reset();
     }
 }
 
@@ -137,8 +142,9 @@ void Engine::run() {
         return;
     }
 
-    //Initialize timer
-    timer = std::make_unique<Timer>();
+    //Initialize timers
+    updateTimer = std::make_unique<Timer>();
+    drawTimer = std::make_unique<Timer>();
 
     //Initialize event handler
     eventHandler = std::make_unique<EventHandler>(this_ptr);
@@ -147,28 +153,30 @@ void Engine::run() {
         return;
     }
 
-    //Initialize window
-    window = std::make_unique<Window>();
-    error = window->getError();
-    if (hasError()) {
-        error = "Error initializing window\n" + error;
-        return;
-    }
-    setupWindow();
-    if (hasError()) {
-        return;
-    }
+    if (!Utils::isFlag(FLAG_HEADLESS)) {
+        //Initialize window
+        window = std::make_unique<Window>();
+        error = window->getError();
+        if (hasError()) {
+            error = "Error initializing window\n" + error;
+            return;
+        }
+        setupWindow();
+        if (hasError()) {
+            return;
+        }
 
-    //Initialize renderer
-    renderer = std::make_unique<Renderer>();
-    error = renderer->getError();
-    if (hasError()) {
-        error = "Error initializing renderer\n" + error;
-        return;
-    }
-    setupRenderer();
-    if (hasError()) {
-        return;
+        //Initialize renderer
+        renderer = std::make_unique<Renderer>();
+        error = renderer->getError();
+        if (hasError()) {
+            error = "Error initializing renderer\n" + error;
+            return;
+        }
+        setupRenderer();
+        if (hasError()) {
+            return;
+        }
     }
 
     //Initialize asset manager
@@ -194,8 +202,12 @@ void Engine::run() {
 }
 
 void Engine::update() {
-    //Update timer
-    timer->update();
+    //Check if we should skip update
+    updateTimerElapsed = updateTimer->elapsed();
+    if (GAME_DELTA > updateTimerElapsed * 1000) {
+        return;
+    }
+    updateTimer->update();
 
     //Update simulation
     if (simulation) {
@@ -215,6 +227,11 @@ void Engine::update() {
 }
 
 void Engine::draw() {
+    //Check if window and renderer is available
+    if (!window || !renderer) {
+        return;
+    }
+
     //Clear
     window->clear();
 
@@ -229,10 +246,15 @@ void Engine::draw() {
     size_t flushes = renderer->flushes;
     renderer->flushes = 0;
 
-    //Update window
-    float elapsed = std::max(0.0001f, timer->elapsed());
-    int fps = static_cast<int>(std::round(1.0f / elapsed));
-    window->setTitle(std::to_string(fps) + " FPS " + std::to_string(flushes) + " Flushes");
+    //Update timer and title
+    float updateElapsed = std::max(0.0001f, updateTimerElapsed);
+    float drawElapsed = std::max(0.0001f, drawTimer->elapsed());
+    int ups = static_cast<int>(std::round(1.0f / updateElapsed));
+    int fps = static_cast<int>(std::round(1.0f / drawElapsed));
+    window->setTitle(std::to_string(ups) + " UPS " + std::to_string(fps) + " FPS " + std::to_string(flushes) + " Flushes");
+    drawTimer->update();
+
+    //Update window content
     window->swap();
 }
 

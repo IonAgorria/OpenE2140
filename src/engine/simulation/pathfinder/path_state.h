@@ -8,10 +8,15 @@
  * Path states enum
  */
 enum class PathFinderStatus {
+    /** Idle/Unknown state */
     None,
+    /** Path is being computed */
     Computing,
+    /** Closest approximation path without reaching destination */
     Partial,
+    /** No available path */
     Fail,
+    /** Path reaches destination */
     Success
 };
 

@@ -26,49 +26,51 @@ Image::Image(const Rectangle& rectangle, bool withPalette, std::shared_ptr<Image
         texture = owner->texture;
         textureSize = owner->textureSize;
     } else {
-        //Create texture
-        glActiveTexture(withPalette ? TEXTURE_UNIT_IMAGE_PALETTE : TEXTURE_UNIT_IMAGE_RGBA);
-        glGenTextures(1, &texture);
-        error = Utils::checkGLError();
-        if (!error.empty()) {
-            return;
-        }
-        bindTexture();
+        if (!Utils::isFlag(FLAG_HEADLESS)) {
+            //Create texture
+            glActiveTexture(withPalette ? TEXTURE_UNIT_IMAGE_PALETTE : TEXTURE_UNIT_IMAGE_RGBA);
+            glGenTextures(1, &texture);
+            error = Utils::checkGLError();
+            if (!error.empty()) {
+                return;
+            }
+            bindTexture();
 
-        //Repeat texture when texcoord overflows
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        error = Utils::checkGLError();
-        if (!error.empty()) {
-            return;
-        }
+            //Repeat texture when texcoord overflows
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            error = Utils::checkGLError();
+            if (!error.empty()) {
+                return;
+            }
 
-        //Pixel scaling
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        error = Utils::checkGLError();
-        if (!error.empty()) {
-            return;
+            //Pixel scaling
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            error = Utils::checkGLError();
+            if (!error.empty()) {
+                return;
+            }
+
+            //Set the initial texture data
+            size_t bufferSize = rectangle.w * rectangle.h;
+            if (!withPalette) bufferSize *= 4;
+            std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(bufferSize);
+            memset(buffer.get(), 0, bufferSize);
+            glTexImage2D(
+                GL_TEXTURE_2D,
+                0,
+                withPalette ? GL_R8UI : GL_RGBA,
+                rectangle.w, rectangle.h,
+                0,
+                withPalette ? GL_RED_INTEGER : GL_RGBA,
+                GL_UNSIGNED_BYTE,
+                buffer.get()
+            );
         }
 
         //Store the texture size
         textureSize = Vector2(rectangle.w, rectangle.h);
-
-        //Set the initial texture data
-        size_t bufferSize = static_cast<const size_t>(textureSize.x * textureSize.y);
-        if (!withPalette) bufferSize *= 4;
-        std::unique_ptr<byte_array_t> buffer = Utils::createBuffer(bufferSize);
-        memset(buffer.get(), 0, bufferSize);
-        glTexImage2D(
-            GL_TEXTURE_2D,
-            0,
-            withPalette ? GL_R8UI : GL_RGBA,
-            rectangle.w, rectangle.h,
-            0,
-            withPalette ? GL_RED_INTEGER : GL_RGBA,
-            GL_UNSIGNED_BYTE,
-            buffer.get()
-        );
     }
 
     updateUVs();
@@ -88,18 +90,18 @@ Image::~Image() {
 }
 
 Image::operator bool() {
-    return texture != 0;
+    return texture != 0 || Utils::isFlag(FLAG_HEADLESS);
 }
 
 void Image::updateUVs() {
-    u = rectangle.x / (float) textureSize.x;
-    v = rectangle.y / (float) textureSize.y;
-    u2 = (rectangle.x + rectangle.w) / (float) textureSize.x;
-    v2 = (rectangle.y + rectangle.h) / (float) textureSize.y;
+    u = static_cast<float>(rectangle.x) / static_cast<float>(textureSize.x);
+    v = static_cast<float>(rectangle.y) / static_cast<float>(textureSize.y);
+    u2 = static_cast<float>(rectangle.x + rectangle.w) / static_cast<float>(textureSize.x);
+    v2 = static_cast<float>(rectangle.y + rectangle.h) / static_cast<float>(textureSize.y);
 }
 
-void Image::setRectangle(Rectangle& newPectangle) {
-    this->rectangle = Rectangle(newPectangle);
+void Image::setRectangle(Rectangle& newRectangle) {
+    this->rectangle = Rectangle(newRectangle);
     updateUVs();
 }
 
@@ -122,7 +124,7 @@ bool Image::check(bool usePalette) {
     return true;
 }
 
-const GLuint Image::getTexture() const {
+GLuint Image::getTexture() const {
     return texture;
 }
 

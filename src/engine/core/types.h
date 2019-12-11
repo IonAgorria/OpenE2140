@@ -65,7 +65,7 @@ using money_t = int64_t;
 using tile_flags_t = uint16_t;
 
 /** Type for cost of path */
-using path_cost_t = uint16_t;
+using path_cost_t = uint32_t;
 
 /** Type for time intervals in ms, can be positive or negative */
 using duration_t = int64_t;

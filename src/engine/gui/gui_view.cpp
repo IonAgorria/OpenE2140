@@ -212,3 +212,11 @@ bool GUIView::keyChange(input_key_t& key) {
     }
     return handled;
 }
+
+std::vector<const GUIView*> GUIView::getLeafs() const {
+    std::vector<const GUIView*> leafs;
+    for (auto& view : views) {
+        leafs.push_back(view.get());
+    }
+    return leafs;
+}

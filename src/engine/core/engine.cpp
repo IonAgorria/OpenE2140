@@ -448,6 +448,7 @@ void Engine::setGUI(std::shared_ptr<GUIRoot> root) {
     if (root) {
         guiRoot = std::move(root);
         guiRoot->rootActive(this_shared_ptr<Engine>());
+        Utils::printTree<GUIView>(guiRoot.get());
         eventHandler->addEventListener(guiRoot);
     }
 }

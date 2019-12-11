@@ -86,6 +86,11 @@ public:
     const std::vector<std::unique_ptr<GUIView>>& getViews() const;
 
     /**
+     * Return the view views, used for tree printing
+     */
+    std::vector<const GUIView*> getLeafs() const;
+
+    /**
      * Adds view to this view
      */
     virtual void addView(std::unique_ptr<GUIView> view);

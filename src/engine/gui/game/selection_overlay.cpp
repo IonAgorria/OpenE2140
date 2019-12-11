@@ -124,12 +124,12 @@ bool SelectionOverlay::isSelected(entity_id_t id) {
 bool SelectionOverlay::mouseClick(int x, int y, mouse_button_t button, bool press) {
 
     //Handle start of selection
-    if (press && !selectionStart && mousePosition) {
+    if (press && button == 1 && !selectionStart && mousePosition) {
         selectionStart = std::make_unique<Vector2>(*mousePosition + gameRoot->getCamera());
     }
 
     //Handle finish of rectangle
-    if (!press && selectionStart) {
+    if (!press && button == 1 && selectionStart) {
         auto engine = root->getEngine();
         bool isRectangle = selectionThreshold < selectionRectangle.w && selectionThreshold < selectionRectangle.h;
 

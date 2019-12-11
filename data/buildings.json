@@ -479,6 +479,7 @@
             "default": 0,
             "damaged": 1
         },
+        "energy_generation": 2000,
         "energy_requirement": 0,
         "health": 600,
         "upgrades": [
@@ -600,8 +601,7 @@
             [0, 0, 2, 2],
             [2, 0, 1, 1]
         ],
-        "energy_generation": 2000,
-        "energy_requirement": 0,
+        "energy_requirement": 200,
         "health": 500,
         "capacity": {
             "light": 6

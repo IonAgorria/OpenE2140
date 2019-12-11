@@ -9,7 +9,6 @@
 
 Player::Player(player_id_t id):
     id(id), mask(BIT_MASK(id)) {
-    if (id == 0) BUG("Player ID is 0");
 }
 
 bool Player::isEnemy(const Player* other) const {

@@ -28,13 +28,13 @@ public:
      * Energy generated in previous update
      * To be incremented by entities
      */
-    entity_energy_t energyGeneration;
+    entity_energy_t energyGeneration = 0;
 
     /**
      * Energy pool available considering the energy generation
      * Used by entities
      */
-    entity_energy_t energyPool;
+    entity_energy_t energyPool = 0;
 
     /**
      * Main color for this player

@@ -7,5 +7,4 @@
 #include "faction.h"
 
 Faction::Faction(faction_id_t id): id(id) {
-    if (id == 0) BUG("Faction ID is 0");
 }

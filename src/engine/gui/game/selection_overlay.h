@@ -109,7 +109,7 @@ public:
 
     bool mouseClick(int x, int y, mouse_button_t button, bool press) override;
 
-    bool keyChange(input_key_t& key);
+    bool keyChange(input_key_t& key) override ;
 };
 
 #endif //OPENE2140_SELECTION_OVERLAY_H

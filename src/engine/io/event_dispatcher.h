@@ -17,6 +17,12 @@ protected:
      */
     std::vector<std::shared_ptr<IEventListener>> listeners;
 public:
+
+    /**
+     * Type name
+     */
+    TYPE_NAME_OVERRIDE(EventDispatcher)
+
     /**
      * Registers event listener
      *
@@ -31,6 +37,10 @@ public:
      */
     void removeEventListener(std::shared_ptr<IEventListener> listener);
 
+    /*
+     * IEventListener
+     */
+
     bool eventUpdate() override;
 
     bool eventWindowChanged(Window* window) override;
@@ -44,6 +54,12 @@ public:
     bool eventMouseMove(Window* window, int x, int y) override;
 
     bool eventKeyChange(Window* window, input_key_t& key) override;
+
+    /*
+     * ITreePrintable
+     */
+
+    std::vector<const ITreePrintable*> getLeafs() const override;
 };
 
 #endif //OPENE2140_EVENT_DISPATCHER_H

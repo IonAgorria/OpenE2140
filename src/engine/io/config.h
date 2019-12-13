@@ -98,11 +98,10 @@ public:
     static void setRectangle(const Rectangle& rectangle, config_data_t& section);
 
     /**
-     * Disable copy/move
+     * Macros
      */
     NON_COPYABLE_NOR_MOVABLE(Config)
-
-    std::string toString() const override;
+    TYPE_NAME_OVERRIDE(Config)
 
     std::string toStringContent() const override;
 };

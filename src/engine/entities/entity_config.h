@@ -69,9 +69,10 @@ public:
     void loadEntityData(const config_data_t& configData, const IEntityFactory* factory);
 
     /**
-     * Disable copy/move
+     * Macros
      */
     NON_COPYABLE_NOR_MOVABLE(EntityConfig)
+    TYPE_NAME_OVERRIDE(EntityConfig)
 
     /**
      * Handles the loading and assemble of sprites in entity config as set of images
@@ -96,8 +97,6 @@ public:
     /*
      * IToString
      */
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

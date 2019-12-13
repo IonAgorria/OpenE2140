@@ -33,7 +33,9 @@ public:
     /**
      * Constructor
      */
-    AssetLevelGame(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetLevelGame(const asset_path_t& path, std::shared_ptr<File> file, long fileOffset, long fileSize);
+
+    TYPE_NAME_OVERRIDE(AssetLevelGame)
 
     /**
      * Does game level to engine player id conversion
@@ -42,8 +44,6 @@ public:
      * @return id
      */
     player_id_t getPlayerId(byte_t player);
-
-    std::string toString() const override;
 
     void dimensions(Vector2& size) override;
 

@@ -89,3 +89,11 @@ bool EventDispatcher::eventKeyChange(Window* window, input_key_t& key) {
     }
     return handled;
 }
+
+std::vector<const ITreePrintable*> EventDispatcher::getLeafs() const {
+    std::vector<const ITreePrintable*> leafs;
+    for (auto& listener : listeners) {
+        leafs.push_back(listener.get());
+    }
+    return leafs;
+}

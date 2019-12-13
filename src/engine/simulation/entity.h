@@ -119,14 +119,10 @@ public:
     virtual ~Entity();
 
     /**
-     * Disable copy
+     * Macros
      */
     NON_COPYABLE(Entity)
-
-    /**
-     * Type name
-     */
-    virtual TYPE_NAME(Entity)
+    TYPE_NAME_OVERRIDE(Entity)
 
     /**
      * Does the entity setup after object creation
@@ -314,8 +310,6 @@ public:
     /*
      * IToString
      */
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

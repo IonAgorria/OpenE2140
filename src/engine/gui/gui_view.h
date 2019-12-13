@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <vector>
+#include "engine/core/tree_printable.h"
 #include "engine/math/rectangle.h"
 #include "engine/core/macros.h"
 #include "engine/core/types.h"
@@ -16,7 +17,7 @@ class Renderer;
 /**
  * Basic element for composing GUI
  */
-class GUIView {
+class GUIView: public virtual ITreePrintable {
 protected:
     /**
      * View rectangle in parent relative coordinates
@@ -71,24 +72,15 @@ public:
     virtual ~GUIView();
 
     /**
-     * Disable copy
+     * Macros
      */
     NON_COPYABLE(GUIView)
-
-    /**
-     * Type name
-     */
-    virtual TYPE_NAME(GUIRoot)
+    TYPE_NAME_OVERRIDE(GUIView)
 
     /**
      * Return the view views
      */
     const std::vector<std::unique_ptr<GUIView>>& getViews() const;
-
-    /**
-     * Return the view views, used for tree printing
-     */
-    std::vector<const GUIView*> getLeafs() const;
 
     /**
      * Adds view to this view
@@ -197,6 +189,18 @@ public:
      * @return true if handled to stop propagation
      */
     virtual bool keyChange(input_key_t& key);
+
+    /*
+     * ITreePrintable
+     */
+
+    std::vector<const ITreePrintable*> getLeafs() const override;
+
+    /*
+     * IToString
+     */
+
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_GUI_VIEW_H

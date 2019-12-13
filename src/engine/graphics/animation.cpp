@@ -84,10 +84,6 @@ bool Animation::update(duration_t delta) {
     return changed;
 }
 
-std::string Animation::toString() const {
-    return "Animation(" + toStringContent() + ")";
-}
-
 std::string Animation::toStringContent() const {
     return " Duration: " + std::to_string(duration) +
            " Left: " + std::to_string(left) +

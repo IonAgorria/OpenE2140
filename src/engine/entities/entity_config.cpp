@@ -188,10 +188,6 @@ void EntityConfig::loadBounds() {
     }
 }
 
-std::string EntityConfig::toString() const {
-    return "EntityConfig(" + toStringContent() + ")";
-}
-
 std::string EntityConfig::toStringContent() const {
     return std::to_string(kind) + "_" + std::to_string(id) +
           (code.empty() ? "" : " C " + code) +

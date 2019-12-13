@@ -213,10 +213,14 @@ bool GUIView::keyChange(input_key_t& key) {
     return handled;
 }
 
-std::vector<const GUIView*> GUIView::getLeafs() const {
-    std::vector<const GUIView*> leafs;
+std::vector<const ITreePrintable*> GUIView::getLeafs() const {
+    std::vector<const ITreePrintable*> leafs;
     for (auto& view : views) {
         leafs.push_back(view.get());
     }
     return leafs;
+}
+
+std::string GUIView::toStringContent() const {
+    return "[" + rectangle.toStringContent() + "] Root: [" + rootPosition.toStringContent() + "]";
 }

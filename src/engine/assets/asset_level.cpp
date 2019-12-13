@@ -7,10 +7,6 @@ AssetLevel::AssetLevel(const asset_path_t& path, const std::shared_ptr<File> fil
         Asset(path, file, fileOffset, fileSize) {
 }
 
-std::string AssetLevel::toString() const {
-    return "AssetLevel(" + toStringContent() + ")";
-}
-
 void AssetLevel::dimensions(Vector2& size) {
     size.set(0, 0);
 }

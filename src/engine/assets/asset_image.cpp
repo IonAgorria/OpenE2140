@@ -103,10 +103,6 @@ std::shared_ptr<Image> AssetImage::getImage() const {
     return image;
 }
 
-std::string AssetImage::toString() const {
-    return "AssetImage(" + toStringContent() + ")";
-}
-
 std::string AssetImage::toStringContent() const {
     return Asset::toStringContent()
         + " Palette: " + (assetPalette ? assetPalette->toString() : "null")

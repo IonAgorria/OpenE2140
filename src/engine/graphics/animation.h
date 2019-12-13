@@ -55,6 +55,7 @@ public:
      * Disable copy/move
      */
     NON_COPYABLE_NOR_MOVABLE(Animation)
+    TYPE_NAME_OVERRIDE(Animation)
 
     /**
      * Sets the animation frames
@@ -91,8 +92,6 @@ public:
     /*
      * IToString
      */
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

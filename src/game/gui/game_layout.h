@@ -10,10 +10,15 @@
 #include "engine/gui/game/camera_view.h"
 
 /**
- * Provides the runnning game layout of views
+ * Provides the running game layout of views
  */
 class GameLayout: public GUIGameRoot {
 public:
+    /**
+     * Type name
+     */
+    TYPE_NAME_OVERRIDE(GameLayout)
+
     void rootActive(std::shared_ptr<Engine> engine) override {
         GUIGameRoot::rootActive(engine);
         if (engine) {

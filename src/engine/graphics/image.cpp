@@ -203,10 +203,6 @@ bool Image::loadFromRGBA8888(const byte_t* pixels) {
     return loadTextureRGBA(pixels);
 }
 
-std::string Image::toString() const {
-    return "Image(" + toStringContent() + ")";
-}
-
 std::string Image::toStringContent() const {
     return " Rectangle: " + rectangle.toString()
          + " Texture: " + std::to_string(texture)

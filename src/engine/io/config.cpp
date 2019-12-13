@@ -94,10 +94,6 @@ void Config::setRectangle(const Rectangle& rectangle, config_data_t& section) {
     section[3] = rectangle.h;
 }
 
-std::string Config::toString() const {
-    return "Config(" + toStringContent() + ")";
-}
-
 std::string Config::toStringContent() const {
     return " Path: " + path
         ;

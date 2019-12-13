@@ -184,10 +184,6 @@ const std::vector<Tile*>& Entity::getTiles() {
     return tiles;
 }
 
-std::string Entity::toString() const {
-    return type_name() + "(" + toStringContent() + ")";
-}
-
 std::string Entity::toStringContent() const {
     return "ID: " + std::to_string(id) +
            (config ? " Config: " + config->toString() : "") +

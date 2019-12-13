@@ -49,6 +49,11 @@ public:
     Vector2();
 
     /**
+     * Type name
+     */
+    TYPE_NAME_OVERRIDE(Vector2)
+
+    /**
      * Compares 2 vectors if they are equal
      *
      * @param vector2
@@ -252,8 +257,6 @@ public:
     /*
      * IToString
      */
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

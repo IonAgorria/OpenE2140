@@ -14,7 +14,7 @@
  * Image instance used for window drawing in abstract way
  */
 class Palette;
-class Image: public IErrorPossible {
+class Image: public IErrorPossible, public IToString {
 private:
     /**
      * Texture reference containing this image data
@@ -105,12 +105,13 @@ public:
     /**
      * Image destructor
      */
-    ~Image();
+    ~Image() override;
 
     /**
-     * Disable copy/move
+     * Macros
      */
     NON_COPYABLE_NOR_MOVABLE(Image)
+    TYPE_NAME_OVERRIDE(Image)
 
     /**
      * @return if image is valid
@@ -176,15 +177,11 @@ public:
      */
     bool loadFromRGBA8888(const byte_t* pixels);
 
-    /**
-     * @return string version of this
+    /*
+     * IToString
      */
-    std::string toString() const;
 
-    /**
-    * @return string content of this
-    */
-    std::string toStringContent() const;
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_IMAGE_H

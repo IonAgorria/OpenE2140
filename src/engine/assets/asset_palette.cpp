@@ -8,7 +8,7 @@ AssetPalette::AssetPalette(const asset_path_t& path, const std::shared_ptr<File>
         Asset(path, file, fileOffset, fileSize) {
 }
 
-bool AssetPalette::assignPalette(std::shared_ptr<Palette> assigningPalette) {
+bool AssetPalette::assignPalette(const std::shared_ptr<Palette>& assigningPalette) {
     if (assigningPalette) {
         //Seek to initial position
         if (seek(0, true) < 0 || !error.empty()) {
@@ -60,8 +60,4 @@ bool AssetPalette::assignPalette(std::shared_ptr<Palette> assigningPalette) {
 
 std::shared_ptr<Palette> AssetPalette::getPalette() const {
     return palette;
-}
-
-std::string AssetPalette::toString() const {
-    return "AssetPalette(" + toStringContent() + ")";
 }

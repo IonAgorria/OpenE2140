@@ -6,18 +6,24 @@
 
 #include <string>
 #include "engine/core/types.h"
+#include "engine/core/tree_printable.h"
 
 class Window;
 
 /**
  * Event listener methods
  */
-class IEventListener {
+class IEventListener: public virtual ITreePrintable {
 public:
     /**
      * Destructor
      */
     virtual ~IEventListener() = default;
+
+    /**
+     * Type name
+     */
+    virtual TYPE_NAME(IEventListener)
 
     /**
      * Called when event listener is updated

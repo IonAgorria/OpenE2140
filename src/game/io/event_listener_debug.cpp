@@ -10,6 +10,7 @@
 EventListenerDebug::EventListenerDebug(const std::shared_ptr<Game>& game): game(game) {
     keyDebugEntities = game->getKeyBind("F2");
     keyDebugTiles = game->getKeyBind("F3");
+    keyDebugEvents = game->getKeyBind("F4");
 }
 
 EventListenerDebug::~EventListenerDebug() {
@@ -26,6 +27,9 @@ bool EventListenerDebug::eventKeyChange(Window* window, input_key_t& key) {
         } else if (key.code == keyDebugEntities) {
             Simulation* simulation = game->getSimulation();
             simulation->debugEntities = !simulation->debugEntities;
+        } else if (key.code == keyDebugEvents) {
+            //Print event tree
+            game->getEventHandler()->printTree(game->log);
         }
     }
     return false;

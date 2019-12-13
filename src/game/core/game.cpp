@@ -104,7 +104,7 @@ void Game::run() {
     parameters->seed = 1;
     parameters->loadLevelContent = true;
     parameters->world = "LEVEL/DATA/LEVEL01";
-     parameters->world = "LEVEL/DATA/LEVEL06";
+    parameters->world = "LEVEL/DATA/LEVEL06";
     //parameters->world = "LEVEL/DATA/LEVEL351";
     //parameters->world = "LEVEL/DATA/LEVEL334";
     //parameters->world = "LEVEL2/DATA/LEVEL511";

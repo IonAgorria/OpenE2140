@@ -39,10 +39,6 @@ const std::string& Locale::getText(const std::string& key) {
     return texts[key];
 }
 
-std::string Locale::toString() const {
-    return "Locale(" + toStringContent() + ")";
-}
-
 std::string Locale::toStringContent() const {
     return code + ", " + name;
 }

@@ -5,6 +5,7 @@
 #define OPENE2140_TO_STRING_H
 
 #include <string>
+#include "macros.h"
 
 /**
  * Common interface for toString methods
@@ -17,14 +18,23 @@ public:
     virtual ~IToString() = default;
 
     /**
-     * @return string version of this asset
+     * Type name needed to implement
      */
-    virtual std::string toString() const = 0;
+    TYPE_NAME_VIRTUAL()
+
+    /**
+     * @return string version of this object
+     */
+    std::string toString() const {
+        return type_name() + "(" + toStringContent() + ")";
+    }
 
     /**
      * @return string content of this asset
      */
-    virtual std::string toStringContent() const = 0;
+    virtual std::string toStringContent() const {
+        return "";
+    }
 };
 
 #endif //OPENE2140_TO_STRING_H

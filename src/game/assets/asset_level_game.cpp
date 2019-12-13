@@ -34,10 +34,6 @@ player_id_t AssetLevelGame::getPlayerId(byte_t player) {
     return BIT_INDEX(player);
 }
 
-std::string AssetLevelGame::toString() const {
-    return "AssetLevelGame(" + toStringContent() + ")";
-}
-
 void AssetLevelGame::dimensions(Vector2& size) {
     size.set(levelSize);
 }

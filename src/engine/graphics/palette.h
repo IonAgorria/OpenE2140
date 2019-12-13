@@ -8,12 +8,13 @@
 #include <unordered_map>
 #include "engine/core/common.h"
 #include "engine/core/error_possible.h"
+#include "engine/core/to_string.h"
 #include "color.h"
 
 /**
  * Palette implementation which uses array for CPU side and 1D texture for GPU side
  */
-class Palette : public IErrorPossible {
+class Palette : public IErrorPossible, public IToString {
 protected:
     /**
      * Internal palette colors
@@ -57,9 +58,10 @@ public:
     ~Palette() override;
 
     /**
-     * Disable copy/move
+     * Macros
      */
     NON_COPYABLE_NOR_MOVABLE(Palette)
+    TYPE_NAME_OVERRIDE(Palette)
 
     /**
      * @return if palette is valid
@@ -137,15 +139,11 @@ public:
      */
     GLuint getTexture() const;
 
-    /**
-     * @return string version of this
+    /*
+     * IToString
      */
-    std::string toString() const;
 
-    /**
-    * @return string content of this
-    */
-    std::string toStringContent() const;
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_PALETTE_H

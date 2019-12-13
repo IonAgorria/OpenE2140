@@ -37,22 +37,22 @@ public:
     virtual ~AssetPalette() = default;
 
     /**
+     * Macros
+     */
+    TYPE_NAME_OVERRIDE(AssetPalette)
+
+    /**
      * Writes this asset palette content to palette and set this image in the asset
      *
      * @param palette to write this asset content to
      * @return true if success
      */
-    bool assignPalette(std::shared_ptr<Palette> assigningPalette);
+    bool assignPalette(const std::shared_ptr<Palette>& assigningPalette);
 
     /**
      * @return palette containing data for this palette asset
      */
     std::shared_ptr<Palette> getPalette() const;
-
-    /**
-     * @return string version of this asset
-     */
-    std::string toString() const override;
 };
 
 #endif //OPENE2140_ASSETPALETTE_H

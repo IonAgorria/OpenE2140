@@ -288,10 +288,6 @@ bool Rectangle::getIntersectLine(Vector2& start, Vector2& end) const {
     return SDL_IntersectRectAndLine(&rt, &start.x, &start.y, &end.x, &end.y);
 }
 
-std::string Rectangle::toString() const {
-    return "Rectangle(" + toStringContent() + ")";
-}
-
 std::string Rectangle::toStringContent() const {
     return std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(w) + ", " + std::to_string(h);
 }

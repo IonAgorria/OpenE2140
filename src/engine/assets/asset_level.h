@@ -17,12 +17,12 @@ public:
     /**
      * Constructor
      */
-    AssetLevel(const asset_path_t& path, const std::shared_ptr<File> file, long fileOffset, long fileSize);
+    AssetLevel(const asset_path_t& path, std::shared_ptr<File> file, long fileOffset, long fileSize);
 
     /**
-     * @return string version of this asset
+     * Macros
      */
-    std::string toString() const override;
+    TYPE_NAME_OVERRIDE(AssetLevel)
 
     /**
      * Dimensions of this world

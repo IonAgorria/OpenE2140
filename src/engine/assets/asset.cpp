@@ -123,10 +123,6 @@ bool Asset::match(const std::string& string) {
     return true;
 }
 
-std::string Asset::toString() const {
-    return "Asset(" + toStringContent() + ")";
-}
-
 std::string Asset::toStringContent() const {
     return " Path: " + path
          + " Offset: " + std::to_string(fileOffset)

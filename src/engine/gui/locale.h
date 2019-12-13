@@ -43,9 +43,10 @@ public:
     virtual ~Locale() = default;
 
     /**
-     * Disable copy/move
+     * Macros
      */
     NON_COPYABLE_NOR_MOVABLE(Locale)
+    TYPE_NAME_OVERRIDE(Locale)
 
     /**
      * Loads the texts from config data
@@ -65,8 +66,6 @@ public:
     /*
      * IToString
      */
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

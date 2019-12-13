@@ -41,6 +41,11 @@ public:
     NON_COPYABLE_NOR_MOVABLE(EventHandler)
 
     /**
+     * Type name
+     */
+    TYPE_NAME_OVERRIDE(EventHandler)
+
+    /**
      * @return if close is requested
      */
     bool isClosing();

@@ -147,10 +147,6 @@ bool Palette::updateTexture() {
     return true;
 }
 
-std::string Palette::toString() const {
-    return "Palette(" + toStringContent() + ")";
-}
-
 std::string Palette::toStringContent() const {
     return " Length: " + std::to_string(length())
          + " Extra: " + std::to_string(extra)

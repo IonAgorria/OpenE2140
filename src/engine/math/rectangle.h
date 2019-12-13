@@ -63,6 +63,11 @@ public:
     Rectangle();
 
     /**
+     * Macros
+     */
+    TYPE_NAME_OVERRIDE(Rectangle)
+
+    /**
      * Compares 2 rectangles if they are equal
      *
      * @param rectangle
@@ -338,8 +343,6 @@ public:
     /*
      * IToString
      */
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

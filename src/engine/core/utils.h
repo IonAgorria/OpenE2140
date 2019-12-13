@@ -407,26 +407,6 @@ public:
      * @param roots
      */
     static void getRootPaths(const std::string& name, std::vector<std::string>& roots);
-
-    /**
-     * Generic tree printer
-     *
-     * @tparam T
-     * @param obj
-     * @param prefix
-     * @param leafs
-     */
-    template<typename T>
-    static void printTree(const T* obj, const std::string& prefix = "", int leafs = 0) {
-        Log::get()->debug(prefix + (leafs ? "├" : "┌") +"─ " + obj->type_name());
-        for (const auto leaf : obj->getLeafs()) {
-            printTree<T>(leaf, prefix + "│ ", leafs);
-            leafs++;
-        }
-        if (leafs) {
-            Log::get()->debug(prefix + "┴");
-        }
-    }
 };
 
 #endif //OPENE2140_UTILS_H

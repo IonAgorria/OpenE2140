@@ -153,10 +153,6 @@ void Vector2::set(const Vector2& vector2) {
     this->y = vector2.y;
 }
 
-std::string Vector2::toString() const {
-    return "Vector2(" + toStringContent() + ")";
-}
-
 std::string Vector2::toStringContent() const {
     return std::to_string(x) + ", " + std::to_string(y);
 }

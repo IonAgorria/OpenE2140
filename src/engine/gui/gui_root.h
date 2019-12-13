@@ -37,14 +37,10 @@ public:
     ~GUIRoot() override = default;
 
     /**
-     * Disable copy
+     * Macros
      */
     NON_COPYABLE(GUIRoot)
-
-    /**
-     * Type name
-     */
-    virtual TYPE_NAME_OVERRIDE(GUIRoot)
+    TYPE_NAME_OVERRIDE(GUIRoot)
 
     /**
      * Called when this root is added or removed in engine as active root
@@ -62,6 +58,14 @@ public:
      * @return simulation pointer
      */
     Simulation* getSimulation();
+
+    /*
+     * ITreePrintable
+     */
+
+    std::vector<const ITreePrintable*> getLeafs() const override {
+        return GUIView::getLeafs();
+    }
 
     /*
      * GUIView overrides

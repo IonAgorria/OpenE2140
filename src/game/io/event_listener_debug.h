@@ -25,6 +25,7 @@ private:
      */
     input_key_code_t keyDebugEntities = 0;
     input_key_code_t keyDebugTiles = 0;
+    input_key_code_t keyDebugEvents = 0;
 public:
     /**
      * Event handler constructor
@@ -40,6 +41,11 @@ public:
      * Disable copy
      */
     NON_COPYABLE(EventListenerDebug)
+
+    /**
+     * Type name
+     */
+    TYPE_NAME_OVERRIDE(EventListenerDebug)
 
     bool eventKeyChange(Window* window, input_key_t& key) override;
 };

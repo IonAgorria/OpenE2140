@@ -56,9 +56,10 @@ public:
     virtual ~Asset() = default;
 
     /**
-     * Disable copy/move
+     * Macros
      */
     NON_COPYABLE_NOR_MOVABLE(Asset)
+    TYPE_NAME_OVERRIDE(Asset)
 
     /**
      * @return this asset path
@@ -142,8 +143,6 @@ public:
      * @return true if matches
      */
     bool match(const std::string& string);
-
-    std::string toString() const override;
 
     std::string toStringContent() const override;
 };

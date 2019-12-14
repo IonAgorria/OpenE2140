@@ -127,6 +127,7 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
+    auto tile = simulation->getWorld()->getTile(5, 5);
     unsigned int y = 0;
     for (unsigned int i = 41; i <= 85; ++i) {
         entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, i});
@@ -139,6 +140,11 @@ void Game::run() {
         component->setPlayer(playerPtr);
         simulation->addEntity(entityPtr);
         y++;
+
+        //Test pathfinder
+        if (y < 10) {
+            playerPtr->pathHandler->requestDestination(entityPtr->getID(), tile);
+        }
     }
 
     //Do like we are launching the game GUI

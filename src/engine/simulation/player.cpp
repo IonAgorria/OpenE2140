@@ -9,6 +9,7 @@
 
 Player::Player(player_id_t id):
     id(id), mask(BIT_MASK(id)) {
+    pathHandler = std::make_unique<PathHandler>(this);
 }
 
 bool Player::isEnemy(const Player* other) const {
@@ -27,4 +28,5 @@ void Player::removeEnemy(const Player* other) {
 void Player::update() {
     energyPool = energyGeneration;
     energyGeneration = 0;
+    pathHandler->update();
 }

@@ -44,23 +44,54 @@ protected:
     Player* player;
 
     /**
-     * Ongoing requests by goal tile
+     * Ongoing requests
      */
-    std::unordered_map<Tile*, std::unique_ptr<PathRequest>> requests;
+    std::vector<std::shared_ptr<PathRequest>> requests;
 
 public:
     /**
      * Constructs a new path handler for player
      * @param player
      */
-    PathHandler(Player* player);
+    explicit PathHandler(Player* player);
 
     /**
      * Destructor
      */
     PathHandler() = default;
 
-    //request(std<Entity>)
+    /**
+     * @return player
+     */
+    Player* getPlayer();
+
+    /**
+     * Removes entity from any ongoing requests
+     *
+     * @param entity_id
+     */
+    void removeRequests(entity_id_t entity_id);
+
+    /**
+     * Returns a request for entity with the provided destination
+     *
+     * @param entity
+     * @param target
+     */
+    std::shared_ptr<PathRequest> requestDestination(entity_id_t entity_id, Tile* tile);
+
+    /**
+     * Returns a request for entity with the provided target
+     *
+     * @param entity
+     * @param target
+     */
+    std::shared_ptr<PathRequest> requestTarget(entity_id_t entity_id, const std::shared_ptr<Entity>& target);
+
+    /**
+     * Updates the ongoing requests
+     */
+    void update();
 };
 
 #endif //OPENE2140_PATH_HANDLER_H

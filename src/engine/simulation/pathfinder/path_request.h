@@ -10,9 +10,15 @@
 #include "engine/math/vector2.h"
 #include "astar.h"
 
+class PathHandler;
 class Tile;
 class Entity;
-class Simulation;
+
+enum class PathRequestMode {
+    ACTIVE_TILE,
+    ACTIVE_ENTITY,
+    INACTIVE,
+};
 
 /**
  * Contains the request for pathfinder, can contain one or several agents that want go to a single fixed destination or
@@ -20,11 +26,6 @@ class Simulation;
  */
 class PathRequest {
 protected:
-    /**
-     * Simulation which request was created for
-     */
-    Simulation* simulation;
-
     /**
      * Pathfinder assigned to each agent
      */
@@ -47,6 +48,16 @@ protected:
 
 public:
     /**
+     * Path handler that manages this request
+     */
+    PathHandler* handler = nullptr;
+
+    /**
+     * Current request mode
+     */
+    PathRequestMode mode = PathRequestMode::INACTIVE;
+
+    /**
      * Constructor
      */
     PathRequest();
@@ -64,6 +75,11 @@ public:
     /**
      * @return the common vertexes for this request
      */
+    const std::vector<PathVertex>& getVertexes() const;
+
+    /**
+     * @return the common vertexes for this request
+     */
     std::vector<PathVertex>& getVertexes();
 
     /**
@@ -75,7 +91,7 @@ public:
     bool addEntity(entity_id_t entity);
 
     /**
-     * Removes a entity from this request
+     * Removes a entity from this request if any
      *
      * @param entity
      * @return if was removed
@@ -90,7 +106,12 @@ public:
      * @param path vector to write path if available
      * @return path status
      */
-    PathFinderStatus getResult(entity_id_t entity, std::vector<tile_index_t> path);
+    PathFinderStatus getResult(entity_id_t entity, std::vector<tile_index_t> path) const;
+
+    /**
+     * @return current destination
+     */
+    Tile* getDestination() const;
 
     /**
      * Sets the destination if is different from current destination
@@ -98,6 +119,11 @@ public:
      * @param newDestination
      */
     void setDestination(Tile* newDestination);
+
+    /**
+     * @return current target entity
+     */
+    std::shared_ptr<Entity> getTarget() const;
 
     /**
      * Sets target entity as destination

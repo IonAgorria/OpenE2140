@@ -4,10 +4,12 @@
 #ifndef OPENE2140_PLAYER_H
 #define OPENE2140_PLAYER_H
 
+#include "engine/simulation/pathfinder/path_handler.h"
 #include "engine/graphics/color.h"
 #include "engine/core/macros.h"
 
 class Faction;
+class Simulation;
 
 /**
  * Contains Player related data
@@ -45,6 +47,11 @@ public:
      * Extra colors
      */
     std::vector<ColorRGBA> extraColors;
+
+    /**
+     * Player own path handler
+     */
+    std::unique_ptr<PathHandler> pathHandler;
 
     /**
      * Simulation which player belongs

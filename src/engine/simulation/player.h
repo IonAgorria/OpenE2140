@@ -47,6 +47,11 @@ public:
     std::vector<ColorRGBA> extraColors;
 
     /**
+     * Simulation which player belongs
+     */
+    Simulation* simulation = nullptr;
+
+    /**
      * Player faction
      */
     Faction* faction = nullptr;
@@ -77,13 +82,9 @@ public:
     virtual ~Player() = default;
 
     /**
-     * Disable copy
+     * Macros
      */
     NON_COPYABLE(Player)
-
-    /**
-     * Type name
-     */
     TYPE_NAME(Player)
 
     /**
@@ -107,7 +108,7 @@ public:
     /**
      * Handle the player energy
      */
-    void updateEnergy();
+    void update();
 };
 
 #endif //OPENE2140_PLAYER_H

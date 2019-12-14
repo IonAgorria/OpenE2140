@@ -116,7 +116,7 @@ public:
     /**
      * Entity destructor
      */
-    virtual ~Entity();
+    ~Entity() override;
 
     /**
      * Macros

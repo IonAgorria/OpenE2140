@@ -128,6 +128,13 @@ void Simulation::close() {
         }
         entityStore->clear();
     }
+    for (std::unique_ptr<Player>& player : players) {
+        if (player) {
+            player->simulation = nullptr;
+        }
+    }
+    players.clear();
+    factions.clear();
     if (world) {
         world.reset();
     }
@@ -136,10 +143,10 @@ void Simulation::close() {
 void Simulation::update() {
     world->update();
 
-    //Update player's energy
+    //Update players
     for (const std::unique_ptr<Player>& player : players) {
         if (player) {
-            player->updateEnergy();
+            player->update();
         }
     }
 
@@ -261,6 +268,10 @@ void Simulation::addFaction(std::unique_ptr<Faction> faction) {
     if (factions.size() < static_cast<faction_id_t>(id + 1)) {
         factions.resize(id + 1);
     }
+    if (factions[id]) {
+        log->warn("Faction with ID {0} already exists!", id);
+        return;
+    }
     factions[id].swap(faction);
 }
 
@@ -287,6 +298,11 @@ void Simulation::addPlayer(std::unique_ptr<Player> player) {
     if (players.size() < static_cast<player_id_t>(id + 1)) {
         players.resize(id + 1);
     }
+    if (players[id]) {
+        log->warn("Player with ID {0} already exists!", id);
+        return;
+    }
+    player->simulation = this;
     players[id].swap(player);
 }
 

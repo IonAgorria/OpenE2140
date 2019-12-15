@@ -161,6 +161,30 @@ number_t Vector2::length() const {
     return number_sqrt((x * x) + (y * y));
 }
 
+number_t Vector2::distance(int x, int y) {
+    int dx = this->x - x;
+    int dy = this->y - y;
+    return number_sqrt(dx * dx + dy * dy);
+}
+
+number_t Vector2::distance(const Vector2& vector2) {
+    int dx = this->x - vector2.x;
+    int dy = this->y - vector2.y;
+    return number_sqrt(dx * dx + dy * dy);
+}
+
+unsigned int Vector2::distanceSquared(int x, int y) {
+    int dx = this->x - x;
+    int dy = this->y - y;
+    return dx * dx + dy * dy;
+}
+
+unsigned int Vector2::distanceSquared(const Vector2& vector2) {
+    int dx = this->x - vector2.x;
+    int dy = this->y - vector2.y;
+    return dx * dx + dy * dy;
+}
+
 void Vector2::rotate(number_t radians, Vector2& vector2) const {
     number_t sin = number_sin(radians);
     number_t cos = number_cos(radians);

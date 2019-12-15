@@ -11,13 +11,15 @@
 #include "astar.h"
 
 class PathHandler;
+class World;
 class Tile;
 class Entity;
 
 enum class PathRequestMode {
-    ACTIVE_TILE,
-    ACTIVE_ENTITY,
-    INACTIVE,
+    ACTIVE_TILE, //Request to a specific tile
+    ACTIVE_ENTITY, //Request to go into entity tile, can become ACTIVE_TILE if entity is lost/destroyed
+    ACTIVE_PARTIAL, //Request created when normal pathfinder fails
+    INACTIVE, //Request is no longer active and should be removed
 };
 
 /**
@@ -71,6 +73,11 @@ public:
      * (re)initializes the internal states to clear state
      */
     void initialize();
+
+    /**
+     * @return world
+     */
+    World* getWorld() const;
 
     /**
      * @return the common vertexes for this request

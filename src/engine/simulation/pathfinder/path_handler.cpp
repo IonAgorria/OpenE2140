@@ -21,23 +21,28 @@ void PathHandler::removeRequests(entity_id_t entity_id) {
 }
 
 std::shared_ptr<PathRequest>
-PathHandler::requestDestination(entity_id_t entity_id, Tile* tile) {
+PathHandler::requestDestination(entity_id_t entity_id, Tile* tile, bool partial = false) {
     std::shared_ptr<PathRequest> activeRequest;
     removeRequests(entity_id);
 
-    //Attempt to find a existing request that can be reused
     if (tile) {
-        for (const auto& request : requests) {
-            if (request->mode == PathRequestMode::ACTIVE_TILE && request->getDestination() == tile) {
-                activeRequest = request;
-                break;
+        PathRequestMode mode = partial ? PathRequestMode::ACTIVE_PARTIAL
+                                       : PathRequestMode::ACTIVE_TILE;
+
+        //Attempt to find a existing request that can be reused if is not partial
+        if (!partial) {
+            for (const auto& request : requests) {
+                if (request->mode == PathRequestMode::ACTIVE_TILE && request->getDestination() == tile) {
+                    activeRequest = request;
+                    break;
+                }
             }
         }
 
         //None found, create new request
         if (!activeRequest) {
             activeRequest = std::make_shared<PathRequest>();
-            activeRequest->mode = PathRequestMode::ACTIVE_TILE;
+            activeRequest->mode = mode;
             activeRequest->handler = this;
             activeRequest->setDestination(tile);
             requests.push_back(activeRequest);

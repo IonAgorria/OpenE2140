@@ -1,6 +1,7 @@
 //
 // Created by Ion Agorria on 13/06/19
 //
+#include "engine/simulation/world/world.h"
 #include "engine/simulation/world/tile.h"
 #include "engine/core/utils.h"
 #include "astar.h"
@@ -24,26 +25,36 @@ void AStar::plan(Tile* newStart, Tile* newGoal) {
     //Create initial vertex
     PathVertex& vertex = request->getVertexes()[goal->index];
     vertex.l = goal->tileFlags;
-    visitTile(vertex, nullptr);
+    visitTile(request->getWorld(), vertex, nullptr);
 }
 
 void AStar::compute() {
-    if (status != PathFinderStatus::Computing) {
+    World* world = request->getWorld();
+    if (status != PathFinderStatus::Computing || !world) {
         return;
     }
-    //TODO
+    while (!queue.empty()) {
+        PathVertex vertex = *queue.top();
+    }
 }
 
-void AStar::visitTile(PathVertex& vertex, PathVertex* from) {
-    if (from) {
-        path_cost_t g = from->g; //TODO add method for calculating cost;
+void AStar::visitTile(World* world, PathVertex& vertex, PathVertex* vertexFrom) {
+    Tile* tile = world->getTile(vertex.index);
+    if (vertexFrom) {
+        Tile* tileFrom = world->getTile(vertexFrom->index);
+        path_cost_t g = vertexFrom->g;
+        g += tileFrom->position-
+        //TODO add method for calculating cost;
         if (g < vertex.g) {
             vertex.g = g;
-            vertex.back = from->index;
+            vertex.back = vertexFrom->index;
         }
     } else {
         vertex.g = 0;
         vertex.back = vertex.index;
+    }
+    for (auto adj : vertex) {
+
     }
 }
 

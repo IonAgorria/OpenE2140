@@ -229,6 +229,36 @@ public:
     number_t length() const;
 
     /**
+     * Return distance between this and provided vector
+     *
+     * @param x value
+     * @param y value
+     */
+    number_t distance(int x, int y);
+
+    /**
+     * Return distance between this and provided vector
+     *
+     * @param vector2 to get distance
+     */
+    number_t distance(const Vector2& vector2);
+
+    /**
+     * Return distance between this and provided vector
+     *
+     * @param x value
+     * @param y value
+     */
+    unsigned int distanceSquared(int x, int y);
+
+    /**
+     * Return distance between this and provided vector
+     *
+     * @param vector2 to get distance
+     */
+    unsigned int distanceSquared(const Vector2& vector2);
+
+    /**
      * Rotates the vector and stores result
      *
      * @param radians of rotation

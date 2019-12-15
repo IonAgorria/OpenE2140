@@ -10,11 +10,17 @@
 PathRequest::PathRequest() {
 }
 
+World* PathRequest::getWorld() const {
+    if (!handler) return nullptr;
+    Simulation* simulation = handler->getPlayer()->simulation;
+    return simulation ? simulation->getWorld() : nullptr;
+}
+
 void PathRequest::initialize() {
     //Reset each vertex
-    if (handler) {
-        Simulation* simulation = handler->getPlayer()->simulation;
-        auto& tiles = simulation->getWorld()->getTiles();
+    World* world = this->getWorld();
+    if (world) {
+        auto& tiles = world->getTiles();
         vertexes.resize(tiles.size());
         for (std::unique_ptr<Tile>& tile : tiles) {
             PathVertex& vertex = vertexes[tile->index];

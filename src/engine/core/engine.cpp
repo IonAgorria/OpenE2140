@@ -203,10 +203,12 @@ void Engine::run() {
 
 void Engine::update() {
     //Check if we should skip update
-    updateTimerElapsed = updateTimer->elapsed();
+    float updateTimerElapsed = updateTimer->elapsed();
     if (GAME_DELTA > updateTimerElapsed * 1000) {
         return;
     }
+    updateElapsedAvg *= 0.8;
+    updateElapsedAvg += (std::max(0.0001f, updateTimerElapsed) * 0.2f);
     updateTimer->update();
 
     //Update simulation
@@ -247,10 +249,10 @@ void Engine::draw() {
     renderer->flushes = 0;
 
     //Update timer and title
-    float updateElapsed = std::max(0.0001f, updateTimerElapsed);
-    float drawElapsed = std::max(0.0001f, drawTimer->elapsed());
-    int ups = static_cast<int>(std::round(1.0f / updateElapsed));
-    int fps = static_cast<int>(std::round(1.0f / drawElapsed));
+    drawElapsedAvg *= 0.8;
+    drawElapsedAvg += (std::max(0.0001f, drawTimer->elapsed()) * 0.2f);
+    int ups = static_cast<int>(std::round(1.0f / updateElapsedAvg));
+    int fps = static_cast<int>(std::round(1.0f / drawElapsedAvg));
     window->setTitle(std::to_string(ups) + " UPS " + std::to_string(fps) + " FPS " + std::to_string(flushes) + " Flushes");
     drawTimer->update();
 

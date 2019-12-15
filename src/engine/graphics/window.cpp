@@ -163,6 +163,7 @@ bool Window::setSize(const Vector2& newSize) {
 }
 
 void Window::setTitle(const std::string& title) {
+    //log->debug("Changed title: {0}", title);
     std::string base = std::string(GAME_TITLE);
     if (!title.empty()) {
         base += " - " + title;

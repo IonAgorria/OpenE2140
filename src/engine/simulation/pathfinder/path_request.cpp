@@ -3,6 +3,7 @@
 //
 #include "engine/simulation/simulation.h"
 #include "src/engine/simulation/entity.h"
+#include "src/engine/simulation/entity_store.h"
 #include "engine/simulation/world/world.h"
 #include "engine/simulation/world/tile.h"
 #include "path_request.h"
@@ -11,9 +12,7 @@ PathRequest::PathRequest() {
 }
 
 World* PathRequest::getWorld() const {
-    if (!handler) return nullptr;
-    Simulation* simulation = handler->getPlayer()->simulation;
-    return simulation ? simulation->getWorld() : nullptr;
+    return handler && simulation ? simulation->getWorld() : nullptr;
 }
 
 void PathRequest::initialize() {
@@ -53,7 +52,6 @@ bool PathRequest::addEntity(entity_id_t entity) {
         return false;
     }
     pathfinder = std::make_unique<AStar>(this);
-    pathfinder->initialize();
     pathfinders[entity] = std::move(pathfinder);
     return true;
 }
@@ -145,7 +143,9 @@ void PathRequest::update() {
     }
 
     //Update each pathfinders
+    auto entityStore = simulation->getEntitiesStore();
     for (auto& pair : pathfinders) {
+        std::shared_ptr<Entity> entity = entityStore->getEntity(pair.first);
         pair.second->compute();
     }
 }

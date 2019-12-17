@@ -234,14 +234,14 @@ public:
      * @param x value
      * @param y value
      */
-    number_t distance(int x, int y);
+    number_t distance(int x, int y) const;
 
     /**
      * Return distance between this and provided vector
      *
      * @param vector2 to get distance
      */
-    number_t distance(const Vector2& vector2);
+    number_t distance(const Vector2& vector2) const;
 
     /**
      * Return distance between this and provided vector
@@ -249,14 +249,14 @@ public:
      * @param x value
      * @param y value
      */
-    unsigned int distanceSquared(int x, int y);
+    unsigned int distanceSquared(int x, int y) const;
 
     /**
      * Return distance between this and provided vector
      *
      * @param vector2 to get distance
      */
-    unsigned int distanceSquared(const Vector2& vector2);
+    unsigned int distanceSquared(const Vector2& vector2) const;
 
     /**
      * Rotates the vector and stores result

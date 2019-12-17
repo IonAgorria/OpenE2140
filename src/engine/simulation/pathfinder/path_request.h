@@ -55,6 +55,11 @@ public:
     PathHandler* handler = nullptr;
 
     /**
+     * Simulation which this request belongs
+     */
+    Simulation* simulation = nullptr;
+
+    /**
      * Current request mode
      */
     PathRequestMode mode = PathRequestMode::INACTIVE;

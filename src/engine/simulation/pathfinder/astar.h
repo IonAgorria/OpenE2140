@@ -13,6 +13,7 @@
 #include "path_vertex.h"
 #include "astar_comparator.h"
 
+class World;
 class PathRequest;
 class Tile;
 
@@ -90,7 +91,7 @@ public:
      *
      * @param vertex to visit
      */
-    void visitTile(World* world, PathVertex& vertex, PathVertex* from);
+    void visitTile(World* world, std::vector<PathVertex>& vertexes, PathVertex& vertex, PathVertex* from);
 };
 
 #endif //OPENE2140_ASTAR_H

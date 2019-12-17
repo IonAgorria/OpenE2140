@@ -24,7 +24,7 @@ public:
      * @param v2
      * @return
      */
-    bool operator()(PathVertex& v1, PathVertex& v2);
+    bool operator()(PathVertex* v1, PathVertex* v2);
 };
 
 #endif //OPENE2140_ASTAR_COMPARATOR_H

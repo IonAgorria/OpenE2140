@@ -41,7 +41,7 @@ protected:
     /**
      * Pointer which belongs to
      */
-    Player* player;
+    Player* player = nullptr;
 
     /**
      * Ongoing requests
@@ -75,16 +75,17 @@ public:
     /**
      * Returns a request for entity with the provided destination
      *
-     * @param entity
-     * @param target
+     * @param entity the entity originating the request
+     * @param tile destination tile to find the path
+     * @param partial is request for a partial type?
      */
-    std::shared_ptr<PathRequest> requestDestination(entity_id_t entity_id, Tile* tile);
+    std::shared_ptr<PathRequest> requestDestination(entity_id_t entity_id, Tile* tile, bool partial = false);
 
     /**
      * Returns a request for entity with the provided target
      *
-     * @param entity
-     * @param target
+     * @param entity the entity originating the request
+     * @param target entity to set the destination tile
      */
     std::shared_ptr<PathRequest> requestTarget(entity_id_t entity_id, const std::shared_ptr<Entity>& target);
 

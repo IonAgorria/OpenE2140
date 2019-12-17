@@ -3,6 +3,7 @@
 //
 #include "path_handler.h"
 #include "engine/simulation/entity.h"
+#include "engine/simulation/player.h"
 
 PathHandler::PathHandler(Player* player): player(player) {
 }
@@ -21,7 +22,7 @@ void PathHandler::removeRequests(entity_id_t entity_id) {
 }
 
 std::shared_ptr<PathRequest>
-PathHandler::requestDestination(entity_id_t entity_id, Tile* tile, bool partial = false) {
+PathHandler::requestDestination(entity_id_t entity_id, Tile* tile, bool partial) {
     std::shared_ptr<PathRequest> activeRequest;
     removeRequests(entity_id);
 
@@ -44,6 +45,7 @@ PathHandler::requestDestination(entity_id_t entity_id, Tile* tile, bool partial 
             activeRequest = std::make_shared<PathRequest>();
             activeRequest->mode = mode;
             activeRequest->handler = this;
+            activeRequest->simulation = player->simulation;
             activeRequest->setDestination(tile);
             requests.push_back(activeRequest);
         }
@@ -74,6 +76,7 @@ PathHandler::requestTarget(entity_id_t entity_id, const std::shared_ptr<Entity>&
             activeRequest = std::make_shared<PathRequest>();
             activeRequest->mode = PathRequestMode::ACTIVE_ENTITY;
             activeRequest->handler = this;
+            activeRequest->simulation = player->simulation;
             activeRequest->setTarget(target);
             requests.push_back(activeRequest);
         }
@@ -94,6 +97,7 @@ void PathHandler::update() {
 
         //Remove request if no longer active
         if (request->mode == PathRequestMode::INACTIVE) {
+            request->simulation = nullptr;
             request->handler = nullptr;
             it = requests.erase(it);
             continue;

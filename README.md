@@ -69,15 +69,15 @@ The following game assets must be present in WD file or directory form:
 - Units and buildings stats
 
 ## Roadmap
+- Mobile units (add tile binding to tiles array)
+- Basic pathfinder
 - Entity attachment
     - Proper adjustments of turret offsets
     - Building exits
     - Unit turret
 - Order processing
 - Unit factory
-- Mobile units
 - Move order
-- Basic pathfinder
 - Rectangle and circular collisions for buildings/units 
 - Basic ingame GUI
 - Menu GUI

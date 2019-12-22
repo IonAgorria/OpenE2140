@@ -14,6 +14,7 @@ class PathHandler;
 class World;
 class Tile;
 class Entity;
+class Simulation;
 
 enum class PathRequestMode {
     ACTIVE_TILE, //Request to a specific tile

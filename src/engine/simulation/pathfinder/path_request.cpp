@@ -144,8 +144,31 @@ void PathRequest::update() {
 
     //Update each pathfinders
     auto entityStore = simulation->getEntitiesStore();
-    for (auto& pair : pathfinders) {
-        std::shared_ptr<Entity> entity = entityStore->getEntity(pair.first);
-        pair.second->compute();
+    for (auto it = pathfinders.begin(); it != pathfinders.end(); ) {
+        //Remove if entity is no longer active
+        std::shared_ptr<Entity> entity = entityStore->getEntity(it->first);
+        Tile* tile = entity->getTile();
+        if (!entity || !entity->isActive() || !tile) {
+            it = pathfinders.erase(it);
+            continue;
+        }
+
+        //Ignore if not computing
+        auto& pathfinder = it->second;
+        auto status = pathfinder->getStatus();
+        if (status == PathFinderStatus::None || status == PathFinderStatus::Computing) {
+            //Update state according to partial mode
+            if (this->mode == PathRequestMode::ACTIVE_PARTIAL) {
+                pathfinder->plan(tile, destination);
+            } else {
+                pathfinder->plan(destination, tile);
+            }
+
+            //Update computation
+            pathfinder->compute();
+        }
+
+        //Move to next
+        ++it;
     }
 }

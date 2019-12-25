@@ -30,17 +30,17 @@ protected:
     /**
      * This entity config such as type and stats
      */
-    const EntityConfig* config;
+    const EntityConfig* config = nullptr;
 
     /**
      * Simulation which this entity belongs
      */
-    Simulation* simulation;
+    Simulation* simulation = nullptr;
 
     /**
      * Renderer to use when drawing this entity
      */
-    Renderer* renderer;
+    Renderer* renderer = nullptr;
 
     /**
      * Entity center position
@@ -65,12 +65,12 @@ protected:
     /**
      * Max health of entity or 0 for none
      */
-    entity_health_t maxHealth;
+    entity_health_t maxHealth = 0;
 
     /**
      * Current health of entity
      */
-    entity_health_t currentHealth;
+    entity_health_t currentHealth = 0;
 
     /**
      * Flag for active state
@@ -90,7 +90,7 @@ protected:
     /**
      * Parent of this entity which is attached to if any
      */
-    Entity* parent;
+    Entity* parent = nullptr;
 
     /**
      * Last changes count since last update
@@ -133,6 +133,11 @@ public:
      * @return entity id
      */
     entity_id_t getID() const;
+
+    /**
+     * @return entity pointer
+     */
+    std::shared_ptr<Entity> getEntityPtr() const;
 
     /**
      * @return entity position
@@ -305,7 +310,17 @@ public:
     /**
      * @return tile or tiles which this entity is occupying
      */
-    const std::vector<Tile*>& getTiles();
+    const std::vector<Tile*>& getTiles() const;
+
+    /**
+     * @return tile or tiles which this entity is occupying
+     */
+    std::vector<Tile*>& getTiles();
+
+    /**
+     * Clears all tiles this entity might have
+     */
+    void clearTiles();
 
     /*
      * IToString

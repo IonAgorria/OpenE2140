@@ -3,10 +3,11 @@
 //
 #include "engine/simulation/simulation.h"
 #include "engine/entities/entity_config.h"
+#include "engine/simulation/world/tile.h"
+#include "engine/simulation/entity_store.h"
 #include "entity.h"
 
-Entity::Entity() {
-}
+Entity::Entity() = default;
 
 Entity::~Entity() {
     if (active || id || simulation) {
@@ -25,6 +26,14 @@ void Entity::setup(EntityConfig* newConfig) {
 
 entity_id_t Entity::getID() const {
     return id;
+}
+
+std::shared_ptr<Entity> Entity::getEntityPtr() const {
+    std::shared_ptr<Entity> entity;
+    if (simulation) {
+        entity = simulation->getEntitiesStore()->getEntity(id);
+    }
+    return entity;
 }
 
 const Vector2& Entity::getPosition() const {
@@ -128,6 +137,7 @@ void Entity::addedToSimulation(entity_id_t entityID, Simulation* sim) {
 void Entity::removedFromSimulation() {
     active = false;
     simulationChanged();
+    clearTiles();
     renderer = nullptr;
     simulation = nullptr;
     id = 0;
@@ -180,8 +190,19 @@ Tile* Entity::getTile() {
     return tiles.empty() ? nullptr : tiles[0];
 }
 
-const std::vector<Tile*>& Entity::getTiles() {
+const std::vector<Tile*>& Entity::getTiles() const {
     return tiles;
+}
+
+std::vector<Tile*>& Entity::getTiles() {
+    return tiles;
+}
+
+void Entity::clearTiles() {
+    for (Tile* tile : tiles) {
+        tile->removeEntity(id);
+    }
+    tiles.clear();
 }
 
 std::string Entity::toStringContent() const {

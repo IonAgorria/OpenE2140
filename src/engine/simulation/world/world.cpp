@@ -162,18 +162,18 @@ std::vector<std::unique_ptr<Tile>>& World::getTiles() {
     return tiles;
 }
 
-Tile* World::getTile(tile_index_t index) {
+Tile* World::getTile(tile_index_t index) const {
     if (index < 0 || index >= tiles.size()) {
         return nullptr;
     }
     return tiles.at(index).get();
 }
 
-Tile* World::getTile(unsigned int x, unsigned int y) {
+Tile* World::getTile(unsigned int x, unsigned int y) const {
     return getTile(x + realRectangle.w * y);
 }
 
-Tile* World::getTile(const Vector2& position) {
+Tile* World::getTile(const Vector2& position) const {
     return getTile(position.x / tileSize, position.y / tileSize);
 }
 

@@ -12,7 +12,7 @@ class Entity;
 /**
  * Stores each tile information
  */
-class Tile: public TilePrototype {
+class Tile: public TilePrototype, public virtual IToString {
 public:
     /**
      * Tile index in the world
@@ -58,11 +58,34 @@ public:
      * Disable copy/move
      */
     NON_COPYABLE_NOR_MOVABLE(Tile)
+    TYPE_NAME_OVERRIDE(Tile);
 
     /**
      * Set data from prototype
      */
     void setPrototype(TilePrototype prototype);
+
+    /**
+     * Adds a entity to this tile and tile to entity tiles list
+     *
+     * @param entity
+     * @return
+     */
+    bool addEntity(const std::shared_ptr<Entity>& entity, bool clearTiles = true);
+
+    /**
+     * Removes an entity from this tile and tile from entity tiles list
+     *
+     * @param id of entity to remove
+     * @return
+     */
+    bool removeEntity(entity_id_t id);
+
+    /*
+     * IToString
+     */
+
+    std::string toStringContent() const override;
 };
 
 #endif //OPENE2140_TILE_H

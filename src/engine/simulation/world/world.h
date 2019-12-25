@@ -130,7 +130,7 @@ public:
      * @param index of tile in world
      * @return tile if valid
      */
-    Tile* getTile(tile_index_t index);
+    Tile* getTile(tile_index_t index) const;
 
     /**
      * Tile in specified tile position
@@ -138,7 +138,7 @@ public:
      * @param index of tile in world
      * @return tile if valid
      */
-    Tile* getTile(unsigned int x, unsigned int y);
+    Tile* getTile(unsigned int x, unsigned int y) const;
 
     /**
      * Tile in specified world position
@@ -146,7 +146,7 @@ public:
      * @param index of tile in world
      * @return tile if valid
      */
-    Tile* getTile(const Vector2& position);
+    Tile* getTile(const Vector2& position) const;
 
     /**
      * Calculates the image for the tile

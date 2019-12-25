@@ -46,6 +46,11 @@ protected:
      */
     MovementType movementType = MovementType::Ground;
 
+    /**
+     * Current pathfinder request
+     */
+    PathRequest* pathRequest = nullptr;
+
 
     void chooseSprite() override;
 

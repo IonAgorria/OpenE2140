@@ -3,8 +3,9 @@
 //
 
 #include "engine/simulation/components/image_component.h"
-#include "game/core/constants.h"
 #include "game/core/game.h"
+#include "engine/simulation/simulation.h"
+#include "engine/simulation/world/world.h"
 #include "movement_component.h"
 
 CLASS_COMPONENT_DEFAULT(MovementComponent)
@@ -20,6 +21,15 @@ void MovementComponent::simulationChanged() {
     if (base->isActive()) {
         //Setup sprite
         updateSpriteIndex(base);
+        //Set the initial tile if none is set already
+        if (base->getTiles().empty()) {
+            Simulation* simulation =  base->getSimulation();
+            World* world = simulation->getWorld();
+            Tile* tile = world->getTile(base->getPosition());
+            base->clearTiles();
+            std::shared_ptr<Entity> entity = base->getEntityPtr();
+            tile->addEntity(entity);
+        }
     }
 }
 

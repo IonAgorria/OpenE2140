@@ -4,6 +4,8 @@
 #ifndef OPENE2140_ASTAR_H
 #define OPENE2140_ASTAR_H
 
+#define ASTAR_MAX_STEPS 1000
+
 #include <unordered_map>
 #include <memory>
 
@@ -43,9 +45,30 @@ protected:
     Tile* goal = nullptr;
 
     /**
+     * The closest tile to target
+     */
+    Tile* closest = nullptr;
+
+    /**
      * Priority queue of vertexes or open list
      */
     PriorityQueue<PathVertex*, AStarComparator> queue;
+
+    /**
+     * Tells the pathfinder to visit the vertex
+     *
+     * @param world pointer of world containing tiles
+     * @param vertexes the vertexes containing vector
+     * @param vertex to visit
+     */
+    void visitTile(const World* world, std::vector<PathVertex>& vertexes, PathVertex& vertex);
+
+    /**
+     * Updates the heuristic value of vertex
+     *
+     * @param tile
+     */
+    void calculateHeuristic(Tile* tile);
 
 public:
     /**
@@ -87,11 +110,9 @@ public:
     PathFinderStatus getStatus();
 
     /**
-     * Tells the pathfinder to visit the vertex
-     *
-     * @param vertex to visit
+     * @return closest found tile
      */
-    void visitTile(World* world, std::vector<PathVertex>& vertexes, PathVertex& vertex, PathVertex* from);
+    Tile* getClosest();
 };
 
 #endif //OPENE2140_ASTAR_H

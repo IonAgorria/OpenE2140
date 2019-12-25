@@ -37,7 +37,7 @@ protected:
     /**
      * Destination for this request
      */
-    Tile* destination;
+    Tile* destination = nullptr;
 
     /**
      * Target agent for this request if any
@@ -119,7 +119,7 @@ public:
      * @param path vector to write path if available
      * @return path status
      */
-    PathFinderStatus getResult(entity_id_t entity, std::vector<tile_index_t> path) const;
+    PathFinderStatus getResult(entity_id_t entity, std::vector<Tile*> path) const;
 
     /**
      * @return current destination

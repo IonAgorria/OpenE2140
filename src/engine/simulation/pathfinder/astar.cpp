@@ -27,6 +27,7 @@ void AStar::plan(Tile* newStart, Tile* newGoal) {
     status = PathFinderStatus::Computing;
     //Create initial vertex
     PathVertex* vertex = &request->getVertexes()[start->index];
+    vertex->back = vertex->index;
     queue.push(vertex);
 }
 
@@ -39,65 +40,95 @@ void AStar::compute() {
     if (!world || vertexes.empty()) {
         return;
     }
-    while (!queue.empty()) {
-        //Get the top vertex to scan next
+
+    //Get the top vertex to scan next and visit it until enough steps are done
+    size_t steps = 0;
+    while (!queue.empty() && steps < ASTAR_MAX_STEPS) {
         PathVertex vertex = *queue.top();
         queue.pop();
+        visitTile(world, vertexes, vertex);
+        steps++;
+    }
 
-        //Visit it
-        PathVertex* vertexFrom = vertex.back == vertex.index ? nullptr : &vertexes[vertex.back];
-        visitTile(world, vertexes, vertex, vertexFrom);
+    //Nothing on queue and not success?
+    if (queue.empty() && status != PathFinderStatus::Success) {
+        if (closest) {
+            status = PathFinderStatus::Partial;
+        } else {
+            status = PathFinderStatus::Fail;
+        }
     }
 }
 
-void AStar::visitTile(World* world, std::vector<PathVertex>& vertexes, PathVertex& vertex, PathVertex* vertexFrom) {
-    Tile* tile = world->getTile(vertex.index);
-    bool updated = false;
-    if (vertexFrom) {
-        Tile* tileFrom = world->getTile(vertexFrom->index);
+void AStar::visitTile(const World* world, std::vector<PathVertex>& vertexes, PathVertex& vertex) {
+    tile_index_t vertexIndex = vertex.index;
+    Tile* tile = world->getTile(vertexIndex);
+    log_ptr log = Log::get("A* "+std::to_string(start->index)+" "+std::to_string(goal->index));
+    log->debug("VISIT " + tile->toString());
 
-        //Calculate G cost + accumulated previous cost
-        path_cost_t g = vertexFrom->g;
-        g += tileFrom->position.distanceSquared(tile->position);
-
-        //If our is lower G then set from
-        if (g < vertex.g) {
-            updated = true;
-            vertex.g = g;
-            vertex.back = vertexFrom->index;
-        }
-        //Tile flags changed, set to update
-        if (tile->tileFlags != vertex.l) {
-            updated = true;
-        }
-    } else {
-        updated = true;
+    //Check if start
+    bool isStart = start->index == vertexIndex;
+    if (isStart) {
+        calculateHeuristic(tile);
+        vertex.l = tile->tileFlags;
         vertex.g = 0;
-        vertex.back = vertex.index;
+        vertex.back = vertexIndex;
     }
 
+    //Add as closest if it's the case
+    if (!closest || heuristic[closest->index] > heuristic[vertexIndex]) {
+        closest = tile;
+    }
 
     //Check if it's the goal
-    if (vertex.index == goal->index) {
-        vertex.l = tile->tileFlags;
+    if (vertexIndex == goal->index) {
         status = PathFinderStatus::Success;
         queue.clear();
+        log->debug("FOUND " + tile->toString());
         return;
     }
 
-    //Update flags and add adjancent vertices
-    if (updated) {
-        vertex.l = tile->tileFlags;
-        for (auto adjacentTile : tile->adjacents) {
-            PathVertex& adjacent = vertexes[adjacentTile->index];
-            if (adjacentTile->tileFlags != adjacent.l
-            || adjacent.g == PATHFINDER_INFINITY) {
-                queue.push(&adjacent);
-            }
+    //Add adjacent vertices
+    for (auto adjacentTile : tile->adjacents) {
+        //Skip tile which is my back
+        tile_index_t adjacentIndex = adjacentTile->index;
+        if (adjacentIndex == vertex.back) {
+            continue;
+        }
+        PathVertex& adjacentVertex = vertexes[adjacentIndex];
+
+        //Calculate G cost + accumulated previous cost
+        path_cost_t g = vertex.g;
+        g += adjacentTile->position.distanceSquared(tile->position);
+        //TODO add walkable checks and other G penalties
+
+        //Check if adjacent vertex should be updated
+        if (g < adjacentVertex.g //Lower G than currently has (because a shorter route has been found)
+        || adjacentVertex.g == PATHFINDER_INFINITY //Never visited
+        || adjacentVertex.l != adjacentTile->tileFlags //Flags changed since last visit
+        ) {
+            log->debug("TOUCH " + adjacentTile->toString());
+            adjacentVertex.g = g;
+            adjacentVertex.l = adjacentTile->tileFlags;
+            adjacentVertex.back = vertexIndex;
+        }
+
+        //Check if we should add vertex to visit queue
+        if (heuristic[adjacentIndex] == PATHFINDER_INFINITY) {
+            calculateHeuristic(adjacentTile);
+            queue.push(&adjacentVertex);
         }
     }
+}
+
+void AStar::calculateHeuristic(Tile* tile) {
+    heuristic[tile->index] = tile->position.distanceSquared(goal->position);
 }
 
 PathFinderStatus AStar::getStatus() {
     return status;
+}
+
+Tile* AStar::getClosest() {
+    return closest;
 }

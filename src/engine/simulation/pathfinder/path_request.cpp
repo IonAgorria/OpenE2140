@@ -6,6 +6,7 @@
 #include "src/engine/simulation/entity_store.h"
 #include "engine/simulation/world/world.h"
 #include "engine/simulation/world/tile.h"
+#include "path_vertex.h"
 #include "path_request.h"
 
 PathRequest::PathRequest() {
@@ -60,16 +61,49 @@ bool PathRequest::removeEntity(entity_id_t entity) {
     return pathfinders.erase(entity) != 0;
 }
 
-PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<tile_index_t> path) const {
+PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<Tile*> path) const {
+    //Check if mode and pathfinder is available
     if (mode == PathRequestMode::INACTIVE) {
         return PathFinderStatus::None;
     }
     const auto pathfinder = pathfinders.find(entity);
     if (pathfinder == pathfinders.end()) return PathFinderStatus::None;
+
+    //Get stuff
     PathFinderStatus status = pathfinder->second->getStatus();
+    bool isPartialRequest = mode == PathRequestMode::ACTIVE_PARTIAL;
+
+    //Since this request is not partial we discard the partial pathfinder status
+    //as we don't want unreachable partial originating from destination
+    if (!isPartialRequest && status == PathFinderStatus::Partial) {
+        status = PathFinderStatus::Fail;
+    }
+
+    //Handle success or partial status
     if (status == PathFinderStatus::Partial
      || status == PathFinderStatus::Success) {
-        //TODO do the path filling if pathfinderstatus is partial or complete
+        Tile* closest = pathfinder->second->getClosest();
+        if (closest) {
+            World* world = getWorld();
+            //Attempt to construct path by getting each tile in the chain
+            const PathVertex* vertex = &vertexes[closest->index];
+            while (true) {
+                Tile* tile = world->getTile(vertex->index);
+                path.push_back(tile);
+                if (vertex->index == vertex->back) {
+                    //Reached end
+                    break;
+                }
+                vertex = &vertexes[vertex->back];
+            }
+
+            //Since partial is done from entity as start we need to reverse it
+            if (isPartialRequest) {
+                std::reverse(path.begin(), path.end());
+            }
+        } else {
+            BUG("PathRequest status is positive but closest is null");
+        }
     }
     return status;
 }

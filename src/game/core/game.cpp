@@ -136,6 +136,12 @@ void Game::run() {
             static_cast<signed>(64 * ((y % 8) + 2) + 32),
             static_cast<signed>(64 * ((y / 8) + 2) + 32)
         });
+        if (y == 41) {
+            entityPtr->setPosition({
+               static_cast<signed>(32 + 64 * 3),
+               static_cast<signed>(32 + 64 * 1)
+            });
+        }
         component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
         component->setPlayer(playerPtr);
         simulation->addEntity(entityPtr);

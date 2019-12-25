@@ -25,10 +25,18 @@ void AStar::plan(Tile* newStart, Tile* newGoal) {
     start = newStart;
     goal = newGoal;
     status = PathFinderStatus::Computing;
-    //Create initial vertex
-    PathVertex* vertex = &request->getVertexes()[start->index];
-    vertex->back = vertex->index;
-    queue.push(vertex);
+
+    //Check if by chance goal was already found previously and is not stale
+    PathVertex& vertex = request->getVertexes()[goal->index];
+    if (staleVertex(vertex, goal)) {
+        //Add start vertex to start pathfinding
+        vertex = request->getVertexes()[start->index];
+        calculateHeuristic(start);
+        vertex.l = start->tileFlags;
+        vertex.g = 0;
+        vertex.back = vertex.index;
+    }
+    queue.push(&vertex);
 }
 
 void AStar::compute() {
@@ -60,20 +68,12 @@ void AStar::compute() {
     }
 }
 
+
 void AStar::visitTile(const World* world, std::vector<PathVertex>& vertexes, PathVertex& vertex) {
     tile_index_t vertexIndex = vertex.index;
     Tile* tile = world->getTile(vertexIndex);
     log_ptr log = Log::get("A* "+std::to_string(start->index)+" "+std::to_string(goal->index));
     log->debug("VISIT " + tile->toString());
-
-    //Check if start
-    bool isStart = start->index == vertexIndex;
-    if (isStart) {
-        calculateHeuristic(tile);
-        vertex.l = tile->tileFlags;
-        vertex.g = 0;
-        vertex.back = vertexIndex;
-    }
 
     //Add as closest if it's the case
     if (!closest || heuristic[closest->index] > heuristic[vertexIndex]) {
@@ -102,11 +102,9 @@ void AStar::visitTile(const World* world, std::vector<PathVertex>& vertexes, Pat
         g += adjacentTile->position.distanceSquared(tile->position);
         //TODO add walkable checks and other G penalties
 
-        //Check if adjacent vertex should be updated
-        if (g < adjacentVertex.g //Lower G than currently has (because a shorter route has been found)
-        || adjacentVertex.g == PATHFINDER_INFINITY //Never visited
-        || adjacentVertex.l != adjacentTile->tileFlags //Flags changed since last visit
-        ) {
+        //Check if adjacent vertex should be updated if lower G than currently has
+        //(because a shorter route has been found) or vertex is stale
+        if (g < adjacentVertex.g || staleVertex(adjacentVertex, adjacentTile)) {
             log->debug("TOUCH " + adjacentTile->toString());
             adjacentVertex.g = g;
             adjacentVertex.l = adjacentTile->tileFlags;
@@ -131,4 +129,10 @@ PathFinderStatus AStar::getStatus() {
 
 Tile* AStar::getClosest() {
     return closest;
+}
+
+bool AStar::staleVertex(PathVertex& vertex, Tile* tile) {
+    return vertex.g == PATHFINDER_INFINITY //Never visited
+        || vertex.l != tile->tileFlags //Flags changed since last visit
+        ;
 }

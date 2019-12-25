@@ -113,6 +113,15 @@ public:
      * @return closest found tile
      */
     Tile* getClosest();
+
+    /**
+     * Checks if provided vertex is stale (outdated state or never visited)
+     *
+     * @param vertex
+     * @param tile
+     * @return true if outdated state
+     */
+    static bool staleVertex(PathVertex& vertex, Tile* tile);
 };
 
 #endif //OPENE2140_ASTAR_H

@@ -154,6 +154,13 @@ public:
      * Updates the entities and pathfinder stuff
      */
     void update();
+
+    /**
+     * Create a partial path request from this request and provided entity
+     *
+     * @return new partial request
+     */
+    std::shared_ptr<PathRequest> requestPartial(entity_id_t entity_id);
 };
 
 #endif //OPENE2140_PATH_REQUEST_H

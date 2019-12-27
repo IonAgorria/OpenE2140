@@ -96,13 +96,18 @@ PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<Tile*> p
                 }
                 vertex = &vertexes[vertex->back];
             }
-
             //Since partial is done from entity as start we need to reverse it
             if (isPartialRequest) {
                 std::reverse(path.begin(), path.end());
             }
         } else {
             BUG("PathRequest status is positive but closest is null");
+        }
+
+        //If there is no path then mark as failed
+        if (path.empty()) {
+            status = PathFinderStatus::Fail;
+            BUG("PathRequest status is positive but no path was found");
         }
     }
     return status;
@@ -205,4 +210,12 @@ void PathRequest::update() {
         //Move to next
         ++it;
     }
+}
+
+std::shared_ptr<PathRequest> PathRequest::requestPartial(entity_id_t entity_id) {
+    std::shared_ptr<PathRequest> request;
+    if (handler && destination && (mode == PathRequestMode::ACTIVE_ENTITY || mode == PathRequestMode::ACTIVE_TILE)) {
+        request = handler->requestDestination(entity_id, destination, true);
+    }
+    return request;
 }

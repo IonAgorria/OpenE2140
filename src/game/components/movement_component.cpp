@@ -11,6 +11,42 @@
 CLASS_COMPONENT_DEFAULT(MovementComponent)
 
 void MovementComponent::update() {
+    //Check if path request is inactive
+    if (pathRequest && pathRequest->mode == PathRequestMode::INACTIVE) {
+        pathRequest = nullptr;
+    }
+
+    //Check status if there is a request and path is empty
+    if (pathRequest && path.empty()) {
+        entity_id_t entityId = base->getID();
+        PathFinderStatus status = pathRequest->getResult(entityId, path);
+        switch (status) {
+            default:
+            case PathFinderStatus::Computing:
+                break;
+            case PathFinderStatus::None:
+                pathRequest = nullptr;
+                break;
+            case PathFinderStatus::Fail:
+                //Request partial request if request is not already partial
+                if (pathRequest->mode != PathRequestMode::ACTIVE_PARTIAL) {
+                    pathRequest = pathRequest->requestPartial(entityId);
+                } else {
+                    pathRequest = nullptr;
+                }
+                break;
+            case PathFinderStatus::Success:
+            case PathFinderStatus::Partial:
+                break;
+        }
+    }
+
+    //Handle non empty path
+    if (!path.empty()) {
+
+    }
+
+    //TODO remove this
     base->setDirection(number_add(base->getDirection(), float_to_number(0.005)));
 }
 

@@ -49,8 +49,16 @@ protected:
     /**
      * Current pathfinder request
      */
-    PathRequest* pathRequest = nullptr;
+    std::shared_ptr<PathRequest> pathRequest = nullptr;
 
+    /**
+     * Current planned path to follow
+     */
+    std::vector<Tile*> path;
+
+    /*
+     * SpriteRotationComponentCommon
+     */
 
     void chooseSprite() override;
 

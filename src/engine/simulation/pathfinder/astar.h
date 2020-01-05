@@ -55,6 +55,16 @@ protected:
     PriorityQueue<PathVertex*, AStarComparator> queue;
 
     /**
+     * Flags of tiles that should be present to be passable
+     */
+    tile_flags_t tileFlagsRequired = 0;
+
+    /**
+     * Entity flags in tiles that shouldn't be set
+     */
+    tile_flags_t entityFlagsMask = 0;
+
+    /**
      * Tells the pathfinder to visit the vertex
      *
      * @param world pointer of world containing tiles
@@ -79,7 +89,7 @@ public:
     /**
      * Constructor
      */
-    AStar(PathRequest* request);
+    AStar(PathRequest* request, tile_flags_t tileFlagsRequired);
 
     /**
      * Destructor
@@ -96,8 +106,9 @@ public:
      *
      * @param newStarts
      * @param newGoal
+     * @param newTileFlags
      */
-    void plan(Tile* newStart, Tile* newGoal);
+    void plan(Tile* newStart, Tile* newGoal, tile_flags_t newTileFlags);
 
     /**
      * Does the main computation of algorithm

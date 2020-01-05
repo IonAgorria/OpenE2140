@@ -46,22 +46,23 @@ std::vector<PathVertex>& PathRequest::getVertexes() {
     return vertexes;
 }
 
-bool PathRequest::addEntity(entity_id_t entity) {
-    std::unique_ptr<AStar>& pathfinder = pathfinders[entity];
+bool PathRequest::addEntity(std::shared_ptr<Entity>& entity) {
+    std::unique_ptr<AStar>& pathfinder = pathfinders[entity->getID()];
     if (pathfinder) {
         //Already exists in request
         return false;
     }
-    pathfinder = std::make_unique<AStar>(this);
-    pathfinders[entity] = std::move(pathfinder);
+
+    pathfinder = std::make_unique<AStar>(this, entity->tileFlagsRequired);
+    pathfinders[entity->getID()] = std::move(pathfinder);
     return true;
 }
 
-bool PathRequest::removeEntity(entity_id_t entity) {
-    return pathfinders.erase(entity) != 0;
+bool PathRequest::removeEntity(entity_id_t entity_id) {
+    return pathfinders.erase(entity_id) != 0;
 }
 
-PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<Tile*> path) const {
+PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<const Tile*> path) const {
     //Check if mode and pathfinder is available
     if (mode == PathRequestMode::INACTIVE) {
         return PathFinderStatus::None;
@@ -198,9 +199,9 @@ void PathRequest::update() {
         if (status == PathFinderStatus::None || status == PathFinderStatus::Computing) {
             //Update state according to partial mode
             if (this->mode == PathRequestMode::ACTIVE_PARTIAL) {
-                pathfinder->plan(tile, destination);
+                pathfinder->plan(tile, destination, entity->entityFlagsMask);
             } else {
-                pathfinder->plan(destination, tile);
+                pathfinder->plan(destination, tile, entity->entityFlagsMask);
             }
 
             //Update computation
@@ -212,10 +213,10 @@ void PathRequest::update() {
     }
 }
 
-std::shared_ptr<PathRequest> PathRequest::requestPartial(entity_id_t entity_id) {
+std::shared_ptr<PathRequest> PathRequest::requestPartial(std::shared_ptr<Entity> entity) {
     std::shared_ptr<PathRequest> request;
     if (handler && destination && (mode == PathRequestMode::ACTIVE_ENTITY || mode == PathRequestMode::ACTIVE_TILE)) {
-        request = handler->requestDestination(entity_id, destination, true);
+        request = handler->requestDestination(entity, destination, true);
     }
     return request;
 }

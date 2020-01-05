@@ -101,15 +101,15 @@ public:
      * @param entity
      * @return if was added
      */
-    bool addEntity(entity_id_t entity);
+    bool addEntity(std::shared_ptr<Entity>& entity);
 
     /**
      * Removes a entity from this request if any
      *
-     * @param entity
+     * @param entity_id
      * @return if was removed
      */
-    bool removeEntity(entity_id_t entity);
+    bool removeEntity(entity_id_t entity_id);
 
     /**
      * Returns the current status of pathfinder for the provided entity
@@ -119,7 +119,7 @@ public:
      * @param path vector to write path if available
      * @return path status
      */
-    PathFinderStatus getResult(entity_id_t entity, std::vector<Tile*> path) const;
+    PathFinderStatus getResult(entity_id_t entity, std::vector<const Tile*> path) const;
 
     /**
      * @return current destination
@@ -160,7 +160,7 @@ public:
      *
      * @return new partial request
      */
-    std::shared_ptr<PathRequest> requestPartial(entity_id_t entity_id);
+    std::shared_ptr<PathRequest> requestPartial(std::shared_ptr<Entity> entity);
 };
 
 #endif //OPENE2140_PATH_REQUEST_H

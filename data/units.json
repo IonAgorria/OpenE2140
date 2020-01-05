@@ -1073,7 +1073,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_ht_33_r",
-                "position": [0, -9]
+                "position": [0, -11]
             }
         },
         "sprites": {
@@ -1096,7 +1096,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_heavy_ion",
-                "position": [0, 0]
+                "position": [0, -9]
             }
         },
         "sprites": {
@@ -1120,19 +1120,12 @@
         "capacity": {
             "light": 6
         },
-        "turrets": [
-            {
-                "position": [0, 0],
-                "weapons": [
-                    {
-                        "type": "mg",
-                        "reload_ammo": 5,
-                        "reload_time": 2,
-                        "damage": 7
-                    }
-                ]
+        "attachments": {
+            "turret": {
+                "code": "turret_light_mg_white",
+                "position": [0, -9]
             }
-        ],
+        },
         "sprites": {
             "default": {
                 "index": 567,
@@ -1310,7 +1303,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_hcr-m",
-                "position": [0, -2]
+                "position": [0, -5]
             }
         },
         "sprites": {
@@ -1334,7 +1327,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_light_mg_white",
-                "position": [0, 0]
+                "position": [0, -5]
             }
         },
         "palette_light": true,
@@ -1359,7 +1352,7 @@
         "attachments": {
             "turret": {
                 "code": "turret_light_mg_white",
-                "position": [0, 0]
+                "position": [0, -5]
             }
         },
         "palette_light": true,
@@ -1393,7 +1386,7 @@
         "attachments": {
             "radar": {
                 "code": "radar",
-                "position": [0, 0]
+                "position": [2, -8]
             }
         },
         "sprites": {
@@ -1504,11 +1497,11 @@
         "attachments": {
             "turret_front": {
                 "code": "turret_heavy_rockets_plain",
-                "position": [44, 0]
+                "position": [45, 0]
             },
             "turret_back": {
                 "code": "turret_light_rockets_plain",
-                "position": [-46, 0]
+                "position": [-45, 0]
             }
         },
         "sprites": {

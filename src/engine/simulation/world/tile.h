@@ -20,6 +20,11 @@ public:
     const tile_index_t index;
 
     /**
+     * Tile flags mask derived from entities
+     */
+    tile_flags_t entityFlags = 0;
+
+    /**
      * Tile position in the world
      */
     const Vector2 position;
@@ -52,7 +57,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~Tile() = default;
+    ~Tile() override = default;
 
     /**
      * Disable copy/move
@@ -64,6 +69,11 @@ public:
      * Set data from prototype
      */
     void setPrototype(TilePrototype prototype);
+
+    /**
+     * Updates the current entity flags
+     */
+    void updateFlags();
 
     /**
      * Adds a entity to this tile and tile to entity tiles list

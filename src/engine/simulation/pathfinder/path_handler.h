@@ -79,7 +79,7 @@ public:
      * @param tile destination tile to find the path
      * @param partial is request for a partial type?
      */
-    std::shared_ptr<PathRequest> requestDestination(entity_id_t entity_id, Tile* tile, bool partial = false);
+    std::shared_ptr<PathRequest> requestDestination(std::shared_ptr<Entity>& entity, Tile* tile, bool partial = false);
 
     /**
      * Returns a request for entity with the provided target
@@ -87,7 +87,7 @@ public:
      * @param entity the entity originating the request
      * @param target entity to set the destination tile
      */
-    std::shared_ptr<PathRequest> requestTarget(entity_id_t entity_id, const std::shared_ptr<Entity>& target);
+    std::shared_ptr<PathRequest> requestTarget(std::shared_ptr<Entity>& entity, const std::shared_ptr<Entity>& target);
 
     /**
      * Updates the ongoing requests

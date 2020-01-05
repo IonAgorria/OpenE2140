@@ -22,9 +22,9 @@ void PathHandler::removeRequests(entity_id_t entity_id) {
 }
 
 std::shared_ptr<PathRequest>
-PathHandler::requestDestination(entity_id_t entity_id, Tile* tile, bool partial) {
+PathHandler::requestDestination(std::shared_ptr<Entity>& entity, Tile* tile, bool partial) {
     std::shared_ptr<PathRequest> activeRequest;
-    removeRequests(entity_id);
+    removeRequests(entity->getID());
 
     if (tile) {
         PathRequestMode mode = partial ? PathRequestMode::ACTIVE_PARTIAL
@@ -51,18 +51,18 @@ PathHandler::requestDestination(entity_id_t entity_id, Tile* tile, bool partial)
         }
 
         //Add entity to request
-        activeRequest->addEntity(entity_id);
+        activeRequest->addEntity(entity);
     }
 
     return activeRequest;
 }
 
 std::shared_ptr<PathRequest>
-PathHandler::requestTarget(entity_id_t entity_id, const std::shared_ptr<Entity>& target) {
+PathHandler::requestTarget(std::shared_ptr<Entity>& entity, const std::shared_ptr<Entity>& target) {
     std::shared_ptr<PathRequest> activeRequest;
-    removeRequests(entity_id);
+    removeRequests(entity->getID());
 
-    if (target && target->isActive() && entity_id != target->getID()) {
+    if (target && target->isActive() && entity->getID() != target->getID()) {
         //Attempt to find a existing request that can be reused
         for (const auto& request : requests) {
             if (request->mode == PathRequestMode::ACTIVE_ENTITY && request->getTarget() == target) {
@@ -82,7 +82,7 @@ PathHandler::requestTarget(entity_id_t entity_id, const std::shared_ptr<Entity>&
         }
 
         //Add entity to request
-        activeRequest->addEntity(entity_id);
+        activeRequest->addEntity(entity);
     }
 
     return activeRequest;

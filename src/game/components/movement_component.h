@@ -25,6 +25,7 @@ enum class MovementType {
     Ground,
     GroundTank,
     GroundWalker,
+    Amphibian,
     Air,
     Water
 };
@@ -54,7 +55,7 @@ protected:
     /**
      * Current planned path to follow
      */
-    std::vector<Tile*> path;
+    std::vector<const Tile*> path;
 
     /*
      * SpriteRotationComponentCommon

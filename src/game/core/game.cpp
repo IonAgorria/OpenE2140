@@ -127,18 +127,18 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
-    auto tile = simulation->getWorld()->getTile(5, 5);
+    auto tile = simulation->getWorld()->getTile(2, 2);
     unsigned int y = 0;
     for (unsigned int i = 41; i <= 85; ++i) {
         entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, i});
         if (!entityPtr) continue;
         entityPtr->setPosition({
-            static_cast<signed>(64 * ((y % 8) + 2) + 32),
-            static_cast<signed>(64 * ((y / 8) + 2) + 32)
+            static_cast<signed>(64 * ((y % 8) + 3) + 32),
+            static_cast<signed>(64 * ((y / 8) + 3) + 32)
         });
         if (y == 41) {
             entityPtr->setPosition({
-               static_cast<signed>(32 + 64 * 3),
+               static_cast<signed>(32 + 64 * 2),
                static_cast<signed>(32 + 64 * 1)
             });
         }
@@ -148,8 +148,8 @@ void Game::run() {
         y++;
 
         //Test pathfinder
-        if (y < 10) {
-            playerPtr->pathHandler->requestDestination(entityPtr->getID(), tile);
+        if (i == 41) {
+            playerPtr->pathHandler->requestDestination(entityPtr, tile);
         }
     }
 

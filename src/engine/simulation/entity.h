@@ -109,6 +109,17 @@ public:
     entity_changes_count_t changesCount = 0;
 
     /**
+     * Required flags for tiles to be possible to move in
+     */
+    tile_flags_t tileFlagsRequired = 0;
+
+    /**
+     * Entity flags that are set in tiles when this entity is present,
+     * this is also used to discard tiles containing entities which this entity can't transverse
+     */
+    tile_flags_t entityFlagsMask = 0;
+
+    /**
      * Entity constructor
      */
     Entity();

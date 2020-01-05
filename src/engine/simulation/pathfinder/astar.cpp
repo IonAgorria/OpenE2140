@@ -5,7 +5,9 @@
 #include "astar.h"
 #include "path_request.h"
 
-AStar::AStar(PathRequest* request): request(request) {
+AStar::AStar(PathRequest* request, tile_flags_t tileFlagsRequired):
+request(request),
+tileFlagsRequired(tileFlagsRequired) {
     queue.getComparator().astar = this;
 }
 
@@ -15,24 +17,27 @@ void AStar::initialize() {
     heuristic.resize(request->getVertexes().size(), PATHFINDER_INFINITY);
 }
 
-void AStar::plan(Tile* newStart, Tile* newGoal) {
+void AStar::plan(Tile* newStart, Tile* newGoal, tile_flags_t newEntityFlagsMask) {
     if (status == PathFinderStatus::Computing
-     && start == newStart && goal == newGoal) {
+        && start == newStart
+        && goal == newGoal
+        && entityFlagsMask == newEntityFlagsMask) {
         //No need to initialize
         return;
     }
     initialize();
     start = newStart;
     goal = newGoal;
+    entityFlagsMask = newEntityFlagsMask;
     status = PathFinderStatus::Computing;
 
     //Check if by chance goal was already found previously and is not stale
     PathVertex& vertex = request->getVertexes()[goal->index];
     if (staleVertex(vertex, goal)) {
-        //Add start vertex to start pathfinding
+        //Add start vertex to start path finding
         vertex = request->getVertexes()[start->index];
         calculateHeuristic(start);
-        vertex.l = start->tileFlags;
+        vertex.l = start->entityFlags;
         vertex.g = 0;
         vertex.back = vertex.index;
     }
@@ -95,19 +100,26 @@ void AStar::visitTile(const World* world, std::vector<PathVertex>& vertexes, Pat
         if (adjacentIndex == vertex.back) {
             continue;
         }
-        PathVertex& adjacentVertex = vertexes[adjacentIndex];
+
+        //Check if tile should be skipped, unless tile is the goal whic is probably occupied by our entity
+        if (adjacentIndex != goal->index) {
+            bool tileInvalid = (tile->tileFlags & tileFlagsRequired) != tileFlagsRequired;
+            bool entityOccupied = tile->entityFlags & entityFlagsMask;
+            if (tileInvalid || entityOccupied) {
+                continue;
+            }
+        }
 
         //Calculate G cost + accumulated previous cost
         path_cost_t g = vertex.g;
         g += adjacentTile->position.distanceSquared(tile->position);
-        //TODO add walkable checks and other G penalties
 
         //Check if adjacent vertex should be updated if lower G than currently has
         //(because a shorter route has been found) or vertex is stale
+        PathVertex& adjacentVertex = vertexes[adjacentIndex];
         if (g < adjacentVertex.g || staleVertex(adjacentVertex, adjacentTile)) {
-            log->debug("TOUCH " + adjacentTile->toString());
             adjacentVertex.g = g;
-            adjacentVertex.l = adjacentTile->tileFlags;
+            adjacentVertex.l = adjacentTile->entityFlags;
             adjacentVertex.back = vertexIndex;
         }
 
@@ -133,6 +145,6 @@ Tile* AStar::getClosest() {
 
 bool AStar::staleVertex(PathVertex& vertex, Tile* tile) {
     return vertex.g == PATHFINDER_INFINITY //Never visited
-        || vertex.l != tile->tileFlags //Flags changed since last visit
+        || vertex.l != tile->entityFlags //Flags changed since last visit
         ;
 }

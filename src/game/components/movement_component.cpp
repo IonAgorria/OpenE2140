@@ -4,6 +4,7 @@
 
 #include "engine/simulation/components/image_component.h"
 #include "game/core/game.h"
+#include "engine/entities/entity_config.h"
 #include "engine/simulation/simulation.h"
 #include "engine/simulation/world/world.h"
 #include "movement_component.h"
@@ -30,7 +31,7 @@ void MovementComponent::update() {
             case PathFinderStatus::Fail:
                 //Request partial request if request is not already partial
                 if (pathRequest->mode != PathRequestMode::ACTIVE_PARTIAL) {
-                    pathRequest = pathRequest->requestPartial(entityId);
+                    pathRequest = pathRequest->requestPartial(base->getEntityPtr());
                 } else {
                     pathRequest = nullptr;
                 }
@@ -43,11 +44,12 @@ void MovementComponent::update() {
 
     //Handle non empty path
     if (!path.empty()) {
-
+        const Tile* tile = path.back();
+        path.pop_back();
     }
 
     //TODO remove this
-    base->setDirection(number_add(base->getDirection(), float_to_number(0.005)));
+    //base->setDirection(number_add(base->getDirection(), float_to_number(0.005)));
 }
 
 void MovementComponent::setup() {
@@ -55,6 +57,34 @@ void MovementComponent::setup() {
 
 void MovementComponent::simulationChanged() {
     if (base->isActive()) {
+        //Set movement type
+        const std::string& entType = base->getConfig()->type;
+        if (entType == "walker") {
+            movementType = MovementType::GroundWalker;
+            base->tileFlagsRequired = TILE_FLAG_PASSABLE;
+            base->entityFlagsMask = TILE_FLAG_ENTITY_TERRAIN;
+        } else if (entType == "tank" || entType == "mcu") {
+            movementType = MovementType::GroundTank;
+            base->tileFlagsRequired = TILE_FLAG_PASSABLE;
+            base->entityFlagsMask = TILE_FLAG_ENTITY_TERRAIN;
+        } else if (entType == "amphibian") {
+            movementType = MovementType::Amphibian;
+            base->tileFlagsRequired = TILE_FLAG_PASSABLE;
+            base->entityFlagsMask = TILE_FLAG_ENTITY_TERRAIN;
+        } else if (entType == "vtol" || entType == "bomber" || entType == "helicopter") {
+            movementType = MovementType::Air;
+            base->tileFlagsRequired = 0;
+            base->entityFlagsMask = TILE_FLAG_ENTITY_AIR;
+        } else if (entType == "ship" || entType == "submarine") {
+            movementType = MovementType::Water;
+            base->tileFlagsRequired = TILE_FLAG_PASSABLE | TILE_FLAG_WATER;
+            base->entityFlagsMask = TILE_FLAG_ENTITY_TERRAIN;
+        } else {
+            movementType = MovementType::Ground;
+            base->tileFlagsRequired = TILE_FLAG_PASSABLE;
+            base->entityFlagsMask = TILE_FLAG_ENTITY_TERRAIN;
+        }
+
         //Setup sprite
         updateSpriteIndex(base);
         //Set the initial tile if none is set already

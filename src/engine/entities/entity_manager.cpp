@@ -69,7 +69,7 @@ std::shared_ptr<Entity> EntityManager::makeEntity(EntityConfig* config) {
             }
         }
     } else {
-        BUG("Attempted to make a new entity with null config");
+        LOG_BUG("Attempted to make a new entity with null config");
     }
     return entity;
 }
@@ -85,7 +85,7 @@ std::shared_ptr<Entity> EntityManager::makeEntity(const entity_type_t& type) {
             log->warn("Attempted to make a new entity with missing config for {0}:{1}", type.kind, type.id);
         }
     } else {
-        BUG("Attempted to make a new entity with missing factory for {0}:{1}", type.kind, type.id);
+        LOG_BUG("Attempted to make a new entity with missing factory for {0}:{1}", type.kind, type.id);
     }
     return entity;
 }

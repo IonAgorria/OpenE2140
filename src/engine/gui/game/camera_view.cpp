@@ -12,7 +12,7 @@ void CameraView::rootChanged() {
 
     gameRoot = dynamic_cast<GUIGameRoot*>(root);
     if (root && !gameRoot) {
-        BUG("View root is not game root");
+        LOG_BUG("View root is not game root");
     }
 
     if (!root) return;

@@ -11,7 +11,7 @@ Entity::Entity() = default;
 
 Entity::~Entity() {
     if (active || id || simulation) {
-        BUG("Entity {0} was destructed without being removed from simulation", toString());
+        LOG_BUG("Entity {0} was destructed without being removed from simulation", toString());
     }
 }
 

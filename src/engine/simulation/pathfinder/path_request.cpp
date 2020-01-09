@@ -102,13 +102,13 @@ PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<const Ti
                 std::reverse(path.begin(), path.end());
             }
         } else {
-            BUG("PathRequest status is positive but closest is null");
+            LOG_BUG("PathRequest status is positive but closest is null");
         }
 
         //If there is no path then mark as failed
         if (path.empty()) {
             status = PathFinderStatus::Fail;
-            BUG("PathRequest status is positive but no path was found");
+            LOG_BUG("PathRequest status is positive but no path was found");
         }
     }
     return status;

@@ -244,7 +244,7 @@ std::shared_ptr<Entity> Simulation::createEntity(
 
 void Simulation::addEntity(const std::shared_ptr<Entity>& entity) {
     if (entity->isActive()) {
-        BUG("Attempted to add already active entity {0} to simulation", entity->getID());
+        LOG_BUG("Attempted to add already active entity {0} to simulation", entity->getID());
     }
     entity_id_t id = entityStore->add(entity);
     entity->addedToSimulation(id, this);
@@ -252,7 +252,7 @@ void Simulation::addEntity(const std::shared_ptr<Entity>& entity) {
 
 void Simulation::removeEntity(const std::shared_ptr<Entity>& entity) {
     if (!entity->isActive()) {
-        BUG("Attempted to remove non active entity {0} from simulation", entity->getID());
+        LOG_BUG("Attempted to remove non active entity {0} from simulation", entity->getID());
     }
     entityStore->remove(entity);
     entity->removedFromSimulation();

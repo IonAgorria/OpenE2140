@@ -72,6 +72,8 @@
  */
 #define BIT_STATE(VAR, BITS) ((VAR & BITS) != 0)
 
-#define BUG Log::get("Bug")->error
+#define LOG_DEBUG Log::get()->debug
+
+#define LOG_BUG Log::get("Bug")->error
 
 #endif //OPENE2140_MACROS_H

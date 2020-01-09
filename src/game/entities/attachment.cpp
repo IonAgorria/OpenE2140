@@ -55,7 +55,7 @@ void ConveyorBelt::simulationChanged() {
             PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
             ImageComponentSlotted<0>::extraPalette = paletteComponent->getPalette();
         } else {
-            BUG(toString() + " no parent set?");
+            LOG_BUG(toString() + " no parent set?");
         }
 
         //Calculate the offset to align the top left corner and set the head
@@ -114,7 +114,7 @@ void Turret::simulationChanged() {
             PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
             ImageComponent::extraPalette = paletteComponent->getPalette();
         } else {
-            BUG(toString() + " no parent set?");
+            LOG_BUG(toString() + " no parent set?");
         }
     }
     Entity::simulationChanged();

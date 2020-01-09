@@ -119,7 +119,7 @@ public:
      * @param path vector to write path if available
      * @return path status
      */
-    PathFinderStatus getResult(entity_id_t entity, std::vector<const Tile*> path) const;
+    PathFinderStatus getResult(entity_id_t entity, std::vector<const Tile*>& path) const;
 
     /**
      * @return current destination

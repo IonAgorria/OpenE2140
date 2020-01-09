@@ -149,7 +149,8 @@ void Game::run() {
 
         //Test pathfinder
         if (i == 41) {
-            playerPtr->pathHandler->requestDestination(entityPtr, tile);
+            MovementComponent* movement = GET_COMPONENT(entityPtr.get(), MovementComponent);
+            movement->move(tile);
         }
     }
 

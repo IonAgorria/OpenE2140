@@ -12,7 +12,6 @@
 enum class MovementState {
     Standby,
     WaitPathfinder,
-    Floating,
     ChangeAltitude,
     Rotating,
     Moving,
@@ -57,6 +56,18 @@ protected:
      */
     std::vector<const Tile*> path;
 
+    /**
+     * Called when new movement state is set
+     *
+     * @param newState
+     */
+    void setStateTo(MovementState newState);
+
+    /**
+     * Called when next node must be handled in path
+     */
+    void dispatchPathTile();
+
     /*
      * SpriteRotationComponentCommon
      */
@@ -66,6 +77,23 @@ protected:
 public:
     /** @neturn entity movement state */
     MovementState getState();
+
+    /** @return if entity is idle without any pending stuff */
+    bool isIdle();
+
+    /**
+     * Tells the movement component to start moving the entity to target tile
+     *
+     * @param tile
+     */
+    void move(Tile* tile);
+
+    /**
+     * Tells the movement component to start following the entity to target entity
+     *
+     * @param entity
+     */
+    void follow(const std::shared_ptr<Entity>& entity);
 };
 
 #endif //OPENE2140_MOVEMENT_COMPONENT_H

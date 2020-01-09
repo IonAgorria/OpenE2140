@@ -14,7 +14,9 @@ class Tile;
 class Simulation;
 class Renderer;
 class EntityConfig;
+class Entity;
 
+using entity_ptr = std::shared_ptr<Entity>;
 using entity_changes_count_t = uint16_t;
 
 /**

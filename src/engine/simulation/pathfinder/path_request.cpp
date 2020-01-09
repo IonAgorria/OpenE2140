@@ -62,7 +62,7 @@ bool PathRequest::removeEntity(entity_id_t entity_id) {
     return pathfinders.erase(entity_id) != 0;
 }
 
-PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<const Tile*> path) const {
+PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<const Tile*>& path) const {
     //Check if mode and pathfinder is available
     if (mode == PathRequestMode::INACTIVE) {
         return PathFinderStatus::None;

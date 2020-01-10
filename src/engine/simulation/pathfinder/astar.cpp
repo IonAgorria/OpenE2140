@@ -32,16 +32,16 @@ void AStar::plan(Tile* newStart, Tile* newGoal, tile_flags_t newEntityFlagsMask)
     status = PathFinderStatus::Computing;
 
     //Check if by chance goal was already found previously and is not stale
-    PathVertex& vertex = request->getVertexes()[goal->index];
-    if (staleVertex(vertex, goal)) {
+    PathVertex* vertex = &request->getVertexes().at(goal->index);
+    if (staleVertex(*vertex, goal)) {
         //Add start vertex to start path finding
-        vertex = request->getVertexes()[start->index];
+        vertex = &request->getVertexes().at(start->index);
         calculateHeuristic(start);
-        vertex.l = start->entityFlags;
-        vertex.g = 0;
-        vertex.back = vertex.index;
+        vertex->l = start->entityFlags;
+        vertex->g = 0;
+        vertex->back = vertex->index;
     }
-    queue.push(&vertex);
+    queue.push(vertex);
 }
 
 void AStar::compute() {
@@ -101,7 +101,7 @@ void AStar::visitTile(const World* world, std::vector<PathVertex>& vertexes, Pat
             continue;
         }
 
-        //Check if tile should be skipped, unless tile is the goal whic is probably occupied by our entity
+        //Check if tile should be skipped, unless tile is the goal which is probably occupied by our entity
         if (adjacentIndex != goal->index) {
             bool tileInvalid = (tile->tileFlags & tileFlagsRequired) != tileFlagsRequired;
             bool entityOccupied = tile->entityFlags & entityFlagsMask;

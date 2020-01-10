@@ -136,7 +136,7 @@ void Game::run() {
             static_cast<signed>(64 * ((y % 8) + 3) + 32),
             static_cast<signed>(64 * ((y / 8) + 3) + 32)
         });
-        if (y == 41) {
+        if (i == 41) {
             entityPtr->setPosition({
                static_cast<signed>(32 + 64 * 2),
                static_cast<signed>(32 + 64 * 1)

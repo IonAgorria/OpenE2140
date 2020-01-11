@@ -65,6 +65,11 @@ protected:
     tile_flags_t entityFlagsMask = 0;
 
     /**
+     * Index of tile where entity is located, this allows not considering a tile as occupied by itself
+     */
+    tile_index_t entityTileIndex;
+
+    /**
      * Tells the pathfinder to visit the vertex
      *
      * @param world pointer of world containing tiles
@@ -107,8 +112,9 @@ public:
      * @param newStarts
      * @param newGoal
      * @param newTileFlags
+     * @param entityTileIndex
      */
-    void plan(Tile* newStart, Tile* newGoal, tile_flags_t newTileFlags);
+    void plan(Tile* newStart, Tile* newGoal, tile_flags_t newTileFlags, tile_index_t newEntityTileIndex);
 
     /**
      * Does the main computation of algorithm
@@ -133,6 +139,8 @@ public:
      * @return true if outdated state
      */
     static bool staleVertex(PathVertex& vertex, Tile* tile);
+
+    bool isOccupied(Tile* tile);
 };
 
 #endif //OPENE2140_ASTAR_H

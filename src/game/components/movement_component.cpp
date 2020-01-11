@@ -46,11 +46,7 @@ void MovementComponent::setStateTo(MovementState newState) {
     //Handle states
     switch (newState) {
         case MovementState::Standby:
-            path.clear();
-            if (pathRequest) {
-                pathRequest->removeEntity(base->getID());
-                pathRequest = nullptr;
-            }
+            stop();
             break;
         case MovementState::WaitPathfinder:
             path.clear();
@@ -188,6 +184,17 @@ MovementState MovementComponent::getState() {
 bool MovementComponent::isIdle() {
     return state == MovementState::Standby;
 }
+
+void MovementComponent::stop() {
+    //Remove any pending path
+    path.clear();
+    //Remove ourselves from request if any
+    if (pathRequest) {
+        pathRequest->removeEntity(base->getID());
+        pathRequest = nullptr;
+    }
+}
+
 
 void MovementComponent::move(Tile* tile) {
     entity_ptr entityPtr = base->getEntityPtr();

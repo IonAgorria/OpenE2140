@@ -82,6 +82,13 @@ public:
     bool isIdle();
 
     /**
+     * Tells the movement component to stop any movement
+     *
+     * This doesn't stop any ongoing rotation/movement
+     */
+    void stop();
+
+    /**
      * Tells the movement component to start moving the entity to target tile
      *
      * @param tile

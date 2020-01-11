@@ -127,7 +127,7 @@ void Game::run() {
     PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
-    auto tile = simulation->getWorld()->getTile(2, 2);
+    auto tile = simulation->getWorld()->getTile(10, 2);
     unsigned int y = 0;
     for (unsigned int i = 41; i <= 85; ++i) {
         entityPtr = entityManager->makeEntity({ENTITY_KIND_UNIT, i});
@@ -139,7 +139,7 @@ void Game::run() {
         if (i == 41) {
             entityPtr->setPosition({
                static_cast<signed>(32 + 64 * 2),
-               static_cast<signed>(32 + 64 * 1)
+               static_cast<signed>(32 + 64 * 2)
             });
         }
         component = GET_COMPONENT(entityPtr.get(), PlayerComponent);

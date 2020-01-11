@@ -199,9 +199,9 @@ void PathRequest::update() {
         if (status == PathFinderStatus::None || status == PathFinderStatus::Computing) {
             //Update state according to partial mode
             if (this->mode == PathRequestMode::ACTIVE_PARTIAL) {
-                pathfinder->plan(tile, destination, entity->entityFlagsMask);
+                pathfinder->plan(tile, destination, entity->entityFlagsMask, tile->index);
             } else {
-                pathfinder->plan(destination, tile, entity->entityFlagsMask);
+                pathfinder->plan(destination, tile, entity->entityFlagsMask, tile->index);
             }
 
             //Update computation

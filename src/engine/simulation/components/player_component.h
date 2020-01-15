@@ -10,7 +10,7 @@ class Entity;
 class Player;
 
 /**
- * Adds player data to entity and handles palette changes
+ * Adds player data to entity
  */
 class PlayerComponent {
 CLASS_COMPONENT(Entity, PlayerComponent)

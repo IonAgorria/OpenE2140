@@ -9,6 +9,7 @@
 #include "engine/simulation/components/player_component.h"
 #include "engine/simulation/components/image_component.h"
 #include "engine/simulation/components/attachment_component.h"
+#include "engine/simulation/components/rotation_component.h"
 #include "game/components/palette_component.h"
 #include "game/components/movement_component.h"
 #include "src/engine/simulation/entity.h"
@@ -22,6 +23,7 @@ CLASS_ENTITY_COMPONENTS(Entity, Unit,
                         ImageComponent,
                         PaletteComponent,
                         AttachmentComponent,
+                        RotationComponent,
                         MovementComponent)
 public:
     void simulationChanged() override;

@@ -2,6 +2,7 @@
 // Created by Ion Agorria on 08/09/19
 //
 
+#include <src/engine/simulation/components/rotation_component.h>
 #include "engine/simulation/components/player_component.h"
 #include "engine/simulation/components/image_component.h"
 #include "game/core/game.h"
@@ -24,10 +25,12 @@ PathHandler* getPathHandler(Entity* entity) {
 
 void MovementComponent::dispatchPathTile() {
     const Tile* currentTile = path.empty() ? nullptr : path.back();
-    if (currentTile) {
-        //Check if angle is correct, else rotate it
-        //TODO
-        if (true) {
+    RotationComponent* rotationComponent = GET_COMPONENT(base, RotationComponent);
+    if (currentTile && rotationComponent) {
+        //Check if target angle is correct, else rotate it
+        number_t angle = base->getPosition().getAngle(currentTile->position);
+        rotationComponent->setTargetDirection(angle);
+        if (rotationComponent->isTargetDirection()) {
             setStateTo(MovementState::Moving);
         } else {
             setStateTo(MovementState::Rotating);
@@ -188,13 +191,21 @@ bool MovementComponent::isIdle() {
 void MovementComponent::stop() {
     //Remove any pending path
     path.clear();
+
     //Remove ourselves from request if any
     if (pathRequest) {
         pathRequest->removeEntity(base->getID());
         pathRequest = nullptr;
     }
-}
 
+    //Stop any ongoing rotation
+    if (state == MovementState::Rotating) {
+        RotationComponent* rotationComponent = GET_COMPONENT(base, RotationComponent);
+        if (rotationComponent) {
+            rotationComponent->setTargetDirection(base->getDirection());
+        }
+    }
+}
 
 void MovementComponent::move(Tile* tile) {
     entity_ptr entityPtr = base->getEntityPtr();

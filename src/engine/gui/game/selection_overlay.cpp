@@ -91,7 +91,7 @@ void SelectionOverlay::addEntity(const std::shared_ptr<Entity>& entity) {
         return;
     }
     //Get player component, if missing then don't add this entity
-    PlayerComponent* component = GET_COMPONENT(entity.get(), PlayerComponent);
+    PlayerComponent* component = GET_COMPONENT_DYNAMIC(entity.get(), PlayerComponent);
     if (!component) {
         return;
     }

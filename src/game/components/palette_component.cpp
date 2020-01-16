@@ -32,7 +32,7 @@ void PaletteComponent::setup() {
     palette = std::make_shared<Palette>((PALETTE_MAX_INDEX+1) - lowestEntry, true);
 
     //Set it to image component if any
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    ImageComponent* imageComponent = GET_COMPONENT_DYNAMIC(base, ImageComponent);
     if (imageComponent) {
         imageComponent->extraPalette = palette;
     }
@@ -48,14 +48,14 @@ void PaletteComponent::simulationChanged() {
     const EntityConfig* config = base->getConfig();
 
     //Copy the original colors since some entities might not have lights or other stuff
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    ImageComponent* imageComponent = GET_COMPONENT_DYNAMIC(base, ImageComponent);
     Palette* imagePalette = imageComponent->getImagePalette();
     if (imagePalette) {
         palette->setColors(imagePalette, lowestEntry, 0, palette->length() - 1);
     }
 
     //Load player color
-    PlayerComponent* playerComponent = GET_COMPONENT(base, PlayerComponent);
+    PlayerComponent* playerComponent = GET_COMPONENT_DYNAMIC(base, PlayerComponent);
     if (playerComponent) {
         Player* player = playerComponent->getPlayer();
         if (player) {

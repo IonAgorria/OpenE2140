@@ -15,7 +15,7 @@ CLASS_COMPONENT_DEFAULT(MovementComponent)
 
 PathHandler* getPathHandler(Entity* entity) {
     //Get player component, if missing then don't add this entity
-    PlayerComponent* component = GET_COMPONENT(entity, PlayerComponent);
+    PlayerComponent* component = GET_COMPONENT_DYNAMIC(entity, PlayerComponent);
     Player* player = component ? component->getPlayer() : nullptr;
     if (!player) {
         return nullptr;
@@ -25,7 +25,7 @@ PathHandler* getPathHandler(Entity* entity) {
 
 void MovementComponent::dispatchPathTile() {
     const Tile* currentTile = path.empty() ? nullptr : path.back();
-    RotationComponent* rotationComponent = GET_COMPONENT(base, RotationComponent);
+    RotationComponent* rotationComponent = GET_COMPONENT_DYNAMIC(base, RotationComponent);
     if (currentTile && rotationComponent) {
         //Check if target angle is correct, else rotate it
         number_t angle = base->getPosition().getAngle(currentTile->position);
@@ -107,7 +107,7 @@ void MovementComponent::update() {
             break;
         case MovementState::Rotating:
             //TODO
-            if (true) {
+            if () {
                 dispatchPathTile();
             }
             break;
@@ -172,7 +172,7 @@ void MovementComponent::entityChanged() {
 }
 
 void MovementComponent::chooseSprite() {
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    ImageComponent* imageComponent = GET_COMPONENT_DYNAMIC(base, ImageComponent);
     if (state == MovementState::Moving && movementType == MovementType::GroundWalker) {
         imageComponent->setAnimationFromSprite("moving_" + std::to_string(spriteIndex));
     } else {
@@ -200,7 +200,7 @@ void MovementComponent::stop() {
 
     //Stop any ongoing rotation
     if (state == MovementState::Rotating) {
-        RotationComponent* rotationComponent = GET_COMPONENT(base, RotationComponent);
+        RotationComponent* rotationComponent = GET_COMPONENT_DYNAMIC(base, RotationComponent);
         if (rotationComponent) {
             rotationComponent->setTargetDirection(base->getDirection());
         }

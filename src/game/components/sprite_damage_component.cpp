@@ -30,7 +30,7 @@ void SpriteDamageComponent::entityChanged() {
 }
 
 void SpriteDamageComponent::chooseSprite() {
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    ImageComponent* imageComponent = GET_COMPONENT_DYNAMIC(base, ImageComponent);
 
     //Load default sprites
     std::string code = "default";

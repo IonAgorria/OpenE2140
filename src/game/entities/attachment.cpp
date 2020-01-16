@@ -52,7 +52,7 @@ void ConveyorBelt::simulationChanged() {
         ImageComponentSlotted<0>::imageCentered = false;
         ImageComponentSlotted<1>::imageCentered = false;
         if (parent) {
-            PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
+            PaletteComponent* paletteComponent = GET_COMPONENT_DYNAMIC(parent, PaletteComponent);
             ImageComponentSlotted<0>::extraPalette = paletteComponent->getPalette();
         } else {
             LOG_BUG(toString() + " no parent set?");
@@ -111,7 +111,7 @@ void BuildingExitUnderground::draw() {
 void Turret::simulationChanged() {
     if (isActive()) {
         if (parent) {
-            PaletteComponent* paletteComponent = GET_COMPONENT(parent, PaletteComponent);
+            PaletteComponent* paletteComponent = GET_COMPONENT_DYNAMIC(parent, PaletteComponent);
             ImageComponent::extraPalette = paletteComponent->getPalette();
         } else {
             LOG_BUG(toString() + " no parent set?");

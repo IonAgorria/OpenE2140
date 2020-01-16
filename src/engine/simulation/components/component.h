@@ -113,7 +113,7 @@ public: \
 /**
  * Macro for component dynamic casting from entity
  */
-#define GET_COMPONENT(OBJECT, T_COMPONENT) \
+#define GET_COMPONENT_DYNAMIC(OBJECT, T_COMPONENT) \
     (dynamic_cast<T_COMPONENT*>(OBJECT))
 
 #endif //OPENE2140_COMPONENT_H

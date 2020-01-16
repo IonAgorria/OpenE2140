@@ -11,7 +11,7 @@
 void SpriteRotationComponentCommon::updateSpriteIndex(Entity* base) {
     //Check if anything changed to update sprite
     uint16_t rotationIndexNew = 0;
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    ImageComponent* imageComponent = GET_COMPONENT_DYNAMIC(base, ImageComponent);
     number_t spriteAngleHalf = base->getConfig()->getData("sprite_angle_half");
     bool ccw = Game::angleToSpriteIndex(base->getDirection(), spriteAngleHalf, rotationIndexNew);
     if (spriteIndex != rotationIndexNew || forceSpriteUpdate) {
@@ -32,7 +32,7 @@ void SpriteRotationComponentCommon::updateSpriteIndex(Entity* base) {
         //Select the sprite of current index by calling chooseSprite
         chooseSprite();
         //Update attached entities if requested
-        AttachmentComponent* attachmentComponent = GET_COMPONENT(base, AttachmentComponent);
+        AttachmentComponent* attachmentComponent = GET_COMPONENT_DYNAMIC(base, AttachmentComponent);
         if (attachmentComponent && !attachmentComponent->updateAttachmentOnEntityChange) {
             attachmentComponent->updateAttachmentPositions(spriteDirection);
         }
@@ -58,6 +58,6 @@ void SpriteRotationComponent::entityChanged() {
 }
 
 void SpriteRotationComponent::chooseSprite() {
-    ImageComponent* imageComponent = GET_COMPONENT(base, ImageComponent);
+    ImageComponent* imageComponent = GET_COMPONENT_DYNAMIC(base, ImageComponent);
     imageComponent->setImageFromSprite("default_" + std::to_string(spriteIndex));
 }

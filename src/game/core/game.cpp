@@ -124,7 +124,7 @@ void Game::run() {
     Player* playerPtr = simulation->getPlayer(1);
     std::shared_ptr<Entity> entityPtr = entityManager->makeEntity({ENTITY_KIND_BUILDING, 19});
     entityPtr->setPosition({64 * 8 + 32, 64 * 8 + 32});
-    PlayerComponent* component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
+    PlayerComponent* component = GET_COMPONENT_DYNAMIC(entityPtr.get(), PlayerComponent);
     component->setPlayer(playerPtr);
     simulation->addEntity(entityPtr);
     auto tile = simulation->getWorld()->getTile(10, 2);
@@ -142,14 +142,14 @@ void Game::run() {
                static_cast<signed>(32 + 64 * 2)
             });
         }
-        component = GET_COMPONENT(entityPtr.get(), PlayerComponent);
+        component = GET_COMPONENT_DYNAMIC(entityPtr.get(), PlayerComponent);
         component->setPlayer(playerPtr);
         simulation->addEntity(entityPtr);
         y++;
 
         //Test pathfinder
         if (i == 41) {
-            MovementComponent* movement = GET_COMPONENT(entityPtr.get(), MovementComponent);
+            MovementComponent* movement = GET_COMPONENT_DYNAMIC(entityPtr.get(), MovementComponent);
             movement->move(tile);
         }
     }

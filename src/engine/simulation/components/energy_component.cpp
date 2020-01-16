@@ -24,7 +24,7 @@ void EnergyComponent::update() {
     bool satisfied = false;
 
     //Get player
-    PlayerComponent* playerComponent = GET_COMPONENT(base, PlayerComponent);
+    PlayerComponent* playerComponent = GET_COMPONENT_DYNAMIC(base, PlayerComponent);
     Player* player = playerComponent ? playerComponent->getPlayer() : nullptr;
     if (player) {
         //Add to player energy pool

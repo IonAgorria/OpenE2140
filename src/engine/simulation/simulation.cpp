@@ -211,7 +211,7 @@ std::shared_ptr<Entity> Simulation::createEntity(const EntityPrototype& entityPr
         entity->setDisable(entityPrototype.disabled);
         if (entityPrototype.player) {
             //Obtain player and component
-            PlayerComponent* component = GET_COMPONENT(entity, PlayerComponent);
+            PlayerComponent* component = GET_COMPONENT_DYNAMIC(entity, PlayerComponent);
             Player* player = getPlayer(entityPrototype.player);
             if (player && component) {
                 component->setPlayer(player);

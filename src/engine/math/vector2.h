@@ -284,6 +284,20 @@ public:
      */
     number_t getAngle(const Vector2& destination) const;
 
+    /**
+     * Normalize and apply scaling factor to this vector
+     */
+    void scale(number_t factor, Vector2& result) const;
+
+    /**
+     * Do Linear interpolation of this vector and other using the interpolation factor
+     *
+     * @param other the other vector
+     * @param factor value between 0.0 and 1.0
+     * @param result the vector storing the result
+     */
+    void lerp(const Vector2& other, number_t factor, Vector2& result) const;
+
     /*
      * IToString
      */

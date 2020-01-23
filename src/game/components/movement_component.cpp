@@ -105,15 +105,25 @@ void MovementComponent::update() {
         case MovementState::ChangeAltitude:
             //TODO
             break;
-        case MovementState::Rotating:
-            //TODO
-            if () {
+        case MovementState::Rotating: {
+            RotationComponent* rotationComponent = GET_COMPONENT_DYNAMIC(base, RotationComponent);
+            if (!rotationComponent || rotationComponent->isTargetDirection()) {
                 dispatchPathTile();
             }
             break;
+        }
         case MovementState::Moving:
-            //TODO
-            dispatchPathTile();
+            const Tile* currentTile = path.back();
+            if (currentTile) {
+                Vector2 result;
+
+                base->getPosition().lerp(currentTile->position, 1, result);
+                if (true) {
+                    dispatchPathTile();
+                }
+            } else {
+                dispatchPathTile();
+            }
             break;
     }
 }

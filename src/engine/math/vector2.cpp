@@ -1,7 +1,6 @@
 //
 // Created by Ion Agorria on 25/03/18
 //
-#include <iostream>
 #include "vector2.h"
 
 Vector2::Vector2(int x, int y) {
@@ -158,7 +157,7 @@ std::string Vector2::toStringContent() const {
 }
 
 number_t Vector2::length() const {
-    return number_sqrt((x * x) + (y * y));
+    return number_sqrt(x * x + y * y);
 }
 
 number_t Vector2::distance(int x, int y) const {
@@ -204,4 +203,15 @@ number_t Vector2::getAngle(const Vector2& destination) const {
             int_to_number(x), int_to_number(y),
             int_to_number(destination.x), int_to_number(destination.y)
     );
+}
+
+void Vector2::lerp(const Vector2& other, number_t factor, Vector2& result) const {
+    result.x = number_to_int(number_add(x, number_mul(other.x - x, factor)));
+    result.y = number_to_int(number_add(y, number_mul(other.y - y, factor)));
+}
+
+void Vector2::scale(number_t factor, Vector2& result) const {
+    number_t invLengthScaled = number_mul(number_div(1.0, length()), factor);
+    result.x = number_to_int(number_mul(x, invLengthScaled));
+    result.y = number_to_int(number_mul(y, invLengthScaled));
 }

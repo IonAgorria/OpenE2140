@@ -116,4 +116,10 @@ public: \
 #define GET_COMPONENT_DYNAMIC(OBJECT, T_COMPONENT) \
     (dynamic_cast<T_COMPONENT*>(OBJECT))
 
+/**
+ * Macro for component static casting from entity
+ */
+#define GET_COMPONENT_STATIC(OBJECT, T_COMPONENT) \
+    (static_cast<T_COMPONENT*>(OBJECT))
+
 #endif //OPENE2140_COMPONENT_H

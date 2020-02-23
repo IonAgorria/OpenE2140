@@ -31,6 +31,8 @@ CLASS_ENTITY_COMPONENTS(Entity, Tree,
                         SpriteDamageComponent,
                         PaletteComponent)
 public:
+    void simulationChanged() override;
+
     void draw() override;
 };
 

@@ -6,7 +6,6 @@
 
 void Object::simulationChanged() {
     if (isActive()) {
-        //Set bounds
         setBounds(Vector2(simulation->tileSize));
 
         //Load image according to tileset
@@ -19,6 +18,14 @@ void Object::simulationChanged() {
 
 void Object::draw() {
     ImageComponent::draw(renderer);
+}
+
+void Tree::simulationChanged() {
+    if (isActive()) {
+        setBounds(Vector2(simulation->tileSize));
+    }
+
+    Entity::simulationChanged();
 }
 
 void Tree::draw() {

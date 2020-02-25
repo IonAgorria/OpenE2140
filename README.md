@@ -69,24 +69,25 @@ The following game assets must be present in WD file or directory form:
 - Units and buildings stats
 
 ## Roadmap
-- Mobile units
-- Entity attachment
-    - Proper adjustments of turret offsets
-    - Building exits
-    - Unit turret
-- Order processing
+- Mobile units (WIP)
+- Entity attachment (WIP)
+    - Proper adjustments of turret offsets (WIP)
+    - Building exits (WIP)
+    - Unit turret (WIP)
+- JSON reloading
+- Order processing/dispatching
+    - Move order
+    - Attack order
 - Unit factory
-- Move order
 - Rectangle and circular collisions for buildings/units 
 - Basic ingame GUI
 - Menu GUI
-- Weapons:
+- Weapons
     - Weapon data loading into Weapon(Config?) at simulation startup
     - Usage of weapon data when weapon is instanced
-- Turrets:
-    - Turret(s) containing component
+- Turrets (WIP)
+    - Turret(s) containing component (WIP)
     - Tracking the current target with turret
-- Attack order
 - Add ingame menu for viewing player stuff
 - Refinery and Power plant smoke
 - Building construction and deployment

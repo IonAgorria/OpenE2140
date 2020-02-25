@@ -32,27 +32,27 @@ public:
     number_t getDeltaDirection();
 
     /**
-     * Set unit target direction
+     * Set entity target direction
      *
      * @param newDirection to set
      */
     void setTargetDirection(number_t newDirection);
 
-    /** @return unit target direction */
-    float getTargetDirection();
+    /** @return entity target direction */
+    number_t getTargetDirection();
 
     /** @return if current direction is the target direction */
     bool isTargetDirection();
 
     /**
-     * Set unit rotation speed
+     * Set entity rotation speed
      *
      * @param newRotationSpeed to set
      */
     void setRotationSpeed(number_t newRotationSpeed);
 
-    /** @return unit rotation speed */
-    float getRotationSpeed();
+    /** @return entity rotation speed */
+    number_t getRotationSpeed();
 };
 
 #endif //OPENE2140_ROTATION_COMPONENT_H

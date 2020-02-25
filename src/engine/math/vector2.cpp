@@ -194,7 +194,7 @@ void Vector2::rotate(number_t radians, Vector2& vector2) const {
 }
 
 void Vector2::setAngle(number_t radians, Vector2& vector) const {
-    vector.set(length(), 0);
+    vector.set(number_to_int(length()), 0);
     rotate(radians, vector);
 }
 
@@ -206,12 +206,12 @@ number_t Vector2::getAngle(const Vector2& destination) const {
 }
 
 void Vector2::lerp(const Vector2& other, number_t factor, Vector2& result) const {
-    result.x = number_to_int(number_add(x, number_mul(other.x - x, factor)));
-    result.y = number_to_int(number_add(y, number_mul(other.y - y, factor)));
+    result.x = number_to_int(number_add(int_to_number(x), number_mul(int_to_number(other.x - x), factor)));
+    result.y = number_to_int(number_add(int_to_number(y), number_mul(int_to_number(other.y - y), factor)));
 }
 
 void Vector2::scale(number_t factor, Vector2& result) const {
-    number_t invLengthScaled = number_mul(number_div(1.0, length()), factor);
-    result.x = number_to_int(number_mul(x, invLengthScaled));
-    result.y = number_to_int(number_mul(y, invLengthScaled));
+    number_t invLengthScaled = number_mul(number_div(NUMBER_ONE, length()), factor);
+    result.x = number_to_int(number_mul(int_to_number(x), invLengthScaled));
+    result.y = number_to_int(number_mul(int_to_number(y), invLengthScaled));
 }

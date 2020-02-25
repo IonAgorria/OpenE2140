@@ -3,11 +3,14 @@
 //
 
 #include "engine/simulation/entity.h"
+#include "src/engine/entities/entity_config.h"
 #include "rotation_component.h"
 
 CLASS_COMPONENT_DEFAULT(RotationComponent)
 
 void RotationComponent::setup() {
+    const EntityConfig* config = base->getConfig();
+    rotationSpeed = float_to_number(config->getData<float>("rotation_speed", 0.0));
 }
 
 void RotationComponent::simulationChanged() {
@@ -42,7 +45,7 @@ void RotationComponent::setTargetDirection(number_t newDirection) {
     base->changesCount++;
 }
 
-float RotationComponent::getTargetDirection() {
+number_t RotationComponent::getTargetDirection() {
     return targetDirection;
 }
 
@@ -55,6 +58,6 @@ void RotationComponent::setRotationSpeed(number_t newRotationSpeed) {
     base->changesCount++;
 }
 
-float RotationComponent::getRotationSpeed() {
+number_t RotationComponent::getRotationSpeed() {
     return rotationSpeed;
 }

@@ -47,6 +47,16 @@ protected:
     MovementType movementType = MovementType::Ground;
 
     /**
+     * Speed of this entity when moving forwards
+     */
+    number_t forwardSpeed = 0;
+
+    /**
+     * Speed of this entity when changing altitude
+     */
+    number_t altitudeSpeed = 0;
+
+    /**
      * Current pathfinder request
      */
     std::shared_ptr<PathRequest> pathRequest = nullptr;
@@ -101,6 +111,12 @@ public:
      * @param entity
      */
     void follow(const std::shared_ptr<Entity>& entity);
+
+    /** @return entity forward speed */
+    number_t getForwardSpeed();
+
+    /** @return entity altitude speed */
+    number_t getAltitudeSpeed();
 };
 
 #endif //OPENE2140_MOVEMENT_COMPONENT_H

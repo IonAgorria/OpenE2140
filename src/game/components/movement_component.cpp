@@ -25,15 +25,30 @@ PathHandler* getPathHandler(Entity* entity) {
 
 void MovementComponent::dispatchPathTile() {
     const Tile* currentTile = path.empty() ? nullptr : path.back();
-    RotationComponent* rotationComponent = GET_COMPONENT_DYNAMIC(base, RotationComponent);
-    if (currentTile && rotationComponent) {
-        //Check if target angle is correct, else rotate it
-        number_t angle = base->getPosition().getAngle(currentTile->position);
-        rotationComponent->setTargetDirection(angle);
-        if (rotationComponent->isTargetDirection()) {
-            setStateTo(MovementState::Moving);
+    if (currentTile) {
+        //Get distance
+        Vector2 targetPosition;
+        base->getSimulation()->toWorldVector(currentTile->position, targetPosition, true);
+        number_t distance = base->getPosition().distance(targetPosition);
+
+        //Already on position, skip it
+        if (NUMBER_ZERO >= distance) {
+            path.pop_back();
+            dispatchPathTile();
+            return;
+        }
+        RotationComponent* rotationComponent = GET_COMPONENT_DYNAMIC(base, RotationComponent);
+        if (rotationComponent) {
+            //Check if target angle is correct, else rotate it
+            number_t angle = base->getPosition().getAngle(targetPosition);
+            rotationComponent->setTargetDirection(angle);
+            if (rotationComponent->isTargetDirection()) {
+                setStateTo(MovementState::Moving);
+            } else {
+                setStateTo(MovementState::Rotating);
+            }
         } else {
-            setStateTo(MovementState::Rotating);
+            setStateTo(MovementState::Moving);
         }
     } else {
         //Reached end?
@@ -122,7 +137,11 @@ void MovementComponent::update() {
                 if (NUMBER_ZERO < getForwardSpeed()) {
                     number_t distance = base->getPosition().distance(targetPosition);
                     number_t speed = number_mul(getForwardSpeed(), GAME_DELTA);
-                    factor = number_div(speed, distance);
+                    if (speed < distance) {
+                        factor = number_div(speed, distance);
+                    } else {
+                        factor = NUMBER_ONE;
+                    }
                 }
 
                 //There is movement to apply?
@@ -138,6 +157,7 @@ void MovementComponent::update() {
 
                     //Next
                     if (reach) {
+                        path.pop_back();
                         dispatchPathTile();
                     }
                 }

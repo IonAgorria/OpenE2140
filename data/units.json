@@ -726,7 +726,7 @@
         "armor": "light",
         "health": 80,
         "rotation_speed": 50.0,
-        "forward_speed": 10.0,
+        "forward_speed": 20.0,
         "attachments": {
             "turret": {
                 "code": "turret_t100",

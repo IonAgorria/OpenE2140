@@ -98,7 +98,7 @@ PathFinderStatus PathRequest::getResult(entity_id_t entity, std::vector<const Ti
                 vertex = &vertexes[vertex->back];
             }
             //Since partial is done from entity as start we need to reverse it
-            if (isPartialRequest) {
+            if (!isPartialRequest) {
                 std::reverse(path.begin(), path.end());
             }
         } else {

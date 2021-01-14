@@ -10,6 +10,11 @@ that are not available in original game.
 
 NOTE: The project is still under heavy development and not much happens yet.
 
+## Screenshots
+
+![img1](https://user-images.githubusercontent.com/750553/72228544-d22a0080-35a7-11ea-87d0-9c3c72f0454f.png)
+![img2](https://user-images.githubusercontent.com/750553/72228576-2b922f80-35a8-11ea-8616-4a40fba55edf.png)
+
 ## Requirements and libraries
 For compiling:
 - Meson
